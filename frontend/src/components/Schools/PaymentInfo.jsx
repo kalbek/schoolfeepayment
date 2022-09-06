@@ -3,10 +3,16 @@ import RemoveLinksButton from "../Utilities/Buttons/RemoveLinksButton";
 import DynamicPayments from "../Utilities/DynamicFields/DynamicPayments";
 import "../../Styles/utilities.css";
 import {
-  setApPayments,
-  deleteApPayments,
-  setGlPayments,
-  deleteGlPayments,
+  setPeriodBasedPayments,
+  setGradeLevelBasedPayments,
+  setGenderPayments,
+  setSpecialNeedPayments,
+  setScholarshipBasedPayments,
+  deletePeriodBasedPayments,
+  deleteGradeLevelBasedPayments,
+  deleteGenderBasedPayments,
+  deleteSpecialNeedPayments,
+  deleteScholarshipBasedPayments,
 } from "../../features/paymentBase/paymentBaseSlice";
 import "../../Styles/formStyles.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,14 +26,12 @@ function PaymentInfo({ formData, setFormData }) {
   const formDataPayments = [...formData.schoolPayments];
   const handlePayments = () => {
     // setting form data for schoolPayments
+    dispatch(setPeriodBasedPayments, {
+      id: annualPayments[annualPayments.length - 1].id + 1,
+      apChecked: false,
+    });
     dispatch(
-      setApPayments({
-        id: annualPayments[annualPayments.length - 1].id + 1,
-        apChecked: false,
-      })
-    );
-    dispatch(
-      setGlPayments({
+      setGradeLevelBasedPayments({
         id: annualPayments[annualPayments.length - 1].id + 1,
         glChecked: false,
       })
@@ -38,12 +42,16 @@ function PaymentInfo({ formData, setFormData }) {
         schoolPayments: [
           ...formDataPayments,
           {
-            payment_type: "Tuition Fee",
+            paymentType: "Tuition Fee",
             payment_amount: 0,
-            periodBasedPayment: false,
-            gradeBasedPayment: false,
             payment_term: "One time payment",
             payment_due_date: new Date(),
+
+            periodBasedPayment: false,
+            gradeLevelBasedPayment: false,
+            genderBasedPayment: false,
+            specialNeedBasedPayment: false,
+            scholarshipBasedPayment: false,
           },
         ],
       });
@@ -106,14 +114,13 @@ function PaymentInfo({ formData, setFormData }) {
     setFormData({ ...formData, schoolPayments: base });
   }
 
-  // console.log(formData);
-  // handling removals of social media options
   const removePayments = (index) => {
     const list = formDataPayments;
     list.splice(index, 1);
     setFormData({ ...formData, schoolPayments: list });
-    dispatch(deleteApPayments({ id: index }));
-    dispatch(deleteGlPayments({ id: index }));
+    // console.log(index)
+    dispatch(deletePeriodBasedPayments({ id: index }));
+    dispatch(deleteGradeLevelBasedPayments({ id: index }));
   };
 
   const removeAllPayments = () => {
@@ -122,13 +129,6 @@ function PaymentInfo({ formData, setFormData }) {
     setFormData({ ...formData, schoolPayments: list });
   };
 
-  const [sum, setSum] = useState(0);
-  useEffect(() => {
-    let val;
-    formDataPayments.forEach((pays) => {
-      setSum((sum) => sum + pays.payment_amount);
-    });
-  }, [sum, formDataPayments]);
   return (
     <div className="flex">
       <div className="school-info">

@@ -3,8 +3,11 @@ import AddMoreButton from "../Buttons/AddMoreButton";
 import RemoveButton from "../Buttons/RemoveButton";
 import DatePicker from "react-datepicker";
 import {
-  updateApPayments,
-  updateGlPayments,
+  updatePeriodBasedPayments,
+  updateGradeLevelBasedPayments,
+  updateGenderBasedPayments,
+  updateSpecialNeedPayments,
+  updateScholarshipBasedPayments,
 } from "../../../features/paymentBase/paymentBaseSlice";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -12,18 +15,28 @@ const DynamicPayments = ({
   formData,
   handlePaymentTypeSelect,
   handlePaymentTermSelect,
-  handlePaymentDuedate,
   handlePaymentBase,
   removePayments,
   handlePayments,
 }) => {
   const dispatch = useDispatch();
-  const annualPayments = useSelector(
-    (state) => state.payments.initialAnnualPaymentBaseState
+
+  const periodBasedPayment = useSelector(
+    (state) => state.payments.initialPeriodBasedPaymentState
   );
-  const gradeLevelPayments = useSelector(
-    (state) => state.payments.initialGradeLevelPaymentState
+  const gradeLevelBasedPayment = useSelector(
+    (state) => state.payments.initialGradeLevelBasedPaymentState
   );
+  const genderBasedPayment = useSelector(
+    (state) => state.payments.initialGenderBasedPaymentState
+  );
+  const specialNeedBasedPayment = useSelector(
+    (state) => state.payments.initialSpecialNeedBasedPaymentState
+  );
+  const scholarshipBasedPayment = useSelector(
+    (state) => state.payments.initialScholarshipBasedPaymentState
+  );
+
   const paymentType = [
     { id: "1", label: "Tuition Fee", value: "Tuition Fee" },
     { id: "2", label: "Transport service fee", value: "Transport service fee" },
@@ -47,81 +60,92 @@ const DynamicPayments = ({
 
   const { popup } = useSelector((state) => state.popups);
   const formDataPayments = [...formData.schoolPayments];
-console.log(formDataPayments)
 
-  function handleAnnualPeriodPaymentBase(index) {
-    annualPayments.map((obj) => {
+  function handlePeriodBasedPayment(index) {
+    periodBasedPayment.map((obj) => {
       if (obj.id === index && obj.apChecked === false) {
-        dispatch(updateApPayments({ id: index, apChecked: true }));
+        dispatch(updatePeriodBasedPayments({ id: index, apChecked: true }));
       } else if (obj.id === index && obj.apChecked === true) {
-        dispatch(updateApPayments({ id: index, apChecked: false }));
+        dispatch(updatePeriodBasedPayments({ id: index, apChecked: false }));
       }
     });
   }
 
-  function handleGradePaymentBase(index) {
-    gradeLevelPayments.map((obj) => {
+  function handleGradeLevelBasedPayment(index) {
+    gradeLevelBasedPayment.map((obj) => {
       if (obj.id === index && obj.glChecked === false) {
-        dispatch(updateGlPayments({ id: index, glChecked: true }));
+        dispatch(updateGradeLevelBasedPayments({ id: index, glChecked: true }));
       } else if (obj.id === index && obj.glChecked === true) {
-        dispatch(updateGlPayments({ id: index, glChecked: false }));
+        dispatch(
+          updateGradeLevelBasedPayments({ id: index, glChecked: false })
+        );
       }
     });
   }
+  function handleGenderBasedPayment(index) {
+    gradeLevelBasedPayment.map((obj) => {
+      if (obj.id === index && obj.glChecked === false) {
+        dispatch(updateGenderBasedPayments({ id: index, glChecked: true }));
+      } else if (obj.id === index && obj.glChecked === true) {
+        dispatch(updateGenderBasedPayments({ id: index, glChecked: false }));
+      }
+    });
+  }
+
+  function handleSpecialNeedBasedPayment(index) {
+    gradeLevelBasedPayment.map((obj) => {
+      if (obj.id === index && obj.glChecked === false) {
+        dispatch(updateSpecialNeedPayments({ id: index, glChecked: true }));
+      } else if (obj.id === index && obj.glChecked === true) {
+        dispatch(updateSpecialNeedPayments({ id: index, glChecked: false }));
+      }
+    });
+  }
+  function handleScholarshipBasedPayment(index) {
+    gradeLevelBasedPayment.map((obj) => {
+      if (obj.id === index && obj.glChecked === false) {
+        dispatch(
+          updateScholarshipBasedPayments({ id: index, glChecked: true })
+        );
+      } else if (obj.id === index && obj.glChecked === true) {
+        dispatch(
+          updateScholarshipBasedPayments({ id: index, glChecked: false })
+        );
+      }
+    });
+  }
+
+  const handleSelect = () => {};
   return (
     <>
       {formDataPayments.map((singlePayment, index) => (
         <div key={index}>
-          {/* {console.log("^^^^^^^^^^^^^")} */}
           <div className="flex-w input-group__container flex-start">
             {/* PAYMENT TYPE */}
             <div className="input__group">
               <div className="input__group flex-cr inputs input--above-small">
                 <select
                   className={popup ? "inactive-bg" : "select-box"}
-                  name="payment_type"
-                  id="payment_type"
+                  name="paymentType"
+                  id="paymentType"
                   onChange={(e) => handlePaymentTypeSelect(e, index)}
                   tabIndex={9}
-                  value={singlePayment.payment_type}
+                  value={singlePayment.paymentType}
                 >
                   {paymentType.map((payment) => (
                     <option key={payment.value}>{payment.label}</option>
                   ))}
                 </select>
-                <label htmlFor="payment_type">
+                <label htmlFor="paymentType">
                   {" "}
                   {/* <p>{paymentTypeDescription}</p> */}
                   <p>Payment Type</p>
                 </label>
               </div>
             </div>
-            {/* PAYMENT AMOUNT */}
-            {/* PAYMENT CATEGORY SELECT OPTION */}
-            <div className="input__group">
-              <div className="input__group flex-cr inputs input-small">
-                <select
-                  className={popup ? "inactive-bg" : "select-box"}
-                  name="payment_term"
-                  id="payment_term"
-                  onChange={(e) => handlePaymentTermSelect(e, index)}
-                  tabIndex={9}
-                  value={singlePayment.payment_term}
-                >
-                  {/* {mediaitems} */}
-                  {paymentTerm.map((payment) => (
-                    <option key={payment.value}>{payment.label}</option>
-                  ))}
-                </select>
-                <label htmlFor="payment_term">
-                  {" "}
-                  {/* <p>{paymentTypeDescription}</p> */}
-                  <p>Payment Term</p>
-                </label>
-              </div>
-            </div>
+
             {/* PAYMENT DUE DATE */}
-            <div className="input__group">
+            {/* <div className="input__group">
               <div className="input__group flex-cr inputs input--small">
                 <DatePicker
                   name="payment_due_date"
@@ -144,34 +168,33 @@ console.log(formDataPayments)
                 />
                 <label htmlFor="payment_due_date">
                   {" "}
-                  {/* <p>{paymentTypeDescription}</p> */}
                   <p>Due Date</p>
                 </label>
               </div>
-            </div>
+            </div> */}
             {/* PAYMENT BASIS */}
 
             <div className="checkbox-inputs input__group checkbox-group-container">
               <section className="flex-left">
                 <label htmlFor="">
-                  <h3>Based On</h3>
+                  <h3>Depends On</h3>
                 </label>
                 <div className="flex-cs checkbox-group">
+                  {/* Checkbox for period based payment */}
                   <label
                     className="checkbox-items flex flex-cs"
-                    id={"payment_base_ap" + index}
+                    id={"periodBasedPayment_" + index}
                   >
                     <input
-                      // className={popup ? "inactive-bg" : "select-box"}
                       type="checkbox"
                       name="periodBasedPayment"
-                      id={"payment_base_ap" + index}
+                      id={"periodBasedPayment_" + index}
                       tabIndex={9}
-                      value={!annualPayments[index].apChecked}
+                      value={!periodBasedPayment[index].periodChecked}
                       checked={
                         formDataPayments[index].periodBasedPayment === "true"
                       }
-                      onInput={() => handleAnnualPeriodPaymentBase(index)}
+                      onInput={() => handlePeriodBasedPayment(index)}
                       onChange={(e) => handlePaymentBase(e, index)}
                     />
                     <>
@@ -180,23 +203,23 @@ console.log(formDataPayments)
                       </span>
                     </>
                   </label>
+
+                  {/*Checkbox for grade based payment */}
                   <label
                     className="checkbox-items flex flex-cs"
-                    id={"payment_base_gl" + index}
+                    id={"gradeBasedPayment_" + index}
                   >
                     <input
-                      // className={popup ? "inactive-bg" : "select-box"}
                       type="checkbox"
                       name="gradeBasedPayment"
-                      id={"payment_base_gl" + index}
-                      value={!gradeLevelPayments[index].glChecked}
+                      id={"gradeBasedPayment_" + index}
+                      value={!gradeLevelBasedPayment[index].glChecked}
                       checked={
                         formDataPayments[index].gradeBasedPayment === "true"
                       }
-                      onInput={() => handleGradePaymentBase(index)}
+                      onInput={() => handleGradeLevelBasedPayment(index)}
                       onChange={(e) => handlePaymentBase(e, index)}
                       tabIndex={9}
-                      // value={!glSelected[index].glChecked}
                     />
                     <>
                       <span>
@@ -204,9 +227,139 @@ console.log(formDataPayments)
                       </span>
                     </>
                   </label>
+
+                  {/*Checkbox for gender based payment */}
+                  <label
+                    className="checkbox-items flex flex-cs"
+                    id={"genderBasedPayment_" + index}
+                  >
+                    <input
+                      type="checkbox"
+                      name="genderBasedPayment_"
+                      id={"genderBasedPayment_" + index}
+                      value={!genderBasedPayment[index].glChecked}
+                      checked={
+                        formDataPayments[index].genderBasedPayment === "true"
+                      }
+                      onInput={() => handleGenderBasedPayment(index)}
+                      onChange={(e) => handlePaymentBase(e, index)}
+                      tabIndex={9}
+                    />
+                    <>
+                      <span>
+                        &nbsp; <p>Gender Based</p>
+                      </span>
+                    </>
+                  </label>
+
+                  {/*Checkbox for special need based payment */}
+                  <label
+                    className="checkbox-items flex flex-cs"
+                    id={"specialNeedBasedPayment_" + index}
+                  >
+                    <input
+                      type="checkbox"
+                      name="specialNeedBasedPayment"
+                      id={"specialNeedBasedPayment_" + index}
+                      value={!specialNeedBasedPayment[index].glChecked}
+                      checked={
+                        formDataPayments[index].specialNeedBasedPayment ===
+                        "true"
+                      }
+                      onInput={() => handleSpecialNeedBasedPayment(index)}
+                      onChange={(e) => handlePaymentBase(e, index)}
+                      tabIndex={9}
+                    />
+                    <>
+                      <span>
+                        &nbsp; <p>Special Needs</p>
+                      </span>
+                    </>
+                  </label>
+
+                  {/*Checkbox for scholarships based payment */}
+                  <label
+                    className="checkbox-items flex flex-cs"
+                    id={"scholarshipBasedPayment_" + index}
+                  >
+                    <input
+                      type="checkbox"
+                      name="scholarshipBasedPayment"
+                      id={"scholarshipBasedPayment_" + index}
+                      value={!scholarshipBasedPayment[index].glChecked}
+                      checked={
+                        formDataPayments[index].scholarshipBasedPayment ===
+                        "true"
+                      }
+                      onInput={() => handleScholarshipBasedPayment(index)}
+                      onChange={(e) => handlePaymentBase(e, index)}
+                      tabIndex={9}
+                    />
+                    <>
+                      <span>
+                        &nbsp; <p>Scholarships</p>
+                      </span>
+                    </>
+                  </label>
                 </div>
               </section>
             </div>
+            {/* PAYMENT TERM SELECT OPTION */}
+
+            <div className="checkbox-inputs input__group checkbox-group-container">
+              <section className="flex-left">
+                <label htmlFor="">
+                  <h3>Payment Term</h3>
+                </label>
+                <div className="flex-cs checkbox-group">
+                  <label
+                    className="checkbox-items flex flex-cs"
+                    id={"payment_base_ap" + index}
+                  >
+                    <input
+                      type="radio"
+                      name="semester"
+                      id="semester"
+                      value="semester"
+                      onSelect={(event) => handleSelect(event)}
+                      // checked={
+                      //   formDataPeriod.length > 0
+                      //     ? formDataPeriod[0].periodType === "semester"
+                      //     : false
+                      // }
+                      onChange={(event) => handlePaymentTermSelect(event)}
+                      tabIndex={9}
+                    />
+                    <span>
+                      &nbsp; <p>Standard</p>
+                    </span>
+                  </label>
+                  <label
+                    className="checkbox-items flex flex-cs"
+                    id={"payment_base_ap" + index}
+                  >
+                    <input
+                      type="radio"
+                      name="semester"
+                      id="semester"
+                      value="semester"
+                      onSelect={(event) => handleSelect(event)}
+                      // checked={
+                      //   formDataPeriod.length > 0
+                      //     ? formDataPeriod[0].periodType === "semester"
+                      //     : false
+                      // }
+                      onChange={(event) => handlePaymentTermSelect(event)}
+                      tabIndex={9}
+                    />
+                    <span>
+                      &nbsp; <p>Advanced</p>
+                    </span>
+                  </label>
+                </div>
+              </section>
+            </div>
+
             <div className="payment-icon">
               <RemoveButton removables={removePayments} index={index} />
             </div>
