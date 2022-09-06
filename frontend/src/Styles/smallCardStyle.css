@@ -1,0 +1,47 @@
+:root {
+  --clr-school-card-header: #576d7b;
+  --clr-text-inactive: #9b9b9b;
+}
+
+.realtime-school-card {
+  /* max-width: 20rem; */
+
+  /* min-height: 50vh;  */
+  width: min-content;
+}
+
+.realtime-school-card:hover {
+  /* background-color: hotpink; */
+  cursor: pointer;
+}
+
+.inline-block {
+  display: flex;
+}
+
+.schoolInfo-card__header {
+  background-color: var(--clr-school-card-header);
+  flex-wrap: wrap;
+  padding: 5%;
+  height: 25%;
+}
+
+.schoolInfo-card__header p {
+  color: #fff;
+}
+
+.realtime-school-card {
+  height: 300px;
+  width: 230px;
+  margin-left: 32px;
+  background-color: #ffffff;
+  border: 1px solid #9b9b9b;
+}
+
+.card-label {
+  display: flex;
+}
+
+.realtime-school-card:hover {
+  border: 0.5px solid var(--clr-accent);
+}

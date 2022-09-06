@@ -1,0 +1,17 @@
+.previw-btn-container {
+  height: 25px;
+  padding: 0 20px;
+  background-color: #f6f8fa;
+  border: 1px solid #9b9da9;
+  color: #3591cf;
+  font-weight: 400;
+  margin-top: 10%;
+  margin-left: 10%;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+.previw-btn-container:hover {
+  border: 1px solid #3591cf;
+  cursor: pointer;
+}

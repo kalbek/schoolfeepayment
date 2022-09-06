@@ -1,0 +1,25 @@
+/* FORMS NAVBAR STYLE */
+.forms-nav__container {
+  background-color: #ffffff;
+  min-height: 20%;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+  min-width: 100%;
+}
+.forms-nav__subcontainer  * {
+  font-family: "Inter", sans-serif;
+}
+.forms-nav__subcontainer {
+  height: 60px;
+  min-width: 80%;
+  }
+
+  .opener {
+    color: red;
+    margin-bottom: 1550%;
+    border: 1px solid palevioletred;
+    padding: 20% 70%;
+  }
+  .opener:hover{
+    cursor: pointer;
+  }
+/* END OF FORMS NAVBAR STYLE */

@@ -1,0 +1,14 @@
+.tips-page--list{
+    padding: 3.2% 8% 0% 3%;
+    font-size: 18px;
+    color: var(--clr-bigger-card--text);
+    /* letter-spacing: 1px; */
+    line-height: 1.5rem;
+}
+
+.tips-page--list li{
+  list-style: circle;
+
+  list-style: disc;
+  line-height: 25px;
+}

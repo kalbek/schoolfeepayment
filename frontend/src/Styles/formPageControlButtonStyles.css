@@ -1,0 +1,44 @@
+/* BUTTON STYLING */
+.btn-back {
+  padding: 15px 30px;
+  border: 1px solid #3983fa;
+  color: #3983fa;
+  font-size: 13px;
+  font-weight: 350;
+  filter: drop-shadow(1px 1px 5px rgba(222, 205, 205, 0.78));
+  background: #ffffff;
+  text-decoration: none;
+}
+.inactive-bg {
+  background-color: rgb(229, 229, 229);
+  /* background-color: red; */
+}
+
+.btn-next {
+  padding: 15px 90px;
+  border: 0px solid #ffffff;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  background: #e44747;
+  text-decoration: none;
+  filter: drop-shadow(1px 1px 5px rgba(222, 205, 205, 0.78));
+}
+
+.create-school-btn {
+  margin-top: 2%;
+  gap: 205%;
+}
+
+.back,
+.next {
+  cursor: pointer;
+}
+
+.btn-back:hover {
+  background-color: #d7dde2;
+}
+
+.btn-next:hover {
+  background-color: #d04141;
+}

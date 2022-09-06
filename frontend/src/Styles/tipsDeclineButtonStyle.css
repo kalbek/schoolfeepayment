@@ -1,0 +1,15 @@
+.tips-decline-btn--container {
+  width: 20vw;
+  height: 6vh;
+  border: 1px solid #3983fa;
+  padding: 0.5rem 1px;
+  color: #3983fa;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+}
+
+.tips-decline-btn--container:hover {
+    background-color: #d7dde2;
+    cursor: pointer;
+}

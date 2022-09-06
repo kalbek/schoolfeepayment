@@ -1,0 +1,296 @@
+@import url("https://fonts.googleapis.com/css2?family=Harmattan:wght@700&family=Inter:wght@200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+html {
+  min-height: 100%;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+:root {
+  --clr-accent: #3983fa
+  --clr-primary: #220e4b;
+  --clr-orange: #ff7f56;
+  --clr-card: #2b194e;
+  /* --clr-bg: #f4f0fc; */
+  --clr-bg: #fff;
+  --clr-btn: #703edb;
+  --clr-yellow: #ffd15c;
+  --clr-light-line: #dccafd;
+  --body-max-width: 1537px;
+  --max-width: 1365px;
+  --container-max-width: 1135px;
+  --clr-card: #2b194e;
+  --clr-light: #6e6d7a;
+  --clr-hilight: #f1edf4;
+  --clr-dark: #202124;
+  --clr-light-dark: #292a2d;
+  --clr-user-bk: #bf360c;
+  --clr-account-main: #bee4ed;
+  /* colors for card */
+  --yellow: hsl(36, 100%, 50%);
+  --red: hsl(8, 100%, 50%);
+  --blue: hsl(240, 60%, 50%);
+  --violet: hsl(288, 60%, 50%);
+  --text-white: hsl(0, 0%, 100%);
+  --text-light-gray: hsl(0, 0%, 90%);
+  --body-bg-color: hsl(0, 0%, 0%);
+  --glass-bg-color: hsl(0, 0%, 100%, 0.05);
+  --border-color: hsl(0, 0%, 100%, 0.25);
+  --blur: blur(10px);
+  --button-hover-color: hsla(0, 0%, 0%, 0.3);
+  /* used */
+  --clr-bigger-card--primary: #373d48;
+  --clr-bigger-card--text: #9b9b9b;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  /* caret-color: transparent; */
+  /* outline: auto; */
+}
+/* inter font imports */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/* .loadingSpinner {
+  width: 34px;
+  height: 34px;
+  background-color: red;
+  border: 18px solid;
+  border-color: #000 transparent #555 transparent;
+  border-color: greenyellow transparent red transparent;
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+} */
+.loadingSpinnerContainer {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(229, 229, 229, 0.5);
+}
+.loadingSpinner {
+  width: 84px;
+  height: 84px;
+  border: 8px solid;
+  border-color: purple transparent goldenrod transparent;
+  border-radius: 100%;
+  animation: spin 1.2s linear infinite;
+  opacity: 1;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Utilities */
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100%; */
+  /* position: absolute; */
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.card {
+  background-color: #fff;
+  columns: #333;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  );
+}
+.flex {
+  display: flex;
+}
+input:focus {
+  /* background-color: red; */
+  outline: none;
+}
+.container__full-page {
+  /* height: 100vh; */
+  /* background: linear-gradient(
+    269.66deg,
+    #f8c5d5 2.56%,
+    rgba(154, 152, 239, 0.8) 99.7%
+  ); */
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+/* number input styles */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

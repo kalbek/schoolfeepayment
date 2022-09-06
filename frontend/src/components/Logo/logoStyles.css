@@ -1,0 +1,10 @@
+.logo {
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 25px;
+  width: fit-content;
+}
+.dot {
+  margin-left: 2px;
+  margin-bottom: -15px;
+}

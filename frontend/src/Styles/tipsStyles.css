@@ -1,0 +1,60 @@
+.tips-main--container {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  /* margin-top: -1.3rem; */
+  background-color: rgb(229, 229, 229, 0.4);
+  z-index: 999;
+}
+
+.tips-container {
+  position: fixed;
+  width: 40.3%;
+  height: 37%;
+  margin-top: 2%;
+  background-color: #fff;
+  /* border: 1px solid #7997b0; */
+  opacity: 1;
+}
+.tips-card--body {
+  padding-top: 3.9vh;
+  padding-left: 8vh;
+  padding-right: 8vh;
+}
+
+.tips-card--title {
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 300;
+  padding-bottom: 3vh;
+}
+
+.tips-card--message {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  height: 12.5vh;
+  flex-wrap: wrap;
+  overflow: hidden;
+  color: #464550;
+  line-height: 27px;
+}
+
+.tips-card--close {
+  color: #94acc0;
+  font-family: "Inter", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-left: 92%;
+  margin-top: 2%;
+}
+
+.tips-card--close:hover {
+  cursor: pointer;
+}
+
+.red-tips {
+  color: #d0021b;
+  font-size: 16px;
+  font-weight: 500;
+}

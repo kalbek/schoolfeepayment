@@ -1,0 +1,35 @@
+/* FOOTER STYLING */
+.top__footer {
+    padding-top: 5.4%;
+    padding-bottom: 1.6%;
+  }
+  .top-footer--contents {
+    font-size: 11px;
+    font-weight: 400;
+    color: #969694;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .bottom-footer--contents {
+    display: flex;
+    height: 51.5px;
+    width: 78%;
+    justify-content: flex-end;
+  }
+  
+  .bottom__footer {
+    background-color: #fff;
+    background-color: #43434a;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .bottom-footer--contents p {
+    padding-top: 18px;
+    color: #969694;
+    font-size: 11px;
+  }
+  /* END OF FOOTER STYLING */

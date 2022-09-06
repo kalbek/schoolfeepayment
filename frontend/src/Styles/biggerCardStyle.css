@@ -1,0 +1,135 @@
+:root {
+  --clr-school-card-header: #576d7b;
+  --clr-text-inactive: #9b9b9b;
+}
+.school-bigger-card--container {
+  position: fixed;
+  width: 100%;
+  height: 200vh;
+  background-color: rgb(229, 229, 229, 0.4);
+  z-index: 999;
+}
+.realtime-school-card-bigger {
+  /* margin-top: 25.2%; */
+  width: 66.4vw;
+  height: 93vh;
+  margin-top: -8px;
+  background-color: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.big-card--bullet-svg {
+  margin-left: 4%;
+}
+
+.big-card-bullet-section {
+  margin-top: -6rem;
+}
+
+.bigger-school-card--main {
+  padding-top: 2.5%;
+  padding-left: 3.5%;
+  padding-bottom: 5%;
+  margin: 0% 2%;
+  background-color: var(--clr-bigger-card--primary);
+}
+
+.big-card--body {
+  /* padding-top: 3.2%; */
+  /* padding: T R B L */
+  padding: 3.2% 8% 0% 8%;
+  font-size: 18px;
+  color: var(--clr-bigger-card--text);
+  /* letter-spacing: 1px; */
+  line-height: 1.5rem;
+}
+
+.big-card--bullet-svg {
+  margin-top: -1rem;
+}
+
+.close-bigger-card {
+  margin-left: 103%;
+  color: var(--clr-bigger-card--text);
+  font-size: 20px;
+  font-weight: 600;
+  /* margin-bottom: 35%; */
+}
+.big-card--description {
+  padding-top: 3.5rem;
+  padding-left: 1rem;
+}
+
+.big-card--bullet-label {
+  color: var(--clr-bigger-card--primary);
+  font-size: 30px;
+  font-weight: 700;
+  padding-bottom: 20%;
+}
+
+.big-card--list, .form__sub-titles-basic {
+  /* list-style: circle; */
+  list-style: disc;
+  line-height: 25px;
+}
+
+.close-bigger-card-container {
+  /* background-color: #fff; */
+
+  border-radius: 3px;
+  /* border: 1px solid #9b9b9b; */
+  padding-top: 4px;
+}
+
+.close-bigger-card-container:hover {
+  cursor: pointer;
+}
+
+.bigger-card--school-name {
+  font-size: 60px;
+  font-weight: 700;
+}
+
+.clr-big-card-primary {
+  color: var(--clr-bigger-card--text);
+}
+
+.big-card--subtitle {
+  color: #fff;
+  font-size: 28px;
+  margin-top: 0.4em;
+  margin-left: 0.1em;
+  margin-bottom: 1em;
+}
+
+.big-card--address {
+  color: var(--clr-bigger-card--text);
+  font-size: 18px;
+  margin-bottom: 0.9em;
+  /* margin-top: 1.2em; */
+  margin-left: 0.2em;
+  /* cursor: pointer; */
+}
+
+.school-bigger-card--container:hover {
+  cursor: context-menu;
+}
+
+.big-card--address__label {
+  font-weight: 600;
+}
+
+.clr-big-card--normal {
+  /* background-color: red; */
+  font-size: 30;
+  /* color: #fff; */
+}
+.clr-big-card--normal p {
+  /* background-color: red; */
+  font-size: 30;
+  color: #fff;
+}
+
+.big-card--list {
+  /* background-color: lime; */
+}

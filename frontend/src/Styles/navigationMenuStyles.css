@@ -1,0 +1,39 @@
+/* 
+ABBRIVIATIONS
+mg  => menu-group
+*/
+
+/* Common Stylings */
+.navigation_menu-container * {
+  font-family: "Inter", sans-serif;
+  color: var(--clr-primary);
+}
+
+.navigation_menu-container ul {
+  list-style: none;
+  display: flex;
+  gap: 44px;
+}
+
+.mg {
+  display: flex;
+  padding: 5vh 1vh;
+} 
+
+.mg-link {
+  cursor: pointer;
+}
+
+.mg p {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.navigation_menu-container ul li a {
+  text-decoration: none;
+}
+
+.schools-submenu-container * {
+  /* outline: auto; */
+  /* background-color: #ea4c89 ; */
+}

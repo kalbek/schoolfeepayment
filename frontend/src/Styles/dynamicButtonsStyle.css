@@ -1,0 +1,59 @@
+:root {
+  --clr-accent: #3983fa;
+  --clr-accent-negative: #ff3333;
+}
+
+.add__terms-ctr {
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+}
+.btn-onemore {
+  /* padding-top: 1%; */
+  /* padding-top: 12%; */
+  margin-top: 2.5%;
+  border: none;
+  background-color: var(--clr-bg);
+}
+
+.inactive-bg {
+  background-color: red;
+}
+.add__social-link {
+}
+
+.remove__terms-ctr {
+  content: url("../Assets/Images/trash.svg");
+  cursor: pointer;
+  height: 20px;
+  margin-top: 60px;
+  margin-left: 35px;
+}
+
+.social__link {
+  padding: 5px 5px;
+}
+.remove-social-link--label {
+  color: var(--clr-accent);
+}
+.social-link--label:hover,
+.remove-social-link--label:hover {
+  color: #004080;
+  cursor: pointer;
+}
+
+.social-link--label::before {
+  content: url("../Assets/Images/plus.svg");
+  margin-right: 5px;
+}
+.remove-social-link--label::before {
+  content: url("../Assets/Images/minus.svg");
+  margin-right: 5px;
+}
+
+.social-link--label::before:hover {
+  color: #004080;
+}
+.school__accent-negative {
+  color: var(--clr-accent-negative);
+}

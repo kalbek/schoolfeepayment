@@ -1,0 +1,278 @@
+/* 
+ABBREVIATIONS
+==========================
+sg  => submenu-group
+sm  => submenu
+stg => submenu-text-group
+sgs  => subtitle-groups
+==========================
+*/
+/* Common Submenu Stylings */
+
+.submenu-container {
+  z-index: 999;
+  position: absolute;
+  filter: drop-shadow(1px 1px 35px rgba(222, 205, 205, 0.78));
+  background-color: #ffffff;
+  padding: 2vh 2.7vh;
+  border-radius: 1rem;
+  margin-top: -1%;
+  margin-left: -2%;
+}
+
+.submenu-container li {
+  text-decoration: none;
+}
+
+.sg {
+  display: flex;
+  width: 415px;
+  padding: 1.3rem 1.1rem;
+}
+
+.add_schools-sg:hover > .arrow_img > #green-arrow-img,
+.payments-sg:hover > .arrow_img > #yellow-arrow-img,
+.register_students-sg:hover > .arrow_img > #purpple-arrow-img,
+.payments_scale-sg:hover > .arrow_img > #green-arrow-img,
+.student_status-sg:hover > .arrow_img > #green-arrow-img,
+.edit_schools-sg:hover > .arrow_img > #purpple-arrow-img,
+.payments_status-sg:hover > .arrow_img > #purpple-arrow-img,
+.edit_students-sg:hover > .arrow_img > #yellow-arrow-img,
+.find_schools-sg:hover > .arrow_img > #red-arrow-img {
+  display: block;
+}
+
+.add_schools-sg:hover > img,
+.payments-sg:hover > img,
+.edit_schools-sg:hover > img,
+.payments_scale-sg:hover > img,
+.payments_status-sg:hover > img,
+.find_schools-sg:hover > img,
+.register_students-sg:hover > img,
+.edit_students-sg:hover > img,
+.student_status-sg:hover > img {
+  background-color: var(--clr-hilight);
+}
+.login_warnning {
+  display: flex;
+}
+.need_to_login {
+  height: 20px;
+  width: 110px;
+  border-radius: 5px;
+  margin-left: 20px;
+  background-color: #ea4c89;
+  display: flex;
+  justify-content: center;
+}
+.need_to_login h4 {
+  padding: 2.5px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+.sgs:last-of-type {
+  margin-bottom: 2%;
+}
+.sm-bullet-img {
+  width: 30px;
+  height: 34px;
+  background-color: #f8f8f8;
+  border: 0px solid #f1edf4;
+  border-radius: 5px;
+}
+
+.arrow-img {
+  display: none;
+  animation: fadeIn 0.2s;
+  position: absolute;
+  margin-right: 40px;
+  margin-top: 0.8rem;
+  background-color: #ffffff;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.stg {
+  padding-left: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 300px;
+}
+
+.submenu--description {
+  /* margin-top: 100px; */
+  line-height: 1.15em;
+  /* background-color: red; */
+}
+.sub-menu--main h4 {
+  /* background-color: red; */
+  /* padding: 1em 0; */
+}
+.sm-text-group {
+  padding-left: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 320px;
+}
+.stg h4 {
+  margin-bottom: 2%;
+}
+.stg p {
+  font-size: 14px;
+  color: var(--clr-light);
+}
+
+/* styling account submenu */
+.account-submenu-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: -8%;
+  z-index: 997;
+  width: 300px;
+  position: absolute;
+  height: 380px;
+  border-radius: 1rem;
+  background-color: var(--clr-light-dark);
+  /* border: 0px solid limegreen; */
+}
+
+.account__header {
+  border-radius: 1rem 1rem 0 0;
+  background-color: var(--clr-dark);
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  height: 25%;
+  width: 100%;
+}
+.account__header h4 {
+  margin-top: -12%;
+  /* margin-bottom: 6%; */
+}
+.user-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--clr-user-bk);
+}
+.account__main,
+.user-info__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.user-info__section {
+  padding-top: 4%;
+}
+
+.account__main h3,
+.account__main p,
+.account__header h4,
+.user-circle h4 {
+  color: #f1edf4;
+  font-family: Inter;
+}
+
+.account__main,
+.optional-accounts__section,
+.mini__circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manage {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.manage__users {
+  margin-top: 10px;
+}
+
+.manageLink {
+  display: flex;
+}
+Link {
+  text-decoration: none;
+}
+
+.user-circle {
+  margin-top: -15%;
+  z-index: 997;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-circle h4 {
+  z-index: 998;
+  font-size: 45px;
+}
+
+.user-bg__img {
+  margin-bottom: -4px;
+}
+.user-bg_sign-out {
+  margin-bottom: -1px;
+  margin-left: -2px;
+}
+
+.user-info__section p {
+  margin-top: 3%;
+}
+.create_new_empty {
+  height: 10px;
+}
+
+.mini__circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--clr-account-main);
+  padding: 1em 1em;
+  margin: 1em 1em;
+  cursor: pointer;
+  /* background-color: white; */
+}
+.manage-accounts__section {
+  padding: 10px;
+}
+
+.user-bg__img,
+.admin__img,
+.register__img {
+  width: 20px;
+  height: 20px;
+  /* background-color: red; */
+  /* z-index: 999; */
+}
+hr {
+  margin-top: 6%;
+  margin-bottom: 4%;
+  width: 250px;
+}
+.manage p {
+  padding: 0px 8px;
+}
+.account_copyright p {
+  padding: 10px;
+  font-size: 12px;
+}
+.manage_users_admin {
+  display: flex;
+}

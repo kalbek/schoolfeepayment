@@ -1,0 +1,253 @@
+:root {
+  --clr-primary: #220e4b;
+  --clr-orange: #ff7f56;
+  --clr-card: #2b194e;
+  --clr-bg: #f4f0fc;
+  --clr-btn: #703edb;
+  --clr-yellow: #ffd15c;
+  --clr-light-line: #dccafd;
+  --body-max-width: 1537px;
+  --container-max-width: 1135px;
+  --clr-card: #2b194e;
+  --wrapper-max-width: 1365px;
+}
+
+.landing-page-body {
+  background-color: var(--clr-bg);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  /* padding-top: 2%; */
+  /* background-color: red; */
+  /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2)); */
+  min-width: 100%;
+  /* outline-style: dashed; */
+  /* outline: auto; */
+}
+
+.landing-header-contents {
+  /* min-width: 100%; */
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-subcontainer {
+  /* outline-style: dotted; */
+  min-width: 79%;
+  /* height: 70px; */
+  /* margin-top: -10px; */
+  /* outline: auto; */
+}
+
+ 
+.register_account {
+  display: flex;
+  /* float: left; */
+  /* background-color: red; */
+}
+
+/* styling titles */
+.main-title-wrapper {
+  /* margin-top: 2%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main-title h1 {
+  /* font-family: 'Lobster', cursive; */
+  margin-top: 15px;
+  font-family: "Harmattan", sans-serif;
+  font-size: 90px;
+  color: var(--clr-primary);
+  /* color: red; */
+}
+
+.main-title h1::after {
+  position: absolute;
+  content: url("../Assets/Images/heart.png");
+  transform: translateY(-20%);
+}
+
+.sub-title {
+  background-color: #ffff;
+  border-radius: 10px;
+  padding: 0 10px;
+  position: relative;
+  /* background-color: #ff7f56; */
+  max-height: 40px;
+  /* top: -20px; */
+}
+
+.sub-title h3 {
+  position: relative;
+  font-family: "Inter", sans-serif;
+  font-size: 19px;
+  padding: 5px 5px;
+  color: var(--clr-primary);
+}
+/* end of styling titles */
+
+/* styling landing page buttons */
+.btn {
+  position: absolute;
+  padding: 30px 70px;
+  border-radius: 50px;
+  color: white;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  background: #703edb;
+  text-decoration: none;
+  filter: drop-shadow(0px 14px 45px rgba(0, 0, 0, 0.25));
+  position: relative;
+}
+.btn-get_started {
+  padding-top: 20px;
+  padding-left: 60px;
+}
+.btn-icon::after {
+  content: url("../Assets/Images/btn-go.svg");
+  position: absolute;
+  padding: 0 20px;
+  top: 50%;
+  transform: translateY(-40%);
+}
+/* end of styling landing page buttons */
+
+/* the rest of styling */
+.get-started {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-self: center;
+  margin-top: 90px;
+}
+
+.wrapper {
+  max-width: var(--max-width);
+  margin: auto;
+}
+
+.hero-center p {
+  position: relative;
+  font-size: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.time {
+  padding-top: 50px;
+  display: flex;
+}
+.time span {
+  position: relative;
+  padding: 0px 30px 30px 0px;
+  content: url("../Assets/Images/orangetangle.svg");
+  font-family: "Inter", sans-serif;
+}
+
+.somek {
+  font-size: 50px;
+  font-family: "Inter", sans-serif;
+  color: var(--clr-primary);
+}
+
+.somek p {
+  /* color: greenyellow; */
+  margin-top: 4px;
+  font-size: 20px;
+}
+
+.fivehundred {
+  padding-left: 250px;
+  padding-top: 150px;
+}
+.fivehundred p {
+  padding-left: 50px;
+}
+
+.sevenfivek {
+  color: blue;
+  position: absolute;
+  margin-top: 30px;
+}
+.fivehundred p {
+  /* padding-left: 260px; */
+  font-weight: normal;
+}
+
+.sevenfivek > p {
+  padding-left: 50px;
+}
+.sevenfivek::before {
+  content: url("../Assets/Images/sevenfivekuser.svg");
+}
+
+.fivehundred::before {
+  content: url("../Assets/Images/grad-hat.svg");
+}
+
+.hero-section {
+  display: flex;
+  height: auto;
+}
+
+.full-roles-section {
+  padding-top: 5%;
+}
+.full-roles-section .wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  border-radius: 70px 70px 0 0;
+  background-color: var(--clr-card);
+}
+
+.full-roles-section .wrapper div {
+  font-family: "Inter", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 25%;
+  padding: 30px;
+}
+.full-roles-section .wrapper h3 {
+  color: var(--clr-orange);
+  font-size: 28px;
+}
+.full-roles-section .wrapper p {
+  color: #ffffff;
+  text-align: center;
+  padding-bottom: 20%;
+  font-size: 20px;
+}
+
+.bubble {
+  content: url("../Assets/Images/bubble.svg");
+}
+
+.help-students {
+  height: 300px;
+  font-family: "Inter", sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  border-radius: 70px 70px 0 0;
+
+  background-color: var(--clr-card);
+}
+/* end of the rest of styling */

@@ -1,0 +1,286 @@
+/* STYLING FORM ELEMENTS */
+.main__form {
+  /* background-color: gray; */
+  /* background-color: #e5e5e5; */
+  min-height: 100vh;
+}
+
+.inactive-bg {
+  /* background-color: rgb(229, 229, 229); */
+  background-color: lime;
+}
+.form--container {
+  margin-top: -7rem;
+}
+
+.inactive-select-box {
+  background-color: #e5e5e5;
+}
+.form-list {
+  margin-left: 1rem;
+}
+.select-box {
+  background-color: #fff;
+  border: 1px solid #d7dde2;
+}
+
+.form__titles {
+  font-size: 24px;
+  font-weight: 300;
+  color: #3983fa;
+  padding-top: 3.65%;
+}
+.form__titles--mid {
+  font-family: "Inter", sans-serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: #3983fa;
+  padding-top: 3.65%;
+}
+
+.form__titles-big {
+  font-family: "Inter", sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+  color: #3983fa;
+  /* padding-top: 3.65%; */
+}
+
+.fw400 {
+  font-weight: 400;
+}
+.form__sub-titles-main {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #46464e;
+  padding-top: 4%;
+}
+.form__sub-titles-basic {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #46464e;
+  padding-top: 1%;
+}
+
+.form__sub-titles-basic:not(:first-child) {
+  line-height: 1.8rem;
+}
+
+.form-small-cards {
+  padding-top: 3rem;
+}
+
+.form__titles-subheader {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  /* color: #3983fa; */
+  padding-top: 3.65%;
+}
+
+.form__subtitle {
+  font-size: 18px;
+  font-style: lighter;
+  font-weight: 400;
+  color: #666666;
+  padding-top: 2%;
+  padding-bottom: 1%;
+}
+
+.inputs,
+.incomplete--inputs {
+  /* padding-top: 1.7rem; */
+  margin-top: 0.65rem;
+}
+
+.inputs input,
+.inputs select {
+  /* color: #333333; */
+  padding: 0 5px;
+  margin-top: 4px;
+  height: 2.5rem;
+  border: 1px solid #d3d3cd;
+
+  /* background-color: #fff; */
+}
+
+.input--large input,
+.input--large select {
+  width: 44rem;
+}
+.input--above-medium input,
+.input--above-medium select {
+  width: 25.55rem;
+}
+.input--medium input,
+.input--medium select {
+  width: 21.5rem;
+}
+.input--above-small input,
+.input--above-small select {
+  width: 17.4rem;
+}
+.input--small input,
+.input--small select {
+  width: 10.4rem;
+}
+.input--xsmall input,
+.input--xsmall select {
+  width: 5.5rem;
+}
+.filled--input {
+  background-color: #e5e5e5;
+  /* background: url("../Assets/Images/check.svg") no-repeat scroll right; */
+}
+
+.inactive-select {
+  /* background-color: #e5e5e5; */
+}
+
+.input-group__container *,
+.form__titles,
+.form__subtitle {
+  font-family: "Inter", sans-serif;
+}
+
+.form-radio-group {
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  font-style: lighter;
+  font-weight: 400;
+  color: #313131;
+  margin-top: 1.25%;
+  /* padding-top: 2%; */
+  padding-bottom: 1%;
+  padding-right: 2%;
+}
+.form-radio-button:hover {
+  cursor: pointer;
+}
+
+.form-radio-label {
+  margin-top: 0.3rem;
+  margin-left: 1.1%;
+}
+
+.form__pages {
+  min-height: 73vh;
+  outline: 1px solid black;
+  /* background-color: 1px solid lime; */
+}
+
+.input__group:not(:first-child) {
+  margin-left: 1.5vh;
+}
+.input--above-medium:not(:first-child) {
+  margin-left: 3vh;
+}
+.option-label {
+  color: #767676;
+}
+.input__group label,
+.input--above-medium label {
+  padding-bottom: 0.4em;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-style: bolder;
+  font-size: 13px;
+  color: #545454;
+}
+
+.form-duals {
+  margin-top: 1rem;
+}
+
+.inputs:focus-within label {
+  transition: all 0.3s ease;
+  color: #2d8cf0;
+}
+.inputs:focus-within input {
+  transition: all 0.3s ease;
+  border-color: #2d8cf0;
+}
+
+.incomplete--inputs input {
+  padding: 0 5px;
+  margin-top: 4px;
+  height: 2.5rem;
+  border: 1px solid #d0021b;
+}
+.incomplete--inputs label {
+  padding-bottom: 0.4em;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-style: bolder;
+  font-size: 13px;
+  /* color: red; */
+  color: #d0021b;
+}
+
+.social-link--label {
+  cursor: pointer;
+  color: var(--clr-accent);
+}
+
+.school-info {
+  min-height: 75.5vh;
+}
+
+.form--error-tip {
+  margin-top: 0.3em;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+#payment_due_date:hover {
+  cursor: pointer;
+}
+
+.payment-icon {
+  margin-top: -0.5rem;
+}
+
+.checkbox-group-container section {
+  border: 1px solid #d3d3cd;
+  border-radius: 5px;
+  margin-top: 0.4rem;
+  padding-top: 5px;
+  padding-left: 2px;
+  padding-right: 5px;
+  /* padding-bottom: 0.6rem; */
+  width: fit-content;
+}
+
+.checkbox-group label:hover,
+.checkbox-group input:hover {
+  cursor: pointer;
+}
+
+.checkbox-inputs:focus-within label {
+  transition: all 0.3s ease;
+  /* color: #2d8cf0; */
+}
+
+.checkbox-group-container:focus-within section {
+  border: 1px solid #2d8cf0;
+}
+.checkbox-group-container:focus-within h3 {
+  color:  #2d8cf0;
+}
+
+ 
+
+.checkbox-group span {
+  padding-left: 0.4rem;
+  padding-bottom: 13px;
+}
+
+
+
+.checkbox-group {
+  /* padding-top: 0.5rem; */
+  margin-top: 4px;
+  gap: 10px;
+}

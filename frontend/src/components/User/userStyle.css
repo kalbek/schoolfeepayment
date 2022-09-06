@@ -1,0 +1,11 @@
+.user-account p{
+    cursor: pointer;
+}
+
+.user-account * {
+    list-style: none;
+}
+
+.user-account:hover {
+    cursor: pointer;
+}

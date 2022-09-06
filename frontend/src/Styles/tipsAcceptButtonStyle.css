@@ -1,0 +1,15 @@
+.tips-accept-btn--container {
+  width: 10vw;
+  height: 6vh;
+  padding: 0.5rem 1px;
+  color: #fff;
+  font-weight: 600;
+  background-color: #e44747;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+}
+
+.tips-accept-btn--container:hover {
+  cursor: pointer;
+  background-color: #d04141;
+}

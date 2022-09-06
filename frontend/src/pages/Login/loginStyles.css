@@ -1,0 +1,338 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+/* From JS Mastery */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+
+:root {
+  --font-family: "Manrope", sans-serif;
+  --gradient-text: linear-gradient(89.97deg, #ae67fa 1.84%, #f49867 102.67%);
+  --gradient-bar: linear-gradient(103.22deg, #ae67fa -13.86%, #f49867 99.55%);
+  --color-bg: #040c18;
+  --color-footer: #031b34;
+  --color-blog: #042c54;
+  --color-text: #81afdd;
+  --color-subtext: #ff8a71;
+}
+
+.gradient__text {
+  background: var(--gradient-text);
+  background-clip: text;
+  -webkit-backgroud-clop: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* End of From JS Mastery */
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.loading__heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 50px;
+  padding: 0 20px;
+}
+
+.loading__heading p {
+  color: #828282;
+}
+
+.form,
+.content {
+  width: 55%;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid;
+  /* border: 1px solid rgb(17, 9, 9); */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+
+.form-group label {
+  text-align: left;
+  display: block;
+  margin: 0 0 5px 3px;
+}
+
+/* Sing up and sign in button*/
+.btn-signup,
+.btn-signin {
+  padding: 10px 20px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  /* background: #ff355e; */
+  /* background: #ff7070; */
+  background: #a9a9a9;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  appearance: button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn-valid {
+  padding: 10px 20px;
+  border: 0px solid #000;
+  border-radius: 5px;
+  background: rgb(64, 235, 118);
+  color: #000;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  appearance: button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn:hover {
+  transform: scale(0.98);
+}
+
+.loadingSpinnerContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingSpinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: #000 transparent #555 transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+/* .hide {
+  display: none;
+} */
+
+.valid {
+  border: 2px solid rgb(37, 195, 37);
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+#idle-name,
+#idle-email,
+#idle-password,
+#idle-password2,
+#idle-secretkey {
+  color: #000;
+  margin-left: 0.25rem;
+  border: 1px solid #000;
+}
+
+.invalid {
+  color: red;
+  /* border: 2px solid #f83e3e; */
+  margin-left: 0.25rem;
+}
+.errMsg,
+#errMsg {
+  color: red;
+  /* color: rgb(219, 44, 76); */
+  /* border: 2px solid #f83e3e; */
+  margin-left: 0.25rem;
+  text-align: justify;
+  font-size: smaller;
+  overflow: hidden;
+}
+.form-error-section {
+  height: 200px;
+  width: 200px;
+  background-color: lime;
+}
+.sign-in,
+.terms {
+  text-align: start;
+  font-size: smaller;
+  margin-left: 0.25rem;
+  color: rgb(80, 125, 208);
+}
+.sign-i,
+.terms-a {
+  text-align: start;
+  font-size: small;
+  margin-left: 0.25rem;
+  color: rgb(138, 80, 208);
+}
+input:focus {
+  outline: none;
+}
+
+/* about button */
+/* button,
+textarea {
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+} */
+
+label,
+button {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.5rem;
+}
+
+/* About the error message */
+.errMsgUN,
+.errMsgEM,
+.errMsgPW,
+.errMsgCPW {
+  background-color: #fff;
+  /* background-color: lightpink; */
+  border-radius: 0.5rem;
+  color: #ef3038;
+  /* font-weight: bold; */
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.err-msg {
+  line-height: 2px; /*   within paragraph */
+  margin-bottom: 30px; /* between paragraphs */
+}
+
+.offscreenUN,
+.offscreenEM,
+.offscreenPW,
+.offscreenCPW {
+  position: absolute;
+  left: -9999px;
+}
+
+/* as of bubble item */
+
+.comments {
+  /* background: #777; */
+  width: 400px;
+}
+
+.comments .comment {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* paragrahs */
+.errMsgw {
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Progress Bar */
+.circle {
+  width: 19px;
+  height: 19px;
+  line-height: 25px;
+  background-color: green;
+  color: white;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  caret-color: transparent;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.circle p {
+  font-size: x-small;
+  position: relative;
+  font-family: sans-serif;
+}
+.progress-label {
+  font-size: small;
+  position: relative;
+  top: -4px;
+}
+
+.stepWrapper {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.selected .circle {
+  color: black;
+  background-color: white;
+  border-color: green;
+}
+
+/* step block circle wrapper */
+.stepBlock .circleWrapper {
+  padding: 0px 20px;
+  position: relative;
+  display: flex;
+}
+
+.stepBlock:not(:last-child) .circleWrapper::after {
+  content: "";
+  left: 90%;
+  width: 16%;
+  height: 2px;
+  position: absolute;
+  top: -6px;
+  bottom: 0px;
+  background-color: green;
+  margin: auto;
+  z-index: -1;
+}
+
+.stepBlock:not(:last-child) > .circleWrapper::after {
+  height: 3px;
+  opacity: 1;
+}
+
+.stepBlock:not(:last-child).selected > .circleWrapper::after,
+.stepBlock:not(:last-child).selected
+  ~ .stepBlock:not(:last-child)
+  > .circleWrapper::after {
+  height: 2px;
+  opacity: 0.3;
+}
+
+/* -END- step block and wrapper */
+.primaryButton {
+  padding: 10px 25px;
+  background-color: green;
+  border: none;
+  margin: 10px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  caret-color: transparent;
+}
+/* End of Progress bar */

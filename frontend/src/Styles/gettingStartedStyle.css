@@ -1,0 +1,115 @@
+.getting-started--container {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(153, 153, 153, 0.5);
+  z-index: 999;
+  font-family: "Inter", sans-serif;
+}
+.getting-started--sub-container {
+  background-color: #fff;
+  /* height: 80%; */
+  width: 70%;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+}
+.getting-started__title {
+  margin-top: 10%;
+  margin-bottom: 5%;
+  color: var(--clr-accent);
+  color: #3983fa;
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-size: 30px;
+}
+.get-started--card-container {
+  gap: 5%;
+}
+.get-started--card {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); */
+  width: 70%;
+  position: relative;
+  padding: 3% 4%;
+  /* animation: slidein-low 3s delay iteration-count direction fill-mode; */
+  animation-duration: 1.2s;
+  animation-name: slidein-low;
+}
+.getting-started__title {
+  position: relative;
+  animation-duration: 1.2s;
+  animation-name: slidein-low;
+}
+
+.getting-started-card--passed {
+  position: relative;
+  animation-duration: 1.2s;
+  animation-name: slidein-right-away;
+}
+
+@keyframes slidein-low {
+  from {
+    top: -50%;
+  }
+
+  to {
+    top: 0%;
+  }
+}
+@keyframes slidein-right {
+  from {
+    right: -5%;
+  }
+
+  to {
+    right: 0%;
+  }
+}
+@keyframes slidein-right-away {
+  from {
+    right: -5%;
+  }
+
+  to {
+    right: -6%;
+  }
+}
+
+.getting-started-card--selected {
+  border: 1px solid #3983fa;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.get-started--card h3 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #28282c;
+  margin-top: 6%;
+  margin-bottom: 5%;
+}
+.get-started--card p {
+  font-size: 14px;
+  margin-bottom: 3%;
+  color: #9c9ca0;
+  line-height: 140%;
+}
+.getting-started--navigate {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+.get-started--card:hover {
+  cursor: pointer;
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+.get-started--new-user p,
+.get-started--existing-user p {
+  color: #919191;
+}
+.user--get-started {
+  height: 150px;
+  width: 250px;
+  /* border: 1px solid #3983fa; */
+}
