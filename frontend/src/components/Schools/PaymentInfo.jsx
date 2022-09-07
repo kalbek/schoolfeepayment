@@ -20,20 +20,51 @@ import { useState, useEffect } from "react";
 
 function PaymentInfo({ formData, setFormData }) {
   const dispatch = useDispatch();
-  const annualPayments = useSelector(
-    (state) => state.payments.initialAnnualPaymentBaseState
+  const periodBasedPayment = useSelector(
+    (state) => state.payments.initialPeriodBasedPaymentState
+  );
+  const gradeBasedPayment = useSelector(
+    (state) => state.payments.initialGradeLevelBasedPaymentState
+  );
+  const genderBasedPayment = useSelector(
+    (state) => state.payments.initialGenderBasedPaymentState
+  );
+  const specialNeedBasedPayment = useSelector(
+    (state) => state.payments.initialSpecialNeedBasedPaymentState
+  );
+  const scholarshipBasedPayment = useSelector(
+    (state) => state.payments.initialScholarshipBasedPaymentState
   );
   const formDataPayments = [...formData.schoolPayments];
   const handlePayments = () => {
-    // setting form data for schoolPayments
-    dispatch(setPeriodBasedPayments, {
-      id: annualPayments[annualPayments.length - 1].id + 1,
-      apChecked: false,
-    });
+    dispatch(
+      setPeriodBasedPayments({
+        id: periodBasedPayment[periodBasedPayment.length - 1].id + 1,
+        periodChecked: false,
+      })
+    );
     dispatch(
       setGradeLevelBasedPayments({
-        id: annualPayments[annualPayments.length - 1].id + 1,
-        glChecked: false,
+        id: gradeBasedPayment[gradeBasedPayment.length - 1].id + 1,
+        gradeLevelChecked: false,
+      })
+    );
+    dispatch(
+      setGenderPayments({
+        id: genderBasedPayment[genderBasedPayment.length - 1].id + 1,
+        genderChecked: false,
+      })
+    );
+    dispatch(
+      setSpecialNeedPayments({
+        id: specialNeedBasedPayment[specialNeedBasedPayment.length - 1].id + 1,
+        specialNeedChecked: false,
+      })
+    );
+    dispatch(
+      setScholarshipBasedPayments({
+        id: scholarshipBasedPayment[scholarshipBasedPayment.length - 1].id + 1,
+        scholarshipChecked: false,
       })
     );
     formData.schoolPayments.length < 30 &&
@@ -43,12 +74,11 @@ function PaymentInfo({ formData, setFormData }) {
           ...formDataPayments,
           {
             paymentType: "Tuition Fee",
-            payment_amount: 0,
-            payment_term: "One time payment",
-            payment_due_date: new Date(),
-
-            periodBasedPayment: false,
-            gradeLevelBasedPayment: false,
+            // paymentAmount: 0,
+            paymentTerm: "One time payment",
+            paymentDueDate: new Date(),
+            periodBasedPayment: true,
+            gradeLevelBasedPayment: true,
             genderBasedPayment: false,
             specialNeedBasedPayment: false,
             scholarshipBasedPayment: false,
@@ -63,18 +93,19 @@ function PaymentInfo({ formData, setFormData }) {
         schoolPayments: [
           ...formDataPayments,
           {
-            payment_type: "Tuition Fee",
-            payment_amount: null,
-            periodBasedPayment: false,
-            gradeBasedPayment: false,
-            payment_term: "One time payment",
-            payment_due_date: new Date(),
+            paymentType: "Tuition Fee",
+            // paymentAmount: 0,
+            paymentTerm: "One time payment",
+            paymentDueDate: new Date(),
+            periodBasedPayment: true,
+            gradeLevelBasedPayment: true,
+            genderBasedPayment: false,
+            specialNeedBasedPayment: false,
+            scholarshipBasedPayment: false,
           },
         ],
       });
   }, []);
-
-  // console.log(formData);
 
   // handling payment types dropdown onselect/on change event
   function handlePaymentTypeSelect(e, index) {
@@ -143,13 +174,15 @@ function PaymentInfo({ formData, setFormData }) {
             </h3>
           </div>
 
-          {formData.schoolPayments.length >= 1 ? (
+          {formDataPayments.length > 1 ? (
             <RemoveLinksButton
               remove={removeAllPayments}
               label={"Remove Other Payments"}
             />
           ) : (
-            <></>
+            <>
+              <br /><br /><br />
+            </>
           )}
         </div>
         <DynamicPayments

@@ -63,53 +63,64 @@ const DynamicPayments = ({
 
   function handlePeriodBasedPayment(index) {
     periodBasedPayment.map((obj) => {
-      if (obj.id === index && obj.apChecked === false) {
-        dispatch(updatePeriodBasedPayments({ id: index, apChecked: true }));
-      } else if (obj.id === index && obj.apChecked === true) {
-        dispatch(updatePeriodBasedPayments({ id: index, apChecked: false }));
+      if (obj.id === index) {
+        dispatch(
+          updatePeriodBasedPayments({
+            id: index,
+            periodChecked: !obj.periodChecked,
+          })
+        );
       }
     });
   }
 
   function handleGradeLevelBasedPayment(index) {
     gradeLevelBasedPayment.map((obj) => {
-      if (obj.id === index && obj.glChecked === false) {
-        dispatch(updateGradeLevelBasedPayments({ id: index, glChecked: true }));
-      } else if (obj.id === index && obj.glChecked === true) {
+      console.log(obj.gradeLevelChecked);
+      if (obj.id === index) {
         dispatch(
-          updateGradeLevelBasedPayments({ id: index, glChecked: false })
+          updateGradeLevelBasedPayments({
+            id: index,
+            gradeLevelChecked: !obj.gradeLevelChecked,
+          })
         );
       }
     });
   }
+
   function handleGenderBasedPayment(index) {
-    gradeLevelBasedPayment.map((obj) => {
-      if (obj.id === index && obj.glChecked === false) {
-        dispatch(updateGenderBasedPayments({ id: index, glChecked: true }));
-      } else if (obj.id === index && obj.glChecked === true) {
-        dispatch(updateGenderBasedPayments({ id: index, glChecked: false }));
+    genderBasedPayment.map((obj) => {
+      if (obj.id === index) {
+        dispatch(
+          updateGenderBasedPayments({
+            id: index,
+            genderChecked: !obj.genderChecked,
+          })
+        );
       }
     });
   }
 
   function handleSpecialNeedBasedPayment(index) {
-    gradeLevelBasedPayment.map((obj) => {
-      if (obj.id === index && obj.glChecked === false) {
-        dispatch(updateSpecialNeedPayments({ id: index, glChecked: true }));
-      } else if (obj.id === index && obj.glChecked === true) {
-        dispatch(updateSpecialNeedPayments({ id: index, glChecked: false }));
+    specialNeedBasedPayment.map((obj) => {
+      if (obj.id === index) {
+        dispatch(
+          updateSpecialNeedPayments({
+            id: index,
+            specialNeedChecked: !obj.specialNeedChecked,
+          })
+        );
       }
     });
   }
   function handleScholarshipBasedPayment(index) {
-    gradeLevelBasedPayment.map((obj) => {
-      if (obj.id === index && obj.glChecked === false) {
+    scholarshipBasedPayment.map((obj) => {
+      if (obj.id === index) {
         dispatch(
-          updateScholarshipBasedPayments({ id: index, glChecked: true })
-        );
-      } else if (obj.id === index && obj.glChecked === true) {
-        dispatch(
-          updateScholarshipBasedPayments({ id: index, glChecked: false })
+          updateScholarshipBasedPayments({
+            id: index,
+            scholarshipChecked: true,
+          })
         );
       }
     });
@@ -177,23 +188,21 @@ const DynamicPayments = ({
             <div className="checkbox-inputs input__group checkbox-group-container">
               <section className="flex-left">
                 <label htmlFor="">
-                  <h3>Depends On</h3>
+                  <h3>Payment Base</h3>
                 </label>
                 <div className="flex-cs checkbox-group">
                   {/* Checkbox for period based payment */}
                   <label
                     className="checkbox-items flex flex-cs"
-                    id={"periodBasedPayment_" + index}
+                    htmlFor={"periodBasedPayment_" + index}
                   >
                     <input
                       type="checkbox"
                       name="periodBasedPayment"
                       id={"periodBasedPayment_" + index}
                       tabIndex={9}
-                      value={!periodBasedPayment[index].periodChecked}
-                      checked={
-                        formDataPayments[index].periodBasedPayment === "true"
-                      }
+                      value={periodBasedPayment[index].periodChecked}
+                      checked={periodBasedPayment[index].periodChecked}
                       onInput={() => handlePeriodBasedPayment(index)}
                       onChange={(e) => handlePaymentBase(e, index)}
                     />
@@ -207,16 +216,14 @@ const DynamicPayments = ({
                   {/*Checkbox for grade based payment */}
                   <label
                     className="checkbox-items flex flex-cs"
-                    id={"gradeBasedPayment_" + index}
+                    htmlFor={"gradeBasedPayment_" + index}
                   >
                     <input
                       type="checkbox"
                       name="gradeBasedPayment"
                       id={"gradeBasedPayment_" + index}
-                      value={!gradeLevelBasedPayment[index].glChecked}
-                      checked={
-                        formDataPayments[index].gradeBasedPayment === "true"
-                      }
+                      value={gradeLevelBasedPayment[index].gradeLevelChecked}
+                      checked={gradeLevelBasedPayment[index].gradeLevelChecked}
                       onInput={() => handleGradeLevelBasedPayment(index)}
                       onChange={(e) => handlePaymentBase(e, index)}
                       tabIndex={9}
@@ -230,17 +237,15 @@ const DynamicPayments = ({
 
                   {/*Checkbox for gender based payment */}
                   <label
+                    htmlFor={"genderBasedPayment_" + index}
                     className="checkbox-items flex flex-cs"
-                    id={"genderBasedPayment_" + index}
                   >
                     <input
                       type="checkbox"
-                      name="genderBasedPayment_"
+                      name="genderBasedPayment"
                       id={"genderBasedPayment_" + index}
-                      value={!genderBasedPayment[index].glChecked}
-                      checked={
-                        formDataPayments[index].genderBasedPayment === "true"
-                      }
+                      value={genderBasedPayment[index].genderChecked}
+                      checked={genderBasedPayment[index].genderChecked}
                       onInput={() => handleGenderBasedPayment(index)}
                       onChange={(e) => handlePaymentBase(e, index)}
                       tabIndex={9}
@@ -251,20 +256,18 @@ const DynamicPayments = ({
                       </span>
                     </>
                   </label>
-
                   {/*Checkbox for special need based payment */}
                   <label
                     className="checkbox-items flex flex-cs"
-                    id={"specialNeedBasedPayment_" + index}
+                    htmlFor={"specialNeedBasedPayment_" + index}
                   >
                     <input
                       type="checkbox"
                       name="specialNeedBasedPayment"
                       id={"specialNeedBasedPayment_" + index}
-                      value={!specialNeedBasedPayment[index].glChecked}
+                      value={specialNeedBasedPayment[index].specialNeedChecked}
                       checked={
-                        formDataPayments[index].specialNeedBasedPayment ===
-                        "true"
+                        specialNeedBasedPayment[index].specialNeedChecked
                       }
                       onInput={() => handleSpecialNeedBasedPayment(index)}
                       onChange={(e) => handlePaymentBase(e, index)}
@@ -280,16 +283,15 @@ const DynamicPayments = ({
                   {/*Checkbox for scholarships based payment */}
                   <label
                     className="checkbox-items flex flex-cs"
-                    id={"scholarshipBasedPayment_" + index}
+                    htmlFor={"scholarshipBasedPayment_" + index}
                   >
                     <input
                       type="checkbox"
                       name="scholarshipBasedPayment"
                       id={"scholarshipBasedPayment_" + index}
-                      value={!scholarshipBasedPayment[index].glChecked}
+                      value={scholarshipBasedPayment[index].scholarshipChecked}
                       checked={
-                        formDataPayments[index].scholarshipBasedPayment ===
-                        "true"
+                        scholarshipBasedPayment[index].scholarshipChecked
                       }
                       onInput={() => handleScholarshipBasedPayment(index)}
                       onChange={(e) => handlePaymentBase(e, index)}
@@ -304,6 +306,7 @@ const DynamicPayments = ({
                 </div>
               </section>
             </div>
+
             {/* PAYMENT TERM SELECT OPTION */}
 
             <div className="checkbox-inputs input__group checkbox-group-container">
@@ -359,10 +362,11 @@ const DynamicPayments = ({
                 </div>
               </section>
             </div>
-
-            <div className="payment-icon">
-              <RemoveButton removables={removePayments} index={index} />
-            </div>
+            {formDataPayments.length > 1 && (
+              <div className="payment-icon">
+                <RemoveButton removables={removePayments} index={index} />
+              </div>
+            )}
           </div>
           {formDataPayments.length - 1 === index &&
           formDataPayments.length < 24 ? (

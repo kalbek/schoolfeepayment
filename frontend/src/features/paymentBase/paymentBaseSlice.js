@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  initialPeriodBasedPaymentState: [{ id: 0, periodChecked: false }],
-  initialGradeLevelBasedPaymentState: [{ id: 0, gradeLevelChecked: false }],
+  initialPeriodBasedPaymentState: [{ id: 0, periodChecked: true }],
+  initialGradeLevelBasedPaymentState: [{ id: 0, gradeLevelChecked: true }],
   initialGenderBasedPaymentState: [{ id: 0, genderChecked: false }],
   initialSpecialNeedBasedPaymentState: [{ id: 0, specialNeedChecked: false }],
   initialScholarshipBasedPaymentState: [{ id: 0, scholarshipChecked: false }],
@@ -31,14 +31,14 @@ export const paymentSlice = createSlice({
     updatePeriodBasedPayments: (state, action) => {
       state.initialPeriodBasedPaymentState.map((payment) => {
         if (payment.id === action.payload.id) {
-          payment.apChecked = action.payload.apChecked;
+          payment.periodChecked = action.payload.periodChecked;
         }
       });
     },
     updateGradeLevelBasedPayments: (state, action) => {
       state.initialGradeLevelBasedPaymentState.map((payment) => {
         if (payment.id === action.payload.id) {
-          payment.glChecked = action.payload.glChecked;
+          payment.gradeLevelChecked = action.payload.gradeLevelChecked;
         }
       });
     },
@@ -66,39 +66,62 @@ export const paymentSlice = createSlice({
 
     // Deleting states
     deletePeriodBasedPayments: (state, action) => {
+      // filter the existing state by id to remove that specific state
       state.initialPeriodBasedPaymentState =
         state.initialPeriodBasedPaymentState.filter(
           (payments) => payments.id !== action.payload.id
         );
-      // iterate starting from the removed state till the end states
-      // get the next state
-      // set the next state to previous state
-      console.log(state.initialPeriodBasedPaymentState);
-      state.initialPeriodBasedPaymentState.map((currentState, index) => {});
+      // update ids of the state after a single state is removed by index
+      state.initialPeriodBasedPaymentState.map((payment) => {
+        if (payment.id > action.payload.id) {
+          payment.id -= 1;
+        }
+      });
     },
     deleteGradeLevelBasedPayments: (state, action) => {
       state.initialGradeLevelBasedPaymentState =
         state.initialGradeLevelBasedPaymentState.filter(
           (payments) => payments.id !== action.payload.id
         );
+
+      state.initialGradeLevelBasedPaymentState.map((payment) => {
+        if (payment.id > action.payload.id) {
+          payment.id -= 1;
+        }
+      });
     },
     deleteGenderBasedPayments: (state, action) => {
       state.initialGradeLevelBasedPaymentState =
         state.initialGradeLevelBasedPaymentState.filter(
           (payments) => payments.id !== action.payload.id
         );
+      state.initialGenderBasedPaymentState.map((payment) => {
+        if (payment.id > action.payload.id) {
+          payment.id -= 1;
+        }
+      });
     },
     deleteSpecialNeedPayments: (state, action) => {
       state.initialSpecialNeedBasedPaymentState =
         state.initialSpecialNeedBasedPaymentState.filter(
           (payments) => payments.id !== action.payload.id
         );
+      state.initialSpecialNeedBasedPaymentState.map((payment) => {
+        if (payment.id > action.payload.id) {
+          payment.id -= 1;
+        }
+      });
     },
     deleteScholarshipBasedPayments: (state, action) => {
       state.initialScholarshipBasedPaymentState =
         state.initialScholarshipBasedPaymentState.filter(
           (payments) => payments.id !== action.payload.id
         );
+      state.initialScholarshipBasedPaymentState.map((payment) => {
+        if (payment.id > action.payload.id) {
+          payment.id -= 1;
+        }
+      });
     },
   },
 });
