@@ -3,70 +3,21 @@ import RemoveLinksButton from "../Utilities/Buttons/RemoveLinksButton";
 import DynamicPayments from "../Utilities/DynamicFields/DynamicPayments";
 import "../../Styles/utilities.css";
 import {
-  setPeriodBasedPayments,
-  setGradeLevelBasedPayments,
-  setGenderPayments,
-  setSpecialNeedPayments,
-  setScholarshipBasedPayments,
-  deletePeriodBasedPayments,
-  deleteGradeLevelBasedPayments,
-  deleteGenderBasedPayments,
-  deleteSpecialNeedPayments,
-  deleteScholarshipBasedPayments,
+  createPaymentBase,
+  updatePayments,
+  deletePaymentBase,
+  resetPaymentStates,
 } from "../../features/paymentBase/paymentBaseSlice";
 import "../../Styles/formStyles.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 function PaymentInfo({ formData, setFormData }) {
   const dispatch = useDispatch();
-  const periodBasedPayment = useSelector(
-    (state) => state.payments.initialPeriodBasedPaymentState
-  );
-  const gradeBasedPayment = useSelector(
-    (state) => state.payments.initialGradeLevelBasedPaymentState
-  );
-  const genderBasedPayment = useSelector(
-    (state) => state.payments.initialGenderBasedPaymentState
-  );
-  const specialNeedBasedPayment = useSelector(
-    (state) => state.payments.initialSpecialNeedBasedPaymentState
-  );
-  const scholarshipBasedPayment = useSelector(
-    (state) => state.payments.initialScholarshipBasedPaymentState
-  );
+  const paymentState = useSelector((state) => state.payments.paymentState);
+
   const formDataPayments = [...formData.schoolPayments];
-  const handlePayments = () => {
-    dispatch(
-      setPeriodBasedPayments({
-        id: periodBasedPayment[periodBasedPayment.length - 1].id + 1,
-        periodChecked: false,
-      })
-    );
-    dispatch(
-      setGradeLevelBasedPayments({
-        id: gradeBasedPayment[gradeBasedPayment.length - 1].id + 1,
-        gradeLevelChecked: false,
-      })
-    );
-    dispatch(
-      setGenderPayments({
-        id: genderBasedPayment[genderBasedPayment.length - 1].id + 1,
-        genderChecked: false,
-      })
-    );
-    dispatch(
-      setSpecialNeedPayments({
-        id: specialNeedBasedPayment[specialNeedBasedPayment.length - 1].id + 1,
-        specialNeedChecked: false,
-      })
-    );
-    dispatch(
-      setScholarshipBasedPayments({
-        id: scholarshipBasedPayment[scholarshipBasedPayment.length - 1].id + 1,
-        scholarshipChecked: false,
-      })
-    );
+  const addPayments = () => {
     formData.schoolPayments.length < 30 &&
       setFormData({
         ...formData,
@@ -85,6 +36,19 @@ function PaymentInfo({ formData, setFormData }) {
           },
         ],
       });
+    dispatch(
+      createPaymentBase({
+        id: paymentState[paymentState.length - 1].id + 1,
+        periodChecked: true,
+        gradeLevelChecked: true,
+        genderChecked: false,
+        specialNeedChecked: false,
+        scholarshipChecked: false,
+      })
+    );
+    // console.log(formDataPayments);
+    // console.log("*********");
+    // console.log(paymentState);
   };
   useEffect(() => {
     if (formData.schoolPayments.length === 0)
@@ -138,8 +102,26 @@ function PaymentInfo({ formData, setFormData }) {
     setFormData({ ...formData, schoolPayments: dates });
   }
 
-  function handlePaymentBase(e, index) {
+  function handlePayments(e, index) {
     const { name, value } = e.target;
+    paymentState.map((baseState) => {
+      if (baseState.id === index) {
+        dispatch(
+          updatePayments({
+            id: index,
+            baseToUpdate: name,
+            termToUpdate: name,
+            periodChecked: !baseState.periodChecked,
+            gradeLevelChecked: !baseState.gradeLevelChecked,
+            genderChecked: !baseState.genderChecked,
+            specialNeedChecked: !baseState.specialNeedChecked,
+            scholarshipChecked: !baseState.scholarshipChecked,
+            standardPaymentTerm: !baseState.standardPaymentTerm,
+            advancedPaymentTerm: !baseState.advancedPaymentTerm,
+          })
+        );
+      }
+    });
     const base = formDataPayments;
     base[index][name] = value;
     setFormData({ ...formData, schoolPayments: base });
@@ -149,15 +131,15 @@ function PaymentInfo({ formData, setFormData }) {
     const list = formDataPayments;
     list.splice(index, 1);
     setFormData({ ...formData, schoolPayments: list });
-    // console.log(index)
-    dispatch(deletePeriodBasedPayments({ id: index }));
-    dispatch(deleteGradeLevelBasedPayments({ id: index }));
+    dispatch(deletePaymentBase({ id: index }));
   };
 
-  const removeAllPayments = () => {
+  const resetPayments = () => {
     const list = formDataPayments;
     list.splice(1, list.length);
+    list[0].paymentType = "Tuition Fee";
     setFormData({ ...formData, schoolPayments: list });
+    dispatch(resetPaymentStates());
   };
 
   return (
@@ -176,12 +158,14 @@ function PaymentInfo({ formData, setFormData }) {
 
           {formDataPayments.length > 1 ? (
             <RemoveLinksButton
-              remove={removeAllPayments}
-              label={"Remove Other Payments"}
+              remove={resetPayments}
+              label={"Reset Payments"}
             />
           ) : (
             <>
-              <br /><br /><br />
+              <br />
+              <br />
+              <br />
             </>
           )}
         </div>
@@ -192,13 +176,12 @@ function PaymentInfo({ formData, setFormData }) {
           handlePaymentTermSelect={handlePaymentTermSelect}
           handlePaymentDuedate={handlePaymentDuedate}
           removePayments={removePayments}
+          addPayments={addPayments}
           handlePayments={handlePayments}
-          handlePaymentBase={handlePaymentBase}
-          // handleSelect={handleSelect}
         />
         <div className="flex-ccc">
           {formDataPayments.length === 0 ? (
-            <AddMoreButton label="Add Payments" handleLinks={handlePayments} />
+            <AddMoreButton label="Add Payments" handleLinks={addPayments} />
           ) : (
             ""
           )}

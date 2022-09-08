@@ -1,10 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  initialPeriodBasedPaymentState: [{ id: 0, periodChecked: true }],
-  initialGradeLevelBasedPaymentState: [{ id: 0, gradeLevelChecked: true }],
-  initialGenderBasedPaymentState: [{ id: 0, genderChecked: false }],
-  initialSpecialNeedBasedPaymentState: [{ id: 0, specialNeedChecked: false }],
-  initialScholarshipBasedPaymentState: [{ id: 0, scholarshipChecked: false }],
+  paymentState: [
+    {
+      id: 0,
+      periodChecked: true,
+      gradeLevelChecked: true,
+      genderChecked: false,
+      specialNeedChecked: false,
+      scholarshipChecked: false,
+      baseToUpdate: null,
+      standardPaymentTerm: true,
+      advancedPaymentTerm: false,
+    },
+  ],
 };
 
 export const paymentSlice = createSlice({
@@ -12,136 +20,72 @@ export const paymentSlice = createSlice({
   initialState,
   reducers: {
     // Creating states
-    setPeriodBasedPayments: (state, action) => {
-      state.initialPeriodBasedPaymentState.push(action.payload);
+    createPaymentBase: (state, action) => {
+      state.paymentState.push(action.payload);
     },
-    setGradeLevelBasedPayments: (state, action) => {
-      state.initialGradeLevelBasedPaymentState.push(action.payload);
-    },
-    setGenderPayments: (state, action) => {
-      state.initialGenderBasedPaymentState.push(action.payload);
-    },
-    setSpecialNeedPayments: (state, action) => {
-      state.initialSpecialNeedBasedPaymentState.push(action.payload);
-    },
-    setScholarshipBasedPayments: (state, action) => {
-      state.initialScholarshipBasedPaymentState.push(action.payload);
-    },
-    // Updating states
-    updatePeriodBasedPayments: (state, action) => {
-      state.initialPeriodBasedPaymentState.map((payment) => {
-        if (payment.id === action.payload.id) {
-          payment.periodChecked = action.payload.periodChecked;
+    // Updating payment base states
+    updatePayments: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.id) {
+          if (action.payload.baseToUpdate === "periodBasedPayment") {
+            paymentState.periodChecked = action.payload.periodChecked;
+          } else if (action.payload.baseToUpdate === "gradeBasedPayment") {
+            paymentState.gradeLevelChecked = action.payload.gradeLevelChecked;
+          } else if (action.payload.baseToUpdate === "genderBasedPayment") {
+            paymentState.genderChecked = action.payload.genderChecked;
+          } else if (
+            action.payload.baseToUpdate === "specialNeedBasedPayment"
+          ) {
+            paymentState.specialNeedChecked = action.payload.specialNeedChecked;
+          } else if (
+            action.payload.baseToUpdate === "scholarshipBasedPayment"
+          ) {
+            paymentState.scholarshipChecked = action.payload.scholarshipChecked;
+          } else if (action.payload.termToUpdate === "standardPaymentTerm") {
+            paymentState.standardPaymentTerm =
+              action.payload.standardPaymentTerm;
+          } else if (action.payload.termToUpdate === "advancedPaymentTerm") {
+            paymentState.advancedPaymentTerm =
+              action.payload.advancedPaymentTerm;
+          }
         }
       });
     },
-    updateGradeLevelBasedPayments: (state, action) => {
-      state.initialGradeLevelBasedPaymentState.map((payment) => {
-        if (payment.id === action.payload.id) {
-          payment.gradeLevelChecked = action.payload.gradeLevelChecked;
-        }
-      });
-    },
-    updateGenderBasedPayments: (state, action) => {
-      state.initialGenderBasedPaymentState.map((payment) => {
-        if (payment.id === action.payload.id) {
-          payment.genderChecked = action.payload.genderChecked;
-        }
-      });
-    },
-    updateSpecialNeedPayments: (state, action) => {
-      state.initialSpecialNeedBasedPaymentState.map((payment) => {
-        if (payment.id === action.payload.id) {
-          payment.specialNeedChecked = action.payload.specialNeedChecked;
-        }
-      });
-    },
-    updateScholarshipBasedPayments: (state, action) => {
-      state.initialScholarshipBasedPaymentState.map((payment) => {
-        if (payment.id === action.payload.id) {
-          payment.scholarshipChecked = action.payload.scholarshipChecked;
-        }
-      });
-    },
+
+    // Updating payment term statues
 
     // Deleting states
-    deletePeriodBasedPayments: (state, action) => {
-      // filter the existing state by id to remove that specific state
-      state.initialPeriodBasedPaymentState =
-        state.initialPeriodBasedPaymentState.filter(
-          (payments) => payments.id !== action.payload.id
-        );
-      // update ids of the state after a single state is removed by index
-      state.initialPeriodBasedPaymentState.map((payment) => {
+    deletePaymentBase: (state, action) => {
+      state.paymentState = state.paymentState.filter(
+        (paymentBase) => paymentBase.id !== action.payload.id
+      );
+      state.paymentState.map((payment) => {
         if (payment.id > action.payload.id) {
           payment.id -= 1;
         }
       });
     },
-    deleteGradeLevelBasedPayments: (state, action) => {
-      state.initialGradeLevelBasedPaymentState =
-        state.initialGradeLevelBasedPaymentState.filter(
-          (payments) => payments.id !== action.payload.id
-        );
 
-      state.initialGradeLevelBasedPaymentState.map((payment) => {
-        if (payment.id > action.payload.id) {
-          payment.id -= 1;
-        }
-      });
-    },
-    deleteGenderBasedPayments: (state, action) => {
-      state.initialGradeLevelBasedPaymentState =
-        state.initialGradeLevelBasedPaymentState.filter(
-          (payments) => payments.id !== action.payload.id
-        );
-      state.initialGenderBasedPaymentState.map((payment) => {
-        if (payment.id > action.payload.id) {
-          payment.id -= 1;
-        }
-      });
-    },
-    deleteSpecialNeedPayments: (state, action) => {
-      state.initialSpecialNeedBasedPaymentState =
-        state.initialSpecialNeedBasedPaymentState.filter(
-          (payments) => payments.id !== action.payload.id
-        );
-      state.initialSpecialNeedBasedPaymentState.map((payment) => {
-        if (payment.id > action.payload.id) {
-          payment.id -= 1;
-        }
-      });
-    },
-    deleteScholarshipBasedPayments: (state, action) => {
-      state.initialScholarshipBasedPaymentState =
-        state.initialScholarshipBasedPaymentState.filter(
-          (payments) => payments.id !== action.payload.id
-        );
-      state.initialScholarshipBasedPaymentState.map((payment) => {
-        if (payment.id > action.payload.id) {
-          payment.id -= 1;
-        }
+    resetPaymentStates: (state) => {
+      state.paymentState = state.paymentState.filter(
+        (paymentBase) => paymentBase.id === 0
+      );
+      state.paymentState.map((payment) => {
+        payment.periodChecked = true;
+        payment.gradeLevelChecked = true;
+        payment.genderChecked = false;
+        payment.specialNeedChecked = false;
+        payment.scholarshipChecked = false;
       });
     },
   },
 });
 
 export const {
-  setPeriodBasedPayments,
-  setGradeLevelBasedPayments,
-  setGenderPayments,
-  setSpecialNeedPayments,
-  setScholarshipBasedPayments,
-  updatePeriodBasedPayments,
-  updateGradeLevelBasedPayments,
-  updateGenderBasedPayments,
-  updateSpecialNeedPayments,
-  updateScholarshipBasedPayments,
-  deletePeriodBasedPayments,
-  deleteGradeLevelBasedPayments,
-  deleteGenderBasedPayments,
-  deleteSpecialNeedPayments,
-  deleteScholarshipBasedPayments,
+  createPaymentBase,
+  updatePayments,
+  deletePaymentBase,
+  resetPaymentStates,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;
