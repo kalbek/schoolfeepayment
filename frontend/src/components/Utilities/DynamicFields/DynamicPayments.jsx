@@ -229,16 +229,29 @@ const DynamicPayments = ({
                   >
                     <input
                       type="radio"
-                      name="standardPaymentTerm"
+                      name={"schoolPaymentTerm" + index}
                       id={"standardPaymentTerm_" + index}
-                      value={paymentState[index].standardPaymentTerm}
-                      checked={paymentState[index].standardPaymentTerm}
+                      value={paymentState[index].standardPaymentTermSelected}
+                      checked={paymentState[index].standardPaymentTermSelected}
                       onChange={(e) => handlePayments(e, index)}
                       tabIndex={9}
                     />
                     <span>
                       &nbsp; <p>Standard</p>
                     </span>
+                    {console.log("come hear standard")}
+                    {console.log(
+                      " sps[" +
+                        index +
+                        "]: " +
+                        paymentState[index].standardPaymentTermSelected
+                    )}
+                    {console.log(
+                      " aps[" +
+                        index +
+                        "]: " +
+                        paymentState[index].advancedPaymentTermSelected
+                    )}
                   </label>
                   <label
                     className="checkbox-items flex flex-cs"
@@ -246,16 +259,31 @@ const DynamicPayments = ({
                   >
                     <input
                       type="radio"
-                      name="advancedPaymentTerm"
+                      name={"schoolPaymentTerm" + index}
                       id={"advancedPaymentTerm_" + index}
-                      value={paymentState[index].advancedPaymentTerm}
-                      checked={paymentState[index].advancedPaymentTerm}
+                      value={paymentState[index].advancedPaymentTermSelected}
+                      checked={
+                        paymentState[index].advancedPaymentTermSelected === true
+                      }
                       onChange={(e) => handlePayments(e, index)}
                       tabIndex={9}
                     />
                     <span>
                       &nbsp; <p>Advanced</p>
                     </span>
+                    {console.log("come hear advanced")}
+                    {console.log(
+                      " sps[" +
+                        index +
+                        "]: " +
+                        paymentState[index].standardPaymentTermSelected
+                    )}
+                    {console.log(
+                      " aps[" +
+                        index +
+                        "]: " +
+                        paymentState[index].advancedPaymentTermSelected
+                    )}
                   </label>
                 </div>
               </section>

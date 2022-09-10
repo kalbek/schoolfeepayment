@@ -8,9 +8,9 @@ const initialState = {
       genderChecked: false,
       specialNeedChecked: false,
       scholarshipChecked: false,
-      baseToUpdate: null,
-      standardPaymentTerm: true,
-      advancedPaymentTerm: false,
+      paymentToUpdate: null,
+      standardPaymentTermSelected: true,
+      advancedPaymentTermSelected: false,
     },
   ],
 };
@@ -26,34 +26,51 @@ export const paymentSlice = createSlice({
     // Updating payment base states
     updatePayments: (state, action) => {
       state.paymentState.map((paymentState) => {
+        paymentState.paymentToUpdate = action.payload.paymentToUpdate;
+
         if (paymentState.id === action.payload.id) {
-          if (action.payload.baseToUpdate === "periodBasedPayment") {
+          if (action.payload.paymentToUpdate === "periodBasedPayment") {
             paymentState.periodChecked = action.payload.periodChecked;
-          } else if (action.payload.baseToUpdate === "gradeBasedPayment") {
+          } else if (action.payload.paymentToUpdate === "gradeBasedPayment") {
             paymentState.gradeLevelChecked = action.payload.gradeLevelChecked;
-          } else if (action.payload.baseToUpdate === "genderBasedPayment") {
+          } else if (action.payload.paymentToUpdate === "genderBasedPayment") {
             paymentState.genderChecked = action.payload.genderChecked;
           } else if (
-            action.payload.baseToUpdate === "specialNeedBasedPayment"
+            action.payload.paymentToUpdate === "specialNeedBasedPayment"
           ) {
             paymentState.specialNeedChecked = action.payload.specialNeedChecked;
           } else if (
-            action.payload.baseToUpdate === "scholarshipBasedPayment"
+            action.payload.paymentToUpdate === "scholarshipBasedPayment"
           ) {
             paymentState.scholarshipChecked = action.payload.scholarshipChecked;
-          } else if (action.payload.termToUpdate === "standardPaymentTerm") {
-            paymentState.standardPaymentTerm =
-              action.payload.standardPaymentTerm;
-          } else if (action.payload.termToUpdate === "advancedPaymentTerm") {
-            paymentState.advancedPaymentTerm =
-              action.payload.advancedPaymentTerm;
+          } else if (action.payload.paymentToUpdate === "schoolPaymentTerm" + action.payload.id) {
+            console.log(
+              "action.payload.standardPaymentTermSelected: " +
+                action.payload.standardPaymentTermSelected
+            );
+            console.log(
+              "action.payload.advancedPaymentTermSelected: " +
+                action.payload.advancedPaymentTermSelected
+            );
+
+            paymentState.standardPaymentTermSelected =
+              action.payload.standardPaymentTermSelected;
+            paymentState.advancedPaymentTermSelected =
+              action.payload.advancedPaymentTermSelected;
           }
         }
       });
+      console.log(
+        "paymentSlice.standardPaymentTermSelected: " +
+          state.paymentState[0].standardPaymentTermSelected
+      );
+      console.log(
+        "paymentSlice.advancedPaymentTermSelected: " +
+          state.paymentState[0].advancedPaymentTermSelected
+      );
     },
 
     // Updating payment term statues
-
     // Deleting states
     deletePaymentBase: (state, action) => {
       state.paymentState = state.paymentState.filter(
@@ -76,6 +93,8 @@ export const paymentSlice = createSlice({
         payment.genderChecked = false;
         payment.specialNeedChecked = false;
         payment.scholarshipChecked = false;
+        payment.standardPaymentTermSelected = true;
+        payment.advancedPaymentTermSelected = false;
       });
     },
   },

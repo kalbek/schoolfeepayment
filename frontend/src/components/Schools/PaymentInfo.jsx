@@ -33,6 +33,8 @@ function PaymentInfo({ formData, setFormData }) {
             genderBasedPayment: false,
             specialNeedBasedPayment: false,
             scholarshipBasedPayment: false,
+            standardPaymentTerm: true,
+            advancedPaymentTerm: false,
           },
         ],
       });
@@ -44,11 +46,13 @@ function PaymentInfo({ formData, setFormData }) {
         genderChecked: false,
         specialNeedChecked: false,
         scholarshipChecked: false,
+        standardPaymentTermSelected: true,
+        advancedPaymentTermSelected: false,
       })
     );
-    // console.log(formDataPayments);
-    // console.log("*********");
-    // console.log(paymentState);
+    console.log(formDataPayments);
+    console.log("*********");
+    console.log(paymentState);
   };
   useEffect(() => {
     if (formData.schoolPayments.length === 0)
@@ -64,8 +68,10 @@ function PaymentInfo({ formData, setFormData }) {
             periodBasedPayment: true,
             gradeLevelBasedPayment: true,
             genderBasedPayment: false,
-            specialNeedBasedPayment: false,
+            specialNeedBasedPayment: true,
             scholarshipBasedPayment: false,
+            standardPaymentTerm: true,
+            advancedPaymentTerm: false,
           },
         ],
       });
@@ -82,9 +88,26 @@ function PaymentInfo({ formData, setFormData }) {
   // handling payment term change
   const handlePaymentTermSelect = (e, index) => {
     const { name, value } = e.target;
+    paymentState.map((baseState) => {
+      if (baseState.id === index) {
+        dispatch(
+          updatePayments({
+            termToUpdate: name,
+            // standardPaymentTerm: !baseState.standardPaymentTerm,
+            standardPaymentTerm: true,
+            advancedPaymentTerm: !baseState.advancedPaymentTerm,
+          })
+        );
+      }
+    });
+
     const term = formDataPayments;
     term[index][name] = value;
     setFormData({ ...formData, schoolPayments: term });
+
+    // console.log(formDataPayments);
+    // console.log("*********");
+    // console.log(paymentState);
   };
 
   // handling payment amount change
@@ -104,20 +127,21 @@ function PaymentInfo({ formData, setFormData }) {
 
   function handlePayments(e, index) {
     const { name, value } = e.target;
+    console.log("name: " + name);
     paymentState.map((baseState) => {
       if (baseState.id === index) {
         dispatch(
           updatePayments({
             id: index,
-            baseToUpdate: name,
-            termToUpdate: name,
+            paymentToUpdate: name,
             periodChecked: !baseState.periodChecked,
             gradeLevelChecked: !baseState.gradeLevelChecked,
             genderChecked: !baseState.genderChecked,
             specialNeedChecked: !baseState.specialNeedChecked,
             scholarshipChecked: !baseState.scholarshipChecked,
-            standardPaymentTerm: !baseState.standardPaymentTerm,
-            advancedPaymentTerm: !baseState.advancedPaymentTerm,
+
+            standardPaymentTermSelected: !baseState.standardPaymentTermSelected,
+            advancedPaymentTermSelected: !baseState.advancedPaymentTermSelected,
           })
         );
       }
@@ -126,6 +150,9 @@ function PaymentInfo({ formData, setFormData }) {
     base[index][name] = value;
     setFormData({ ...formData, schoolPayments: base });
   }
+  console.log(formDataPayments);
+  console.log("*********");
+  console.log(paymentState);
 
   const removePayments = (index) => {
     const list = formDataPayments;

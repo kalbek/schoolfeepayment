@@ -45,10 +45,11 @@ const SchoolDetails = ({
   };
 
   const handleAccountChange = (event) => {
+    const accountNumber = event.target.valueAsNumber;
     setValidAccount(ACCOUNT_REGEX.test(event.target.value));
     setFormData({
       ...formData,
-      schoolCbeAccountNumber: event.target.value,
+      schoolCbeAccountNumber: accountNumber,
     });
   };
 
@@ -923,6 +924,7 @@ const SchoolDetails = ({
                 </label>
                 <input
                   type="number"
+                  name="cBeAccountNumber"
                   tabIndex={10}
                   className={popup ? " inactive-bg" : ""}
                   placeholder="e.g. 1000........233"

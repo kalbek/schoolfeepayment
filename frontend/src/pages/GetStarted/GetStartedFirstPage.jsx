@@ -30,8 +30,8 @@ const GetStartedFirstPage = ({
           }
         >
           <img src={school_icon} alt="" />
-          <h3>SCHOOL OR REPRESENTATIVE</h3>
-          <p>I am school owner or a representative on behalf of a school?</p>
+          <h3>SCHOOL REPRESENTATIVE</h3>
+          <p>I am a school owner or a representative on behalf of a school?</p>
         </div>
         <div
           onClick={handleStudentSelection}
