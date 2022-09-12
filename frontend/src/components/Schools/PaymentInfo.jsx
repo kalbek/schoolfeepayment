@@ -118,12 +118,7 @@ function PaymentInfo({ formData, setFormData }) {
     setFormData({ ...formData, schoolPayments: amount });
   };
 
-  function handlePaymentDuedate(date, index) {
-    const { name, value } = date.target;
-    const dates = formDataPayments;
-    dates[index][name] = value;
-    setFormData({ ...formData, schoolPayments: dates });
-  }
+
 
   function handlePayments(e, index) {
     const { name, value } = e.target;
@@ -201,7 +196,7 @@ function PaymentInfo({ formData, setFormData }) {
           handlePaymentTypeSelect={handlePaymentTypeSelect}
           handlePaymentAmount={handlePaymentAmount}
           handlePaymentTermSelect={handlePaymentTermSelect}
-          handlePaymentDuedate={handlePaymentDuedate}
+        
           removePayments={removePayments}
           addPayments={addPayments}
           handlePayments={handlePayments}

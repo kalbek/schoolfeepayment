@@ -19,13 +19,14 @@ const DynamicPayments = ({
     { id: "2", label: "Transport service fee", value: "Transport service fee" },
     { id: "3", label: "Registration Fee", value: "Registration Fee" },
     { id: "4", label: "School Material Fee", value: "School Material Fee" },
+    { id: "5", label: "Tutorial Fee", value: "Tutorial Fee Fee" },
     {
-      id: "5",
+      id: "6",
       label: "Recreational Fee( for trip and other visit)",
       value: "Recreational Fee( for trip and other visit)",
     },
-    { id: "5", label: "Penality Fee", value: "Penality Fee" },
-    { id: "5", label: "Other Fees (if any)", value: "Other Fees (if any)" },
+    { id: "7", label: "Penality Fee", value: "Penality Fee" },
+    { id: "8", label: "Other Fees (if any)", value: "Other Fees (if any)" },
   ];
   const paymentTerm = [
     { id: "1", label: "One Time Payment", value: "One time payment" },
@@ -42,7 +43,7 @@ const DynamicPayments = ({
     <>
       {formDataPayments.map((singlePayment, index) => (
         <div key={index}>
-          <div className="flex-w input-group__container flex-start">
+          <div className="flex-start">
             {/* PAYMENT TYPE */}
             <div className="input__group">
               <div className="input__group flex-cr inputs input--above-small">

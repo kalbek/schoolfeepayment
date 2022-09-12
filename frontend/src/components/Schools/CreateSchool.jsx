@@ -275,10 +275,11 @@ function CreateSchool() {
         <FormNavbar
           progressItems={[
             "DETAILS",
-            "PAYMENTS",
+            "PAYMENTS 1",
             "SEMISTERS & TERMS",
-            "GRADES",
+            "GRADES & DEPARTMENTS",
             "ACHIEVEMENTS",
+            "PAYMENTS 2",
             "COMPLETE",
           ]}
           currentStep={formStep}
