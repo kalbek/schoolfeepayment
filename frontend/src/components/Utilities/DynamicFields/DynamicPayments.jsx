@@ -61,43 +61,12 @@ const DynamicPayments = ({
                 </select>
                 <label htmlFor="paymentType">
                   {" "}
-                  {/* <p>{paymentTypeDescription}</p> */}
                   <p>Payment Type</p>
                 </label>
               </div>
             </div>
 
-            {/* PAYMENT DUE DATE */}
-            {/* <div className="input__group">
-              <div className="input__group flex-cr inputs input--small">
-                <DatePicker
-                  name="payment_due_date"
-                  id="payment_due_date"
-                  selected={singlePayment.payment_due_date}
-                  onChange={(date) =>
-                    handlePaymentDuedate(
-                      {
-                        target: { value: date, name: "payment_due_date" },
-                      },
-                      index
-                    )
-                  }
-                  showTimeSelect
-                  showYearDropdown
-                  scrollableMonthYearDropdown
-                  dateFormat="Pp"
-                  label="Due Date"
-                  value={singlePayment.payment_due_date}
-                />
-                <label htmlFor="payment_due_date">
-                  {" "}
-                  <p>Due Date</p>
-                </label>
-              </div>
-            </div> */}
-            {/* PAYMENT BASIS */}
-
-            <div className="checkbox-inputs input__group checkbox-group-container">
+            <div className="checkbox-inputs input__group field-group-container">
               <section className="flex-left">
                 <label htmlFor="">
                   <h3>Payment Base</h3>
@@ -108,12 +77,6 @@ const DynamicPayments = ({
                     className="checkbox-items flex flex-cs"
                     htmlFor={"periodBasedPayment_" + index}
                   >
-                    {/* {console.log(formDataPayments[index].periodBasedPayment)}
-                    {console.log(
-                      "typeof: " +
-                        typeof formDataPayments[index].periodBasedPayment
-                    )}
-                    {console.log("typeof: " + typeof true)} */}
                     <input
                       type="checkbox"
                       name="periodBasedPayment"
@@ -218,7 +181,7 @@ const DynamicPayments = ({
 
             {/* PAYMENT TERM SELECT OPTION */}
 
-            <div className="checkbox-inputs input__group checkbox-group-container">
+            <div className="checkbox-inputs input__group field-group-container">
               <section className="flex-left">
                 <label htmlFor="">
                   <h3>Payment Term</h3>
@@ -289,11 +252,14 @@ const DynamicPayments = ({
                 </div>
               </section>
             </div>
-            {formDataPayments.length > 1 && (
-              <div className="payment-icon">
+
+            <div className="payment-icon">
+              {formDataPayments.length > 1 ? (
                 <RemoveButton removables={removePayments} index={index} />
-              </div>
-            )}
+              ) : (
+                <div className="space-for-remove"></div>
+              )}
+            </div>
           </div>
           {formDataPayments.length - 1 === index &&
           formDataPayments.length < 24 ? (

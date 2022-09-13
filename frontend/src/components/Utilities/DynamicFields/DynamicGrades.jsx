@@ -6,34 +6,44 @@ import AddMoreButton from "../Buttons/AddMoreButton";
 const DynamicGrades = ({
   formData,
   setFormData,
+  removeGrades,
   handleGradeLevels,
   handleGradesSelection,
-  removeGrades,
   handleGrades,
 }) => {
   const formDataGrades = [...formData.schoolGrade];
-  // const formDataGrade = [...formData.schoolGrade];
-  const [selectedRadio, setSelectedRadio] = useState("");
-  useEffect(() => {
-    setSelectedRadio(selectedRadio);
-  }, [selectedRadio, formData, formDataGrades]);
 
-  const [termOrSemister, setTermorSemister] = useState("Semester");
-  const [days, setDays] = useState("Months");
-
-  const removeAllGrades = () => {
-    const list = formDataGrades;
-    list.splice(1, list.length - 1);
-    setFormData({ ...formData, schoolGrade: list });
-    // console.log("removed");
+  const handleNewEducationLevel = () => {
+    formDataGrades.length < 30 &&
+      setFormData({
+        ...formData,
+        schoolGrade: [
+          ...formDataGrades,
+          {
+            gradeType: formDataGrades[formDataGrades.length - 1].gradeType,
+            gradeName: formDataGrades[formDataGrades.length - 1].gradeName,
+            gradeGroup: formDataGrades[formDataGrades.length - 1].gradeGroup,
+            hasSection: false,
+            hasShift: false,
+            gradeCategories: [
+              {
+                hasGradeCategoryLevel: false,
+                hasGradeCategoryFaculty: false,
+                hasCustomGradeCategory: false,
+                gradeCategoryLevelName: "",
+                gradeCategoryFacultyName: "",
+                customGradeCategoryName: "",
+              },
+            ],
+          },
+        ],
+      });
   };
-
-  const [periodLabel, setGradeLabel] = useState("");
-  // const handleGradesSelection = (event, index) => {
-  //   handleGradesSelect(event, index);
-
-  //   setGradeLabel(event.target.value);
-  // };
+  const removeAllGrades = (index) => {
+    const list = formDataGrades;
+    list.splice(index, 1);
+    setFormData({ ...formData, schoolGrade: list });
+  };
 
   const level = [
     { id: "1", label: "Kindergarten", value: "Kindergarten" },
@@ -73,7 +83,9 @@ const DynamicGrades = ({
             <div className="input__group">
               <div className="flex-cr inputs input--above-small">
                 <input
-                  className={formData.schoolGrade.length > 1 ? " filled--input" : ""}
+                  className={
+                    formData.schoolGrade.length > 1 ? " filled--input" : ""
+                  }
                   type="text"
                   name="grade"
                   id="grade"

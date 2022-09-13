@@ -10,10 +10,10 @@ const StepNavigation = (props) => {
           label={item}
           visited={props.currentStep > index}
           selected={
-            props.currentStep === index
+            props.currentStep === index ||
             // ||
             // props.currentStep === index + 0.5 ||
-            || props.currentStep === index - 0.5
+            props.currentStep === index - 0.5
           }
           // currentStep={props.currentStep}
         ></Step>

@@ -9,8 +9,6 @@
   flex-direction: column;
 }
 
- 
-
 .flex-r {
   display: flex;
   flex-direction: reverse;
@@ -26,11 +24,15 @@
   align-items: center;
   justify-content: space-between;
 }
- .flex-top   {
+.flex-spaced {
+  display: flex;
+  justify-content: space-between;
+}
+.flex-top {
   display: flex;
   align-items: center;
   flex-direction: column;
- }
+}
 .flex-c {
   display: flex;
   align-items: center;
@@ -74,12 +76,20 @@
 .pl1 {
   padding-left: 1%;
 }
+.pr1 {
+  padding-right: 1%;
+}
 .pl2 {
   padding-left: 10%;
 }
 /* padding top */
 .pt1 {
   padding-top: 1%;
+}
+
+.pr1rem {
+  padding-right: 1rem;
+  /* background-color: red; */
 }
 .pt2 {
   padding-top: 2%;
@@ -88,11 +98,23 @@
 .pt5 {
   padding-top: 5%;
 }
+.pr5 {
+  padding-right: 5%;
+}
+.pr7 {
+  padding-right: 7%;
+}
 .pt10 {
   padding-top: 10%;
 }
+.pr10 {
+  padding-right: 10%;
+}
 .pt20 {
   padding-top: 20%;
+}
+.pr20 {
+  padding-right: 20%;
 }
 .pt30 {
   padding-top: 30%;
@@ -106,25 +128,46 @@
 
 .m40 {
   margin-top: 40px;
-  background-color: red;
 }
 
-.m20{
+.m20 {
   margin-top: 1rem;
 }
 
- 
+.mtminus2 {
+  margin-top: -2rem;
+}
+.mtminus4 {
+  margin-top: -4rem;
+}
 
+.mlminus2 {
+  margin-left: -20rem;
+}
 
 /* lists */
 .disk-styled-list {
   list-style: disc;
 }
 
-.pl-100{
+.pl-100 {
   margin-left: 85%;
 }
 
-.pt-3{
+.pt-3 {
   margin-bottom: -1rem;
+}
+
+.gapp5 {
+  gap: 0.5rem;
+}
+.gap1 {
+  gap: 1rem;
+}
+.gapfull {
+  gap: 10vw;
+}
+
+.pointer:hover {
+  cursor: pointer;
 }

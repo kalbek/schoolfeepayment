@@ -13,81 +13,46 @@ const DynamicPeriods = ({
   formData,
   setFormData,
   removePeriods,
-  handlePaymentDuedate,
+  handleAnnualPeriodDuration,
 }) => {
-  const formDataPeriods = [...formData.annualPeriod];
   const formDataPeriod = [...formData.annualPeriod];
-  const dispatch = useDispatch();
-  const paymentState = useSelector((state) => state.payments.paymentState);
-
-  const [selectedRadio, setSelectedRadio] = useState("");
-  useEffect(() => {
-    if (formDataPeriod.length > 0)
-      setSelectedRadio(formDataPeriod[0].periodType);
-  }, [selectedRadio, formData, formDataPeriod]);
-  const handlePeriods = () => {
+  const handleNewPeriods = () => {
     formData.annualPeriod.length < 30 &&
       setFormData({
         ...formData,
         annualPeriod: [
           ...formDataPeriod,
           {
-            periodType: selectedRadio,
-            startDate: new Date(),
+            periodType: formDataPeriod[formDataPeriod.length - 1].periodType,
+            PeriodName: formDataPeriod[formDataPeriod.length - 1].periodName,
+            annualPeriodStartDate: new Date(),
+            annualPeriodEndDate: new Date(),
           },
         ],
       });
   };
-  const handleSelect = (event) => {
+  const handlePerodTypeSelect = (event) => {
     setFormData({
       ...formData,
       annualPeriod: [
         ...formDataPeriod,
         {
           periodType: event.target.value,
-          // startDate: new Date(),
+          periodName: event.target.name,
         },
       ],
     });
-    console.log("handledss ");
   };
-  useEffect(() => {
-    if (formDataPeriods.length === 0)
-      setFormData({
-        ...formData,
-        annualPeriod: [
-          ...formDataPeriod,
-          {
-            periodType: "Period",
-            startDate: new Date(),
-          },
-        ],
-      });
-  }, []);
 
   const handleFormRadioSelection = (event) => {
-    setSelectedRadio(event.target.value);
     setFormData({
       ...formData,
       annualPeriod: [
         {
           periodType: event.target.value,
-          periodName: "",
-          duration:
-            event.target.value === "term"
-              ? 4
-              : event.target.value === "semester"
-              ? 6
-              : 2,
-          time:
-            event.target.value === "term"
-              ? "Month"
-              : event.target.value === "semester"
-              ? "Month"
-              : event.target.value === "others"
-              ? "days"
-              : "",
-          startDate: new Date(),
+          PeriodName: event.target.name,
+          annualPeriodStartDate: new Date(),
+          annualPeriodEndDate: new Date(),
         },
       ],
     });
@@ -102,29 +67,10 @@ const DynamicPeriods = ({
       annualPeriod: periodNames,
     });
   };
-  const handlePeriodDuration = (event, index) => {
-    const { name, value } = event.target;
-    const duration = formDataPeriod;
-    duration[index][name] = value;
-    setFormData({
-      ...formData,
-      annualPeriod: duration,
-    });
-  };
-  const handlePeriodTime = (event, index) => {
-    const { name, value } = event.target;
-    const time = formDataPeriod;
-    time[index][name] = value;
-    setFormData({
-      ...formData,
-      annualPeriod: time,
-    });
-  };
 
-  const [termOrSemister, setTermorSemister] = useState("Semester");
-  const removeAllPeriods = () => {
-    const list = formDataPeriods;
-    list.splice(0, list.length);
+  const resetPeriods = () => {
+    const list = formDataPeriod;
+    list.splice(1, list.length);
     setFormData({ ...formData, annualPeriod: list });
   };
 
@@ -136,304 +82,388 @@ const DynamicPeriods = ({
 
   return (
     <>
-      <div className="flex">
+      <div className="flex-start">
         <div>
-          <div className="flex-start">
-            {/* INITIAL PERIOD DETAILS */}
-            <div className="form-radio-group flex-stretch">
-              <input
-                className="form-radio-button"
-                type="radio"
-                name="semester"
-                id="semester"
-                value="semester"
-                onSelect={(event) => handleSelect(event)}
-                checked={
-                  formDataPeriod.length > 0
-                    ? formDataPeriod[0].periodType === "semester"
-                    : false
-                }
-                onChange={(event) => handleFormRadioSelection(event)}
-                tabIndex={9}
-              />
-              <p className="form-radio-group form-radio-label">Semesters</p>
-              <input
-                className="form-radio-button"
-                type="radio"
-                name="term"
-                id="term"
-                value="term"
-                checked={
-                  formDataPeriod.length > 0
-                    ? formDataPeriod[0].periodType === "term"
-                    : false
-                }
-                onSelect={(event) => handleSelect(event)}
-                onChange={(event) => handleFormRadioSelection(event)}
-                tabIndex={9}
-              />
-              <p className="form-radio-group form-radio-label">Terms</p>
-              <input
-                className="form-radio-button"
-                type="radio"
-                name="other"
-                id="other"
-                value="other"
-                onSelect={(event) => handleSelect(event)}
-                checked={
-                  formDataPeriod.length > 0
-                    ? formDataPeriod[0].periodType === "other"
-                    : false
-                }
-                onChange={(event) => handleFormRadioSelection(event)}
-                tabIndex={9}
-              />
-              <p className="form-radio-group form-radio-label">Others</p>
+          <div className="flex-c">
+            <div className="pr1rem flex-start">
+              {/* ANNUAL PERIOD RADIO BUTTONS */}
+              <div className="checkbox-inputs input__group field-group-container">
+                <section className="flex-left">
+                  <label htmlFor="">
+                    <h3>Annual Periods</h3>
+                  </label>
+                  <div className="flex-cs">{/* School Shifts */}</div>
+                  <div className="flex-cs checkbox-group">
+                    {/* Radio buttons for semesters */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      id={"Semester"}
+                    >
+                      <input
+                        type="radio"
+                        name={"Semester"}
+                        id={"Semester"}
+                        value="Semester"
+                        checked={
+                          formDataPeriod.length > 0
+                            ? formDataPeriod[0].periodType === "Semester"
+                            : false
+                        }
+                        onSelect={(event) => handlePerodTypeSelect(event)}
+                        onChange={(event) => handleFormRadioSelection(event)}
+                        tabIndex={9}
+                      />
+                      <span>
+                        &nbsp; <p>Semesters</p>
+                      </span>
+                    </label>
+                    {/* Radio buttons for terms */}
+                    <label className="checkbox-items flex flex-cs" id={"Term"}>
+                      <input
+                        className="form-radio-button"
+                        type="radio"
+                        name="Term"
+                        id="Term"
+                        value="Term"
+                        checked={
+                          formDataPeriod.length > 0
+                            ? formDataPeriod[0].periodType === "Term"
+                            : false
+                        }
+                        onSelect={(event) => handlePerodTypeSelect(event)}
+                        onChange={(event) => handleFormRadioSelection(event)}
+                        tabIndex={9}
+                      />
+                      <span>
+                        &nbsp; <p>Terms</p>
+                      </span>
+                    </label>
+                    {/* Radio buttons for quarters */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      id={"Quarter"}
+                    >
+                      <input
+                        className="form-radio-button"
+                        type="radio"
+                        name="Quarter"
+                        id="quarter"
+                        value="Quarter"
+                        checked={
+                          formDataPeriod.length > 0
+                            ? formDataPeriod[0].periodType === "Quarter"
+                            : false
+                        }
+                        onSelect={(event) => handlePerodTypeSelect(event)}
+                        onChange={(event) => handleFormRadioSelection(event)}
+                        tabIndex={9}
+                      />
+                      <span>
+                        &nbsp; <p>Quarters</p>
+                      </span>
+                    </label>
+                    {/* Radio buttons for other periods */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      id={"Custom"}
+                    >
+                      <input
+                        className="form-radio-button"
+                        type="radio"
+                        name="Custom"
+                        id="Custom"
+                        value="Custom"
+                        checked={
+                          formDataPeriod.length > 0
+                            ? formDataPeriod[0].periodType === "Custom"
+                            : false
+                        }
+                        onSelect={(event) => handlePerodTypeSelect(event)}
+                        onChange={(event) => handleFormRadioSelection(event)}
+                        tabIndex={9}
+                      />
+                      <span>
+                        &nbsp; <p>Custom &nbsp; &nbsp; </p>
+                      </span>
+                    </label>
+                  </div>
+                </section>
+              </div>
+              {/* END OF ANNUAL PERIOD RADIO BUTTONS */}
+              {/* SHIFTS CHECKBOXES */}
+              <div className="checkbox-inputs input__group field-group-container">
+                <section className="flex-left">
+                  <label htmlFor="">
+                    <h3>Shifts</h3>
+                  </label>
+                  <div className="flex-cs checkbox-group">
+                    {/* Checkbox for period based payment */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      htmlFor={"periodBasedPayment_"}
+                    >
+                      <input
+                        type="checkbox"
+                        name="periodBasedPayment"
+                        id={"periodBasedPayment_"}
+                        tabIndex={9}
+                        value={formDataPeriod.hasRegularShift}
+                        checked={formDataPeriod.hasRegularShift}
+                        // checked={paymentState[index].periodChecked}
+                        // onChange={(e) => handlePayments(e, index)}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Regular</p>
+                        </span>
+                      </>
+                    </label>
+
+                    {/*Checkbox for extension shift */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      htmlFor={"gradeBasedPayment_"}
+                    >
+                      <input
+                        type="checkbox"
+                        name="gradeBasedPayment"
+                        id={"gradeBasedPayment_"}
+                        // value={paymentState[index].gradeLevelChecked}
+                        // checked={paymentState[index].gradeLevelChecked}
+                        // onChange={(e) => handlePayments(e, index)}
+                        tabIndex={9}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Extension</p>
+                        </span>
+                      </>
+                    </label>
+
+                    {/*Checkbox for weekend shift*/}
+                    <label
+                      htmlFor={"genderBasedPayment_"}
+                      className="checkbox-items flex flex-cs"
+                    >
+                      <input
+                        type="checkbox"
+                        name="genderBasedPayment"
+                        id={"genderBasedPayment_"}
+                        // value={paymentState[index].genderChecked}
+                        // checked={paymentState[index].genderChecked}
+                        // onChange={(e) => handlePayments(e, index)}
+                        tabIndex={9}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Weekend</p>
+                        </span>
+                      </>
+                    </label>
+                    {/*Checkbox for custom shifts */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      htmlFor={"specialNeedBasedPayment_"}
+                    >
+                      <input
+                        type="checkbox"
+                        name="specialNeedBasedPayment"
+                        id={"specialNeedBasedPayment_"}
+                        // value={paymentState[index].specialNeedChecked}
+                        // checked={paymentState[index].specialNeedChecked}
+                        // onChange={(e) => handlePayments(e, index)}
+                        tabIndex={9}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Custom Shifts</p>
+                        </span>
+                      </>
+                    </label>
+                  </div>
+                </section>
+              </div>
+              {/* END OF SHIFTS CHECKBOXES */}
             </div>
           </div>
 
-          <div className="">
-            {formDataPeriods.length > 0 ? (
+          {/* RESET ANNUAL PERIODS BUTTON */}
+          {/* END OF RESET ANNUAL PERIODS BUTTON */}
+          <section>
+            {formDataPeriod.length > 1 ? (
               <RemoveLinksButton
-                remove={removeAllPeriods}
+                remove={resetPeriods}
                 label={
-                  selectedRadio === "term"
-                    ? "Remove All Terms"
-                    : selectedRadio === "semester"
-                    ? "Remove All Semesters"
-                    : "Remove All"
+                  formDataPeriod[formDataPeriod.length - 1].periodType ===
+                  "Term"
+                    ? "Reset Terms"
+                    : formDataPeriod[formDataPeriod.length - 1].periodType ===
+                      "Semester"
+                    ? "Reset Semesters"
+                    : formDataPeriod[formDataPeriod.length - 1].periodType ===
+                      "Quarter"
+                    ? "Reset Quarters"
+                    : "Reset"
                 }
               />
             ) : (
               <></>
             )}
-          </div>
+          </section>
+          {/* END OF RESET ANNUAL PERIODS BUTTON */}
 
           {/* DYNAMIC INPUT GROUPS */}
-          {console.log("see this")}
-          {console.log(formDataPeriods)}
-          {formDataPeriods.map((singlePeriod, index) => (
-            <div key={index} className="flex-c">
-              <div className="flex-c">
-                {/* INITIAL PERIOD INPUT GROUPS */}
-                <div className="flex-start">
-                  <div className="input__group">
-                    <div className="flex-cr inputs input--above-small">
-                      <input
-                        className={formData.schoolName ? " filled--input" : ""}
-                        type="text"
-                        value={singlePeriod.periodName}
-                        name="periodName"
-                        id="periodName"
-                        placeholder={
-                          selectedRadio !== "other"
-                            ? "e.g. " +
-                              formDataPeriod[0].periodType
-                                .charAt(0)
-                                .toUpperCase() +
-                              formDataPeriod[0].periodType.slice(1) +
-                              " One"
-                            : "Your School's Period Name"
-                        }
-                        tabIndex={1}
-                        onChange={(event) => handlePeriodName(event, index)}
-                      />
-                      <label htmlFor="school-name">
-                        <p>
-                          {formDataPeriod.length > 0 &&
-                          selectedRadio !== "other"
-                            ? formDataPeriod[0].periodType
-                                .charAt(0)
-                                .toUpperCase() +
-                              formDataPeriod[0].periodType.slice(1) +
-                              "s"
-                            : "Period Name"}
-                        </p>
-                      </label>
-                      <br />
-                    </div>
-                  </div>
-                  {/* Periods start date */}
-                  <div className="input__group flex-c m20">
-                    <div className="input__group flex-cr inputs input--small">
-                      <DatePicker
-                        name="payment_due_date"
-                        id="payment_due_date"
-                        selected={singlePeriod.startDate}
-                        onChange={(date) =>
-                          handlePaymentDuedate(
-                            {
-                              target: { value: date, name: "payment_due_date" },
-                            },
-                            index
-                          )
-                        }
-                        showTimeSelect
-                        showYearDropdown
-                        scrollableMonthYearDropdown
-                        dateFormat="Pp"
-                        label="Due Date"
-                        value={singlePeriod.startDate}
-                      />
-                      <label htmlFor="payment_due_date">
-                        {" "}
-                        <p>Start Date</p>
-                      </label>
-                    </div>
-                  </div>
-                  <div className="input__group flex-c m20">
-                    <div className="input__group flex-cr inputs input--small">
-                      <DatePicker
-                        name="payment_due_date"
-                        id="payment_due_date"
-                        selected={singlePeriod.startDate}
-                        onChange={(date) =>
-                          handlePaymentDuedate(
-                            {
-                              target: { value: date, name: "payment_due_date" },
-                            },
-                            index
-                          )
-                        }
-                        showTimeSelect
-                        showYearDropdown
-                        scrollableMonthYearDropdown
-                        dateFormat="Pp"
-                        label="Due Date"
-                        value={singlePeriod.startDate}
-                      />
-                      <label htmlFor="payment_due_date">
-                        {" "}
-                        <p>End Date</p>
-                      </label>
-                    </div>
-                  </div>
-                  <RemoveButton removables={removePeriods} index={index} />
-                </div>
-                {/* CASE I */}
-                {/* N.B. APPLY THIS STEP IN STEP 3 I.E. DynamicPeriods.jsx */}
-                {/* IF SCHOOL PAYMENT DEPENDS ON ONLY ANNUAL PERIODS AND NOT GRADE INFO */}
-                {/* THEN BRING ******* ONLY THOSE PAYMENT TYPES WERE PAYMENTS DEPEND ON ANNUAL PERIOD *****  FROM STEP 2 i.e. paymentinfo STEP AND ACCEPT PAYMENT AMOUNTS FORM EACH PAYMENT TYPES USING AN INPUT BOX*/}
-                {/* payments[index].periodBasedPayment && !payments[index].gradeBasedPayment ? ( */}
-                {/* {paymentState.map((payments, index) =>
-              payments.periodChecked && !payments.gradeLevelChecked ? (
-                <div className="checkbox-inputs input__group checkbox-group-container">
-                  <section className="flex-left">
-                    <label htmlFor="">
-                      <h3>
-                        {payments.standardPaymentTermSelected
-                          ? "Standard Payments"
-                          : "Advanced Payments"}{" "}
-                      </h3>
+          {formDataPeriod.map((singlePeriod, index) => (
+            <div key={index} className="flex-c pl1">
+              {/* INITIAL PERIOD INPUT GROUPS */}
+              <div className="flex-start ">
+                <div className="input__group flex-c m20">
+                  <div className="flex-cr inputs input--medium">
+                    <input
+                      className={formData.schoolName ? " filled--input" : ""}
+                      type="text"
+                      value={singlePeriod.periodName}
+                      name="periodName"
+                      id="periodName"
+                      placeholder={
+                        singlePeriod.periodType !== "Other"
+                          ? "e.g. " +
+                            singlePeriod.periodType.charAt(0).toUpperCase() +
+                            singlePeriod.periodType.slice(1) +
+                            " " +
+                            parseInt(index)
+                          : "Your School's Period Name"
+                      }
+                      tabIndex={1}
+                      onChange={(event) => handlePeriodName(event, index)}
+                    />
+                    <label htmlFor="school-name">
+                      <p>
+                        {formDataPeriod.length > 0 &&
+                        singlePeriod.periodType !== "Custom"
+                          ? singlePeriod.periodType.charAt(0).toUpperCase() +
+                            singlePeriod.periodType.slice(1) +
+                            "s"
+                          : "Period Name"}
+                      </p>
                     </label>
-                    <div className="flex-cs checkbox-group">
-                      <label
-                        className="checkbox-items flex flex-cs"
-                        id={"standardPaymentTerm_" + index}
-                      >
-                        <input
-                          type="radio"
-                          name={"schoolPaymentTerm" + index}
-                          id={"standardPaymentTerm_" + index}
-                          value={
-                            paymentState[index].standardPaymentTermSelected
-                          }
-                          checked={
-                            paymentState[index].standardPaymentTermSelected
-                          }
-                          // onChange={(e) => handlePayments(e, index)}
-                          tabIndex={9}
-                        />
-                        <span>
-                          &nbsp; <p>Standard</p>
-                        </span>
-                        {console.log("come hear standard")}
-                        {console.log(
-                          " sps[" +
-                            index +
-                            "]: " +
-                            paymentState[index].standardPaymentTermSelected
-                        )}
-                        {console.log(
-                          " aps[" +
-                            index +
-                            "]: " +
-                            paymentState[index].advancedPaymentTermSelected
-                        )}
-                      </label>
-                      <label
-                        className="checkbox-items flex flex-cs"
-                        id={"advancedPaymentTerm_" + index}
-                      >
-                        <input
-                          type="radio"
-                          name={"schoolPaymentTerm" + index}
-                          id={"advancedPaymentTerm_" + index}
-                          value={
-                            paymentState[index].advancedPaymentTermSelected
-                          }
-                          checked={
-                            paymentState[index].advancedPaymentTermSelected ===
-                            true
-                          }
-                          // onChange={(e) => handlePayments(e, index)}
-                          tabIndex={9}
-                        />
-                        <span>
-                          &nbsp; <p>Advanced</p>
-                        </span>
-                        {console.log("come hear advanced")}
-                        {console.log(
-                          " sps[" +
-                            index +
-                            "]: " +
-                            paymentState[index].standardPaymentTermSelected
-                        )}
-                      </label>
-                    </div>
-                  </section>
+                    <br />
+                  </div>
                 </div>
-              ) : (
-                ""
-              )
-            )} */}
-                {/* CASE II */}{" "}
-                {/* N.B. APPLY THIS STEP INSIDE DyanmicGrades.jsx FILE */}
-                {/* IF SCHOOL PAYMENTS DEPEND ON ONLY GRADE INFO  *** BRING THOSE PAYMENT TYPES IN WHICH GRADE LEVELS ARE BEING DEPENDABLE ON  *** AND ACCEPT PAYMENT AMOUNTS FOR EACH OF THESE PAYMENT TYPES  */}
-                {/* CASE III */}{" "}
-                {/* N.B. APPLY THIS STEP INSIDE DyanmicGrades.jsx FILE */}
-                {/* IF SCHOOL PAYMENTS DEPEND ON BOTH ANNUAL PERIODS AND GRADE INFO  *** BRING THOSE PAYMENT TYPES IN WHICH GRADE LEVELS ARE BEING DEPENDABLE ON  *** AND ACCEPT PAYMENT AMOUNTS FOR EACH OF THESE PAYMENT TYPES  */}
-                {/* CASE IV */}{" "}
-                {/* N.B. APPLY THIS IN SECOND STEP I.E. DynamicPayments.jsx */}
-                {/* IF PAYMENTS DO DEPEND ON NEITHER ANNUAL PERIODS OR  */}
-                {/* {if (formDataPayments.length)} */}
+                {/* Periods start date */}
+                <div className="input__group flex-c m20 ">
+                  <div className="input__group flex-cr inputs input--small">
+                    <DatePicker
+                      className="pointer"
+                      name="annualPeriodStartDate"
+                      id={"annualPeriodStartDate" + index}
+                      selected={singlePeriod.annualPeriodStartDate}
+                      onChange={(date) =>
+                        handleAnnualPeriodDuration(
+                          {
+                            target: {
+                              value: date,
+                              name: "annualPeriodStartDate",
+                            },
+                          },
+                          index
+                        )
+                      }
+                      showTimeSelect
+                      showYearDropdown
+                      scrollableMonthYearDropdown
+                      dateFormat="Pp"
+                      label="Due Date"
+                      value={singlePeriod.annualPeriodStartDate}
+                    />
+                    <label htmlFor="annualPeriodStartDate">
+                      {" "}
+                      <p>Start Date</p>
+                    </label>
+                  </div>
+                </div>
+                <div className="input__group flex-c m20">
+                  <div className="input__group flex-cr inputs input--small">
+                    <DatePicker
+                      className="pointer"
+                      name="annualPeriodEndDate"
+                      id="annualPeriodEndDate"
+                      selected={singlePeriod.annualPeriodEndDate}
+                      onChange={(date) =>
+                        handleAnnualPeriodDuration(
+                          {
+                            target: {
+                              value: date,
+                              name: "annualPeriodEndDate",
+                            },
+                          },
+                          index
+                        )
+                      }
+                      showTimeSelect
+                      showYearDropdown
+                      scrollableMonthYearDropdown
+                      dateFormat="Pp"
+                      label="Due Date"
+                      value={singlePeriod.annualPeriodEndDate}
+                    />
+                    <label htmlFor="annualPeriodEndDate">
+                      {" "}
+                      <p>End Date</p>
+                    </label>
+                  </div>
+                </div>
+                {formDataPeriod.length > 1 ? (
+                  <RemoveButton removables={removePeriods} index={index} />
+                ) : (
+                  <div className="space-for-remove"></div>
+                )}
               </div>
+              {/* CASE I */}
+              {/* N.B. APPLY THIS STEP IN STEP 3 I.E. DynamicPeriods.jsx */}
+              {/* IF SCHOOL PAYMENT DEPENDS ON ONLY ANNUAL PERIODS AND NOT GRADE INFO */}
+              {/* THEN BRING ******* ONLY THOSE PAYMENT TYPES WERE PAYMENTS DEPEND ON ANNUAL PERIOD *****  FROM STEP 2 i.e. paymentinfo STEP AND ACCEPT PAYMENT AMOUNTS FORM EACH PAYMENT TYPES USING AN INPUT BOX*/}
+              {/* payments[index].periodBasedPayment && !payments[index].gradeBasedPayment ? ( */}
+              {/* {paymentState.map((payments, index) =>
+             
+                {/* CASE II */}{" "}
+              {/* N.B. APPLY THIS STEP INSIDE DyanmicGrades.jsx FILE */}
+              {/* IF SCHOOL PAYMENTS DEPEND ON ONLY GRADE INFO  *** BRING THOSE PAYMENT TYPES IN WHICH GRADE LEVELS ARE BEING DEPENDABLE ON  *** AND ACCEPT PAYMENT AMOUNTS FOR EACH OF THESE PAYMENT TYPES  */}
+              {/* CASE III */}{" "}
+              {/* N.B. APPLY THIS STEP INSIDE DyanmicGrades.jsx FILE */}
+              {/* IF SCHOOL PAYMENTS DEPEND ON BOTH ANNUAL PERIODS AND GRADE INFO  *** BRING THOSE PAYMENT TYPES IN WHICH GRADE LEVELS ARE BEING DEPENDABLE ON  *** AND ACCEPT PAYMENT AMOUNTS FOR EACH OF THESE PAYMENT TYPES  */}
+              {/* CASE IV */}{" "}
+              {/* N.B. APPLY THIS IN SECOND STEP I.E. DynamicPayments.jsx */}
+              {/* IF PAYMENTS DO DEPEND ON NEITHER ANNUAL PERIODS OR  */}
+              {/* {if (formDataPayments.length)} */}
             </div>
           ))}
+          {/* END OF DYNAMIC INPUT GROUPS */}
+
+          {/* ADD ON MORE PERIOD BUTTON */}
           <div className="input-group__container flex-start pt2">
             <div>
-              {formDataPeriods.length > 0 && formDataPeriods.length < 20 ? (
+              {formDataPeriod.length > 0 && formDataPeriod.length < 20 ? (
                 <AddMoreButton
                   label={
-                    selectedRadio === "term"
-                      ? "Add one more term"
-                      : selectedRadio === "semester"
-                      ? "Add one more semester"
-                      : "Add One More "
+                    formDataPeriod[0].periodType === "Custom"
+                      ? "Add One More "
+                      : "Add One More " + formDataPeriod[0].periodType
                   }
-                  handleLinks={(e, index) => handlePeriods(e, index)}
+                  handleLinks={(e, index) => handleNewPeriods(e, index)}
                 />
               ) : (
                 ""
               )}
             </div>
           </div>
+          {/* END OF ADD ON MORE PERIOD BUTTON */}
         </div>
 
-        <div className="flex-c">
+        {/* <div className="flex-c">
           <SmallCard formData={formData} />
           <Preview />
-        </div>
+        </div> */}
       </div>
     </>
   );

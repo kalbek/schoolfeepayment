@@ -48,7 +48,7 @@ function CreateSchool() {
     // annualPeriod: [{ periodType: "one", periodName: "", periodDuration: "" }],
     annualPeriod: [],
     schoolPayments: [],
-    schoolGrade: [{ grade: "", level: "" }],
+    schoolGrade: [],
   });
   const [navDir, setNavDir] = useState("");
   // console.log(formData)

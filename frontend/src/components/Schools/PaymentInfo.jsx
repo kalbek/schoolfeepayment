@@ -1,6 +1,9 @@
 import AddMoreButton from "../Utilities/Buttons/AddMoreButton";
 import RemoveLinksButton from "../Utilities/Buttons/RemoveLinksButton";
 import DynamicPayments from "../Utilities/DynamicFields/DynamicPayments";
+import SmallCard from "../Utilities/Cards/SmallCard";
+import Preview from "../Utilities/Buttons/Preview";
+
 import "../../Styles/utilities.css";
 import {
   createPaymentBase,
@@ -50,11 +53,10 @@ function PaymentInfo({ formData, setFormData }) {
         advancedPaymentTermSelected: false,
       })
     );
-    console.log(formDataPayments);
-    console.log("*********");
-    console.log(paymentState);
   };
   useEffect(() => {
+    console.log("sp fd");
+    console.log(formData.annualPeroid);
     if (formData.schoolPayments.length === 0)
       setFormData({
         ...formData,
@@ -75,6 +77,8 @@ function PaymentInfo({ formData, setFormData }) {
           },
         ],
       });
+    console.log("use effect");
+    console.log(formDataPayments);
   }, []);
 
   // handling payment types dropdown onselect/on change event
@@ -104,10 +108,6 @@ function PaymentInfo({ formData, setFormData }) {
     const term = formDataPayments;
     term[index][name] = value;
     setFormData({ ...formData, schoolPayments: term });
-
-    // console.log(formDataPayments);
-    // console.log("*********");
-    // console.log(paymentState);
   };
 
   // handling payment amount change
@@ -117,8 +117,6 @@ function PaymentInfo({ formData, setFormData }) {
     amount[index][name] = value;
     setFormData({ ...formData, schoolPayments: amount });
   };
-
-
 
   function handlePayments(e, index) {
     const { name, value } = e.target;
@@ -168,7 +166,7 @@ function PaymentInfo({ formData, setFormData }) {
     <div className="flex">
       <div className="school-info">
         {/* Main titles section */}
-        <div className="fl">
+        <div>
           <div>
             <h1 className="form__titles--mid">
               Now let us fill your school payment info
@@ -190,23 +188,22 @@ function PaymentInfo({ formData, setFormData }) {
               <br />
             </>
           )}
-        </div>
-        <DynamicPayments
-          formData={formData}
-          handlePaymentTypeSelect={handlePaymentTypeSelect}
-          handlePaymentAmount={handlePaymentAmount}
-          handlePaymentTermSelect={handlePaymentTermSelect}
-        
-          removePayments={removePayments}
-          addPayments={addPayments}
-          handlePayments={handlePayments}
-        />
-        <div className="flex-ccc">
-          {formDataPayments.length === 0 ? (
-            <AddMoreButton label="Add Payments" handleLinks={addPayments} />
-          ) : (
-            ""
-          )}
+          <DynamicPayments
+            formData={formData}
+            handlePaymentTypeSelect={handlePaymentTypeSelect}
+            handlePaymentAmount={handlePaymentAmount}
+            handlePaymentTermSelect={handlePaymentTermSelect}
+            removePayments={removePayments}
+            addPayments={addPayments}
+            handlePayments={handlePayments}
+          />
+          <div className="flex-ccc">
+            {formDataPayments.length === 0 ? (
+              <AddMoreButton label="Add Payments" handleLinks={addPayments} />
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
     </div>

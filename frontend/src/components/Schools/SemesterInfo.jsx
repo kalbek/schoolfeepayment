@@ -1,10 +1,30 @@
 import DynamicPeriods from "../Utilities/DynamicFields/DynamicPeriods";
+import { useEffect } from "react";
 import SmallCard from "../Utilities/Cards/SmallCard";
 import Preview from "../Utilities/Buttons/Preview";
-
 const SemesterInfo = ({ formData, setFormData }) => {
   const formDataPeriod = [...formData.annualPeriod];
-  const formDataPayments = [...formData.schoolPayments];
+  useEffect(() => {
+    if (formDataPeriod.length === 0)
+      setFormData({
+        ...formData,
+        annualPeriod: [
+          ...formDataPeriod,
+          {
+            periodType: "Semester",
+            PeriodName: "Semester",
+            annualPeriodStartDate: new Date(),
+            annualPeriodEndDate: new Date(),
+            hasRegularShift: true,
+            hasExtensionShift: false,
+            hasWeekendShift: false,
+            hasCustomShift: false,
+            customShift: [],
+          },
+        ],
+      });
+  }, []);
+
 
   const removePeriods = (index) => {
     const list = formDataPeriod;
@@ -24,17 +44,17 @@ const SemesterInfo = ({ formData, setFormData }) => {
     periods[index][name] = value;
     setFormData({ ...formData, annualPeriod: periods });
   }
-  function handlePaymentDuedate(date, index) {
+  function handleAnnualPeriodDuration(date, index) {
     const { name, value } = date.target;
-    const dates = formDataPayments;
+    const dates = formDataPeriod;
     dates[index][name] = value;
     setFormData({ ...formData, schoolPayments: dates });
   }
 
   return (
     <>
-      <div className="school-info">
-        <div className="flex">
+      <div className="flex gapfull">
+        <div className="school-info pt1">
           <div>
             <h1 className="form__titles--mid">
               {" "}
@@ -43,17 +63,25 @@ const SemesterInfo = ({ formData, setFormData }) => {
             <h3 className="form__subtitle">
               What are the major annual periods in your school?
             </h3>
-
-            <DynamicPeriods
-              formData={formData}
-              setFormData={setFormData}
-              handlePeriodsSelect={handlePeriodsSelect}
-              handleFormRadioSelection={handleSchoolsPeriodRadioSelection}
-              removePeriods={removePeriods}
-              handlePaymentDuedate={handlePaymentDuedate}
-            />
           </div>
+          <>
+            <br />
+            <br />
+            <br />
+          </>
+          <DynamicPeriods
+            formData={formData}
+            setFormData={setFormData}
+            handlePeriodsSelect={handlePeriodsSelect}
+            handleFormRadioSelection={handleSchoolsPeriodRadioSelection}
+            removePeriods={removePeriods}
+            handleAnnualPeriodDuration={handleAnnualPeriodDuration}
+          />
         </div>
+        {/* <div className="flex-ccc">
+          <SmallCard formData={formData} />
+          <Preview />
+        </div> */}
       </div>
     </>
   );
