@@ -5,7 +5,6 @@ import "../../Styles/utilities.css";
 import "../../Styles/formStyles.css";
 const PaymentScale = ({ formData, setFormData }) => {
   const formDataSemester = formData.annualPeriod;
-  console.log(formDataSemester)
   return (
     <>
       <div className="form--container">

@@ -18,7 +18,6 @@ const DynamicPeriods = ({
   }, [selectedRadio]);
   const handleFormRadioSelection = (event) => {
     setSelectedRadio(event.target.value);
-    console.log("selected: " + selectedRadio);
     formDataPeriod.length === 0 ? (
       setFormData({
         ...formData,
@@ -67,7 +66,6 @@ const DynamicPeriods = ({
     const list = formDataPeriods;
     list.splice(0, list.length);
     setFormData({ ...formData, annualPeriod: list });
-    console.log("removed");
   };
 
   const time = [
@@ -76,7 +74,6 @@ const DynamicPeriods = ({
     { id: "1", label: "Years", value: "year" },
   ];
 
-  console.log(formData);
   return (
     <>
       <div className="">

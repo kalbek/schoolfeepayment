@@ -246,8 +246,8 @@
   border-radius: 5px;
   margin-top: 0.4rem;
   padding-top: 5px;
-  padding-left: 2px;
-  padding-right: 5px;
+  padding-left: 8px;
+  padding-right: 15px;
   /* padding-bottom: 0.6rem; */
   width: fit-content;
 }
@@ -275,15 +275,28 @@
 }
 
 .checkbox-group {
-  /* padding-top: 0.5rem; */
   margin-top: 4px;
   gap: 10px;
 }
 
 .space-for-remove {
+  background-color: lime;
   width: 55px;
 }
-.space-for-remove2 {
-  background-color: red;
-  width: 155px;
+
+.remove-periods-icon {
+  margin-left: -2%;
+}
+
+.dynamic-periods-container {
+  border: 1px solid #d3d3cd;
+  border-radius: 5px;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 0rem;
+  padding-left: 0.5rem;
+  width: fit-content;
+}
+.dynamic-periods-container:focus-within {
+  border: 1px solid #2d8cf0;
 }

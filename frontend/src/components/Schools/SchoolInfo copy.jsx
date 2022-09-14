@@ -13,7 +13,6 @@ function SchoolInfo({ formData, setFormData }) {
         ...formData,
         link: [...formDataLinks, { link: "Website", url: "" }],
       });
-    // console.log(formData)
 
   };
 

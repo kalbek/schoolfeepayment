@@ -55,11 +55,9 @@ const DynamicGrades = ({
     { id: "1", label: "High School", value: "High School" },
   ];
 
-  // console.log(formData);
   return (
     <>
       <div className="">
-        {/* social semesters dropdown */}
         {/* INITIAL PERIOD DETAILS */}
       </div>
 

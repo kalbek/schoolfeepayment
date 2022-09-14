@@ -13,8 +13,6 @@ const Details = ({ formData, setFormData }) => {
   //     handleCBEBirrMerchantCodeChange,
   //     } = useValidation({ formData, setFormData });
   const { values, validName, validEmail, handleChange } = useForm();
-  console.log("valid name: " + validName);
-  console.log("valid email: " + validEmail);
 
   return (
     <div>

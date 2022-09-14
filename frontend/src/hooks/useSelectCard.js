@@ -8,7 +8,6 @@ const useSelectCard = (ref, onClick) => {
     const onPointerDown = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
           callBackRef.current(event);
-          console.log("hey")
       }
       document.addEventListener("pointerdown", onPointerDown);
       return () => {

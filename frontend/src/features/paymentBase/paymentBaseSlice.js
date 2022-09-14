@@ -9,6 +9,8 @@ const initialState = {
       specialNeedChecked: false,
       scholarshipChecked: false,
       paymentToUpdate: null,
+      paymentTypeToUpdate: "Tutorial Fee",
+      paymentTerm: "Standard",
       standardPaymentTermSelected: true,
       advancedPaymentTermSelected: false,
     },
@@ -27,7 +29,6 @@ export const paymentSlice = createSlice({
     updatePayments: (state, action) => {
       state.paymentState.map((paymentState) => {
         paymentState.paymentToUpdate = action.payload.paymentToUpdate;
-
         if (paymentState.id === action.payload.id) {
           if (action.payload.paymentToUpdate === "periodBasedPayment") {
             paymentState.periodChecked = action.payload.periodChecked;
@@ -43,31 +44,20 @@ export const paymentSlice = createSlice({
             action.payload.paymentToUpdate === "scholarshipBasedPayment"
           ) {
             paymentState.scholarshipChecked = action.payload.scholarshipChecked;
-          } else if (action.payload.paymentToUpdate === "schoolPaymentTerm" + action.payload.id) {
-            console.log(
-              "action.payload.standardPaymentTermSelected: " +
-                action.payload.standardPaymentTermSelected
-            );
-            console.log(
-              "action.payload.advancedPaymentTermSelected: " +
-                action.payload.advancedPaymentTermSelected
-            );
-
+          } else if (
+            action.payload.paymentToUpdate ===
+            "schoolPaymentTerm" + action.payload.id
+          ) {
             paymentState.standardPaymentTermSelected =
               action.payload.standardPaymentTermSelected;
             paymentState.advancedPaymentTermSelected =
               action.payload.advancedPaymentTermSelected;
+          } else if (action.payload.paymentToUpdate === "paymentType") {
+            paymentState.paymentTypeToUpdate =
+              action.payload.paymentTypeToUpdate;
           }
         }
       });
-      console.log(
-        "paymentSlice.standardPaymentTermSelected: " +
-          state.paymentState[0].standardPaymentTermSelected
-      );
-      console.log(
-        "paymentSlice.advancedPaymentTermSelected: " +
-          state.paymentState[0].advancedPaymentTermSelected
-      );
     },
 
     // Updating payment term statues

@@ -24,8 +24,6 @@ const DynamicPeriods = ({
 }) => {
   const formDataPeriod = [...formData.annualPeriod];
   const paymentState = useSelector((state) => state.payments.paymentState);
-  // const annualPeriodState = useSelector((state) => state.periods.annualPeriodState);
-  // console.log(annualPeriodState)
   const [placeholderIndex, setPlaceholderIndex] = useState(1);
   const handleNewPeriods = () => {
     formData.annualPeriod.length < 30 &&

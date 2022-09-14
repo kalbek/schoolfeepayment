@@ -8,32 +8,24 @@ import "react-datepicker/dist/react-datepicker.css";
 const DynamicPayments = ({
   formData,
   handlePaymentTypeSelect,
-  handlePaymentTermSelect,
   handlePayments,
   removePayments,
   addPayments,
 }) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   const paymentType = [
-    { id: "1", label: "Tuition Fee", value: "Tuition Fee" },
-    { id: "2", label: "Transport service fee", value: "Transport service fee" },
-    { id: "3", label: "Registration Fee", value: "Registration Fee" },
-    { id: "4", label: "School Material Fee", value: "School Material Fee" },
-    { id: "5", label: "Tutorial Fee", value: "Tutorial Fee Fee" },
+    { id: "0", label: "Tuition Fee", value: "Tuition Fee" },
+    { id: "1", label: "Transport Service fee", value: "Transport Service fee" },
+    { id: "2", label: "Registration Fee", value: "Registration Fee" },
+    { id: "3", label: "School Material Fee", value: "School Material Fee" },
+    { id: "4", label: "Tutorial Fee", value: "Tutorial Fee" },
     {
-      id: "6",
+      id: "5",
       label: "Recreational Fee( for trip and other visit)",
-      value: "Recreational Fee( for trip and other visit)",
+      value: "Recreational Fee",
     },
-    { id: "7", label: "Penality Fee", value: "Penality Fee" },
-    { id: "8", label: "Other Fees (if any)", value: "Other Fees (if any)" },
-  ];
-  const paymentTerm = [
-    { id: "1", label: "One Time Payment", value: "One time payment" },
-    { id: "2", label: "Two Time Payment", value: "Two time payment" },
-    { id: "3", label: "Three Time Payment", value: "Three time payment" },
-    { id: "4", label: "Four Time Payment", value: "Four time payment" },
-    { id: "5", label: "Five Time Payment", value: "Five time payment" },
+    { id: "6", label: "Penality Fee", value: "Penality Fee" },
+    { id: "7", label: "Other Fees (if any)", value: "Other Fees" },
   ];
 
   const { popup } = useSelector((state) => state.popups);
@@ -41,7 +33,7 @@ const DynamicPayments = ({
 
   return (
     <>
-      {formDataPayments.map((singlePayment, index) => (
+      {paymentState.map((singlePayment, index) => (
         <div key={index}>
           <div className="flex-start">
             {/* PAYMENT TYPE */}
@@ -49,14 +41,16 @@ const DynamicPayments = ({
               <div className="input__group flex-cr inputs input--above-small">
                 <select
                   className={popup ? "inactive-bg" : "select-box"}
-                  name="paymentType"
-                  id="paymentType"
+                  name={"paymentType"}
+                  id={"paymentType" + index}
                   onChange={(e) => handlePaymentTypeSelect(e, index)}
                   tabIndex={9}
-                  value={singlePayment.paymentType}
+                  value={singlePayment.paymentTypeToUpdate}
                 >
                   {paymentType.map((payment) => (
-                    <option key={payment.value}>{payment.label}</option>
+                    <option value={payment.value} key={payment.value}>
+                      {payment.label}
+                    </option>
                   ))}
                 </select>
                 <label htmlFor="paymentType">
@@ -113,7 +107,6 @@ const DynamicPayments = ({
                       </span>
                     </>
                   </label>
-
                   {/*Checkbox for gender based payment */}
                   <label
                     htmlFor={"genderBasedPayment_" + index}
@@ -189,45 +182,32 @@ const DynamicPayments = ({
                 <div className="flex-cs checkbox-group">
                   <label
                     className="checkbox-items flex flex-cs"
-                    id={"standardPaymentTerm_" + index}
+                    id={"standardPaymentTerm"}
                   >
                     <input
                       type="radio"
                       name={"schoolPaymentTerm" + index}
-                      id={"standardPaymentTerm_" + index}
-                      value={paymentState[index].standardPaymentTermSelected}
-                      checked={paymentState[index].standardPaymentTermSelected}
+                      id={"standardPaymentTerm"}
+                      value={singlePayment.standardPaymentTermSelected}
+                      checked={singlePayment.standardPaymentTermSelected}
                       onChange={(e) => handlePayments(e, index)}
                       tabIndex={9}
                     />
                     <span>
                       &nbsp; <p>Standard</p>
                     </span>
-                    {console.log("come hear standard")}
-                    {console.log(
-                      " sps[" +
-                        index +
-                        "]: " +
-                        paymentState[index].standardPaymentTermSelected
-                    )}
-                    {console.log(
-                      " aps[" +
-                        index +
-                        "]: " +
-                        paymentState[index].advancedPaymentTermSelected
-                    )}
                   </label>
                   <label
                     className="checkbox-items flex flex-cs"
-                    id={"advancedPaymentTerm_" + index}
+                    id={"advancedPaymentTerm"}
                   >
                     <input
                       type="radio"
                       name={"schoolPaymentTerm" + index}
-                      id={"advancedPaymentTerm_" + index}
-                      value={paymentState[index].advancedPaymentTermSelected}
+                      id={"advancedPaymentTerm"}
+                      value={singlePayment.advancedPaymentTermSelected}
                       checked={
-                        paymentState[index].advancedPaymentTermSelected === true
+                        singlePayment.advancedPaymentTermSelected === true
                       }
                       onChange={(e) => handlePayments(e, index)}
                       tabIndex={9}
@@ -235,34 +215,21 @@ const DynamicPayments = ({
                     <span>
                       &nbsp; <p>Advanced</p>
                     </span>
-                    {console.log("come hear advanced")}
-                    {console.log(
-                      " sps[" +
-                        index +
-                        "]: " +
-                        paymentState[index].standardPaymentTermSelected
-                    )}
-                    {console.log(
-                      " aps[" +
-                        index +
-                        "]: " +
-                        paymentState[index].advancedPaymentTermSelected
-                    )}
                   </label>
                 </div>
               </section>
             </div>
 
             <div className="payment-icon">
-              {formDataPayments.length > 1 ? (
+              {paymentState.length > 1 ? (
                 <RemoveButton removables={removePayments} index={index} />
               ) : (
-                <div className="space-for-remove"></div>
+                <></>
+                // <div className="space-for-remove"></div>
               )}
             </div>
           </div>
-          {formDataPayments.length - 1 === index &&
-          formDataPayments.length < 24 ? (
+          {paymentState.length - 1 === index && paymentState.length < 24 ? (
             <AddMoreButton
               label="Add more payment types"
               handleLinks={addPayments}

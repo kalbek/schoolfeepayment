@@ -36,7 +36,6 @@ function RegisterStudent() {
 
   useEffect(() => {
     if (isError) {
-      // console.log()
     }
 
     if (!user) {

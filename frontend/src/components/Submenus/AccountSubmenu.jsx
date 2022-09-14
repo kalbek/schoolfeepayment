@@ -30,7 +30,6 @@ const AccountSubmenu = () => {
   return (
     <>
       <div className="account-submenu-container">
-        {/* {console.log("uv.na: " + Object.values(user_value))} */}
         <div className="account__header">
           <h4>Account</h4>
         </div>

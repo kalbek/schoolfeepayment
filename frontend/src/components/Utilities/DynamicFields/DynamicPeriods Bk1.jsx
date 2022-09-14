@@ -41,7 +41,6 @@ const DynamicPeriods = ({
     const list = formDataPeriods;
     list.splice(0, list.length);
     setFormData({ ...formData, annualPeriod: list });
-    console.log("removed");
   };
 
   const periods = [
@@ -59,7 +58,7 @@ const DynamicPeriods = ({
 
     }
   ]
-  console.log(formData);
+  (formData);
   return (
     <>
       <div className="">

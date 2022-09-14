@@ -55,8 +55,6 @@ function PaymentInfo({ formData, setFormData }) {
     );
   };
   useEffect(() => {
-    console.log("sp fd");
-    console.log(formData.annualPeroid);
     if (formData.schoolPayments.length === 0)
       setFormData({
         ...formData,
@@ -65,7 +63,7 @@ function PaymentInfo({ formData, setFormData }) {
           {
             paymentType: "Tuition Fee",
             // paymentAmount: 0,
-            paymentTerm: "One time payment",
+            paymentTerm: "Standard",
             paymentDueDate: new Date(),
             periodBasedPayment: true,
             gradeLevelBasedPayment: true,
@@ -77,38 +75,28 @@ function PaymentInfo({ formData, setFormData }) {
           },
         ],
       });
-    console.log("use effect");
-    console.log(formDataPayments);
   }, []);
 
   // handling payment types dropdown onselect/on change event
   function handlePaymentTypeSelect(e, index) {
     const { name, value } = e.target;
     const payments = formDataPayments;
-    payments[index][name] = value;
-    setFormData({ ...formData, schoolPayments: payments });
-  }
-
-  // handling payment term change
-  const handlePaymentTermSelect = (e, index) => {
-    const { name, value } = e.target;
     paymentState.map((baseState) => {
       if (baseState.id === index) {
         dispatch(
           updatePayments({
-            termToUpdate: name,
-            // standardPaymentTerm: !baseState.standardPaymentTerm,
-            standardPaymentTerm: true,
-            advancedPaymentTerm: !baseState.advancedPaymentTerm,
+            id: index,
+            paymentToUpdate: name,
+            paymentTypeToUpdate: value,
           })
         );
+        payments[index][name] = value;
+        setFormData({ ...formData, schoolPayments: payments });
       }
     });
-
-    const term = formDataPayments;
-    term[index][name] = value;
-    setFormData({ ...formData, schoolPayments: term });
-  };
+    // console.log(value)
+    console.log(formDataPayments);
+  }
 
   // handling payment amount change
   const handlePaymentAmount = (e, index) => {
@@ -119,33 +107,32 @@ function PaymentInfo({ formData, setFormData }) {
   };
 
   function handlePayments(e, index) {
-    const { name, value } = e.target;
-    console.log("name: " + name);
+    const { id, name, value } = e.target;
+    const formDataPaymentTerm = formDataPayments;
     paymentState.map((baseState) => {
       if (baseState.id === index) {
         dispatch(
           updatePayments({
             id: index,
             paymentToUpdate: name,
+            paymentTerm: id,
             periodChecked: !baseState.periodChecked,
             gradeLevelChecked: !baseState.gradeLevelChecked,
             genderChecked: !baseState.genderChecked,
             specialNeedChecked: !baseState.specialNeedChecked,
             scholarshipChecked: !baseState.scholarshipChecked,
-
             standardPaymentTermSelected: !baseState.standardPaymentTermSelected,
             advancedPaymentTermSelected: !baseState.advancedPaymentTermSelected,
           })
         );
+        formDataPaymentTerm[index]["standardPaymentTerm"] =
+          !baseState.standardPaymentTermSelected;
+        formDataPaymentTerm[index]["advancedPaymentTerm"] =
+          !baseState.advancedPaymentTermSelected;
+        setFormData({ ...formData, schoolPayments: formDataPaymentTerm });
       }
     });
-    const base = formDataPayments;
-    base[index][name] = value;
-    setFormData({ ...formData, schoolPayments: base });
   }
-  console.log(formDataPayments);
-  console.log("*********");
-  console.log(paymentState);
 
   const removePayments = (index) => {
     const list = formDataPayments;
@@ -192,7 +179,6 @@ function PaymentInfo({ formData, setFormData }) {
             formData={formData}
             handlePaymentTypeSelect={handlePaymentTypeSelect}
             handlePaymentAmount={handlePaymentAmount}
-            handlePaymentTermSelect={handlePaymentTermSelect}
             removePayments={removePayments}
             addPayments={addPayments}
             handlePayments={handlePayments}
