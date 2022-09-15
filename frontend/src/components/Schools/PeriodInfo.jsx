@@ -28,33 +28,37 @@ const PeriodInfo = ({ formData, setFormData }) => {
         ],
       });
   }, []);
-  const handlePerodTypes = (event) => {
+  const handlePerods = (event) => {
     const { id, name, value } = event.target;
     const formDataPeriodType = formDataPeriod;
     periodState.map((basePeriod) => {
-      console.log(
-        "periodState.isSemesterPeriodType: " + basePeriod.isSemesterPeriodType
+      // console.log("name: " + name);
+      // console.log(
+      //   "periodState.isSemesterPeriodType: " + basePeriod.isSemesterPeriodType
+      // );
+      // console.log(
+      //   "periodState.isTermPeriodType: " + basePeriod.isTermPeriodType
+      // );
+      // console.log(
+      //   "periodState.isQuarterPeriodType: " + basePeriod.isQuarterPeriodType
+      // );
+      // console.log(
+      //   "periodState.isCustomPeriodType: " + basePeriod.isCustomPeriodType
+      // );
+      
+      dispatch(
+        updatePeriods({
+          periodToUpdate: name,
+          periodName: value,
+          isSemesterPeriodType: !basePeriod.isSemesterPeriodType,
+          isTermPeriodType: !basePeriod.isTermPeriodType,
+          isQuarterPeriodType: !basePeriod.isQuarterPeriodType,
+          isCustomPeriodType: !basePeriod.isCustomPeriodType,
+        })
       );
-      console.log(
-        "periodState.isTermPeriodType: " + basePeriod.isTermPeriodType
-      );
-      console.log(
-        "periodState.isQuarterPeriodType: " + basePeriod.isQuarterPeriodType
-      );
-      console.log(
-        "periodState.isCustomPeriodType: " + basePeriod.isCustomPeriodType
-      );
-      periodState.map((basePeriod) => {
-        dispatch(
-          updatePeriods({
-            periodToUpdate: name,
-            isSemesterPeriodType: !basePeriod.isSemesterPeriodType,
-            isTermPeriodType: !basePeriod.isTermPeriodType,
-            isQuarterPeriodType: !basePeriod.isQuarterPeriodType,
-            isCustomPeriodType: !basePeriod.isCustomPeriodType,
-          })
-        );
-      });
+      
+    
+      periodState.map((basePeriod) => {});
       formDataPeriodType["isSemesterPeriodType"] =
         !basePeriod.isSemesterPeriodType;
       formDataPeriodType["isTermPeriodType"] = !basePeriod.isTermPeriodType;
@@ -67,18 +71,18 @@ const PeriodInfo = ({ formData, setFormData }) => {
 
     console.log("then");
     periodState.map((basePeriod) => {
-      console.log(
-        "periodState.isSemesterPeriodType: " + basePeriod.isSemesterPeriodType
-      );
-      console.log(
-        "periodState.isTermPeriodType: " + basePeriod.isTermPeriodType
-      );
-      console.log(
-        "periodState.isQuarterPeriodType: " + basePeriod.isQuarterPeriodType
-      );
-      console.log(
-        "periodState.isCustomPeriodType: " + basePeriod.isCustomPeriodType
-      );
+      // console.log(
+      //   "periodState.isSemesterPeriodType: " + basePeriod.isSemesterPeriodType
+      // );
+      // console.log(
+      //   "periodState.isTermPeriodType: " + basePeriod.isTermPeriodType
+      // );
+      // console.log(
+      //   "periodState.isQuarterPeriodType: " + basePeriod.isQuarterPeriodType
+      // );
+      // console.log(
+      //   "periodState.isCustomPeriodType: " + basePeriod.isCustomPeriodType
+      // );
     });
     //   setFormData({
     //     ...formData,
@@ -142,7 +146,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
             handleFormRadioSelection={handleSchoolsPeriodRadioSelection}
             removePeriods={removePeriods}
             handleAnnualPeriodDuration={handleAnnualPeriodDuration}
-            handlePerodTypes={handlePerodTypes}
+            handlePerods={handlePerods}
           />
         </div>
         {/* <div className="flex-ccc">
