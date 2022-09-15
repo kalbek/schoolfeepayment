@@ -6,6 +6,7 @@ import SchoolDetails from "./Details/SchoolDetails";
 import "../../Styles/utilities.css";
 import "../../Styles/formStyles.css";
 function SchoolInfo({ emptyFields, formData, setFormData }) {
+
   const formDataLinks = [...formData.link];
   const handleLinks = () => {
     formData.link.length < 4 &&

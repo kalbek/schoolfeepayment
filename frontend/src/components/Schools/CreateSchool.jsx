@@ -18,7 +18,7 @@ import PaymentScale from "./PaymentScale";
 import FormsFooter from "../../components/FormItems/FormsFooter";
 import FormPageControl from "../../components/FormItems/FormPageControl";
 import FormNavbar from "../../components/FormItems/FormNavbar";
-import SemesterInfo from "./SemesterInfo";
+import PeriodInfo from "./PeriodInfo";
 import PaymentInfo from "./PaymentInfo";
 import GradeInfo from "./GradeInfo";
 import GradeTips from "./Tips/GradeTips";
@@ -304,7 +304,7 @@ function CreateSchool() {
             <SemestersTips formData={formData} setFormData={setFormData} />
           )}
           {count === 2 && (
-            <SemesterInfo formData={formData} setFormData={setFormData} />
+            <PeriodInfo formData={formData} setFormData={setFormData} />
           )}
           {count === 2.5 && (
             <GradeTips formData={formData} setFormData={setFormData} />

@@ -21,12 +21,12 @@ const DynamicPeriods = ({
   setFormData,
   removePeriods,
   handleAnnualPeriodDuration,
+  handlePerodTypes,
 }) => {
   const formDataPeriod = [...formData.annualPeriod];
   const paymentState = useSelector((state) => state.payments.paymentState);
-  // const annualPeriodState = useSelector((state) => state.periods.annualPeriodState);
-  // console.log(annualPeriodState)
-  const [placeholderIndex, setPlaceholderIndex] = useState(1);
+
+  const [placeholderIndex] = useState(1);
   const handleNewPeriods = () => {
     formData.annualPeriod.length < 30 &&
       // setPlaceholderIndex(placeholderIndex + 1);
@@ -42,32 +42,6 @@ const DynamicPeriods = ({
           },
         ],
       });
-  };
-  const handlePerodTypeSelect = (event) => {
-    setFormData({
-      ...formData,
-      annualPeriod: [
-        ...formDataPeriod,
-        {
-          periodType: event.target.value,
-          periodName: event.target.name,
-        },
-      ],
-    });
-  };
-
-  const handleFormRadioSelection = (event) => {
-    setFormData({
-      ...formData,
-      annualPeriod: [
-        {
-          periodType: event.target.value,
-          PeriodName: event.target.name,
-          annualPeriodStartDate: new Date(),
-          annualPeriodEndDate: new Date(),
-        },
-      ],
-    });
   };
 
   const handlePeriodName = (event, index) => {
@@ -109,20 +83,15 @@ const DynamicPeriods = ({
                     {/* Radio buttons for semesters */}
                     <label
                       className="checkbox-items flex flex-cs"
-                      id={"Semester"}
+                      id={"isSemesterPeriodType"}
                     >
                       <input
                         type="radio"
-                        name={"Semester"}
+                        name={"isSemesterPeriodType"}
                         id={"Semester"}
-                        value="Semester"
-                        checked={
-                          formDataPeriod.length > 0
-                            ? formDataPeriod[0].periodType === "Semester"
-                            : false
-                        }
-                        onSelect={(event) => handlePerodTypeSelect(event)}
-                        onChange={(event) => handleFormRadioSelection(event)}
+                        value="isSemesterPeriodType"
+                        checked={paymentState.isSemesterPeriodType}
+                        onChange={(event) => handlePerodTypes(event)}
                         tabIndex={9}
                       />
                       <span>
@@ -130,20 +99,18 @@ const DynamicPeriods = ({
                       </span>
                     </label>
                     {/* Radio buttons for terms */}
-                    <label className="checkbox-items flex flex-cs" id={"Term"}>
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      id={"isTermPeriodType"}
+                    >
                       <input
                         className="form-radio-button"
                         type="radio"
-                        name="Term"
-                        id="Term"
-                        value="Term"
-                        checked={
-                          formDataPeriod.length > 0
-                            ? formDataPeriod[0].periodType === "Term"
-                            : false
-                        }
-                        onSelect={(event) => handlePerodTypeSelect(event)}
-                        onChange={(event) => handleFormRadioSelection(event)}
+                        name="isTermPeriodType"
+                        id="isTermPeriodType"
+                        value="isTermPeriodType"
+                        checked={paymentState.isTermPeriodType}
+                        onChange={(event) => handlePerodTypes(event)}
                         tabIndex={9}
                       />
                       <span>
@@ -153,21 +120,16 @@ const DynamicPeriods = ({
                     {/* Radio buttons for quarters */}
                     <label
                       className="checkbox-items flex flex-cs"
-                      id={"Quarter"}
+                      id={"isQuarterPeriodType"}
                     >
                       <input
                         className="form-radio-button"
                         type="radio"
-                        name="Quarter"
-                        id="quarter"
-                        value="Quarter"
-                        checked={
-                          formDataPeriod.length > 0
-                            ? formDataPeriod[0].periodType === "Quarter"
-                            : false
-                        }
-                        onSelect={(event) => handlePerodTypeSelect(event)}
-                        onChange={(event) => handleFormRadioSelection(event)}
+                        name="isQuarterPeriodType"
+                        id="isQuarterPeriodType"
+                        value="isQuarterPeriodType"
+                        checked={paymentState.isQuarterPeriodType}
+                        onChange={(event) => handlePerodTypes(event)}
                         tabIndex={9}
                       />
                       <span>
@@ -177,21 +139,16 @@ const DynamicPeriods = ({
                     {/* Radio buttons for other periods */}
                     <label
                       className="checkbox-items flex flex-cs"
-                      id={"Custom"}
+                      id={"isCustomPeriodType"}
                     >
                       <input
                         className="form-radio-button"
                         type="radio"
-                        name="Custom"
-                        id="Custom"
-                        value="Custom"
-                        checked={
-                          formDataPeriod.length > 0
-                            ? formDataPeriod[0].periodType === "Custom"
-                            : false
-                        }
-                        onSelect={(event) => handlePerodTypeSelect(event)}
-                        onChange={(event) => handleFormRadioSelection(event)}
+                        name="isCustomPeriodType"
+                        id="isCustomPeriodType"
+                        value="isCustomPeriodType"
+                        checked={paymentState.isCustomPeriodType}
+                        onChange={(event) => handlePerodTypes(event)}
                         tabIndex={9}
                       />
                       <span>
