@@ -79,7 +79,7 @@ function PaymentInfo({ formData, setFormData }) {
 
   // handling payment types dropdown onselect/on change event
   function handlePaymentTypeSelect(e, index) {
-    const {id, name, value } = e.target;
+    const { id, name, value } = e.target;
     const payments = formDataPayments;
     paymentState.map((baseState) => {
       if (baseState.id === index) {

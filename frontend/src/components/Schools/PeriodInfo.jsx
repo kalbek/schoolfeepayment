@@ -1,7 +1,12 @@
 import DynamicPeriods from "../Utilities/DynamicFields/DynamicPeriods";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updatePeriods } from "../../features/SchoolPeriods/annualPeriodSlice";
+import {
+  createPeriods,
+  updatePeriods,
+  deletePeriods,
+  resetPeriods,
+} from "../../features/SchoolPeriods/annualPeriodSlice";
 const PeriodInfo = ({ formData, setFormData }) => {
   const formDataPeriod = [...formData.annualPeriod];
   const dispatch = useDispatch();
@@ -15,7 +20,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
           ...formDataPeriod,
           {
             periodType: "Semester",
-            PeriodName: "Semester",
+            PeriodTypeName: "Semester",
             periodStartDate: new Date(),
             periodEndDate: new Date(),
             hasRegularShift: true,
@@ -28,36 +33,61 @@ const PeriodInfo = ({ formData, setFormData }) => {
         ],
       });
   }, []);
-  const handlePerods = (event) => {
+
+  const handleNewPeriods = () => {
+    console.log(periodState);
+    periodState.length < 30 &&
+      dispatch(
+        createPeriods({
+          id: periodState[periodState.length - 1].id + 1,
+          periodTypeName: periodState[periodState.length - 1].periodTypeName,
+          periodName: "",
+          shiftName: "regularShift",
+          periodStartDate: "",
+          periodEndDate: "",
+          hasRegularShift: true,
+          hasExtensionShift: false,
+          hasWeekendShift: false,
+          hasCustomShift: false,
+          customShiftName: "",
+          periodToUpdate: "periodType",
+        })
+      );
+
+    // setFormData({
+    //   ...formData,
+    //   annualPeriod: [
+    //     ...formDataPeriod,
+    //     {
+    //       periodType: formDataPeriod[formDataPeriod.length - 1].periodType,
+    //       PeriodTypeName: formDataPeriod[formDataPeriod.length - 1].periodTypeName,
+    //       annualPeriodStartDate: new Date(),
+    //       annualPeriodEndDate: new Date(),
+    //     },
+    //   ],
+    // });
+  };
+  const handleUpdatePerods = (event, index) => {
     const { id, name, value } = event.target;
     const formDataPeriodType = formDataPeriod;
     periodState.map((basePeriod) => {
-      // console.log("name: " + name);
-      // console.log(
-      //   "periodState.isSemesterPeriodType: " + basePeriod.isSemesterPeriodType
-      // );
-      // console.log(
-      //   "periodState.isTermPeriodType: " + basePeriod.isTermPeriodType
-      // );
-      // console.log(
-      //   "periodState.isQuarterPeriodType: " + basePeriod.isQuarterPeriodType
-      // );
-      // console.log(
-      //   "periodState.isCustomPeriodType: " + basePeriod.isCustomPeriodType
-      // );
-      
       dispatch(
         updatePeriods({
+          id: index,
           periodToUpdate: name,
+          periodTypeName: id,
+          periodDetailsType: id,
+          shiftName: id,
           periodName: value,
-          isSemesterPeriodType: !basePeriod.isSemesterPeriodType,
-          isTermPeriodType: !basePeriod.isTermPeriodType,
-          isQuarterPeriodType: !basePeriod.isQuarterPeriodType,
-          isCustomPeriodType: !basePeriod.isCustomPeriodType,
+          periodStartDate: value,
+          periodEndDate: value,
+          hasRegularShift: !basePeriod.hasRegularShift,
+          hasExtensionShift: !basePeriod.hasExtensionShift,
+          hasWeekendShift: !basePeriod.hasWeekendShift,
+          hasCustomShift: !basePeriod.hasCustomShift,
         })
       );
-      
-    
+      // CHECK THIS LOGIC
       periodState.map((basePeriod) => {});
       formDataPeriodType["isSemesterPeriodType"] =
         !basePeriod.isSemesterPeriodType;
@@ -65,41 +95,37 @@ const PeriodInfo = ({ formData, setFormData }) => {
       formDataPeriodType["isQuarterPeriodType"] =
         !basePeriod.isQuarterPeriodType;
       formDataPeriodType["isCustomPeriodType"] = !basePeriod.isCustomPeriodType;
-
       // setFormData({ ...formData, annualPeriod: formDataPeriodType });
     });
-
-    console.log("then");
-    periodState.map((basePeriod) => {
-      // console.log(
-      //   "periodState.isSemesterPeriodType: " + basePeriod.isSemesterPeriodType
-      // );
-      // console.log(
-      //   "periodState.isTermPeriodType: " + basePeriod.isTermPeriodType
-      // );
-      // console.log(
-      //   "periodState.isQuarterPeriodType: " + basePeriod.isQuarterPeriodType
-      // );
-      // console.log(
-      //   "periodState.isCustomPeriodType: " + basePeriod.isCustomPeriodType
-      // );
-    });
+    periodState.map((basePeriod) => {});
     //   setFormData({
     //     ...formData,
     //     annualPeriod: [
     //       ...formDataPeriod,
     //       {
     //         periodType: event.target.value,
-    //         periodName: event.target.name,
+    //         periodTypeName: event.target.name,
     //       },
     //     ],
     //   });
     // });
   };
+
+  const resetAllPeriods = () => {
+    if (periodState.length > 0){
+
+      dispatch(resetPeriods({id: periodState[0].id}));
+    }
+
+    // const list = formDataPeriod;
+    // list.splice(1, list.length);
+    // setFormData({ ...formData, annualPeriod: list });
+  };
   const removePeriods = (index) => {
     const list = formDataPeriod;
     list.splice(index, 1);
     setFormData({ ...formData, annualPeriod: list });
+    dispatch(deletePeriods({ id: index }));
   };
 
   function handleSchoolsPeriodRadioSelection(event, index) {
@@ -146,7 +172,9 @@ const PeriodInfo = ({ formData, setFormData }) => {
             handleFormRadioSelection={handleSchoolsPeriodRadioSelection}
             removePeriods={removePeriods}
             handleAnnualPeriodDuration={handleAnnualPeriodDuration}
-            handlePerods={handlePerods}
+            handleUpdatePerods={handleUpdatePerods}
+            handleNewPeriods={handleNewPeriods}
+            resetAllPeriods={resetAllPeriods}
           />
         </div>
         {/* <div className="flex-ccc">
