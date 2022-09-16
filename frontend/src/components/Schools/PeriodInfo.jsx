@@ -35,7 +35,11 @@ const PeriodInfo = ({ formData, setFormData }) => {
   }, []);
 
   const handleNewPeriods = () => {
-    console.log(periodState);
+    console.log(new Date());
+    console.log(typeof new Date())
+
+    const startDate = new Date();
+    const endDate = new Date();
     periodState.length < 30 &&
       dispatch(
         createPeriods({
@@ -43,8 +47,8 @@ const PeriodInfo = ({ formData, setFormData }) => {
           periodTypeName: periodState[periodState.length - 1].periodTypeName,
           periodName: "",
           shiftName: "regularShift",
-          periodStartDate: "",
-          periodEndDate: "",
+          periodStartDate: startDate,
+          periodEndDate: endDate,
           hasRegularShift: true,
           hasExtensionShift: false,
           hasWeekendShift: false,
@@ -53,7 +57,8 @@ const PeriodInfo = ({ formData, setFormData }) => {
           periodToUpdate: "periodType",
         })
       );
-
+    console.log("typeof startDate: " + typeof startDate);
+    
     // setFormData({
     //   ...formData,
     //   annualPeriod: [
@@ -112,9 +117,8 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
 
   const resetAllPeriods = () => {
-    if (periodState.length > 0){
-
-      dispatch(resetPeriods({id: periodState[0].id}));
+    if (periodState.length > 0) {
+      dispatch(resetPeriods({ id: periodState[0].id }));
     }
 
     // const list = formDataPeriod;
@@ -141,7 +145,20 @@ const PeriodInfo = ({ formData, setFormData }) => {
     setFormData({ ...formData, annualPeriod: periods });
   }
   function handleAnnualPeriodDuration(date, index) {
-    const { name, value } = date.target;
+    const { name, value, id } = date.target;
+    console.log("date.value: " + value);
+    console.log("typeof value: " + typeof value);
+    dispatch(
+      updatePeriods({
+        id: index,
+        periodToUpdate: name,
+        periodTypeName: id,
+        periodDetailsType: id,
+        periodStartDate: value,
+        periodEndDate: value,
+      })
+    );
+
     const dates = formDataPeriod;
     dates[index][name] = value;
     setFormData({ ...formData, schoolPayments: dates });

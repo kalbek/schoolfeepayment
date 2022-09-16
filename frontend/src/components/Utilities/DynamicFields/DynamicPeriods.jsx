@@ -254,7 +254,9 @@ const DynamicPeriods = ({
               <RemoveLinksButton
                 remove={resetAllPeriods}
                 label={
-                  "Reset " + periodState[periodState.length - 1].periodTypeName +"s"
+                  "Reset " +
+                  periodState[periodState.length - 1].periodTypeName +
+                  "s"
                 }
               />
             ) : (
@@ -310,15 +312,15 @@ const DynamicPeriods = ({
                     <div className="input__group flex-cr inputs input--small">
                       <DatePicker
                         className="pointer"
-                        name="periodDetails"
-                        id={"periodStartDate" + index}
+                        value={singlePeriod.periodStartDate}
                         selected={singlePeriod.periodStartDate}
                         onChange={(date) =>
                           handleAnnualPeriodDuration(
                             {
                               target: {
                                 value: date,
-                                name: "periodStartDate",
+                                name: "periodDetails",
+                                id: "periodStartDate",
                               },
                             },
                             index
@@ -329,7 +331,6 @@ const DynamicPeriods = ({
                         scrollableMonthYearDropdown
                         dateFormat="Pp"
                         label="Due Date"
-                        value={singlePeriod.periodStartDate}
                       />
                       <label htmlFor="periodStartDate">
                         {" "}
@@ -341,15 +342,15 @@ const DynamicPeriods = ({
                     <div className="input__group flex-cr inputs input--small">
                       <DatePicker
                         className="pointer"
-                        name="periodDetails"
-                        id="periodEndDate"
+                        value={singlePeriod.periodEndDate}
                         selected={singlePeriod.periodEndDate}
                         onChange={(date) =>
                           handleAnnualPeriodDuration(
                             {
                               target: {
                                 value: date,
-                                name: "periodEndDate",
+                                name: "periodDetails",
+                                id: "periodEndDate",
                               },
                             },
                             index
@@ -360,7 +361,6 @@ const DynamicPeriods = ({
                         scrollableMonthYearDropdown
                         dateFormat="Pp"
                         label="Due Date"
-                        value={singlePeriod.periodEndDate}
                       />
                       <label htmlFor="periodEndDate">
                         {" "}

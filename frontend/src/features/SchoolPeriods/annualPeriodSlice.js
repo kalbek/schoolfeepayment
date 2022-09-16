@@ -9,10 +9,10 @@ const initialState = {
       periodName: "",
       shiftName: "regularShift",
 
-      // periodStartDate: startDate.toString(),
-      periodStartDate: "",
-      // periodEndDate: endDate.toString(),
-      periodEndDate: "",
+      periodStartDate: startDate,
+      // periodStartDate: "",
+      periodEndDate: endDate,
+      // periodEndDate: "",
       hasRegularShift: true,
       hasExtensionShift: false,
       hasWeekendShift: false,
@@ -64,12 +64,12 @@ export const periodSlice = createSlice({
           if (action.payload.periodDetailsType === "periodDescription") {
             periodState.periodName = action.payload.periodName;
           } else if (action.payload.periodDetailsType === "periodStartDate") {
+            console.log("gp");
             periodState.periodStartDate = action.payload.periodStartDate;
           } else if (action.payload.periodDetailsType === "periodEndDate") {
             periodState.periodEndDate = action.payload.periodEndDate;
           }
         }
-
       });
     },
 
@@ -101,7 +101,7 @@ export const periodSlice = createSlice({
     },
 
     resetPeriods: (state, action) => {
-      console.log("hey")
+      console.log("hey");
       state.annualPeriodState = state.annualPeriodState.filter(
         (period) => period.id === action.payload.id
       );
