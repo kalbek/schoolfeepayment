@@ -35,11 +35,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
   }, []);
 
   const handleNewPeriods = () => {
-    console.log(new Date());
-    console.log(typeof new Date())
-
-    const startDate = new Date();
-    const endDate = new Date();
     periodState.length < 30 &&
       dispatch(
         createPeriods({
@@ -47,8 +42,8 @@ const PeriodInfo = ({ formData, setFormData }) => {
           periodTypeName: periodState[periodState.length - 1].periodTypeName,
           periodName: "",
           shiftName: "regularShift",
-          periodStartDate: startDate,
-          periodEndDate: endDate,
+          periodStartDate: new Date().toISOString(),
+          periodEndDate: new Date().toISOString(),
           hasRegularShift: true,
           hasExtensionShift: false,
           hasWeekendShift: false,
@@ -57,8 +52,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
           periodToUpdate: "periodType",
         })
       );
-    console.log("typeof startDate: " + typeof startDate);
-    
+
     // setFormData({
     //   ...formData,
     //   annualPeriod: [
@@ -154,14 +148,14 @@ const PeriodInfo = ({ formData, setFormData }) => {
         periodToUpdate: name,
         periodTypeName: id,
         periodDetailsType: id,
-        periodStartDate: value,
-        periodEndDate: value,
+        periodStartDate: value.toISOString(),
+        periodEndDate: value.toISOString(),
       })
     );
 
-    const dates = formDataPeriod;
-    dates[index][name] = value;
-    setFormData({ ...formData, schoolPayments: dates });
+    // const dates = formDataPeriod;
+    // dates[index][name] = value;
+    // setFormData({ ...formData, schoolPayments: dates });
   }
 
   return (

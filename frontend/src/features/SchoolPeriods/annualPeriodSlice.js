@@ -1,6 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-const startDate = new Date();
-const endDate = new Date();
+import { parseISO, format } from "date-fns";
+ 
+
+const endDate = parseISO(
+  "2021-7-13T12:30:00.000Z",
+  "yyyy-M-dd'T'HH:mm:ss.SSSX",
+  new Date()
+);
+console.log("hey")
+console.log(new Date().toISOString())
+// console.log(typeof format(parseISO("2021-7-13T12:30:00.000Z"), 'yy-m-dTh:mm:ss.lcz', { awareOfUnicodeTokens: true }))
+
 const initialState = {
   annualPeriodState: [
     {
@@ -9,10 +19,10 @@ const initialState = {
       periodName: "",
       shiftName: "regularShift",
 
-      periodStartDate: startDate,
-      // periodStartDate: "",
-      periodEndDate: endDate,
-      // periodEndDate: "",
+      periodStartDate: new Date().toISOString(),
+      // periodStartDate: JSON.stringify(parseISO(new Date()), 1),
+      periodEndDate: new Date().toISOString(),
+      // periodEndDate: JSON.stringify(parseISO(new Date()), 1),
       hasRegularShift: true,
       hasExtensionShift: false,
       hasWeekendShift: false,
@@ -22,6 +32,8 @@ const initialState = {
     },
   ],
 };
+// console.log(typeof startDate);
+// console.log(startDate);
 
 export const periodSlice = createSlice({
   name: "periods",
@@ -64,8 +76,10 @@ export const periodSlice = createSlice({
           if (action.payload.periodDetailsType === "periodDescription") {
             periodState.periodName = action.payload.periodName;
           } else if (action.payload.periodDetailsType === "periodStartDate") {
-            console.log("gp");
+            console.log(typeof action.payload.periodStartDate);
             periodState.periodStartDate = action.payload.periodStartDate;
+
+            console.log(typeof action.payload.periodStartDate);
           } else if (action.payload.periodDetailsType === "periodEndDate") {
             periodState.periodEndDate = action.payload.periodEndDate;
           }
@@ -74,7 +88,7 @@ export const periodSlice = createSlice({
     },
 
     deletePeriods: (state, action) => {
-      console.log("action id: " + action.payload.id);
+      // console.log("action id: " + action.payload.id);
       state.annualPeriodState = state.annualPeriodState.filter(
         (period) => period.id !== action.payload.id
       );
@@ -101,7 +115,6 @@ export const periodSlice = createSlice({
     },
 
     resetPeriods: (state, action) => {
-      console.log("hey");
       state.annualPeriodState = state.annualPeriodState.filter(
         (period) => period.id === action.payload.id
       );

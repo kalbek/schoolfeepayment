@@ -7,6 +7,7 @@ import SmallCard from "../Cards/SmallCard";
 import Preview from "../Buttons/Preview";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {parse, format, parseISO} from "date-fns"
 
 const DynamicPeriods = ({
   formData,
@@ -310,10 +311,13 @@ const DynamicPeriods = ({
                   {/* Periods start date */}
                   <div className="input__group flex-c m20 ">
                     <div className="input__group flex-cr inputs input--small">
+                      {/* {console.log("hey: "+ typeof parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date()) )} */}
                       <DatePicker
                         className="pointer"
-                        value={singlePeriod.periodStartDate}
-                        selected={singlePeriod.periodStartDate}
+                        // value = {parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        selected= {parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        // value={singlePeriod.periodStartDate}
+                        // selected={singlePeriod.periodStartDate}
                         onChange={(date) =>
                           handleAnnualPeriodDuration(
                             {
@@ -324,14 +328,14 @@ const DynamicPeriods = ({
                               },
                             },
                             index
-                          )
-                        }
-                        showTimeSelect
-                        showYearDropdown
-                        scrollableMonthYearDropdown
-                        dateFormat="Pp"
-                        label="Due Date"
-                      />
+                            )
+                          }
+                          showTimeSelect
+                          showYearDropdown
+                          scrollableMonthYearDropdown
+                          dateFormat="Pp"
+                          label="Due Date"
+                          />
                       <label htmlFor="periodStartDate">
                         {" "}
                         <p>Start Date</p>
@@ -342,8 +346,11 @@ const DynamicPeriods = ({
                     <div className="input__group flex-cr inputs input--small">
                       <DatePicker
                         className="pointer"
-                        value={singlePeriod.periodEndDate}
-                        selected={singlePeriod.periodEndDate}
+                        // value={singlePeriod.periodEndDate}
+                        // value = {parse('2020-02-24T10:34:02.998Z', "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        // value = {parse(singlePeriod.periodEndDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        selected = {parse(singlePeriod.periodEndDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        // selected={singlePeriod.periodEndDate}
                         onChange={(date) =>
                           handleAnnualPeriodDuration(
                             {
