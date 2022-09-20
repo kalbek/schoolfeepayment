@@ -1,62 +1,118 @@
 import DynamicGrades from "../Utilities/DynamicFields/DynamicGrades";
 import SmallCard from "../Utilities/Cards/SmallCard";
 import Preview from "../Utilities/Buttons/Preview";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  createGrades,
+  updateGrades,
+  deleteGrades,
+  resetGrades,
+} from "../../features/Grades&Divisions/grades&DivisionsSlice";
+
 const GradeInfo = ({ formData, setFormData }) => {
-  const formDataGrade = [...formData.schoolGrade];
-  // formData.length > 0
-  //   ? (formDataSubPeriod = [formDataGrade[0]["subPeriod"]])
-  //   : (formDataSubPeriod = "");
-  const handleGrades = () => {
-    setFormData({
-      ...formData,
-      schoolGrade: [...formDataGrade, { grade: "", level: "" }],
+  const dispatch = useDispatch();
+  const gradeState = useSelector((state) => state.grades.gradeDivisionState);
+
+  // handling new grades
+  const handleNewGrades = () => {
+    gradeState.length < 30 &&
+      dispatch(
+        createGrades({
+          id: gradeState[gradeState.length - 1].id + 1,
+          educationLevelTypeName: gradeState[gradeState.length - 1].educationLevelTypeName,
+          educationLevelName: "",
+          divisionName: "StagesDivison",
+          hasStageDivision: true,
+          hasDepartmentDivision: false,
+          hasFacultyDivision: false,
+          hasCustomDivision: false,
+          categoryToUpdate: "divisions",
+          maxNumOfStudents: "",
+        })
+      );
+
+    // setFormData({
+    //   ...formData,
+    //   annualPeriod: [
+    //     ...formDataPeriod,
+    //     {
+    //       periodType: formDataPeriod[formDataPeriod.length - 1].periodType,
+    //       PeriodTypeName: formDataPeriod[formDataPeriod.length - 1].periodTypeName,
+    //       annualPeriodStartDate: new Date(),
+    //       annualPeriodEndDate: new Date(),
+    //     },
+    //   ],
+    // });
+  };
+  const handleUpdateGrades = (event, index) => {
+    const { id, name, value } = event.target;
+    gradeState.map((baseGrade) => {
+      console.log("id, name, value: " + id + " " + name + " " + value);
+      dispatch(
+        updateGrades({
+          id: index,
+          categoryToUpdate: name,
+          educationLevelTypeName: id,
+          gradeDetailsType: id,
+          divisionName: id,
+          educationLevelName: value,
+          hasStageDivision: !baseGrade.hasStageDivision,
+          hasDepartmentDivision: !baseGrade.hasDepartmentDivision,
+          hasFacultyDivision: !baseGrade.hasFacultyDivision,
+          hasCustomDivision: !baseGrade.hasCustomDivision,
+          hasRegularShift: !baseGrade.hasRegularShift,
+          hasExtensionShift: !baseGrade.hasExtensionShift,
+          hasWeekendShift: !baseGrade.hasWeekendShift,
+          hasCustomShift: !baseGrade.hasCustomShift,
+        })
+      );
     });
   };
 
-  const handleGradesSelection = (event, index) => {
-    const { name, value } = event.target;
-    const grades = formDataGrade;
-    grades[index][name] = value;
-    setFormData({ ...formData, schoolGrade: grades });
-  };
-  const handleGradeLevels = (event, index) => {
-    const { name, value } = event.target;
-    const levels = formDataGrade;
-    levels[index][name] = value;
-    setFormData({ ...formData, schoolGrade: levels });
+  const resetAllGrades = () => {
+    if (gradeState.length > 0) {
+      dispatch(resetGrades({ id: gradeState[0].id }));
+    }
   };
 
   const removeGrades = (index) => {
-    const list = formDataGrade;
-    list.splice(index, 1);
-    setFormData({ ...formData, schoolGrade: list });
+    // const list = formDataPeriod;
+    // list.splice(index, 1);
+    // setFormData({ ...formData, annualPeriod: list });
+    dispatch(deleteGrades({ id: index }));
   };
 
   return (
     <>
-      <div className="flex">
-        <div className="school-info">
-          <div className="fl">
-            <h1 className="form__titles">
+      <div className="flex gapfull">
+        <div className="school-info pt1">
+          <div>
+            <h1 className="form__titles--mid">
               {" "}
               Let us start filling out schools Grade info's
             </h1>
             <h3 className="form__subtitle">Remember start form lower grades</h3>
-
-            <DynamicGrades
-              formData={formData}
-              setFormData={setFormData}
-              handleGradeLevels={handleGradeLevels}
-              handleGradesSelection={handleGradesSelection}
-              removeGrades={removeGrades}
-              handleGrades={handleGrades}
-            />
           </div>
+          <>
+            <br />
+            <br />
+            <br />
+          </>
+          <DynamicGrades
+            formData={formData}
+            setFormData={setFormData}
+            handleNewGrades={handleNewGrades}
+            handleUpdateGrades={handleUpdateGrades}
+            removeGrades={removeGrades}
+            resetAllGrades={resetAllGrades}
+          />
         </div>
-        <div className="flex-c">
+        {/* <div className="flex-ccc">
           <SmallCard formData={formData} />
           <Preview />
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -6,11 +6,13 @@ import counterReducer from "../features/steps/counterSlice";
 import popupReducer from "../features/popups/popupSlice";
 import paymentReducer from "../features/paymentBase/paymentBaseSlice";
 import periodReducer from "../features/SchoolPeriods/annualPeriodSlice"
+import gradeReducer from "../features/Grades&Divisions/grades&DivisionsSlice"
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     schools: schoolReducer,
     students: studentReducer,
+    grades: gradeReducer,
     counter: counterReducer,
     popups: popupReducer,
     payments: paymentReducer,

@@ -140,8 +140,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
   }
   function handleAnnualPeriodDuration(date, index) {
     const { name, value, id } = date.target;
-    console.log("date.value: " + value);
-    console.log("typeof value: " + typeof value);
     dispatch(
       updatePeriods({
         id: index,

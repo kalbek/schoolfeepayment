@@ -7,7 +7,7 @@ import SmallCard from "../Cards/SmallCard";
 import Preview from "../Buttons/Preview";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {parse, format, parseISO} from "date-fns"
+import { parse } from "date-fns";
 
 const DynamicPeriods = ({
   formData,
@@ -315,7 +315,11 @@ const DynamicPeriods = ({
                       <DatePicker
                         className="pointer"
                         // value = {parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
-                        selected= {parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        selected={parse(
+                          singlePeriod.periodStartDate,
+                          "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                          new Date()
+                        )}
                         // value={singlePeriod.periodStartDate}
                         // selected={singlePeriod.periodStartDate}
                         onChange={(date) =>
@@ -328,14 +332,14 @@ const DynamicPeriods = ({
                               },
                             },
                             index
-                            )
-                          }
-                          showTimeSelect
-                          showYearDropdown
-                          scrollableMonthYearDropdown
-                          dateFormat="Pp"
-                          label="Due Date"
-                          />
+                          )
+                        }
+                        showTimeSelect
+                        showYearDropdown
+                        scrollableMonthYearDropdown
+                        dateFormat="Pp"
+                        label="Due Date"
+                      />
                       <label htmlFor="periodStartDate">
                         {" "}
                         <p>Start Date</p>
@@ -349,7 +353,11 @@ const DynamicPeriods = ({
                         // value={singlePeriod.periodEndDate}
                         // value = {parse('2020-02-24T10:34:02.998Z', "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
                         // value = {parse(singlePeriod.periodEndDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
-                        selected = {parse(singlePeriod.periodEndDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        selected={parse(
+                          singlePeriod.periodEndDate,
+                          "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                          new Date()
+                        )}
                         // selected={singlePeriod.periodEndDate}
                         onChange={(date) =>
                           handleAnnualPeriodDuration(
