@@ -51,6 +51,11 @@
   flex-direction: column;
 }
 
+.flex-2 {
+  display: flex;
+  
+}
+
 .flex-start {
   display: flex;
   align-items: flex-start;

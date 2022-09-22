@@ -9,21 +9,97 @@ import {
   updateGrades,
   deleteGrades,
   resetGrades,
+  createEducationalDivisions,
+  createEducationalSubDivisions,
+  createSubDivisionSections,
+  updateEducationalDivisions,
+  updateEducationalSubDivisions,
+  updateSubDivisionSections,
+  deleteEducationalDivisions,
+  deleteEducationalSubDivision,
+  deleteSubDivisionSections,
 } from "../../features/Grades&Divisions/grades&DivisionsSlice";
 
 const GradeInfo = ({ formData, setFormData }) => {
   const dispatch = useDispatch();
   const gradeState = useSelector((state) => state.grades.gradeDivisionState);
-
+  const educationalDivisionState = useSelector(
+    (state) => state.grades.educationalDivision
+  );
   // handling new grades
+
+  const createNewEducationalDivisions = () => {
+    // console.log("hey")
+    educationalDivisionState.length < 30 &&
+      dispatch(
+        createEducationalDivisions({
+          id:
+            educationalDivisionState[educationalDivisionState.length - 1].id +
+            1,
+          divisionName: "",
+        })
+      );
+  };
+  const handleEducationalDivisions = (event, index) => {
+    const { id, name, value } = event.target;
+    dispatch(
+      updateEducationalDivisions({
+        educationalDivisionId: index,
+        divisionType: id,
+        divisionName: value,
+      })
+    );
+  };
+  const createNewEducationalSubDivisions = (event, index) => {
+    const { id, name, value } = event.target;
+    dispatch(
+      createEducationalSubDivisions({
+        educationalDivisionId: index,
+        id:
+          4,
+        subDivisionType: "Grade",
+        subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
+        hasSection: false,
+        hasMaximumNumberOfStudents: false,
+        maximumNumberOfStudents: "",
+        numberOfScholarships: "",
+        numberOfSpecialCases: "",
+        section: [
+          {
+            id: 0,
+            gradeSectionName: "", // A, B, C or 1, 2, 3 ...
+            hasMaximumNumberOfStudents: false,
+            maximumNumberOfStudents: "",
+            numberOfScholarships: "",
+            numberOfSpecialCases: "",
+          },
+        ],
+      })
+    );
+
+    console.log(educationalDivisionState)
+
+  };
+  const handleEducationalSubDivisions = (event, index) => {
+    const { id, name, value } = event.target;
+    dispatch(
+      updateEducationalSubDivisions({
+        educationalDivisionId: index,
+        divisionType: id,
+        divisionName: value,
+      })
+    );
+  };
+
   const handleNewGrades = () => {
     gradeState.length < 30 &&
       dispatch(
         createGrades({
           id: gradeState[gradeState.length - 1].id + 1,
-          educationLevelTypeName: gradeState[gradeState.length - 1].educationLevelTypeName,
+          educationLevelTypeName:
+            gradeState[gradeState.length - 1].educationLevelTypeName,
           educationLevelName: "",
-          divisionName: "StagesDivison",
+          divisionName: "",
           hasStageDivision: true,
           hasDepartmentDivision: false,
           hasFacultyDivision: false,
@@ -107,6 +183,10 @@ const GradeInfo = ({ formData, setFormData }) => {
             handleUpdateGrades={handleUpdateGrades}
             removeGrades={removeGrades}
             resetAllGrades={resetAllGrades}
+            createNewEducationalDivisions={createNewEducationalDivisions}
+            handleEducationalDivisions={handleEducationalDivisions}
+            handleEducationalSubDivisions={handleEducationalSubDivisions}
+            createNewEducationalSubDivisions={createNewEducationalSubDivisions}
           />
         </div>
         {/* <div className="flex-ccc">

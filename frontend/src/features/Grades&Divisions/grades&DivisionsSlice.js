@@ -1,16 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
+  educationalDivision: [
+    {
+      id: 0,
+      divisionType: "Stage",
+      divisionName: "",
+      educationalSubDivision: [
+        {
+          id: 0,
+          subDivisionType: "Grade",
+          subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
+          hasSection: false,
+          hasMaximumNumberOfStudents: false,
+          maximumNumberOfStudents: "",
+          numberOfScholarships: "",
+          numberOfSpecialCases: "",
+          section: [
+            {
+              id: 0,
+              gradeSectionName: "", // A, B, C or 1, 2, 3 ...
+              hasMaximumNumberOfStudents: false,
+              maximumNumberOfStudents: "",
+              numberOfScholarships: "",
+              numberOfSpecialCases: "",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+
   gradeDivisionState: [
     {
       id: 0,
       educationLevelTypeName: "Grade",
       educationLevelName: "",
-      divisionName: "stagesEducationalDivision",
-      hasStageDivision: false,
-      hasDepartmentDivision: false,
-      hasFacultyDivision: false,
-      hasCustomDivision: false,
+      divisionName: "Stage",
       customDivisionName: "",
+      // schoolStages: [{ stageName: "" }],
+      stageName: "",
       categoryToUpdate: "divisions",
       maxNumOfStudents: "",
     },
@@ -21,6 +49,159 @@ export const gradeSlice = createSlice({
   name: "grades",
   initialState,
   reducers: {
+    // CREATING SCHOOL EDUCATINAL DIVISONS, SUBDIVISIONS, AND SUBDIVISION SECTIONS UNDER SUBDIVISIONS
+    createEducationalDivisions: (state, action) => {
+      console.log("hey there");
+      console.log(action.payload);
+      state.educationalDivision.push(action.payload);
+    },
+
+    createEducationalSubDivisions: (state, action) => {
+      // division.id => Id of the current educational division e.g. Stage id, or Department id
+      const divisionId = action.payload.educationalDivisionId
+      console.log("hey: " + divisionId)
+      state.educationalDivision.map((division) => {
+        console.log("division.id: "+division.id)
+        console.log("action.payload.educationalDivisionId: "+action.payload.educationalDivisionId)
+        if (division.id === action.payload.educationalDivisionId)
+          division.educationalSubDivision.push(action.payload);
+      });
+    },
+
+    createSubDivisionSections: (state, action) => {
+      state.educationalDivision.map((division) => {
+        if (division.id === action.payload.educationalDivisionId) {
+          division.educationalSubDivision.map((subDivision) => {
+            if (subDivision.id === action.payload.educationalSubDivisionID) {
+              subDivision.section.push(action.payload);
+            }
+          });
+        }
+      });
+    },
+
+    // UPDATING SCHOOL EDUCATINAL DIVISONS, SUBDIVISIONS, AND SUBDIVISION SECTIONS UNDER SUBDIVISIONS
+    updateEducationalDivisions: (state, action) => {
+      state.educationalDivision.map((division) => {
+        if (division.id === action.payload.educationalDivisionId) {
+          division.divisionName = action.payload.divisionName;
+        }
+      });
+    },
+
+    updateEducationalSubDivisions: (state, action) => {
+      state.educationalDivision.map((division) => {
+        if (division.id === action.payload.educationalDivisionId) {
+          division.map((subDivision) => {
+            if (subDivision.id === action.payload.educationalSubDivisionId) {
+              subDivision.subDivisionType = action.payload.subDivisionType;
+              subDivision.subDivisionName = action.payload.subDivisionName;
+              subDivision.hasSection = action.payload.hasSection;
+              subDivision.hasMaximumNumberOfStudents =
+                action.payload.hasMaximumNumberOfStudents;
+              subDivision.maximumNumberOfStudents =
+                action.payload.maximumNumberOfStudents;
+              subDivision.numberOfScholarships =
+                action.payload.numberOfScholarships;
+              subDivision.numberOfSpecialCases =
+                action.payload.numberOfSpecialCases;
+            }
+          });
+        }
+      });
+    },
+
+    updateSubDivisionSections: (state, action) => {
+      state.educationalDivision.map((division) => {
+        if (division.id === action.payload.educationalDivisionId) {
+          division.educationalSubDivision.map((subDivision) => {
+            if (subDivision.id === action.payload.educationalSubDivisionId) {
+              subDivision.map((subDivisionSection) => {
+                if (
+                  subDivisionSection.id === action.payload.subDivisionSectionId
+                ) {
+                  subDivisionSection.gradeSectionName =
+                    action.payload.gradeSectionName;
+                  subDivisionSection.hasMaximumNumberOfStudents =
+                    action.payload.hasMaximumNumberOfStudents;
+                  subDivisionSection.maximumNumberOfStudents =
+                    action.payload.maximumNumberOfStudents;
+                  subDivisionSection.numberOfScholarships =
+                    action.payload.numberOfScholarships;
+                  subDivisionSection.numberOfSpecialCases =
+                    action.payload.numberOfSpecialCases;
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    // DELETING SCHOOL EDUCATINAL DIVISONS, SUBDIVISIONS, AND SECTIONS UNDER SUBDIVISIONS
+    deleteEducationalDivisions: (state, action) => {
+      state.educationalDivision.filter(
+        (division) => division.id != action.payload.educationalDivisionId
+      );
+
+      state.educationalDivision.map((division) => {
+        if (division.id > action.payload.educationalDivisionId) {
+          division.id -= 1;
+        }
+      });
+    },
+
+    deleteEducationalSubDivision: (state, action) => {
+      state.educationalDivision.map((division) => {
+        division.map((subDivision) => {
+          if (division.id === action.payload.educationalDivisionId) {
+            subDivision.filter(
+              (subDivision) =>
+                subDivision.id != action.payload.educationalSubDivisionId
+            );
+          }
+        });
+      });
+      state.educationalDivision.map((division) => {
+        division.map((subDivision) => {
+          if (division.id === action.payload.educationalDivisionId) {
+            subDivision.filter(
+              (subDivision) =>
+                subDivision.id != action.payload.educationalSubDivisionId
+            );
+          }
+        });
+      });
+    },
+
+    deleteSubDivisionSections: (state, action) => {
+      state.educationalDivision.map((division) => {
+        division.map((subDivision) => {
+          subDivision.map((section) => {
+            if (division.id === action.payload.educationalDivisionId) {
+              if (subDivision.id === action.payload.educationalSubDivisionId) {
+                section.filter(
+                  (section) => section.id != action.payload.subDivisionSectionId
+                );
+              }
+            }
+          });
+        });
+      });
+      state.educationalDivision.map((division) => {
+        division.map((subDivision) => {
+          subDivision.map((section) => {
+            if (division.id === action.payload.educationalDivisionId) {
+              if (subDivision.id === action.payload.educationalSubDivisionId) {
+                section.id -= action.payload.subDivisionSectionId;
+              }
+            }
+          });
+        });
+      });
+    },
+
+    // PREVIOUS METHOD
     createGrades: (state, action) => {
       state.gradeDivisionState.push(action.payload);
     },
@@ -40,18 +221,17 @@ export const gradeSlice = createSlice({
             gradeState.educationLevelTypeName = "Custom_Level";
           }
         } else if (action.payload.categoryToUpdate === "educaitonDivisions") {
-          if (action.payload.divisionName === "stagesEducationalDivision") {
-            gradeState.hasStageDivision = action.payload.hasStageDivision;
+          if (action.payload.divisionName === "Stage") {
+            gradeState.divisionName = "Stage";
           }
-          if (action.payload.divisionName === "departmentEducationalDivision") {
-            gradeState.hasDepartmentDivision =
-              action.payload.hasDepartmentDivision;
+          if (action.payload.divisionName === "Department") {
+            gradeState.divisionName = "Department";
           }
-          if (action.payload.divisionName === "facultyEducationalDivision") {
-            gradeState.hasFacultyDivision = action.payload.hasFacultyDivision;
+          if (action.payload.divisionName === "Faculty") {
+            gradeState.divisionName = "Faculty";
           }
-          if (action.payload.divisionName === "customEducationDivision") {
-            gradeState.hasCustomDivision = action.payload.hasCustomDivision;
+          if (action.payload.divisionName === "Custom Division") {
+            gradeState.divisionName = "Custom Division";
           }
         } else if (
           action.payload.categoryToUpdate === "gradeDetails" &&
@@ -85,7 +265,20 @@ export const gradeSlice = createSlice({
   },
 });
 
-export const { createGrades, updateGrades, deleteGrades, resetGrades } =
-  gradeSlice.actions;
+export const {
+  createEducationalDivisions,
+  createEducationalSubDivisions,
+  createSubDivisionSections,
+  updateEducationalDivisions,
+  updateEducationalSubDivisions,
+  updateSubDivisionSections,
+  deleteEducationalDivisions,
+  deleteEducationalSubDivision,
+  deleteSubDivisionSections,
+  createGrades,
+  updateGrades,
+  deleteGrades,
+  resetGrades,
+} = gradeSlice.actions;
 
 export default gradeSlice.reducer;
