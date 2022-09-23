@@ -47,7 +47,7 @@ const DynamicGrades = ({
     <>
       <div className="flex-start">
         <div>
-          <div className="flex-c">
+          <div className="flex">
             <div className="pr1rem flex-start">
               {/* RADIO BUTTON CONTROL FOR MAJOR EDUCATIONAL DIVISONS */}
               <div className="checkbox-inputs input__group field-group-container">
@@ -341,6 +341,19 @@ const DynamicGrades = ({
                                 )
                               }
                             />
+                            <label htmlFor="">
+                              {divisionIndex === 0 ? (
+                                <p>
+                                  {
+                                    division.educationalSubDivision[0]
+                                      .subDivisionType
+                                  }{" "}
+                                  Name
+                                </p>
+                              ) : (
+                                <></>
+                              )}
+                            </label>
                             <br />
                           </div>
                           {/* REMOVE BUTTON CONTROL FOR EDUCATIONAL SUBDIVISION */}
@@ -369,12 +382,14 @@ const DynamicGrades = ({
                         educationalDivisionState.length < 20 ? (
                           <AddMoreButton
                             label={
-                              division.educationalSubDivision[division.educationalSubDivision.length - 1]
-                                .subDivisionType === "Custom subDivision"
+                              division.educationalSubDivision[
+                                division.educationalSubDivision.length - 1
+                              ].subDivisionType === "Custom subDivision"
                                 ? "Add Subdivisons"
                                 : "Add " +
-                                  division.educationalSubDivision[division.educationalSubDivision.length - 1]
-                                    .subDivisionType
+                                  division.educationalSubDivision[
+                                    division.educationalSubDivision.length - 1
+                                  ].subDivisionType
                             }
                             handleLinks={(event) =>
                               createNewEducationalSubDivisions(event, index)
@@ -390,6 +405,7 @@ const DynamicGrades = ({
                 </div>
               </div>
             ))}
+           
           </div>
 
           {/* BUTTON TO ADD A NEW EDUCATIONAL DIVISION CONTROL */}
