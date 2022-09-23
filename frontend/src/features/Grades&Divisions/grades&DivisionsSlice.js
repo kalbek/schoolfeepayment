@@ -51,9 +51,34 @@ export const gradeSlice = createSlice({
   reducers: {
     // CREATING SCHOOL EDUCATINAL DIVISONS, SUBDIVISIONS, AND SUBDIVISION SECTIONS UNDER SUBDIVISIONS
     createEducationalDivisions: (state, action) => {
-      console.log("hey there");
-      console.log(action.payload);
+      // console.log("hey there");
+      // console.log(action.payload);
+      console.log(current(state.educationalDivision))
+      
+      
+      
+      
+      
+      
+      
       state.educationalDivision.push(action.payload);
+      console.log("then")
+
+
+      console.log(current(state.educationalDivision))
+
+      // console.log("************")
+      // console.log(action.payload.educationalSubDivision)
+      // state.educationalDivision.map((divisions) => {
+        // console.log("divisions.id: " + divisions.id);
+        // console.log("state.educationalDivision.length: "+ state.educationalDivision[state.educationalDivision.length - 1].id);
+        // if (divisions.id === state.educationalDivision[state.educationalDivision.length - 1].id) {
+            // console.log(state.educationalDivision[divisions.id])
+            // state.educationalDivision[divisions.id].educationalSubDivision.push(
+            // action.payload.educationalSubDivision
+          // );
+        // }
+      // });
     },
 
     createEducationalSubDivisions: (state, action) => {
@@ -86,8 +111,14 @@ export const gradeSlice = createSlice({
     },
 
     updateEducationalSubDivisions: (state, action) => {
-      console.log("action.payload.educationalDivisionId:" + action.payload.educationalDivisionId)
-      console.log("action.payload.educatonalSubDivisionId:" + action.payload.educationalSubDivisionId)
+      console.log(
+        "action.payload.educationalDivisionId:" +
+          action.payload.educationalDivisionId
+      );
+      console.log(
+        "action.payload.educatonalSubDivisionId:" +
+          action.payload.educationalSubDivisionId
+      );
       state.educationalDivision.map((division) => {
         if (division.id === action.payload.educationalDivisionId) {
           division.educationalSubDivision.map((subDivision) => {
@@ -101,7 +132,7 @@ export const gradeSlice = createSlice({
 
     deleteEducationalSubDivision: (state, action) => {
       state.educationalDivision.map((division) => {
-        console.log("now")
+        console.log("now");
         // console.log(current(division.educationalSubDivisionId.subDivisionType))
         if (division.id === action.payload.educationalDivisionId) {
           division.educationalSubDivision =

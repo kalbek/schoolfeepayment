@@ -29,16 +29,45 @@ const GradeInfo = ({ formData, setFormData }) => {
   // handling new grades
 
   const createNewEducationalDivisions = () => {
-    // console.log("hey")
-    educationalDivisionState.length < 30 &&
-      dispatch(
-        createEducationalDivisions({
-          id:
-            educationalDivisionState[educationalDivisionState.length - 1].id +
-            1,
-          divisionName: "",
-        })
-      );
+    // console.log("hey");
+    // educationalDivisionState.length < 30 &&
+    //   console.log(
+    //     educationalDivisionState[educationalDivisionState.length - 1].id + 1
+    //   );
+    dispatch(
+      createEducationalDivisions({
+        id:
+          educationalDivisionState[educationalDivisionState.length - 1].id + 1,
+        divisionType:
+          educationalDivisionState[educationalDivisionState.length - 1]
+            .divisionType,
+        divisionName:
+          educationalDivisionState[educationalDivisionState.length - 1]
+            .divisionName,
+        educationalSubDivision: [
+          {
+            id: 0,
+            subDivisionType: "Grade",
+            subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
+            hasSection: false,
+            hasMaximumNumberOfStudents: false,
+            maximumNumberOfStudents: "",
+            numberOfScholarships: "",
+            numberOfSpecialCases: "",
+            section: [
+              {
+                id: 0,
+                gradeSectionName: "", // A, B, C or 1, 2, 3 ...
+                hasMaximumNumberOfStudents: false,
+                maximumNumberOfStudents: "",
+                numberOfScholarships: "",
+                numberOfSpecialCases: "",
+              },
+            ],
+          },
+        ],
+      })
+    );
   };
   const handleEducationalDivisions = (event, index) => {
     const { id, name, value } = event.target;
@@ -47,6 +76,28 @@ const GradeInfo = ({ formData, setFormData }) => {
         educationalDivisionId: index,
         divisionType: id,
         divisionName: value,
+        // educationalSubDivision: [
+        //   {
+        //     id: 0,
+        //     subDivisionType: "Grade",
+        //     subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
+        //     hasSection: false,
+        //     hasMaximumNumberOfStudents: false,
+        //     maximumNumberOfStudents: "",
+        //     numberOfScholarships: "",
+        //     numberOfSpecialCases: "",
+        //     section: [
+        //       {
+        //         id: 0,
+        //         gradeSectionName: "", // A, B, C or 1, 2, 3 ...
+        //         hasMaximumNumberOfStudents: false,
+        //         maximumNumberOfStudents: "",
+        //         numberOfScholarships: "",
+        //         numberOfSpecialCases: "",
+        //       },
+        //     ],
+        //   },
+        // ],
       })
     );
   };

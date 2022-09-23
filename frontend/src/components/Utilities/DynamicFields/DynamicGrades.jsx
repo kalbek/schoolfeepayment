@@ -308,15 +308,14 @@ const DynamicGrades = ({
                 </div>
                 <br />
                 {/*END OF EDUCATIONAL DIVISIONS INPUT CONTROLS */}
-
                 {/* EDUCATIONAL SUBDIVISONS E.G. GRADES, DEPARTMENTS, ETC... INPUT CONTROL */}
                 {/* LABEL FOR EDUCATIONAL SUBDIVISONS */}
                 <div>
-                  <div className="input__group ">
+                  <div className="input__group">
                     <label>
                       <p className="inputs">
-                        {division.educationalSubDivision[index].subDivisionType}
-                        s
+                        {/* {division.educationalSubDivision[index].subDivisionType}
+                        s */}
                       </p>
                     </label>
                   </div>
@@ -324,7 +323,7 @@ const DynamicGrades = ({
                   {division.educationalSubDivision.map(
                     (subDivision, divisionIndex) => (
                       <section key={divisionIndex}>
-                        {console.log(division)}
+                        {/* {console.log(division)} */}
                         <div className="flex">
                           <div className="input__group flex-cr inputs input--medium ">
                             <input
@@ -344,15 +343,18 @@ const DynamicGrades = ({
                             />
                             <br />
                           </div>
-
                           {/* REMOVE BUTTON CONTROL FOR EDUCATIONAL SUBDIVISION */}
-                          <div className="remove-periods-icon flex-c ">
-                            <RemoveButton
-                              removables={removeEducationalSubdivision}
-                              index={index}
-                              subIndex={divisionIndex}
-                            />
-                          </div>
+                          {division.educationalSubDivision.length > 1 ? (
+                            <div className="remove-periods-icon flex-c ">
+                              <RemoveButton
+                                removables={removeEducationalSubdivision}
+                                index={index}
+                                subIndex={divisionIndex}
+                              />
+                            </div>
+                          ) : (
+                            <div className="space-for-remove"></div>
+                          )}
                         </div>
                       </section>
                     )
@@ -360,27 +362,30 @@ const DynamicGrades = ({
                   {/* END OF EDUCATIONAL SUBDIVISONS E.G. GRADES, DEPARTMENTS, ETC... INPUT CONTROL */}
 
                   {/* ADD SUBDIVISIONS CONTROL BUTTON */}
-                  <div className="input-group__container flex-start">
-                    <div>
-                      {educationalDivisionState.length > 0 &&
-                      educationalDivisionState.length < 20 ? (
-                        <AddMoreButton
-                          label={
-                            division.educationalSubDivision[index]
-                              .subDivisionType === "Custom subDivision"
-                              ? "Add Subdivisons"
-                              : "Add " +
-                                division.educationalSubDivision[index]
-                                  .subDivisionType
-                          }
-                          handleLinks={(event) =>
-                            createNewEducationalSubDivisions(event, index)
-                          }
-                        />
-                      ) : (
-                        ""
-                      )}
+                  <div className="inputs flex-cs">
+                    <div className="input-group__container flex-start">
+                      <div>
+                        {educationalDivisionState.length > 0 &&
+                        educationalDivisionState.length < 20 ? (
+                          <AddMoreButton
+                            label={
+                              division.educationalSubDivision[division.educationalSubDivision.length - 1]
+                                .subDivisionType === "Custom subDivision"
+                                ? "Add Subdivisons"
+                                : "Add " +
+                                  division.educationalSubDivision[division.educationalSubDivision.length - 1]
+                                    .subDivisionType
+                            }
+                            handleLinks={(event) =>
+                              createNewEducationalSubDivisions(event, index)
+                            }
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
+                    {/* Checkbox for sections  */}
                   </div>
                 </div>
               </div>
