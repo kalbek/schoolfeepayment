@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 const initialState = {
   educationalDivision: [
     {
@@ -86,27 +86,39 @@ export const gradeSlice = createSlice({
     },
 
     updateEducationalSubDivisions: (state, action) => {
-      state.educationalDivision.map((division, index) => {
-        console.log("division.id: " + division.id);
-        console.log(
-          "action.payload.educationalDivisionId: " +
-            action.payload.educationalDivisionId
-        );
-        console.log(division.id);
+      console.log("action.payload.educationalDivisionId:" + action.payload.educationalDivisionId)
+      console.log("action.payload.educatonalSubDivisionId:" + action.payload.educationalSubDivisionId)
+      state.educationalDivision.map((division) => {
         if (division.id === action.payload.educationalDivisionId) {
           division.educationalSubDivision.map((subDivision) => {
-            console.log("now then");
-            console.log("index: " + index);
-            console.log(action.payload.subDivisionType);
+            if (subDivision.id === action.payload.educationalSubDivisionId) {
+              subDivision.subDivisionName = action.payload.subDivisionName;
+            }
           });
-          // console.log("halooo")
-          // console.log(state.educationalDivision[index].educationalSubDivision[division.id].subDivisionType)
-          state.educationalDivision[index].educationalSubDivision[
-            division.id
-          ].subDivisionType = action.payload.subDivisionType;
-          state.educationalDivision[index].educationalSubDivision[
-            division.id
-          ].subDivisionName = action.payload.subDivisionName;
+        }
+      });
+    },
+
+    deleteEducationalSubDivision: (state, action) => {
+      state.educationalDivision.map((division) => {
+        console.log("now")
+        // console.log(current(division.educationalSubDivisionId.subDivisionType))
+        if (division.id === action.payload.educationalDivisionId) {
+          division.educationalSubDivision =
+            division.educationalSubDivision.filter(
+              (subDivision) =>
+                subDivision.id !== action.payload.educationalSubDivisionId
+            );
+        }
+      });
+
+      state.educationalDivision.map((division) => {
+        if (division.id === action.payload.educationalDivisionId) {
+          division.educationalSubDivision.map((subDivision) => {
+            if (subDivision.id > action.payload.educationalSubDivisionId) {
+              subDivision.id -= 1;
+            }
+          });
         }
       });
     },
@@ -151,32 +163,11 @@ export const gradeSlice = createSlice({
       });
     },
 
-    deleteEducationalSubDivision: (state, action) => {
-      state.educationalDivision.map((division) => {
-        division.map((subDivision) => {
-          if (division.id === action.payload.educationalDivisionId) {
-            subDivision.filter(
-              (subDivision) =>
-                subDivision.id != action.payload.educationalSubDivisionId
-            );
-          }
-        });
-      });
-      state.educationalDivision.map((division) => {
-        division.map((subDivision) => {
-          if (division.id === action.payload.educationalDivisionId) {
-            subDivision.filter(
-              (subDivision) =>
-                subDivision.id != action.payload.educationalSubDivisionId
-            );
-          }
-        });
-      });
-    },
+    // console.log("hey: " + state.educationalDivision[division.id].educationalSubDivision[action.payload.educationalSubDivisionId].subDivisionType);
 
     deleteSubDivisionSections: (state, action) => {
       state.educationalDivision.map((division) => {
-        division.map((subDivision) => {
+        division.educationalSubDivision.map((subDivision) => {
           subDivision.map((section) => {
             if (division.id === action.payload.educationalDivisionId) {
               if (subDivision.id === action.payload.educationalSubDivisionId) {

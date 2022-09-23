@@ -14,7 +14,7 @@ import CustomDivision from "../../EducationalDivisions/CustomDivision";
 import "react-datepicker/dist/react-datepicker.css";
 import { parse } from "date-fns";
 
-const DynamicGrades = ({
+const DynamicGradesBK23 = ({
   formData,
   setFormData,
   handleNewGrades,
@@ -322,9 +322,8 @@ const DynamicGrades = ({
                   </div>
                   {/* INPUT CONTROL FOR EDUCATIONAL SUBDIVISIONS */}
                   {division.educationalSubDivision.map(
-                    (subDivision, divisionIndex) => (
-                      <section key={divisionIndex}>
-                        {console.log(division)}
+                    (subDivision, subDivisionIndex) => (
+                      <section key={subDivisionIndex}>
                         <div className="flex">
                           <div className="input__group flex-cr inputs input--medium ">
                             <input
@@ -332,13 +331,12 @@ const DynamicGrades = ({
                               value={subDivision.subDivisionName}
                               id={subDivision.subDivisionType}
                               name="educationalSubDivision"
-                              placeholder={"e.g. Grade 1, Grade 2 ..."}
+                              placeholder={"e.g. LKG, UKG, Grade 1, Grade 2"}
                               tabIndex={1}
                               onChange={(event) =>
                                 handleEducationalSubDivisions(
                                   event,
-                                  index,
-                                  divisionIndex
+                                  subDivisionIndex
                                 )
                               }
                             />
@@ -350,7 +348,7 @@ const DynamicGrades = ({
                             <RemoveButton
                               removables={removeEducationalSubdivision}
                               index={index}
-                              subIndex={divisionIndex}
+                              subIndex={subDivisionIndex}
                             />
                           </div>
                         </div>
@@ -387,7 +385,7 @@ const DynamicGrades = ({
             ))}
           </div>
 
-          {/* BUTTON TO ADD A NEW EDUCATIONAL DIVISION CONTROL */}
+          {/* BUTTON CONTROL TO HANDLE ADD A NEW EDUCATIONAL DIVISIONS */}
           <div className="input-group__container flex-start pt2">
             <div>
               {educationalDivisionState.length > 0 &&
@@ -401,6 +399,8 @@ const DynamicGrades = ({
               )}
             </div>
           </div>
+
+          {/* END OF ADD ON MORE PERIOD BUTTON */}
         </div>
 
         {/* <div className="flex-c">
@@ -412,4 +412,4 @@ const DynamicGrades = ({
   );
 };
 
-export default DynamicGrades;
+export default DynamicGradesBK23;

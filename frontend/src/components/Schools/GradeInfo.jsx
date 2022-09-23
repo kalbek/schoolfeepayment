@@ -81,11 +81,13 @@ const GradeInfo = ({ formData, setFormData }) => {
 
     console.log(educationalDivisionState);
   };
-  const handleEducationalSubDivisions = (event, index) => {
+  const handleEducationalSubDivisions = (event, divisionIndex, index) => {
     const { id, name, value } = event.target;
+    // console.log("index: "+ index)
     dispatch(
       updateEducationalSubDivisions({
-        educationalDivisionId: index,
+        educationalDivisionId: divisionIndex,
+        educationalSubDivisionId: index,
         subDivisionType: id,
         subDivisionName: value,
       })
@@ -161,6 +163,17 @@ const GradeInfo = ({ formData, setFormData }) => {
     dispatch(deleteGrades({ id: index }));
   };
 
+  const removeEducationalSubdivision = (index, subIndex) => {
+    console.log("index: " + index);
+    console.log("subIndex: " + subIndex);
+    dispatch(
+      deleteEducationalSubDivision({
+        educationalDivisionId: index,
+        educationalSubDivisionId: subIndex,
+      })
+    );
+  };
+
   return (
     <>
       <div className="flex gapfull">
@@ -188,6 +201,7 @@ const GradeInfo = ({ formData, setFormData }) => {
             handleEducationalDivisions={handleEducationalDivisions}
             handleEducationalSubDivisions={handleEducationalSubDivisions}
             createNewEducationalSubDivisions={createNewEducationalSubDivisions}
+            removeEducationalSubdivision={removeEducationalSubdivision}
           />
         </div>
         {/* <div className="flex-ccc">
