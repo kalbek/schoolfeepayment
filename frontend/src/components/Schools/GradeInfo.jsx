@@ -56,7 +56,9 @@ const GradeInfo = ({ formData, setFormData }) => {
       createEducationalSubDivisions({
         educationalDivisionId: index,
         id:
-          4,
+          educationalDivisionState[index].educationalSubDivision[
+            educationalDivisionState[index].educationalSubDivision.length - 1
+          ].id + 1,
         subDivisionType: "Grade",
         subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
         hasSection: false,
@@ -77,16 +79,15 @@ const GradeInfo = ({ formData, setFormData }) => {
       })
     );
 
-    console.log(educationalDivisionState)
-
+    console.log(educationalDivisionState);
   };
   const handleEducationalSubDivisions = (event, index) => {
     const { id, name, value } = event.target;
     dispatch(
       updateEducationalSubDivisions({
         educationalDivisionId: index,
-        divisionType: id,
-        divisionName: value,
+        subDivisionType: id,
+        subDivisionName: value,
       })
     );
   };

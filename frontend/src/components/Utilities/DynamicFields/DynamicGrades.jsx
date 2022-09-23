@@ -30,6 +30,7 @@ const DynamicGrades = ({
   const educationalDivisionState = useSelector(
     (state) => state.grades.educationalDivision
   );
+  const { popup } = useSelector((state) => state.popups);
   const level = [
     { id: "1", label: "Kindergarten", value: "Kindergarten" },
     { id: "2", label: "Lower Primary", value: "lowerPrimary" },
@@ -46,7 +47,7 @@ const DynamicGrades = ({
         <div>
           <div className="flex-c">
             <div className="pr1rem flex-start">
-              {/* MAJOR EDUCATIONAL DIVISONS RADIO CONTROLS */}
+              {/* RADIO BUTTON CONTROL FOR MAJOR EDUCATIONAL DIVISONS */}
               <div className="checkbox-inputs input__group field-group-container">
                 <section className="flex-left">
                   <label htmlFor="">
@@ -150,9 +151,7 @@ const DynamicGrades = ({
                   </div>
                 </section>
               </div>
-              {/*END OF MAJOR EDUCATIONAL DIVISONS RADIO CONTROLS */}
-
-              {/* EDUCATIONAL LEVELS RADIO BUTTON CONTROLS */}
+              {/* RADIO BUTTON CONTROLS FOR EDUCATIONAL LEVELS */}
               <div className="checkbox-inputs input__group field-group-container">
                 <section className="flex-left">
                   <label htmlFor="">
@@ -277,11 +276,11 @@ const DynamicGrades = ({
           </section>
           {/* END OF RESET GRADES BUTTON CONTROL*/}
 
-          {/* SCHOOL STAGES WITH GRADE DETAILS */}
+          {/* EDUCATIONAL DIVISIONS WITH GRADE DETAILS */}
           <div className="flex-start">
             {educationalDivisionState.map((division, index) => (
               <div key={index} className="dynamic-periods-container">
-                {/*SCHOOL STAGES INPUT CONTROLS */}
+                {/*EDUCATIONAL STAGES INPUT CONTROLS */}
                 <div className="flex-start">
                   <section key={index}>
                     <div className="input__group flex-cs m20">
@@ -289,7 +288,7 @@ const DynamicGrades = ({
                         <input
                           type="text"
                           value={division.divisionName}
-                          id={division.divisionType}
+                          id="Stage"
                           name="educationalDivision"
                           placeholder={"e.g. KG, Primary, Secondary ..."}
                           tabIndex={1}
@@ -305,36 +304,60 @@ const DynamicGrades = ({
                     </div>
                   </section>
                 </div>
-                {/*END OF SCHOOL STAGES INPUT CONTROLS */}
+                <br />
+                {/*END OF EDUCATIONAL DIVISIONS INPUT CONTROLS */}
 
-                {/* EDUCATIONAL SUBDIVISONS E.G. GRADES, DEPARTMENTS, ETC... */}
-                {/* SUB DIVISION INPUT CONTROL */}
-                <section key={index}>
-                  <div className="input__group flex-cs m20">
-                    <div className="flex-cr inputs input--medium">
-                      <input
-                        type="text"
-                        value={division.subDivisionName}
-                        id={"educational subdivision"}
-                        name="schoolStages"
-                        placeholder={"e.g. LKG, UKG, Grade 1, Grade 2 ..."}
-                        tabIndex={1}
-                        onChange={(event) =>
-                          handleEducationalSubDivisions(event, index)
-                        }
-                      />
-                      <label htmlFor="school-name">
-                        <p>
-                          {
-                            division.educationalSubDivision[index]
-                              .subDivisionType
-                          }
-                        </p>
-                      </label>
-                      <br />
-                    </div>
+                {/* EDUCATIONAL SUBDIVISONS E.G. GRADES, DEPARTMENTS, ETC... INPUT CONTROL */}
+                {/* LABEL FOR EDUCATIONAL SUBDIVISONS */}
+                <div className=" inputs">
+                  <div className="input__group">
+                    <label>
+                      <p>
+                        {division.educationalSubDivision[index].subDivisionType}
+                        s
+                      </p>
+                    </label>
                   </div>
-                </section>
+                  {/* INPUT CONTROL FOR EDUCATIONAL SUBDIVISIONS */}
+                  {division.educationalSubDivision.map((subDivision, index) => (
+                    <section key={index}>
+                      <div className="flex ">
+                        <div className="flex-cr inputs input--medium">
+                          <input
+                            type="text"
+                            value={subDivision.subDivisionName}
+                            id={subDivision.subDivisionType}
+                            name="educationalSubDivision"
+                            placeholder={"e.g. LKG, UKG, Grade 1, Grade 2"}
+                            tabIndex={1}
+                            onChange={(event) =>
+                              handleEducationalSubDivisions(event, index)
+                            }
+                          />
+                          <br />
+                        </div>
+
+                        {/* REMOVE BUTTON CONTROL FOR EDUCATIONAL SUBDIVISION */}
+                        <div className="remove-periods-icon mtminus2">
+                          {division.educationalSubDivision.length > 1 ? (
+                            <>
+                              {console.log("yes greater")}
+                              <RemoveButton
+                                removables={removeGrades}
+                                index={index}
+                              />
+                              {/* <RemoveButton removables={removeGrades} index={index} /> */}
+                            </>
+                          ) : (
+                            // <></>
+                            <div className="space-for-remove"></div>
+                          )}
+                        </div>
+                      </div>
+                    </section>
+                  ))}
+                </div>
+                {/* END OF EDUCATIONAL SUBDIVISONS E.G. GRADES, DEPARTMENTS, ETC... INPUT CONTROL */}
 
                 {/* ADD SUBDIVISIONS CONTROL BUTTON */}
                 <div className="input-group__container flex-start pt2">
@@ -344,10 +367,15 @@ const DynamicGrades = ({
                       <AddMoreButton
                         label={
                           division.educationalSubDivision[index]
-                              .subDivisionType === "Custom subDivision" ? "Add Subdivisons" : "Add " + division.educationalSubDivision[index]
-                              .subDivisionType
+                            .subDivisionType === "Custom subDivision"
+                            ? "Add Subdivisons"
+                            : "Add " +
+                              division.educationalSubDivision[index]
+                                .subDivisionType
                         }
-                        handleLinks={createNewEducationalSubDivisions}
+                        handleLinks={(event) =>
+                          createNewEducationalSubDivisions(event, index)
+                        }
                       />
                     ) : (
                       ""
@@ -358,11 +386,7 @@ const DynamicGrades = ({
             ))}
           </div>
 
-          {/* END OF SCHOOL STAGES WITH GRADE DETAILS */}
-
-          {/* SCHOOL GRADES DETAILS */}
-
-          {/* HANDLE NEW EDUCATIONAL DIVISIONS */}
+          {/* BUTTON CONTROL TO HANDLE ADD A NEW EDUCATIONAL DIVISIONS */}
           <div className="input-group__container flex-start pt2">
             <div>
               {educationalDivisionState.length > 0 &&

@@ -58,11 +58,7 @@ export const gradeSlice = createSlice({
 
     createEducationalSubDivisions: (state, action) => {
       // division.id => Id of the current educational division e.g. Stage id, or Department id
-      const divisionId = action.payload.educationalDivisionId
-      console.log("hey: " + divisionId)
       state.educationalDivision.map((division) => {
-        console.log("division.id: "+division.id)
-        console.log("action.payload.educationalDivisionId: "+action.payload.educationalDivisionId)
         if (division.id === action.payload.educationalDivisionId)
           division.educationalSubDivision.push(action.payload);
       });
@@ -90,23 +86,27 @@ export const gradeSlice = createSlice({
     },
 
     updateEducationalSubDivisions: (state, action) => {
-      state.educationalDivision.map((division) => {
+      state.educationalDivision.map((division, index) => {
+        console.log("division.id: " + division.id);
+        console.log(
+          "action.payload.educationalDivisionId: " +
+            action.payload.educationalDivisionId
+        );
+        console.log(division.id);
         if (division.id === action.payload.educationalDivisionId) {
-          division.map((subDivision) => {
-            if (subDivision.id === action.payload.educationalSubDivisionId) {
-              subDivision.subDivisionType = action.payload.subDivisionType;
-              subDivision.subDivisionName = action.payload.subDivisionName;
-              subDivision.hasSection = action.payload.hasSection;
-              subDivision.hasMaximumNumberOfStudents =
-                action.payload.hasMaximumNumberOfStudents;
-              subDivision.maximumNumberOfStudents =
-                action.payload.maximumNumberOfStudents;
-              subDivision.numberOfScholarships =
-                action.payload.numberOfScholarships;
-              subDivision.numberOfSpecialCases =
-                action.payload.numberOfSpecialCases;
-            }
+          division.educationalSubDivision.map((subDivision) => {
+            console.log("now then");
+            console.log("index: " + index);
+            console.log(action.payload.subDivisionType);
           });
+          // console.log("halooo")
+          // console.log(state.educationalDivision[index].educationalSubDivision[division.id].subDivisionType)
+          state.educationalDivision[index].educationalSubDivision[
+            division.id
+          ].subDivisionType = action.payload.subDivisionType;
+          state.educationalDivision[index].educationalSubDivision[
+            division.id
+          ].subDivisionName = action.payload.subDivisionName;
         }
       });
     },
