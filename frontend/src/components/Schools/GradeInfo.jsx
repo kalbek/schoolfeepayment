@@ -181,7 +181,7 @@ const GradeInfo = ({ formData, setFormData }) => {
         updateGrades({
           id: index,
           categoryToUpdate: name,
-          educationLevelTypeName: id,
+          educationSubDivisionName: id,
           gradeDetailsType: id,
           divisionType: id,
           educationLevelName: value,

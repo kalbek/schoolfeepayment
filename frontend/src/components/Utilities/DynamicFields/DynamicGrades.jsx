@@ -34,8 +34,13 @@ const DynamicGrades = ({
   const educationalDivisionState = useSelector(
     (state) => state.grades.educationalDivision
   );
+  const lastDivisionState =
+    educationalDivisionState[educationalDivisionState.length - 1];
+  const lastSubDivisionState =
+    lastDivisionState.educationalSubDivision[
+      lastDivisionState.educationalSubDivision.length - 1
+    ];
 
-  const lastDivisionState = educationalDivisionState[educationalDivisionState.length -1]
   const { popup } = useSelector((state) => state.popups);
   const level = [
     { id: "1", label: "Kindergarten", value: "Kindergarten" },
@@ -71,10 +76,7 @@ const DynamicGrades = ({
                         id={"Stage"}
                         tabIndex={9}
                         value={lastDivisionState.divisionType}
-                        checked={
-                          lastDivisionState.divisionType ===
-                          "Stage"
-                        }
+                        checked={lastDivisionState.divisionType === "Stage"}
                         onChange={(event) => handleUpdateGrades(event)}
                       />
                       <>
@@ -95,8 +97,7 @@ const DynamicGrades = ({
                         id={"Department"}
                         value={lastDivisionState.divisionType}
                         checked={
-                          lastDivisionState.divisionType ===
-                          "Department"
+                          lastDivisionState.divisionType === "Department"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
                         tabIndex={9}
@@ -118,10 +119,7 @@ const DynamicGrades = ({
                         name="educaitonDivisions"
                         id={"Faculty"}
                         value={lastDivisionState.divisionType}
-                        checked={
-                          lastDivisionState.divisionType ===
-                          "Faculty"
-                        }
+                        checked={lastDivisionState.divisionType === "Faculty"}
                         onChange={(event) => handleUpdateGrades(event)}
                         tabIndex={9}
                       />
@@ -142,8 +140,7 @@ const DynamicGrades = ({
                         id={"Custom Division"}
                         value={lastDivisionState.divisionType}
                         checked={
-                          lastDivisionState.divisionType ===
-                          "Custom Division"
+                          lastDivisionState.divisionType === "Custom Division"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
                         tabIndex={9}
@@ -171,13 +168,9 @@ const DynamicGrades = ({
                         type="radio"
                         name={"educaitonLevels"}
                         id={"Grade"}
-                        value={
-                          gradeState[gradeState.length - 1]
-                            .educationLevelTypeName === "Grade"
-                        }
+                        value={lastSubDivisionState.subDivisionType === "Grade"}
                         checked={
-                          gradeState[gradeState.length - 1]
-                            .educationLevelTypeName === "Grade"
+                          lastSubDivisionState.subDivisionType === "Grade"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
                         tabIndex={9}
@@ -193,13 +186,9 @@ const DynamicGrades = ({
                         type="radio"
                         name="educaitonLevels"
                         id="Year"
-                        value={
-                          gradeState[gradeState.length - 1]
-                            .educationLevelTypeName === "Year"
-                        }
+                        value={lastSubDivisionState.subDivisionType === "Year"}
                         checked={
-                          gradeState[gradeState.length - 1]
-                            .educationLevelTypeName === "Year"
+                          lastSubDivisionState.subDivisionType === "Year"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
                         tabIndex={9}
@@ -215,13 +204,9 @@ const DynamicGrades = ({
                         type="radio"
                         name="educaitonLevels"
                         id="Level"
-                        value={
-                          gradeState[gradeState.length - 1]
-                            .educationLevelTypeName === "Level"
-                        }
+                        value={lastSubDivisionState.subDivisionType === "Level"}
                         checked={
-                          gradeState[gradeState.length - 1]
-                            .educationLevelTypeName === "Level"
+                          lastSubDivisionState.subDivisionType === "Level"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
                         tabIndex={9}
@@ -233,20 +218,20 @@ const DynamicGrades = ({
                     {/* Radio buttons for custom level types */}
                     <label
                       className="checkbox-items flex flex-cs"
-                      id={"Custom_Level"}
+                      id={"Custom Level"}
                     >
                       <input
                         className="form-radio-button"
                         type="radio"
                         name="educaitonLevels"
-                        id="Custom_Level"
+                        id="Custom Level"
                         value={
-                          gradeState[gradeState.length - 1]
-                            .educationLevelTypeName === "Custom_Level"
+                          lastSubDivisionState.subDivisionType ===
+                          "Custom Level"
                         }
                         checked={
-                          gradeState[gradeState.length - 1]
-                            .educationLevelTypeName === "Custom_Level"
+                          lastSubDivisionState.subDivisionType ===
+                          "Custom Level"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
                         tabIndex={9}
@@ -296,7 +281,19 @@ const DynamicGrades = ({
                             value={division.divisionName}
                             id="Stage"
                             name="educationalDivision"
-                            placeholder={"e.g. KG, Primary, Secondary ..."}
+                            // placeholder={"e.g. KG, Primary, Secondary ..."}
+                            placeholder={
+                              division.divisionType ===
+                              "Stage"
+                                ? "e.g. KG, Primary, Secondary ..."
+                                : division.divisionType ===
+                                  "Department"
+                                ? "e.g. Computer Science, Accounting ..."
+                                : division.divisionType ===
+                                  "Faculty"
+                                ? "e.g. Technology, Social Science ..."
+                                : "e.g. 1, 2, ..."
+                            }
                             tabIndex={1}
                             onChange={(event) =>
                               handleEducationalDivisions(event, index)
@@ -305,7 +302,7 @@ const DynamicGrades = ({
 
                           <div className="flex-cs">
                             <label htmlFor="">
-                              <p>{division.divisionType} Name</p>
+                              <p>{division.divisionType}s</p>
                             </label>
                             {educationalDivisionState.length > 1 && (
                               <div className="mrn10 pointer mtn5">
@@ -346,7 +343,19 @@ const DynamicGrades = ({
                                 value={subDivision.subDivisionName}
                                 id={subDivision.subDivisionType}
                                 name="educationalSubDivision"
-                                placeholder={"e.g. Grade 1, Grade 2 ..."}
+                                // placeholder={lastSubDivisionState.subDivisionType}
+                                placeholder={
+                                  lastSubDivisionState.subDivisionType ===
+                                  "Grade"
+                                    ? "e.g. Grade 1, Grade 2 ..."
+                                    : lastSubDivisionState.subDivisionType ===
+                                      "Year"
+                                    ? "e.g. Year I, Year II ..."
+                                    : lastSubDivisionState.subDivisionType ===
+                                      "Level"
+                                    ? "e.g. Level 1, Level 2 ..."
+                                    : "e.g. 1, 2, ..."
+                                }
                                 tabIndex={1}
                                 onChange={(event) =>
                                   handleEducationalSubDivisions(
@@ -358,13 +367,7 @@ const DynamicGrades = ({
                               />
                               <label htmlFor="">
                                 {divisionIndex === 0 ? (
-                                  <p>
-                                    {
-                                      division.educationalSubDivision[0]
-                                        .subDivisionType
-                                    }{" "}
-                                    Name
-                                  </p>
+                                  <p>{lastSubDivisionState.subDivisionType}s</p>
                                 ) : (
                                   <></>
                                 )}

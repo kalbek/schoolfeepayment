@@ -4,6 +4,7 @@ const initialState = {
     {
       id: 0,
       divisionType: "Stage",
+      divisoinLevel: "",
       divisionName: "",
       educationalSubDivision: [
         {
@@ -207,15 +208,19 @@ export const gradeSlice = createSlice({
         console.log("category to update: " + action.payload.categoryToUpdate);
         console.log("divisionName : " + action.payload.divisionName);
         if (action.payload.categoryToUpdate === "educaitonLevels") {
-          if (action.payload.educationLevelTypeName === "Grade") {
-            division.educationLevelTypeName = "Grade";
-          } else if (action.payload.educationLevelTypeName === "Year") {
-            division.educationLevelTypeName = "Year";
-          } else if (action.payload.educationLevelTypeName === "Level") {
-            division.educationLevelTypeName = "Level";
-          } else if (action.payload.educationLevelTypeName === "Custom_Level") {
-            division.educationLevelTypeName = "Custom_Level";
-          }
+          division.educationalSubDivision.map((subDivision) => {
+            if (action.payload.educationSubDivisionName === "Grade") {
+              subDivision.subDivisionType = "Grade";
+            } else if (action.payload.educationSubDivisionName === "Year") {
+              subDivision.subDivisionType = "Year";
+            } else if (action.payload.educationSubDivisionName === "Level") {
+              subDivision.subDivisionType = "Level";
+            } else if (
+              action.payload.educationSubDivisionName === "Custom Level"
+            ) {
+              subDivision.subDivisionType = "Custom Level";
+            }
+          });
         } else if (action.payload.categoryToUpdate === "educaitonDivisions") {
           if (action.payload.divisionType === "Stage") {
             division.divisionType = "Stage";
