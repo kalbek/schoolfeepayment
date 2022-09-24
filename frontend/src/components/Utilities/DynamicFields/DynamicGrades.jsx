@@ -305,12 +305,14 @@ const DynamicGrades = ({
                             <label htmlFor="">
                               <p>{division.divisionType} Name</p>
                             </label>
-                            <div className="mrn10 pointer mtn5">
-                              <DeleteButton 
-                                deleteAction={removeEducationalDivisions}
-                                index={index}
-                              />
-                            </div>
+                            {educationalDivisionState.length > 1 && (
+                              <div className="mrn10 pointer mtn5">
+                                <DeleteButton
+                                  deleteAction={removeEducationalDivisions}
+                                  index={index}
+                                />
+                              </div>
+                            )}
                           </div>
                           <br />
                         </div>

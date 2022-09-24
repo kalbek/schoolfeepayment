@@ -111,7 +111,10 @@ const GradeInfo = ({ formData, setFormData }) => {
           educationalDivisionState[index].educationalSubDivision[
             educationalDivisionState[index].educationalSubDivision.length - 1
           ].id + 1,
-        subDivisionType: "Grade",
+        subDivisionType:
+          educationalDivisionState[index].educationalSubDivision[
+            educationalDivisionState[index].educationalSubDivision.length - 1
+          ].subDivisionType,
         subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
         hasSection: false,
         hasMaximumNumberOfStudents: false,
@@ -227,9 +230,6 @@ const GradeInfo = ({ formData, setFormData }) => {
   };
 
   const removeEducationalDivisions = (index) => {
-    console.log("we are here")
-
-    console.log(index)
     dispatch(
       deleteEducationalDivisions({
         educationalDivisionId: index,
