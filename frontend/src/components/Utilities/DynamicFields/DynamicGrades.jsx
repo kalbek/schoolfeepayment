@@ -158,7 +158,7 @@ const DynamicGrades = ({
               <div className="checkbox-inputs input__group field-group-container">
                 <section className="flex-left">
                   <label htmlFor="">
-                    <h3>Education Levels</h3>
+                    <h3>Educational Subdivisions</h3>
                   </label>
                   <div className="flex-cs">{/* School Shifts */}</div>
                   <div className="flex-cs checkbox-group">
