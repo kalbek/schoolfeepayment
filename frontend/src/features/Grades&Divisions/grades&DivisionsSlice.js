@@ -202,41 +202,43 @@ export const gradeSlice = createSlice({
       state.gradeDivisionState.push(action.payload);
     },
     updateGrades: (state, action) => {
-      state.gradeDivisionState.map((gradeState) => {
-        gradeState.categoryToUpdate = action.payload.categoryToUpdate;
+      state.educationalDivision.map((division) => {
+        division.categoryToUpdate = action.payload.categoryToUpdate;
         console.log("category to update: " + action.payload.categoryToUpdate);
         console.log("divisionName : " + action.payload.divisionName);
         if (action.payload.categoryToUpdate === "educaitonLevels") {
           if (action.payload.educationLevelTypeName === "Grade") {
-            gradeState.educationLevelTypeName = "Grade";
+            division.educationLevelTypeName = "Grade";
           } else if (action.payload.educationLevelTypeName === "Year") {
-            gradeState.educationLevelTypeName = "Year";
+            division.educationLevelTypeName = "Year";
           } else if (action.payload.educationLevelTypeName === "Level") {
-            gradeState.educationLevelTypeName = "Level";
+            division.educationLevelTypeName = "Level";
           } else if (action.payload.educationLevelTypeName === "Custom_Level") {
-            gradeState.educationLevelTypeName = "Custom_Level";
+            division.educationLevelTypeName = "Custom_Level";
           }
         } else if (action.payload.categoryToUpdate === "educaitonDivisions") {
-          if (action.payload.divisionName === "Stage") {
-            gradeState.divisionName = "Stage";
+          if (action.payload.divisionType === "Stage") {
+            division.divisionType = "Stage";
           }
-          if (action.payload.divisionName === "Department") {
-            gradeState.divisionName = "Department";
+          if (action.payload.divisionType === "Department") {
+            division.divisionType = "Department";
           }
-          if (action.payload.divisionName === "Faculty") {
-            gradeState.divisionName = "Faculty";
+          if (action.payload.divisionType === "Faculty") {
+            division.divisionType = "Faculty";
           }
-          if (action.payload.divisionName === "Custom Division") {
-            gradeState.divisionName = "Custom Division";
+          if (action.payload.divisionType === "Custom Division") {
+            console.log("yaa");
+            division.divisionType = "Custom Division";
+            console.log("yaadivision.divisionTyp: " + division.divisionType);
           }
         } else if (
           action.payload.categoryToUpdate === "gradeDetails" &&
-          action.payload.id === gradeState.id
+          action.payload.id === division.id
         ) {
           if (action.payload.gradeDetailsType === "gradeDescription") {
-            gradeState.educationLevelName = action.payload.educationLevelName;
+            division.educationLevelName = action.payload.educationLevelName;
           } else if (action.payload.gradeDetailsType === "maxNumOfStudents") {
-            gradeState.maxNumOfStudents = action.payload.maxNumOfStudents;
+            division.maxNumOfStudents = action.payload.maxNumOfStudents;
           }
         }
       });

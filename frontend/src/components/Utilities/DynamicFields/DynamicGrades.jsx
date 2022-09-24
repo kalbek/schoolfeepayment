@@ -34,6 +34,8 @@ const DynamicGrades = ({
   const educationalDivisionState = useSelector(
     (state) => state.grades.educationalDivision
   );
+
+  const lastDivisionState = educationalDivisionState[educationalDivisionState.length -1]
   const { popup } = useSelector((state) => state.popups);
   const level = [
     { id: "1", label: "Kindergarten", value: "Kindergarten" },
@@ -68,9 +70,9 @@ const DynamicGrades = ({
                         name="educaitonDivisions"
                         id={"Stage"}
                         tabIndex={9}
-                        value={gradeState[gradeState.length - 1].divisionName}
+                        value={lastDivisionState.divisionType}
                         checked={
-                          gradeState[gradeState.length - 1].divisionName ===
+                          lastDivisionState.divisionType ===
                           "Stage"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
@@ -91,9 +93,9 @@ const DynamicGrades = ({
                         type="radio"
                         name="educaitonDivisions"
                         id={"Department"}
-                        value={gradeState[gradeState.length - 1].divisionName}
+                        value={lastDivisionState.divisionType}
                         checked={
-                          gradeState[gradeState.length - 1].divisionName ===
+                          lastDivisionState.divisionType ===
                           "Department"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
@@ -115,9 +117,9 @@ const DynamicGrades = ({
                         type="radio"
                         name="educaitonDivisions"
                         id={"Faculty"}
-                        value={gradeState[gradeState.length - 1].divisionName}
+                        value={lastDivisionState.divisionType}
                         checked={
-                          gradeState[gradeState.length - 1].divisionName ===
+                          lastDivisionState.divisionType ===
                           "Faculty"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
@@ -125,7 +127,7 @@ const DynamicGrades = ({
                       />
                       <>
                         <span>
-                          &nbsp; <p>Faculty</p>
+                          &nbsp; <p>Faculty & Department</p>
                         </span>
                       </>
                     </label>
@@ -138,10 +140,10 @@ const DynamicGrades = ({
                         type="radio"
                         name="educaitonDivisions"
                         id={"Custom Division"}
-                        value={gradeState[gradeState.length - 1].divisionName}
+                        value={lastDivisionState.divisionType}
                         checked={
-                          gradeState[gradeState.length - 1].divisionName ===
-                          "Custom Divison"
+                          lastDivisionState.divisionType ===
+                          "Custom Division"
                         }
                         onChange={(event) => handleUpdateGrades(event)}
                         tabIndex={9}
@@ -439,10 +441,10 @@ const DynamicGrades = ({
           </div>
         </div>
 
-        <div className="flex-c">
+        {/* <div className="flex-c">
           <SmallCard formData={formData} />
           <Preview />
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -29,11 +29,6 @@ const GradeInfo = ({ formData, setFormData }) => {
   // handling new grades
 
   const createNewEducationalDivisions = () => {
-    // console.log("hey");
-    // educationalDivisionState.length < 30 &&
-    //   console.log(
-    //     educationalDivisionState[educationalDivisionState.length - 1].id + 1
-    //   );
     dispatch(
       createEducationalDivisions({
         id:
@@ -41,9 +36,7 @@ const GradeInfo = ({ formData, setFormData }) => {
         divisionType:
           educationalDivisionState[educationalDivisionState.length - 1]
             .divisionType,
-        divisionName:
-          educationalDivisionState[educationalDivisionState.length - 1]
-            .divisionName,
+        divisionName: "",
         educationalSubDivision: [
           {
             id: 0,
@@ -190,7 +183,7 @@ const GradeInfo = ({ formData, setFormData }) => {
           categoryToUpdate: name,
           educationLevelTypeName: id,
           gradeDetailsType: id,
-          divisionName: id,
+          divisionType: id,
           educationLevelName: value,
           hasStageDivision: !baseGrade.hasStageDivision,
           hasDepartmentDivision: !baseGrade.hasDepartmentDivision,
