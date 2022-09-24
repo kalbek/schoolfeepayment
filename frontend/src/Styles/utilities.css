@@ -158,12 +158,26 @@
 .mtminus2 {
   margin-top: -2rem;
 }
+
+.mtn10 {
+  margin-top: -10%;
+}
+.mtn5 {
+  margin-top: -5%;
+}
 .mtminus4 {
   margin-top: -4rem;
 }
 
 .mlminus2 {
   margin-left: -20rem;
+}
+
+.mrn10 {
+  margin-right: -10%;
+}
+.ml10 {
+  margin-left: 10%;
 }
 
 /* lists */
@@ -192,4 +206,33 @@
 
 .pointer:hover {
   cursor: pointer;
+}
+
+ 
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex80 {
+  flex: 80%;
+}
+.flex60 {
+  flex: 60%;
+}
+.flex50 {
+  flex: 50%;
+}
+.flex40 {
+  flex: 40%;
+}
+
+.flex30 {
+  flex: 30%;
+}
+.flex20 {
+  flex: 20%;
+}
+.flex10 {
+  flex: 10%;
 }
