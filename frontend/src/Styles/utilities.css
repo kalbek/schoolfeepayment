@@ -47,6 +47,15 @@
 
 .grid {
   display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+
+.f-str{
+  align-items: stretch;
+}
+
+.flex-grow1{
+  flex-grow: 2;
 }
 
 .bgr {
@@ -56,7 +65,7 @@
 .flex-ct {
   display: flex;
   /* align-items:flex-start; */
-  align-items: flex-start;
+  align-content: flex-start;
   /* justify-content: top; */
   /* justify-content: baseline; */
   /* background-color: royalblue; */

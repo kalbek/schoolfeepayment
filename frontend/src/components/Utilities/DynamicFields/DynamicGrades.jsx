@@ -185,7 +185,7 @@ const DynamicGrades = ({
       </div>
 
       {/* EDUCATIONAL DIVISIONS AND SUBDIVISION DETAIL CARDS */}
-      <div className="  flex-ct wrap">
+      <div className="flex-ct wrap flex-grow1">
         {educationalDivisionState.map((division, divisionIndex) => (
           <div
             key={divisionIndex}
