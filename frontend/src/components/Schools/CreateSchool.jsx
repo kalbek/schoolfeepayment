@@ -285,71 +285,73 @@ function CreateSchool() {
           currentStep={formStep}
           className={popup ? " inactive-bg" : " "}
         />
-        <div className="school-info flex-c">
-          {count === -0.5 ? navigate("/") : ""}
-          {count === 0 && (
-            <SchoolInfo
-              emptyFields={emptyFields}
-              formData={formData}
-              setFormData={setFormData}
+        <div className="main-container flex-ccc">
+          <div className="school-info flex-c">
+            {count === -0.5 ? navigate("/") : ""}
+            {count === 0 && (
+              <SchoolInfo
+                emptyFields={emptyFields}
+                formData={formData}
+                setFormData={setFormData}
+              />
+            )}
+            {count === 0.5 && (
+              <PaymentTips formData={formData} setFormData={setFormData} />
+            )}
+            {count === 1 && (
+              <PaymentInfo formData={formData} setFormData={setFormData} />
+            )}
+            {count === 1.5 && (
+              <SemestersTips formData={formData} setFormData={setFormData} />
+            )}
+            {count === 2 && (
+              <PeriodInfo formData={formData} setFormData={setFormData} />
+            )}
+            {count === 2.5 && (
+              <GradeTips formData={formData} setFormData={setFormData} />
+            )}
+            {count === 3 && (
+              <GradeInfo formData={formData} setFormData={setFormData} />
+            )}
+            {count === 3.5 && (
+              <AchievementsTips formData={formData} setFormData={setFormData} />
+            )}
+            {count === 4 && (
+              <Achievements formData={formData} setFormData={setFormData} />
+            )}
+            {count === 4.5 && navDir === "next" ? dispatch(increment()) : null}
+            {count === 4.5 && navDir === "back" ? dispatch(decrement()) : null}
+            {count === 5 && (
+              <CompleteSteps formData={formData} setFormData={setFormData} />
+            )}
+          </div>
+          <div className="school-page-control page-control">
+            <FormPageControl
+              backFormStep={backFormStep}
+              nextFormStep={nextFormStep}
+            />
+          </div>
+          {popupType === "IncompleteFields" && (
+            <TipsCard
+              tipsCardTitle={"More Information Needed"}
+              tipsCardMessage={
+                "Looks like you haven't entered all info. We recommend that you fill at least your School's Name, school email, school CBE Account Number and CBE Merchant Code!"
+              }
+              tipsCardAcceptLabel={"OK"}
+              tipsCardDeclineLabel={"I CAN'T PROVIDE THE INFORMATION"}
             />
           )}
-          {count === 0.5 && (
-            <PaymentTips formData={formData} setFormData={setFormData} />
-          )}
-          {count === 1 && (
-            <PaymentInfo formData={formData} setFormData={setFormData} />
-          )}
-          {count === 1.5 && (
-            <SemestersTips formData={formData} setFormData={setFormData} />
-          )}
-          {count === 2 && (
-            <PeriodInfo formData={formData} setFormData={setFormData} />
-          )}
-          {count === 2.5 && (
-            <GradeTips formData={formData} setFormData={setFormData} />
-          )}
-          {count === 3 && (
-            <GradeInfo formData={formData} setFormData={setFormData} />
-          )}
-          {count === 3.5 && (
-            <AchievementsTips formData={formData} setFormData={setFormData} />
-          )}
-          {count === 4 && (
-            <Achievements formData={formData} setFormData={setFormData} />
-          )}
-          {count === 4.5 && navDir === "next" ? dispatch(increment()) : null}
-          {count === 4.5 && navDir === "back" ? dispatch(decrement()) : null}
-          {count === 5 && (
-            <CompleteSteps formData={formData} setFormData={setFormData} />
+          {popupType === "InvalidFields" && (
+            <TipsCard
+              tipsCardTitle={"Invalid Inputs"}
+              tipsCardMessage={InactiveText}
+              tipsCardAcceptLabel={"OK"}
+              // tipsCardDeclineLabel={""}
+            />
           )}
         </div>
-        <div className="school-page-control page-control">
-          <FormPageControl
-            backFormStep={backFormStep}
-            nextFormStep={nextFormStep}
-          />
-        </div>
-        {popupType === "IncompleteFields" && (
-          <TipsCard
-            tipsCardTitle={"More Information Needed"}
-            tipsCardMessage={
-              "Looks like you haven't entered all info. We recommend that you fill at least your School's Name, school email, school CBE Account Number and CBE Merchant Code!"
-            }
-            tipsCardAcceptLabel={"OK"}
-            tipsCardDeclineLabel={"I CAN'T PROVIDE THE INFORMATION"}
-          />
-        )}
-        {popupType === "InvalidFields" && (
-          <TipsCard
-            tipsCardTitle={"Invalid Inputs"}
-            tipsCardMessage={InactiveText}
-            tipsCardAcceptLabel={"OK"}
-            // tipsCardDeclineLabel={""}
-          />
-        )}
+        <FormsFooter />
       </div>
-      <FormsFooter />
     </>
   );
 }

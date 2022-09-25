@@ -2,15 +2,12 @@ import ProgressWidget from "../Utilities/Progress/ProgressWidget/ProgressWidget"
 import Logo from "../Logo/Logo";
 import "../../Styles/formsNavbarStyle.css";
 
-const FormNavbar = ({ currentStep, passedStep, progressItems }) => {
+const FormNavbar = ({ currentStep, progressItems }) => {
   return (
     <nav className="forms-nav__container flex-c">
       <div className="forms-nav__subcontainer flex-cs">
         <Logo />
-        <ProgressWidget
-          labelArray={progressItems}
-          currentStep={currentStep}
-        />
+        <ProgressWidget labelArray={progressItems} currentStep={currentStep} />
       </div>
     </nav>
   );
