@@ -6,11 +6,13 @@ const Textbox = ({
   tabIndex,
   onChange,
   label,
+  className,
 }) => {
   return (
     <>
       <div className="flex-cr">
         <input
+          className={className}
           type="text"
           value={value}
           id={id}

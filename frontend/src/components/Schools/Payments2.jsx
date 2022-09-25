@@ -1,16 +1,14 @@
-import RemoveButton from "../Buttons/RemoveButton";
-import RemoveLinksButton from "../Buttons/RemoveLinksButton";
-import "../../../Styles/dynamicButtonsStyle.css";
-import AddMoreButton from "../Buttons/AddMoreButton";
+import RemoveButton from "../Utilities/Buttons/RemoveButton";
+import RemoveLinksButton from "../Utilities/Buttons/RemoveLinksButton";
+import "../../Styles/dynamicButtonsStyle.css";
+import AddMoreButton from "../Utilities/Buttons/AddMoreButton";
 import { useSelector } from "react-redux";
-import Radio from "../../InputControls/Radio";
+import Radio from "../InputControls/Radio";
+import Textbox from "../InputControls/Textbox";
+import SmallCard from "../Utilities/Cards/SmallCard";
+import DeleteButton from "../Utilities/Buttons/DeleteButton";
 
-import Textbox from "../../InputControls/Textbox";
-import SmallCard from "../Cards/SmallCard";
-import Preview from "../Buttons/Preview";
-import DeleteButton from "../Buttons/DeleteButton";
-
-const DynamicGrades = ({
+const Payments2 = ({
   formData,
   setFormData,
   removeEducationalSubdivisions,
@@ -27,166 +25,28 @@ const DynamicGrades = ({
   const educationalDivisionState = useSelector(
     (state) => state.educationalDivisions.educationalDivision
   );
+  const periodState = useSelector((state) => state.periods.annualPeriodState);
+  const paymentState = useSelector((state) => state.payments.paymentState);
   const lastDivisionState =
     educationalDivisionState[educationalDivisionState.length - 1];
   const lastSubDivisionState =
     lastDivisionState.educationalSubDivision[
       lastDivisionState.educationalSubDivision.length - 1
     ];
-
-  const { popup } = useSelector((state) => state.popups);
-  const level = [
-    { id: "1", label: "Kindergarten", value: "Kindergarten" },
-    { id: "2", label: "Lower Primary", value: "lowerPrimary" },
-    { id: "3", label: "Elementary", value: "Elementary" },
-    { id: "4", label: "primary", value: "primary" },
-    { id: "5", label: "Lower Secondary", valueL: "lowerSecondary" },
-    { id: "6", label: "secondary", value: "secondary" },
-    { id: "7", label: "High School", value: "High School" },
-  ];
-
   return (
     <div className="flex-c">
       <div>
         <h1 className="form__titles--mid">
-          Now let us start filling out your school's{" "}
-          <strong> Educational Divisions</strong>
+          Now is the time for Numbers! --
+          <strong> Payment Amounts --</strong>
         </h1>
         <h3 className="form__subtitle">
-          Remember to start form lower divisions and work your way to higher
-          ones
+          Based on the data you provided earlier your school's payment detail is
+          mapped to look like this
         </h3>
       </div>
 
       {/*CONTAINER FOR DIVISIONS AND SUBDIVISION TYPES RADIO CONTROLS */}
-      <div className="flex">
-        {/* RADIO BUTTON CONTROL FOR MAJOR EDUCATIONAL DIVISONS */}
-        <div className="checkbox-inputs input__group field-group-container">
-          <section className="flex-left">
-            <label>
-              <h3 className="pt1">Major Educatonal Divisions</h3>
-            </label>
-            <div className="flex-cs checkbox-group">
-              <Radio
-                className={"flex-cs checkbox-items"}
-                htmlFor={"Stage"}
-                name="educaitonDivisions"
-                id={"Stage"}
-                tabIndex={9}
-                value={lastDivisionState.divisionType}
-                checked={lastDivisionState.divisionType === "Stage"}
-                onChange={(event) =>
-                  handleEducationalDivisionAndSubDivisionTypes(event)
-                }
-                label={"Stages / Levels"}
-              />
-              <Radio
-                className="checkbox-items flex flex-cs"
-                htmlFor={"Department"}
-                name="educaitonDivisions"
-                id={"Department"}
-                value={lastDivisionState.divisionType}
-                checked={lastDivisionState.divisionType === "Department"}
-                onChange={(event) =>
-                  handleEducationalDivisionAndSubDivisionTypes(event)
-                }
-                tabIndex={9}
-                label={"Departments"}
-              />
-              <Radio
-                className="checkbox-items flex flex-cs"
-                htmlFor={"Custom Division"}
-                name="educaitonDivisions"
-                id={"Custom Division"}
-                value={lastDivisionState.divisionType}
-                checked={lastDivisionState.divisionType === "Custom Division"}
-                onChange={(event) =>
-                  handleEducationalDivisionAndSubDivisionTypes(event)
-                }
-                tabIndex={9}
-                label={"Custom Divisions"}
-              />
-              &nbsp;&nbsp;
-            </div>
-          </section>
-        </div>
-        {/* RADIO BUTTON CONTROLS FOR EDUCATIONAL LEVELS */}
-        <div className="checkbox-inputs input__group field-group-container">
-          <section className="flex-left">
-            <label>
-              <h3 className="pt1">Educational Subdivisions</h3>
-            </label>
-            <div className="flex-cs">{/* School Shifts */}</div>
-            <div className="flex-cs checkbox-group">
-              {/* Radio buttons for grades */}
-
-              <Radio
-                className={"checkbox-items flex flex-cs"}
-                htmlFor={"Grade"}
-                name={"educaitonLevels"}
-                id={"Grade"}
-                value={lastSubDivisionState.subDivisionType === "Grade"}
-                checked={lastSubDivisionState.subDivisionType === "Grade"}
-                onChange={(event) =>
-                  handleEducationalDivisionAndSubDivisionTypes(event)
-                }
-                tabIndex={9}
-                label={"Grades"}
-              />
-
-              {/* Radio buttons for years */}
-              <Radio
-                className="checkbox-items flex flex-cs"
-                htmlFor={"Year"}
-                name="educaitonLevels"
-                id="Year"
-                value={lastSubDivisionState.subDivisionType === "Year"}
-                checked={lastSubDivisionState.subDivisionType === "Year"}
-                onChange={(event) =>
-                  handleEducationalDivisionAndSubDivisionTypes(event)
-                }
-                tabIndex={9}
-                label={"Years"}
-              />
-
-              {/* Radio buttons for levels */}
-              <Radio
-                className="checkbox-items flex flex-cs"
-                htmlFor={"Level"}
-                name="educaitonLevels"
-                id="Level"
-                value={lastSubDivisionState.subDivisionType === "Level"}
-                checked={lastSubDivisionState.subDivisionType === "Level"}
-                onChange={(event) =>
-                  handleEducationalDivisionAndSubDivisionTypes(event)
-                }
-                tabIndex={9}
-                label={"Levels"}
-              />
-
-              {/* Radio buttons for custom level types */}
-
-              <Radio
-                className="checkbox-items flex flex-cs"
-                name="educaitonLevels"
-                id="Custom Subdivision"
-                value={
-                  lastSubDivisionState.subDivisionType === "Custom Subdivision"
-                }
-                checked={
-                  lastSubDivisionState.subDivisionType === "Custom Subdivision"
-                }
-                onChange={(event) =>
-                  handleEducationalDivisionAndSubDivisionTypes(event)
-                }
-                tabIndex={9}
-                label={"Custom Subdivision"}
-              />
-            </div>
-          </section>
-        </div>
-        {/* END OF EDUCATIONAL LEVELS RADIO BUTTON CONTROLS */}
-      </div>
 
       {/* EDUCATIONAL DIVISIONS AND SUBDIVISION DETAIL CARDS */}
       <div className="f-start wrap">
@@ -199,32 +59,88 @@ const DynamicGrades = ({
             {/*EDUCATIONAL STAGES INPUT CONTROLS */}
             <div className="flex-cs">
               <div className="input__group flex-cs m20">
-                <div className="flex-cr inputs input--medium">
+                <div className="inputs input--small">
                   <div className="flex-cs">
-                    <Textbox
-                      value={division.divisionName}
-                      id="Stage"
-                      name="educationalDivision"
-                      placeholder={
-                        division.divisionType === "Stage"
-                          ? "e.g. KG, Primary, Secondary ..."
-                          : division.divisionType === "Department"
-                          ? "e.g. Computer Science, Accounting ..."
-                          : division.divisionType === "Faculty"
-                          ? "e.g. Technology, Social Science ..."
-                          : "e.g. 1, 2, ..."
-                      }
-                      tabIndex={1}
-                      onChange={(event) =>
-                        handleUpdateEducationalDivisions(event, divisionIndex)
-                      }
-                      label={
-                        division.divisionType === "Faculty"
-                          ? "Faculties"
-                          : division.divisionType + "s"
-                      }
-                    />
+                    <label htmlFor="">Payment Types</label>
+                    <label htmlFor="">Amount (ETB)</label>
+                    <label htmlFor="">Discounts (%)</label>
+                    <label htmlFor="">Duedates (%)</label>
                   </div>
+                  <br />
+                  ---------------------------------------------------------------------------------------------------------------------------
+                  <label htmlFor="">
+                    <ul>
+                      <div className="flex-cs">
+                        <div>
+                          {paymentState.map((singlePayment) => (
+                            <li>
+                              <div className="flex-cs">
+                                {singlePayment.paymentTypeToUpdate} &nbsp;
+                                <Textbox
+                                  value={division.divisionName}
+                                  id="Stage"
+                                  name="educationalDivision"
+                                  placeholder={""}
+                                  tabIndex={1}
+                                  onChange={(event) =>
+                                    handleUpdateEducationalDivisions(
+                                      event,
+                                      divisionIndex
+                                    )
+                                  }
+                                  label={""}
+                                />
+                              </div>
+                            </li>
+                          ))}
+                        </div>
+                        <div>
+                          {paymentState.map((singlePayment) => (
+                            <li>
+                              <div className="flex-cs">
+                                <Textbox
+                                  value={division.divisionName}
+                                  id="Stage"
+                                  name="educationalDivision"
+                                  placeholder={""}
+                                  tabIndex={1}
+                                  onChange={(event) =>
+                                    handleUpdateEducationalDivisions(
+                                      event,
+                                      divisionIndex
+                                    )
+                                  }
+                                  label={""}
+                                />
+                              </div>
+                            </li>
+                          ))}
+                        </div>
+                        <div>
+                          {paymentState.map((singlePayment) => (
+                            <li>
+                              <div className="flex-cs">
+                                <Textbox
+                                  value={division.divisionName}
+                                  id="Stage"
+                                  name="educationalDivision"
+                                  placeholder={""}
+                                  tabIndex={1}
+                                  onChange={(event) =>
+                                    handleUpdateEducationalDivisions(
+                                      event,
+                                      divisionIndex
+                                    )
+                                  }
+                                  label={""}
+                                />
+                              </div>
+                            </li>
+                          ))}
+                        </div>
+                      </div>
+                    </ul>
+                  </label>
                   <br />
                 </div>
               </div>
@@ -386,4 +302,4 @@ const DynamicGrades = ({
   );
 };
 
-export default DynamicGrades;
+export default Payments2;

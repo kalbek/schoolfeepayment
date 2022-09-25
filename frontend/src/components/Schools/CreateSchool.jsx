@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { reset } from "../../features/auth/authSlice";
 import Achievements from "./Achievements";
+import Payments2 from "./Payments2";
 import CompleteSteps from "./CompleteSteps";
 import Spinner from "../Utilities/Progress/Spinner";
 import SchoolInfo from "../../components/Schools/SchoolInfo";
@@ -278,8 +279,8 @@ function CreateSchool() {
             "PAYMENTS 1",
             "SEMISTERS & TERMS",
             "GRADES & DEPARTMENTS",
-            "ACHIEVEMENTS",
             "PAYMENTS 2",
+            "ACHIEVEMENTS",
             "COMPLETE",
           ]}
           currentStep={formStep}
@@ -313,15 +314,20 @@ function CreateSchool() {
             {count === 3 && (
               <GradeInfo formData={formData} setFormData={setFormData} />
             )}
-            {count === 3.5 && (
+            {count === 3.5 && navDir === "next" ? dispatch(increment()) : null}
+            {count === 3.5 && navDir === "back" ? dispatch(decrement()) : null}
+            {count === 4 && (
+              <Payments2 formData={formData} setFormData={setFormData} />
+            )}
+            {count === 4.5 && (
               <AchievementsTips formData={formData} setFormData={setFormData} />
             )}
-            {count === 4 && (
+            {count === 5 && (
               <Achievements formData={formData} setFormData={setFormData} />
             )}
-            {count === 4.5 && navDir === "next" ? dispatch(increment()) : null}
-            {count === 4.5 && navDir === "back" ? dispatch(decrement()) : null}
-            {count === 5 && (
+            {count === 5.5 && navDir === "next" ? dispatch(increment()) : null}
+            {count === 5.5 && navDir === "back" ? dispatch(decrement()) : null}
+            {count === 6 && (
               <CompleteSteps formData={formData} setFormData={setFormData} />
             )}
           </div>

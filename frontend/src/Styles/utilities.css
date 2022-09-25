@@ -62,14 +62,12 @@
   background-color: red;
 }
 
-.flex-ct {
+.f-start {
   display: flex;
-  /* align-items:flex-start; */
   align-content: flex-start;
-  /* justify-content: top; */
-  /* justify-content: baseline; */
-  /* background-color: royalblue; */
 }
+
+
 .flex-ccc {
   display: flex;
   align-items: center;
@@ -111,6 +109,9 @@
 }
 .pl1 {
   padding-left: 1%;
+}
+.prp5 {
+  padding-right: 0.5%;
 }
 .pr1 {
   padding-right: 1%;
@@ -195,6 +196,10 @@
 
 .mlp5 {
   margin-left: 0.3rem;
+}
+
+.-mt-10 {
+  margin-top: -10%;
 }
 .mtminus1 {
   margin-top: -1rem;
