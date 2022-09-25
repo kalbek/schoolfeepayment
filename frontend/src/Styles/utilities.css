@@ -51,6 +51,10 @@
   flex-direction: column;
 }
 
+.flex-2 {
+  display: flex;
+}
+
 .flex-start {
   display: flex;
   align-items: flex-start;
@@ -95,8 +99,14 @@
   padding-top: 2%;
 }
 
+.pt4 {
+  padding-top: 4%;
+}
 .pt5 {
   padding-top: 5%;
+}
+.pt6 {
+  padding-top: 6%;
 }
 .pr5 {
   padding-right: 5%;
@@ -130,12 +140,30 @@
   margin-top: 40px;
 }
 
+.mb2 {
+  margin-bottom: -2rem;
+}
+
 .m20 {
   margin-top: 1rem;
 }
 
+.mlp5 {
+  margin-left: 0.3rem;
+}
+.mtminus1 {
+  margin-top: -1rem;
+}
+
 .mtminus2 {
   margin-top: -2rem;
+}
+
+.mtn10 {
+  margin-top: -10%;
+}
+.mtn5 {
+  margin-top: -5%;
 }
 .mtminus4 {
   margin-top: -4rem;
@@ -143,6 +171,13 @@
 
 .mlminus2 {
   margin-left: -20rem;
+}
+
+.mrn10 {
+  margin-right: -10%;
+}
+.ml10 {
+  margin-left: 10%;
 }
 
 /* lists */
@@ -162,6 +197,7 @@
   gap: 0.5rem;
 }
 .gap1 {
+  background-color: red;
   gap: 1rem;
 }
 .gapfull {
@@ -170,4 +206,33 @@
 
 .pointer:hover {
   cursor: pointer;
+}
+
+ 
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex80 {
+  flex: 80%;
+}
+.flex60 {
+  flex: 60%;
+}
+.flex50 {
+  flex: 50%;
+}
+.flex40 {
+  flex: 40%;
+}
+
+.flex30 {
+  flex: 30%;
+}
+.flex20 {
+  flex: 20%;
+}
+.flex10 {
+  flex: 10%;
 }

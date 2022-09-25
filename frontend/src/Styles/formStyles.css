@@ -262,7 +262,7 @@
   /* color: #2d8cf0; */
 }
 
-.field-group-container:focus-within section {
+.field-group-container:focus-within section, .field-group-container:hover section {
   border: 1px solid #2d8cf0;
 }
 .field-group-container:focus-within h3 {
@@ -297,6 +297,7 @@
   padding-left: 0.5rem;
   width: fit-content;
 }
-.dynamic-periods-container:focus-within {
+.dynamic-periods-container:focus-within, .dynamic-periods-container:hover {
   border: 1px solid #2d8cf0;
 }
+  

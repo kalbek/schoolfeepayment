@@ -1,99 +1,29 @@
 import RemoveButton from "../Buttons/RemoveButton";
 import RemoveLinksButton from "../Buttons/RemoveLinksButton";
 import "../../../Styles/dynamicButtonsStyle.css";
-import { useEffect, useState } from "react";
 import AddMoreButton from "../Buttons/AddMoreButton";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import SmallCard from "../Cards/SmallCard";
 import Preview from "../Buttons/Preview";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-import {
-  createPaymentBase,
-  updatePayments,
-  deletePaymentBase,
-  resetPaymentStates,
-} from "../../../features/SchoolPeriods/annualPeriodSlice";
+import { parse } from "date-fns";
 
 const DynamicPeriods = ({
   formData,
   setFormData,
+  handleNewPeriods,
   removePeriods,
   handleAnnualPeriodDuration,
+  handleUpdatePerods,
+  resetAllPeriods,
 }) => {
   const formDataPeriod = [...formData.annualPeriod];
-  const paymentState = useSelector((state) => state.payments.paymentState);
-  // const annualPeriodState = useSelector((state) => state.periods.annualPeriodState);
-  // console.log(annualPeriodState)
-  const [placeholderIndex, setPlaceholderIndex] = useState(1);
-  const handleNewPeriods = () => {
-    formData.annualPeriod.length < 30 &&
-      // setPlaceholderIndex(placeholderIndex + 1);
-      setFormData({
-        ...formData,
-        annualPeriod: [
-          ...formDataPeriod,
-          {
-            periodType: formDataPeriod[formDataPeriod.length - 1].periodType,
-            PeriodName: formDataPeriod[formDataPeriod.length - 1].periodName,
-            annualPeriodStartDate: new Date(),
-            annualPeriodEndDate: new Date(),
-          },
-        ],
-      });
-  };
-  const handlePerodTypeSelect = (event) => {
-    setFormData({
-      ...formData,
-      annualPeriod: [
-        ...formDataPeriod,
-        {
-          periodType: event.target.value,
-          periodName: event.target.name,
-        },
-      ],
-    });
-  };
-
-  const handleFormRadioSelection = (event) => {
-    setFormData({
-      ...formData,
-      annualPeriod: [
-        {
-          periodType: event.target.value,
-          PeriodName: event.target.name,
-          annualPeriodStartDate: new Date(),
-          annualPeriodEndDate: new Date(),
-        },
-      ],
-    });
-  };
-
-  const handlePeriodName = (event, index) => {
-    const { name, value } = event.target;
-    const periodNames = formDataPeriod;
-    periodNames[index][name] = value;
-    setFormData({
-      ...formData,
-      annualPeriod: periodNames,
-    });
-  };
-
-  const resetPeriods = () => {
-    const list = formDataPeriod;
-    list.splice(1, list.length);
-    setFormData({ ...formData, annualPeriod: list });
-  };
-
-  const time = [
-    { id: "1", label: "Months", value: "month" },
-    { id: "1", label: "Days", value: "days" },
-    { id: "1", label: "Years", value: "year" },
-  ];
+  const periodState = useSelector((state) => state.periods.annualPeriodState);
 
   return (
     <>
+      {/* {console.log(periodState)} */}
       <div className="flex-start">
         <div>
           <div className="flex-c">
@@ -113,16 +43,17 @@ const DynamicPeriods = ({
                     >
                       <input
                         type="radio"
-                        name={"Semester"}
+                        name={"periodType"}
                         id={"Semester"}
-                        value="Semester"
-                        checked={
-                          formDataPeriod.length > 0
-                            ? formDataPeriod[0].periodType === "Semester"
-                            : false
+                        value={
+                          periodState[periodState.length - 1].periodTypeName ===
+                          "Semester"
                         }
-                        onSelect={(event) => handlePerodTypeSelect(event)}
-                        onChange={(event) => handleFormRadioSelection(event)}
+                        checked={
+                          periodState[periodState.length - 1].periodTypeName ===
+                          "Semester"
+                        }
+                        onChange={(event) => handleUpdatePerods(event)}
                         tabIndex={9}
                       />
                       <span>
@@ -134,16 +65,17 @@ const DynamicPeriods = ({
                       <input
                         className="form-radio-button"
                         type="radio"
-                        name="Term"
+                        name="periodType"
                         id="Term"
-                        value="Term"
-                        checked={
-                          formDataPeriod.length > 0
-                            ? formDataPeriod[0].periodType === "Term"
-                            : false
+                        value={
+                          periodState[periodState.length - 1].periodTypeName ===
+                          "Term"
                         }
-                        onSelect={(event) => handlePerodTypeSelect(event)}
-                        onChange={(event) => handleFormRadioSelection(event)}
+                        checked={
+                          periodState[periodState.length - 1].periodTypeName ===
+                          "Term"
+                        }
+                        onChange={(event) => handleUpdatePerods(event)}
                         tabIndex={9}
                       />
                       <span>
@@ -158,16 +90,17 @@ const DynamicPeriods = ({
                       <input
                         className="form-radio-button"
                         type="radio"
-                        name="Quarter"
-                        id="quarter"
-                        value="Quarter"
-                        checked={
-                          formDataPeriod.length > 0
-                            ? formDataPeriod[0].periodType === "Quarter"
-                            : false
+                        name="periodType"
+                        id="Quarter"
+                        value={
+                          periodState[periodState.length - 1].periodTypeName ===
+                          "Quarter"
                         }
-                        onSelect={(event) => handlePerodTypeSelect(event)}
-                        onChange={(event) => handleFormRadioSelection(event)}
+                        checked={
+                          periodState[periodState.length - 1].periodTypeName ===
+                          "Quarter"
+                        }
+                        onChange={(event) => handleUpdatePerods(event)}
                         tabIndex={9}
                       />
                       <span>
@@ -177,21 +110,22 @@ const DynamicPeriods = ({
                     {/* Radio buttons for other periods */}
                     <label
                       className="checkbox-items flex flex-cs"
-                      id={"Custom"}
+                      id={"Custom_Period"}
                     >
                       <input
                         className="form-radio-button"
                         type="radio"
-                        name="Custom"
-                        id="Custom"
-                        value="Custom"
-                        checked={
-                          formDataPeriod.length > 0
-                            ? formDataPeriod[0].periodType === "Custom"
-                            : false
+                        name="periodType"
+                        id="Custom_Period"
+                        value={
+                          periodState[periodState.length - 1].periodTypeName ===
+                          "Custom_Period"
                         }
-                        onSelect={(event) => handlePerodTypeSelect(event)}
-                        onChange={(event) => handleFormRadioSelection(event)}
+                        checked={
+                          periodState[periodState.length - 1].periodTypeName ===
+                          "Custom_Period"
+                        }
+                        onChange={(event) => handleUpdatePerods(event)}
                         tabIndex={9}
                       />
                       <span>
@@ -212,17 +146,20 @@ const DynamicPeriods = ({
                     {/* Checkbox for period based payment */}
                     <label
                       className="checkbox-items flex flex-cs"
-                      htmlFor={"periodBasedPayment_"}
+                      htmlFor={"regularShift"}
                     >
                       <input
                         type="checkbox"
-                        name="periodBasedPayment"
-                        id={"periodBasedPayment_"}
+                        name="periodShift"
+                        id={"regularShift"}
                         tabIndex={9}
-                        value={formDataPeriod.hasRegularShift}
-                        checked={formDataPeriod.hasRegularShift}
-                        // checked={paymentState[index].periodChecked}
-                        // onChange={(e) => handlePayments(e, index)}
+                        value={
+                          periodState[periodState.length - 1].hasRegularShift
+                        }
+                        checked={
+                          periodState[periodState.length - 1].hasRegularShift
+                        }
+                        onChange={(event) => handleUpdatePerods(event)}
                       />
                       <>
                         <span>
@@ -234,15 +171,19 @@ const DynamicPeriods = ({
                     {/*Checkbox for extension shift */}
                     <label
                       className="checkbox-items flex flex-cs"
-                      htmlFor={"gradeBasedPayment_"}
+                      htmlFor={"extensionShift"}
                     >
                       <input
                         type="checkbox"
-                        name="gradeBasedPayment"
-                        id={"gradeBasedPayment_"}
-                        // value={paymentState[index].gradeLevelChecked}
-                        // checked={paymentState[index].gradeLevelChecked}
-                        // onChange={(e) => handlePayments(e, index)}
+                        name="periodShift"
+                        id={"extensionShift"}
+                        value={
+                          periodState[periodState.length - 1].hasExtensionShift
+                        }
+                        checked={
+                          periodState[periodState.length - 1].hasExtensionShift
+                        }
+                        onChange={(event) => handleUpdatePerods(event)}
                         tabIndex={9}
                       />
                       <>
@@ -254,16 +195,20 @@ const DynamicPeriods = ({
 
                     {/*Checkbox for weekend shift*/}
                     <label
-                      htmlFor={"genderBasedPayment_"}
+                      htmlFor={"weekendShift"}
                       className="checkbox-items flex flex-cs"
                     >
                       <input
                         type="checkbox"
-                        name="genderBasedPayment"
-                        id={"genderBasedPayment_"}
-                        // value={paymentState[index].genderChecked}
-                        // checked={paymentState[index].genderChecked}
-                        // onChange={(e) => handlePayments(e, index)}
+                        name="periodShift"
+                        id={"weekendShift"}
+                        value={
+                          periodState[periodState.length - 1].hasWeekendShift
+                        }
+                        checked={
+                          periodState[periodState.length - 1].hasWeekendShift
+                        }
+                        onChange={(event) => handleUpdatePerods(event)}
                         tabIndex={9}
                       />
                       <>
@@ -275,15 +220,19 @@ const DynamicPeriods = ({
                     {/*Checkbox for custom shifts */}
                     <label
                       className="checkbox-items flex flex-cs"
-                      htmlFor={"specialNeedBasedPayment_"}
+                      htmlFor={"customShift"}
                     >
                       <input
                         type="checkbox"
-                        name="specialNeedBasedPayment"
-                        id={"specialNeedBasedPayment_"}
-                        // value={paymentState[index].specialNeedChecked}
-                        // checked={paymentState[index].specialNeedChecked}
-                        // onChange={(e) => handlePayments(e, index)}
+                        name="periodShift"
+                        id={"customShift"}
+                        value={
+                          periodState[periodState.length - 1].hasCustomShift
+                        }
+                        checked={
+                          periodState[periodState.length - 1].hasCustomShift
+                        }
+                        onChange={(event) => handleUpdatePerods(event)}
                         tabIndex={9}
                       />
                       <>
@@ -302,20 +251,13 @@ const DynamicPeriods = ({
           {/* RESET ANNUAL PERIODS BUTTON */}
           {/* END OF RESET ANNUAL PERIODS BUTTON */}
           <section>
-            {formDataPeriod.length > 1 ? (
+            {periodState.length > 1 ? (
               <RemoveLinksButton
-                remove={resetPeriods}
+                remove={resetAllPeriods}
                 label={
-                  formDataPeriod[formDataPeriod.length - 1].periodType ===
-                  "Term"
-                    ? "Reset Terms"
-                    : formDataPeriod[formDataPeriod.length - 1].periodType ===
-                      "Semester"
-                    ? "Reset Semesters"
-                    : formDataPeriod[formDataPeriod.length - 1].periodType ===
-                      "Quarter"
-                    ? "Reset Quarters"
-                    : "Reset"
+                  "Reset " +
+                  periodState[periodState.length - 1].periodTypeName +
+                  "s"
                 }
               />
             ) : (
@@ -324,7 +266,7 @@ const DynamicPeriods = ({
           </section>
           {/* END OF RESET ANNUAL PERIODS BUTTON */}
           {/* DYNAMIC INPUT GROUPS */}
-          {formDataPeriod.map((singlePeriod, index) => (
+          {periodState.map((singlePeriod, index) => (
             <div key={index} className="flex-c dynamic-periods-container pl1">
               {/* INITIAL PERIOD INPUT GROUPS */}
               <section>
@@ -335,27 +277,30 @@ const DynamicPeriods = ({
                         className={formData.schoolName ? " filled--input" : ""}
                         type="text"
                         value={singlePeriod.periodName}
-                        name="periodName"
-                        id="periodName"
+                        name="periodDetails"
+                        id="periodDescription"
                         placeholder={
-                          singlePeriod.periodType !== "Other"
+                          singlePeriod.periodTypeName !== "Other"
                             ? "e.g. " +
-                              singlePeriod.periodType.charAt(0).toUpperCase() +
-                              singlePeriod.periodType.slice(1) +
+                              singlePeriod.periodTypeName
+                                .charAt(0)
+                                .toUpperCase() +
+                              singlePeriod.periodTypeName.slice(1) +
                               " " +
-                              // placeholderIndex + index
-                              parseInt(placeholderIndex + index)
+                              parseInt(singlePeriod.id + 1)
                             : "Your School's Period Name"
                         }
                         tabIndex={1}
-                        onChange={(event) => handlePeriodName(event, index)}
+                        onChange={(event) => handleUpdatePerods(event, index)}
                       />
                       <label htmlFor="school-name">
                         <p>
-                          {formDataPeriod.length > 0 &&
-                          singlePeriod.periodType !== "Custom"
-                            ? singlePeriod.periodType.charAt(0).toUpperCase() +
-                              singlePeriod.periodType.slice(1) +
+                          {periodState.length > 0 &&
+                          singlePeriod.periodTypeName !== "Custom"
+                            ? singlePeriod.periodTypeName
+                                .charAt(0)
+                                .toUpperCase() +
+                              singlePeriod.periodTypeName.slice(1) +
                               "s"
                             : "Period Name"}
                         </p>
@@ -366,17 +311,24 @@ const DynamicPeriods = ({
                   {/* Periods start date */}
                   <div className="input__group flex-c m20 ">
                     <div className="input__group flex-cr inputs input--small">
+                      {/* {console.log("hey: "+ typeof parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date()) )} */}
                       <DatePicker
                         className="pointer"
-                        name="annualPeriodStartDate"
-                        id={"annualPeriodStartDate" + index}
-                        selected={singlePeriod.annualPeriodStartDate}
+                        // value = {parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        selected={parse(
+                          singlePeriod.periodStartDate,
+                          "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                          new Date()
+                        )}
+                        // value={singlePeriod.periodStartDate}
+                        // selected={singlePeriod.periodStartDate}
                         onChange={(date) =>
                           handleAnnualPeriodDuration(
                             {
                               target: {
                                 value: date,
-                                name: "annualPeriodStartDate",
+                                name: "periodDetails",
+                                id: "periodStartDate",
                               },
                             },
                             index
@@ -387,9 +339,8 @@ const DynamicPeriods = ({
                         scrollableMonthYearDropdown
                         dateFormat="Pp"
                         label="Due Date"
-                        value={singlePeriod.annualPeriodStartDate}
                       />
-                      <label htmlFor="annualPeriodStartDate">
+                      <label htmlFor="periodStartDate">
                         {" "}
                         <p>Start Date</p>
                       </label>
@@ -399,15 +350,22 @@ const DynamicPeriods = ({
                     <div className="input__group flex-cr inputs input--small">
                       <DatePicker
                         className="pointer"
-                        name="annualPeriodEndDate"
-                        id="annualPeriodEndDate"
-                        selected={singlePeriod.annualPeriodEndDate}
+                        // value={singlePeriod.periodEndDate}
+                        // value = {parse('2020-02-24T10:34:02.998Z', "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        // value = {parse(singlePeriod.periodEndDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
+                        selected={parse(
+                          singlePeriod.periodEndDate,
+                          "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                          new Date()
+                        )}
+                        // selected={singlePeriod.periodEndDate}
                         onChange={(date) =>
                           handleAnnualPeriodDuration(
                             {
                               target: {
                                 value: date,
-                                name: "annualPeriodEndDate",
+                                name: "periodDetails",
+                                id: "periodEndDate",
                               },
                             },
                             index
@@ -418,16 +376,15 @@ const DynamicPeriods = ({
                         scrollableMonthYearDropdown
                         dateFormat="Pp"
                         label="Due Date"
-                        value={singlePeriod.annualPeriodEndDate}
                       />
-                      <label htmlFor="annualPeriodEndDate">
+                      <label htmlFor="periodEndDate">
                         {" "}
                         <p>End Date</p>
                       </label>
                     </div>
                   </div>
                   <div className="remove-periods-icon flex-c">
-                    {formDataPeriod.length > 1 ? (
+                    {periodState.length > 1 ? (
                       <>
                         <RemoveButton
                           removables={removePeriods}
@@ -449,14 +406,16 @@ const DynamicPeriods = ({
           {/* ADD ON MORE PERIOD BUTTON */}
           <div className="input-group__container flex-start pt2">
             <div>
-              {formDataPeriod.length > 0 && formDataPeriod.length < 20 ? (
+              {periodState.length > 0 && periodState.length < 20 ? (
                 <AddMoreButton
                   label={
-                    formDataPeriod[0].periodType === "Custom"
+                    periodState[periodState.length - 1].periodTypeName ===
+                    "Custom"
                       ? "Add One More "
-                      : "Add One More " + formDataPeriod[0].periodType
+                      : "Add One More " +
+                        periodState[periodState.length - 1].periodTypeName
                   }
-                  handleLinks={(e, index) => handleNewPeriods(e, index)}
+                  handleLinks={handleNewPeriods}
                 />
               ) : (
                 ""
