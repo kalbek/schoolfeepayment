@@ -30,24 +30,10 @@ const initialState = {
       ],
     },
   ],
-
-  gradeDivisionState: [
-    {
-      id: 0,
-      educationLevelTypeName: "Grade",
-      educationLevelName: "",
-      divisionName: "Stage",
-      customDivisionName: "",
-      // schoolStages: [{ stageName: "" }],
-      stageName: "",
-      categoryToUpdate: "divisions",
-      maxNumOfStudents: "",
-    },
-  ],
 };
 
-export const gradeSlice = createSlice({
-  name: "grades",
+export const educationalDivisionSlice = createSlice({
+  name: "divisions",
   initialState,
   reducers: {
     // CREATING SCHOOL EDUCATINAL DIVISONS, SUBDIVISIONS, AND SUBDIVISION SECTIONS UNDER SUBDIVISIONS
@@ -282,6 +268,6 @@ export const {
   updateGrades,
   deleteGrades,
   resetGrades,
-} = gradeSlice.actions;
+} = educationalDivisionSlice.actions;
 
-export default gradeSlice.reducer;
+export default educationalDivisionSlice.reducer;

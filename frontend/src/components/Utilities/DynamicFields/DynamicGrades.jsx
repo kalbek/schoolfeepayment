@@ -19,20 +19,16 @@ const DynamicGrades = ({
   formData,
   setFormData,
   handleNewGrades,
-  removeGrades,
   removeEducationalSubdivision,
   createNewEducationalDivisions,
-  handleEducationalSubDivisions,
+  handleUpdateEducationalSubDivisions,
   createNewEducationalSubDivisions,
   removeEducationalDivisions,
-  removeEducationalSubDivisions,
-  handleUpdateGrades,
-  handleEducationalDivisions,
-  resetAllGrades,
+  handleEducationalDivisionAndSubDivisionTypes,
+  handleUpdateEducationalDivisions,
 }) => {
-  const gradeState = useSelector((state) => state.grades.gradeDivisionState);
   const educationalDivisionState = useSelector(
-    (state) => state.grades.educationalDivision
+    (state) => state.educationalDivisions.educationalDivision
   );
   const lastDivisionState =
     educationalDivisionState[educationalDivisionState.length - 1];
@@ -77,7 +73,9 @@ const DynamicGrades = ({
                         tabIndex={9}
                         value={lastDivisionState.divisionType}
                         checked={lastDivisionState.divisionType === "Stage"}
-                        onChange={(event) => handleUpdateGrades(event)}
+                        onChange={(event) =>
+                          handleEducationalDivisionAndSubDivisionTypes(event)
+                        }
                       />
                       <>
                         <span>
@@ -99,7 +97,9 @@ const DynamicGrades = ({
                         checked={
                           lastDivisionState.divisionType === "Department"
                         }
-                        onChange={(event) => handleUpdateGrades(event)}
+                        onChange={(event) =>
+                          handleEducationalDivisionAndSubDivisionTypes(event)
+                        }
                         tabIndex={9}
                       />
                       <>
@@ -120,7 +120,9 @@ const DynamicGrades = ({
                         id={"Faculty"}
                         value={lastDivisionState.divisionType}
                         checked={lastDivisionState.divisionType === "Faculty"}
-                        onChange={(event) => handleUpdateGrades(event)}
+                        onChange={(event) =>
+                          handleEducationalDivisionAndSubDivisionTypes(event)
+                        }
                         tabIndex={9}
                       />
                       <>
@@ -142,7 +144,9 @@ const DynamicGrades = ({
                         checked={
                           lastDivisionState.divisionType === "Custom Division"
                         }
-                        onChange={(event) => handleUpdateGrades(event)}
+                        onChange={(event) =>
+                          handleEducationalDivisionAndSubDivisionTypes(event)
+                        }
                         tabIndex={9}
                       />
                       <>
@@ -172,7 +176,9 @@ const DynamicGrades = ({
                         checked={
                           lastSubDivisionState.subDivisionType === "Grade"
                         }
-                        onChange={(event) => handleUpdateGrades(event)}
+                        onChange={(event) =>
+                          handleEducationalDivisionAndSubDivisionTypes(event)
+                        }
                         tabIndex={9}
                       />
                       <span>
@@ -190,7 +196,9 @@ const DynamicGrades = ({
                         checked={
                           lastSubDivisionState.subDivisionType === "Year"
                         }
-                        onChange={(event) => handleUpdateGrades(event)}
+                        onChange={(event) =>
+                          handleEducationalDivisionAndSubDivisionTypes(event)
+                        }
                         tabIndex={9}
                       />
                       <span>
@@ -208,7 +216,9 @@ const DynamicGrades = ({
                         checked={
                           lastSubDivisionState.subDivisionType === "Level"
                         }
-                        onChange={(event) => handleUpdateGrades(event)}
+                        onChange={(event) =>
+                          handleEducationalDivisionAndSubDivisionTypes(event)
+                        }
                         tabIndex={9}
                       />
                       <span>
@@ -233,7 +243,9 @@ const DynamicGrades = ({
                           lastSubDivisionState.subDivisionType ===
                           "Custom Level"
                         }
-                        onChange={(event) => handleUpdateGrades(event)}
+                        onChange={(event) =>
+                          handleEducationalDivisionAndSubDivisionTypes(event)
+                        }
                         tabIndex={9}
                       />
                       <span>
@@ -247,24 +259,6 @@ const DynamicGrades = ({
             </div>
           </div>
 
-          {/* RESET GRADES BUTTON CONTROL*/}
-          <section>
-            {gradeState.length > 1 ? (
-              <RemoveLinksButton
-                remove={resetAllGrades}
-                label={
-                  gradeState[gradeState.length - 1].educationLevelTypeName !==
-                  "Custom_Level"
-                    ? "Reset " +
-                      gradeState[gradeState.length - 1].educationLevelTypeName +
-                      "s"
-                    : "Reset"
-                }
-              />
-            ) : (
-              <></>
-            )}
-          </section>
           {/* END OF RESET GRADES BUTTON CONTROL*/}
           {/* EDUCATIONAL DIVISIONS WITH GRADE DETAILS */}
           <div className="flex-start wrap">
@@ -283,20 +277,17 @@ const DynamicGrades = ({
                             name="educationalDivision"
                             // placeholder={"e.g. KG, Primary, Secondary ..."}
                             placeholder={
-                              division.divisionType ===
-                              "Stage"
+                              division.divisionType === "Stage"
                                 ? "e.g. KG, Primary, Secondary ..."
-                                : division.divisionType ===
-                                  "Department"
+                                : division.divisionType === "Department"
                                 ? "e.g. Computer Science, Accounting ..."
-                                : division.divisionType ===
-                                  "Faculty"
+                                : division.divisionType === "Faculty"
                                 ? "e.g. Technology, Social Science ..."
                                 : "e.g. 1, 2, ..."
                             }
                             tabIndex={1}
                             onChange={(event) =>
-                              handleEducationalDivisions(event, index)
+                              handleUpdateEducationalDivisions(event, index)
                             }
                           />
 
@@ -358,7 +349,7 @@ const DynamicGrades = ({
                                 }
                                 tabIndex={1}
                                 onChange={(event) =>
-                                  handleEducationalSubDivisions(
+                                  handleUpdateEducationalSubDivisions(
                                     event,
                                     index,
                                     divisionIndex

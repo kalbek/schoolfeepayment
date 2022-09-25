@@ -22,11 +22,36 @@ import {
 
 const GradeInfo = ({ formData, setFormData }) => {
   const dispatch = useDispatch();
-  const gradeState = useSelector((state) => state.grades.gradeDivisionState);
+  // const educationalDivisionState = useSelector((state) => state.grades.gradeDivisionState);
   const educationalDivisionState = useSelector(
-    (state) => state.grades.educationalDivision
+    (state) => state.educationalDivisions.educationalDivision
   );
   // handling new grades
+
+  const handleEducationalDivisionAndSubDivisionTypes = (event, index) => {
+    const { id, name, value } = event.target;
+    educationalDivisionState.map((baseGrade) => {
+      console.log("id, name, value: " + id + " " + name + " " + value);
+      dispatch(
+        updateGrades({
+          id: index,
+          categoryToUpdate: name,
+          educationSubDivisionName: id,
+          gradeDetailsType: id,
+          divisionType: id,
+          educationLevelName: value,
+          hasStageDivision: !baseGrade.hasStageDivision,
+          hasDepartmentDivision: !baseGrade.hasDepartmentDivision,
+          hasFacultyDivision: !baseGrade.hasFacultyDivision,
+          hasCustomDivision: !baseGrade.hasCustomDivision,
+          hasRegularShift: !baseGrade.hasRegularShift,
+          hasExtensionShift: !baseGrade.hasExtensionShift,
+          hasWeekendShift: !baseGrade.hasWeekendShift,
+          hasCustomShift: !baseGrade.hasCustomShift,
+        })
+      );
+    });
+  };
 
   const createNewEducationalDivisions = () => {
     dispatch(
@@ -59,38 +84,6 @@ const GradeInfo = ({ formData, setFormData }) => {
             ],
           },
         ],
-      })
-    );
-  };
-  const handleEducationalDivisions = (event, index) => {
-    const { id, name, value } = event.target;
-    dispatch(
-      updateEducationalDivisions({
-        educationalDivisionId: index,
-        divisionType: id,
-        divisionName: value,
-        // educationalSubDivision: [
-        //   {
-        //     id: 0,
-        //     subDivisionType: "Grade",
-        //     subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
-        //     hasSection: false,
-        //     hasMaximumNumberOfStudents: false,
-        //     maximumNumberOfStudents: "",
-        //     numberOfScholarships: "",
-        //     numberOfSpecialCases: "",
-        //     section: [
-        //       {
-        //         id: 0,
-        //         gradeSectionName: "", // A, B, C or 1, 2, 3 ...
-        //         hasMaximumNumberOfStudents: false,
-        //         maximumNumberOfStudents: "",
-        //         numberOfScholarships: "",
-        //         numberOfSpecialCases: "",
-        //       },
-        //     ],
-        //   },
-        // ],
       })
     );
   };
@@ -129,9 +122,42 @@ const GradeInfo = ({ formData, setFormData }) => {
 
     console.log(educationalDivisionState);
   };
-  const handleEducationalSubDivisions = (event, divisionIndex, index) => {
+
+  const handleUpdateEducationalDivisions = (event, index) => {
     const { id, name, value } = event.target;
-    // console.log("index: "+ index)
+    dispatch(
+      updateEducationalDivisions({
+        educationalDivisionId: index,
+        divisionType: id,
+        divisionName: value,
+        // educationalSubDivision: [
+        //   {
+        //     id: 0,
+        //     subDivisionType: "Grade",
+        //     subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
+        //     hasSection: false,
+        //     hasMaximumNumberOfStudents: false,
+        //     maximumNumberOfStudents: "",
+        //     numberOfScholarships: "",
+        //     numberOfSpecialCases: "",
+        //     section: [
+        //       {
+        //         id: 0,
+        //         gradeSectionName: "", // A, B, C or 1, 2, 3 ...
+        //         hasMaximumNumberOfStudents: false,
+        //         maximumNumberOfStudents: "",
+        //         numberOfScholarships: "",
+        //         numberOfSpecialCases: "",
+        //       },
+        //     ],
+        //   },
+        // ],
+      })
+    );
+  };
+
+  const handleUpdateEducationalSubDivisions = (event, divisionIndex, index) => {
+    const { id, value } = event.target;
     dispatch(
       updateEducationalSubDivisions({
         educationalDivisionId: divisionIndex,
@@ -142,78 +168,7 @@ const GradeInfo = ({ formData, setFormData }) => {
     );
   };
 
-  const handleNewGrades = () => {
-    gradeState.length < 30 &&
-      dispatch(
-        createGrades({
-          id: gradeState[gradeState.length - 1].id + 1,
-          educationLevelTypeName:
-            gradeState[gradeState.length - 1].educationLevelTypeName,
-          educationLevelName: "",
-          divisionName: "",
-          hasStageDivision: true,
-          hasDepartmentDivision: false,
-          hasFacultyDivision: false,
-          hasCustomDivision: false,
-          categoryToUpdate: "divisions",
-          maxNumOfStudents: "",
-        })
-      );
-
-    // setFormData({
-    //   ...formData,
-    //   annualPeriod: [
-    //     ...formDataPeriod,
-    //     {
-    //       periodType: formDataPeriod[formDataPeriod.length - 1].periodType,
-    //       PeriodTypeName: formDataPeriod[formDataPeriod.length - 1].periodTypeName,
-    //       annualPeriodStartDate: new Date(),
-    //       annualPeriodEndDate: new Date(),
-    //     },
-    //   ],
-    // });
-  };
-  const handleUpdateGrades = (event, index) => {
-    const { id, name, value } = event.target;
-    gradeState.map((baseGrade) => {
-      console.log("id, name, value: " + id + " " + name + " " + value);
-      dispatch(
-        updateGrades({
-          id: index,
-          categoryToUpdate: name,
-          educationSubDivisionName: id,
-          gradeDetailsType: id,
-          divisionType: id,
-          educationLevelName: value,
-          hasStageDivision: !baseGrade.hasStageDivision,
-          hasDepartmentDivision: !baseGrade.hasDepartmentDivision,
-          hasFacultyDivision: !baseGrade.hasFacultyDivision,
-          hasCustomDivision: !baseGrade.hasCustomDivision,
-          hasRegularShift: !baseGrade.hasRegularShift,
-          hasExtensionShift: !baseGrade.hasExtensionShift,
-          hasWeekendShift: !baseGrade.hasWeekendShift,
-          hasCustomShift: !baseGrade.hasCustomShift,
-        })
-      );
-    });
-  };
-
-  const resetAllGrades = () => {
-    if (gradeState.length > 0) {
-      dispatch(resetGrades({ id: gradeState[0].id }));
-    }
-  };
-
-  const removeGrades = (index) => {
-    // const list = formDataPeriod;
-    // list.splice(index, 1);
-    // setFormData({ ...formData, annualPeriod: list });
-    dispatch(deleteGrades({ id: index }));
-  };
-
-  const removeEducationalSubdivision = (index, subIndex) => {
-    console.log("index: " + index);
-    console.log("subIndex: " + subIndex);
+  const removeEducationalSubdivisions = (index, subIndex) => {
     dispatch(
       deleteEducationalSubDivision({
         educationalDivisionId: index,
@@ -229,6 +184,12 @@ const GradeInfo = ({ formData, setFormData }) => {
       })
     );
   };
+  const resetAllGrades = () => {
+    if (educationalDivisionState.length > 0) {
+      dispatch(resetGrades({ id: educationalDivisionState[0].id }));
+    }
+  };
+
   return (
     <>
       <div className="flex gapfull">
@@ -248,22 +209,20 @@ const GradeInfo = ({ formData, setFormData }) => {
           <DynamicGrades
             formData={formData}
             setFormData={setFormData}
-            handleNewGrades={handleNewGrades}
-            handleUpdateGrades={handleUpdateGrades}
-            removeGrades={removeGrades}
+            handleEducationalDivisionAndSubDivisionTypes={
+              handleEducationalDivisionAndSubDivisionTypes
+            }
             resetAllGrades={resetAllGrades}
             createNewEducationalDivisions={createNewEducationalDivisions}
-            handleEducationalDivisions={handleEducationalDivisions}
-            handleEducationalSubDivisions={handleEducationalSubDivisions}
+            handleUpdateEducationalDivisions={handleUpdateEducationalDivisions}
+            handleUpdateEducationalSubDivisions={
+              handleUpdateEducationalSubDivisions
+            }
             createNewEducationalSubDivisions={createNewEducationalSubDivisions}
-            removeEducationalSubdivision={removeEducationalSubdivision}
+            removeEducationalSubdivisions={removeEducationalSubdivisions}
             removeEducationalDivisions={removeEducationalDivisions}
           />
         </div>
-        {/* <div className="flex-ccc">
-          <SmallCard formData={formData} />
-          <Preview />
-        </div> */}
       </div>
     </>
   );
