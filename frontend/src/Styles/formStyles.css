@@ -308,4 +308,10 @@
 .dynamic-periods-container:focus-within, .dynamic-periods-container:hover {
   border: 1px solid #2d8cf0;
 }
+
+
+/* Table styles */
+.payment-table, .payment-table th, .payment-table tbody tr {
+  border: 1px solid lime;
+}
   

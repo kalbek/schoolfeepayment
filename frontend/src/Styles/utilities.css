@@ -50,11 +50,11 @@
   grid-template-columns: 25% 25% 25% 25%;
 }
 
-.f-str{
+.f-str {
   align-items: stretch;
 }
 
-.flex-grow1{
+.flex-grow1 {
   flex-grow: 2;
 }
 
@@ -66,7 +66,6 @@
   display: flex;
   align-content: flex-start;
 }
-
 
 .flex-ccc {
   display: flex;
@@ -208,9 +207,24 @@
 .mtminus2 {
   margin-top: -2rem;
 }
+.bgr {
+  background-color: red;
+}
 
 .mtn10 {
   margin-top: -10%;
+}
+.mtn30 {
+  margin-top: -30%;
+}
+.mtn5 {
+  margin-top: -5%;
+}
+.mbn10 {
+  margin-bottom: -10%;
+}
+.mbn5 {
+  margin-bottom: -5%;
 }
 .mtn5 {
   margin-top: -5%;
@@ -240,6 +254,10 @@
 
 .pl-100 {
   margin-left: 85%;
+}
+
+.pl3{
+  padding-right: 3.5px;
 }
 
 .pt-3 {
@@ -285,4 +303,8 @@
 }
 .flex10 {
   flex: 10%;
+}
+
+.block {
+  display: inline-block;
 }

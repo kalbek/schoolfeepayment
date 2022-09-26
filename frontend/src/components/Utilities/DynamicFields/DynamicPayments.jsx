@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import AddMoreButton from "../Buttons/AddMoreButton";
+import Textbox from "../../InputControls/Textbox";
+import Input from "../../InputControls/Input";
 import RemoveButton from "../Buttons/RemoveButton";
 import DatePicker from "react-datepicker";
 
@@ -61,115 +63,221 @@ const DynamicPayments = ({
             </div>
 
             <div className="checkbox-inputs input__group field-group-container">
-              <section className="flex-left">
-                <label htmlFor="">
-                  <h3>Payment Base</h3>
-                </label>
-                <div className="flex-cs checkbox-group">
-                  {/* Checkbox for period based payment */}
-                  <label
-                    className="checkbox-items flex flex-cs"
-                    htmlFor={"periodBasedPayment_" + index}
-                  >
-                    <input
-                      type="checkbox"
-                      name="periodBasedPayment"
-                      id={"periodBasedPayment_" + index}
-                      tabIndex={9}
-                      value={paymentState[index].periodChecked}
-                      checked={paymentState[index].periodChecked}
-                      onChange={(e) => handlePayments(e, index)}
-                    />
-                    <>
-                      <span>
-                        &nbsp; <p>Annual Period</p>
-                      </span>
-                    </>
+              <div className="flex-cs checkbox-group">
+                <section className="flex-left">
+                  <label htmlFor="">
+                    <h3>Payment Base</h3>
                   </label>
+                  <div className="flex block checkbox-group mbn5 ">
+                    {/* Checkbox for period based payment */}
 
-                  {/*Checkbox for grade based payment */}
-                  <label
-                    className="checkbox-items flex flex-cs"
-                    htmlFor={"gradeBasedPayment_" + index}
-                  >
-                    <input
-                      type="checkbox"
-                      name="gradeBasedPayment"
-                      id={"gradeBasedPayment_" + index}
-                      value={paymentState[index].gradeLevelChecked}
-                      checked={paymentState[index].gradeLevelChecked}
-                      onChange={(e) => handlePayments(e, index)}
-                      tabIndex={9}
-                    />
-                    <>
-                      <span>
-                        &nbsp; <p>Grade Level</p>
-                      </span>
-                    </>
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      htmlFor={"periodBasedPayment_" + index}
+                    >
+                      <input
+                        type="checkbox"
+                        name="periodBasedPayment"
+                        id={"periodBasedPayment_" + index}
+                        tabIndex={9}
+                        value={paymentState[index].periodChecked}
+                        checked={paymentState[index].periodChecked}
+                        onChange={(e) => handlePayments(e, index)}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Annual Period</p>
+                        </span>
+                      </>
+                    </label>
+
+                    {/*Checkbox for grade based payment */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      htmlFor={"gradeBasedPayment_" + index}
+                    >
+                      <input
+                        type="checkbox"
+                        name="gradeBasedPayment"
+                        id={"gradeBasedPayment_" + index}
+                        value={paymentState[index].gradeLevelChecked}
+                        checked={paymentState[index].gradeLevelChecked}
+                        onChange={(e) => handlePayments(e, index)}
+                        tabIndex={9}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Grade Level</p>
+                        </span>
+                      </>
+                    </label>
+                    {/*Checkbox for credit hours based payment */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      htmlFor={"gradeBasedPayment_" + index}
+                    >
+                      <input
+                        type="checkbox"
+                        name="gradeBasedPayment"
+                        id={"gradeBasedPayment_" + index}
+                        value={paymentState[index].gradeLevelChecked}
+                        checked={paymentState[index].gradeLevelChecked}
+                        onChange={(e) => handlePayments(e, index)}
+                        tabIndex={9}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Credit Hours</p>
+                        </span>
+                      </>
+                    </label>
+                  </div>
+                  <div className="flex-cs">
+                    <div className="flex block checkbox-group">
+                      {/*Checkbox for course based payment */}
+                      <label
+                        className="checkbox-items flex flex-cs"
+                        htmlFor={"gradeBasedPayment_" + index}
+                      >
+                        <input
+                          type="checkbox"
+                          name="gradeBasedPayment"
+                          id={"gradeBasedPayment_" + index}
+                          value={paymentState[index].gradeLevelChecked}
+                          checked={paymentState[index].gradeLevelChecked}
+                          onChange={(e) => handlePayments(e, index)}
+                          tabIndex={9}
+                        />
+                        <>
+                          <span className="pl3">
+                            &nbsp; <p>Course Type &nbsp;</p>
+                          </span>
+                        </>
+                      </label>
+                      {/*Checkbox for custom type based payment */}
+                      <label
+                        className="checkbox-items flex flex-cs"
+                        htmlFor={"gradeBasedPayment_" + index}
+                      >
+                        <input
+                          type="checkbox"
+                          name="gradeBasedPayment"
+                          id={"gradeBasedPayment_" + index}
+                          value={paymentState[index].gradeLevelChecked}
+                          checked={paymentState[index].gradeLevelChecked}
+                          onChange={(e) => handlePayments(e, index)}
+                          tabIndex={9}
+                        />
+                        <>
+                          <span>
+                            &nbsp; <p>Custom Basis</p>
+                          </span>
+                        </>
+                      </label>
+                    </div>
+                    <></>
+                  </div>
+                  {/* /////////// */}
+                </section>
+              </div>
+            </div>
+            <div className="checkbox-inputs input__group field-group-container">
+              <div className="flex-cs checkbox-group">
+                <section className="flex-left">
+                  <label htmlFor="">
+                    <h3>Discount Parameters</h3>
                   </label>
                   {/*Checkbox for gender based payment */}
-                  <label
-                    htmlFor={"genderBasedPayment_" + index}
-                    className="checkbox-items flex flex-cs"
-                  >
-                    <input
-                      type="checkbox"
-                      name="genderBasedPayment"
-                      id={"genderBasedPayment_" + index}
-                      value={paymentState[index].genderChecked}
-                      checked={paymentState[index].genderChecked}
-                      onChange={(e) => handlePayments(e, index)}
-                      tabIndex={9}
-                    />
-                    <>
-                      <span>
-                        &nbsp; <p>Gender Based</p>
-                      </span>
-                    </>
-                  </label>
-                  {/*Checkbox for special need based payment */}
-                  <label
-                    className="checkbox-items flex flex-cs"
-                    htmlFor={"specialNeedBasedPayment_" + index}
-                  >
-                    <input
-                      type="checkbox"
-                      name="specialNeedBasedPayment"
-                      id={"specialNeedBasedPayment_" + index}
-                      value={paymentState[index].specialNeedChecked}
-                      checked={paymentState[index].specialNeedChecked}
-                      onChange={(e) => handlePayments(e, index)}
-                      tabIndex={9}
-                    />
-                    <>
-                      <span>
-                        &nbsp; <p>Special Needs</p>
-                      </span>
-                    </>
-                  </label>
+                  <div className="flex block checkbox-group mbn5">
+                    <label
+                      htmlFor={"genderBasedPayment_" + index}
+                      className="checkbox-items flex flex-left"
+                    >
+                      <input
+                        type="checkbox"
+                        name="genderBasedPayment"
+                        id={"genderBasedPayment_" + index}
+                        value={paymentState[index].genderChecked}
+                        checked={paymentState[index].genderChecked}
+                        onChange={(e) => handlePayments(e, index)}
+                        tabIndex={9}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Gender Based</p>
+                        </span>
+                      </>
+                    </label>
+                    {/*Checkbox for special need based payment */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      htmlFor={"specialNeedBasedPayment_" + index}
+                    >
+                      <input
+                        type="checkbox"
+                        name="specialNeedBasedPayment"
+                        id={"specialNeedBasedPayment_" + index}
+                        value={paymentState[index].specialNeedChecked}
+                        checked={paymentState[index].specialNeedChecked}
+                        onChange={(e) => handlePayments(e, index)}
+                        tabIndex={9}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Special Needs</p>
+                        </span>
+                      </>
+                    </label>
 
-                  {/*Checkbox for scholarships based payment */}
-                  <label
-                    className="checkbox-items flex flex-cs"
-                    htmlFor={"scholarshipBasedPayment_" + index}
-                  >
-                    <input
-                      type="checkbox"
-                      name="scholarshipBasedPayment"
-                      id={"scholarshipBasedPayment_" + index}
-                      value={paymentState[index].scholarshipChecked}
-                      checked={paymentState[index].scholarshipChecked}
-                      onChange={(e) => handlePayments(e, index)}
-                      tabIndex={9}
-                    />
-                    <>
-                      <span>
-                        &nbsp; <p>Scholarships</p>
-                      </span>
-                    </>
-                  </label>
-                </div>
-              </section>
+                    {/*Checkbox for scholarships based payment */}
+                    <label
+                      className="checkbox-items flex flex-cs"
+                      htmlFor={"scholarshipBasedPayment_" + index}
+                    >
+                      <input
+                        type="checkbox"
+                        name="scholarshipBasedPayment"
+                        id={"scholarshipBasedPayment_" + index}
+                        value={paymentState[index].scholarshipChecked}
+                        checked={paymentState[index].scholarshipChecked}
+                        onChange={(e) => handlePayments(e, index)}
+                        tabIndex={9}
+                      />
+                      <>
+                        <span>
+                          &nbsp; <p>Scholarships</p>
+                        </span>
+                      </>
+                    </label>
+                  </div>
+                  {/*Checkbox for custom discount parameters payment */}
+                  <div className="flex-cs">
+                    <div className="flex block checkbox-group">
+                      {/*Checkbox for course based payment */}
+                      <label
+                        className="checkbox-items flex flex-cs"
+                        htmlFor={"gradeBasedPayment_" + index}
+                      >
+                        <input
+                          type="checkbox"
+                          name="gradeBasedPayment"
+                          id={"gradeBasedPayment_" + index}
+                          value={paymentState[index].gradeLevelChecked}
+                          checked={paymentState[index].gradeLevelChecked}
+                          onChange={(e) => handlePayments(e, index)}
+                          tabIndex={9}
+                        />
+                        <>
+                          <span className="pl3">
+                            &nbsp; <p>Custom Parameters &nbsp;</p>
+                          </span>
+                        </>
+                      </label>
+                    </div>
+                    <></>
+                  </div>
+                </section>
+              </div>
             </div>
 
             {/* PAYMENT TERM SELECT OPTION */}
@@ -179,7 +287,7 @@ const DynamicPayments = ({
                 <label htmlFor="">
                   <h3>Payment Term</h3>
                 </label>
-                <div className="flex-cs checkbox-group">
+                <div className="flex-c checkbox-group flex-start">
                   <label
                     className="checkbox-items flex flex-cs"
                     id={"standardPaymentTerm"}
@@ -198,7 +306,7 @@ const DynamicPayments = ({
                     </span>
                   </label>
                   <label
-                    className="checkbox-items flex flex-cs"
+                    className="checkbox-items flex flex-cs mtn30"
                     id={"advancedPaymentTerm"}
                   >
                     <input
