@@ -81,21 +81,17 @@ function PaymentInfo({ formData, setFormData }) {
   function handlePaymentTypeSelect(e, index) {
     const { id, name, value } = e.target;
     const payments = formDataPayments;
-    paymentState.map((baseState) => {
-      if (baseState.id === index) {
-        dispatch(
-          updatePayments({
-            id: index,
-            paymentToUpdate: name,
-            paymentTypeToUpdate: value,
-          })
-        );
-        payments[index][name] = value;
-        setFormData({ ...formData, schoolPayments: payments });
-      }
-    });
+    dispatch(
+      updatePayments({
+        id: index,
+        paymentToUpdate: name,
+        paymentTypeToUpdate: value,
+      })
+    );
+    payments[index][name] = value;
+    // setFormData({ ...formData, schoolPayments: payments });
     // console.log(value)
-    console.log(formDataPayments);
+    // console.log(formDataPayments);
   }
 
   // handling payment amount change
@@ -109,12 +105,14 @@ function PaymentInfo({ formData, setFormData }) {
   function handlePayments(e, index) {
     const { id, name, value } = e.target;
     const formDataPaymentTerm = formDataPayments;
+    // console.log("id: " + id)
+    // console.log("value: " + value)
     paymentState.map((baseState) => {
       if (baseState.id === index) {
         dispatch(
           updatePayments({
             id: index,
-            paymentToUpdate: name,
+            paymentToUpdate: id,
             paymentTerm: id,
             periodChecked: !baseState.periodChecked,
             gradeLevelChecked: !baseState.gradeLevelChecked,

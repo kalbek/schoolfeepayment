@@ -1,7 +1,7 @@
 /* STYLING FORM ELEMENTS */
 .main__form {
   /* background-color: gray; */
-  /* background-color: #e5e5e5; */
+  background-color: #fff;
   min-height: 100vh;
 }
 
@@ -10,7 +10,7 @@
   /* display: flex;
   align-items: center;
   justify-content: center; */
-  background-color: lavenderblush;
+  /* background-color: lavenderblush; */
   /* background-color:#767676; */
 }
 .inactive-bg {
@@ -130,6 +130,10 @@
 .input--above-small select {
   width: 17.4rem;
 }
+.input--bleow-medium input,
+.input--bleow-medium select {
+  width: 14rem;
+}
 .input--small input,
 .input--small select {
   width: 10.4rem;
@@ -227,6 +231,11 @@
 }
 
 .social-link--label {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-style: bolder;
+  padding-bottom: 0.2em;
+  font-size: 13px;
   cursor: pointer;
   color: var(--clr-accent);
 }
@@ -243,10 +252,6 @@
 
 #payment_due_date:hover {
   cursor: pointer;
-}
-
-.payment-icon {
-  margin-top: -0.5rem;
 }
 
 .field-group-container section {
@@ -270,7 +275,8 @@
   /* color: #2d8cf0; */
 }
 
-.field-group-container:focus-within section, .field-group-container:hover section {
+.field-group-container:focus-within section,
+.field-group-container:hover section {
   border: 1px solid #2d8cf0;
 }
 .field-group-container:focus-within h3 {
@@ -305,13 +311,14 @@
   padding-left: 0.5rem;
   width: fit-content;
 }
-.dynamic-periods-container:focus-within, .dynamic-periods-container:hover {
+.dynamic-periods-container:focus-within,
+.dynamic-periods-container:hover {
   border: 1px solid #2d8cf0;
 }
 
-
 /* Table styles */
-.payment-table, .payment-table th, .payment-table tbody tr {
+.payment-table,
+.payment-table th,
+.payment-table tbody tr {
   border: 1px solid lime;
 }
-  

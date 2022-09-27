@@ -3,10 +3,13 @@ const initialState = {
   paymentState: [
     {
       id: 0,
-      paymentType: {
-        paymentName: "",
-        paymentAmount: 0,
-      },
+      paymentType: [
+        {
+          id: 0,
+          paymentName: "",
+          paymentAmount: 0,
+        },
+      ],
       paymentBase: {
         periodPaymentBase: {
           value: true,
@@ -56,55 +59,57 @@ const initialState = {
         ],
       },
       // payment discount parameters
-      discountParameters: {
-        id: 0,
-        discountType: {
-          genderBasedDiscount: {
-            value: false,
-            genders: [
-              {
-                id: 0,
-                genderType: "",
-                discountRate: 0,
-                paymentAmount: 0,
-              },
-            ],
-          },
-          specialNeedsBasedDiscount: {
-            value: false,
-            specialNeeds: [
-              {
-                id: 0,
-                specialNeedType: "",
-                discountRate: 0,
-                paymentAmount: 0,
-              },
-            ],
-          },
-          scholarshipBasedDiscount: {
-            value: false,
-            scholarships: [
-              {
-                id: 0,
-                scholarshipType: "",
-                discountRate: 0,
-                paymentAmount: 0,
-              },
-            ],
-          },
-          customPaymentDiscount: {
-            value: false,
-            customDiscounts: [
-              {
-                id: 0,
-                customDiscountName: "",
-                discountRate: 0,
-                paymentAmount: 0,
-              },
-            ],
+      discountParameters: [
+        {
+          id: 0,
+          discountType: {
+            genderBasedDiscount: {
+              value: false,
+              genders: [
+                {
+                  id: 0,
+                  genderType: "",
+                  discountRate: 0,
+                  paymentAmount: 0,
+                },
+              ],
+            },
+            specialNeedsBasedDiscount: {
+              value: false,
+              specialNeeds: [
+                {
+                  id: 0,
+                  specialNeedType: "",
+                  discountRate: 0,
+                  paymentAmount: 0,
+                },
+              ],
+            },
+            scholarshipBasedDiscount: {
+              value: false,
+              scholarships: [
+                {
+                  id: 0,
+                  scholarshipType: "",
+                  discountRate: 0,
+                  paymentAmount: 0,
+                },
+              ],
+            },
+            customPaymentDiscount: {
+              value: false,
+              customDiscounts: [
+                {
+                  id: 0,
+                  customDiscountName: "",
+                  discountRate: 0,
+                  paymentAmount: 0,
+                },
+              ],
+            },
           },
         },
-      },
+      ],
 
       totalPaymentAmount: {
         id: 0,
@@ -130,41 +135,40 @@ export const paymentSlice = createSlice({
   initialState,
   reducers: {
     // Creating states
-    createPayments: (state, action) => {
-      state.paymentState.push(action.payload);
-    },
-
     createPaymentBase: (state, action) => {
       state.paymentState.push(action.payload);
     },
     // Updating payment base states
     updatePayments: (state, action) => {
       state.paymentState.map((paymentState) => {
-        if (paymentState.id === action.payload.paymentId) {
-          // Update payment type
-          if (action.payload.paymentToUpdate === "paymentType") {
-            paymentState.paymentType.paymentName = action.payload.paymentName;
-          }
-          // Update payment base
-          else if (action.payload.paymentToUpdate === "paymentBase") {
-            // Check particular payment base type
-            if (action.payload.paymentBaseType === "periodBasedPayment") {
-              paymentState.paymentBase.periodPaymentBase.value =
-                action.payload.selectedValue;
-            } else if (action.payload.paymentBaseType === "gradeBasedPayment") {
-              paymentState.paymentBase.gradeLevelPaymentBase.value =
-                action.payload.selectedValue;
-            } else if (
-              action.payload.paymentBaseType === "creditHoursBasedPayment"
-            ) {
-              paymentState.paymentBase.creditHoursPaymentBase.value =
-                action.payload.selectedValue;
-            } else if (
-              action.payload.paymentBaseType === "courseTypeBasedPayment"
-            ) {
-              paymentState.paymentBase.courseTypePaymentBase.value =
-                action.payload.selectedValue;
-            }
+        console.log(current(paymentState).paymentBase);
+        paymentState.paymentToUpdate = action.payload.paymentToUpdate;
+        if (paymentState.id === action.payload.id) {
+          if (action.payload.paymentToUpdate === "periodBasedPayment") {
+            paymentState.periodChecked = action.payload.periodChecked;
+          } else if (action.payload.paymentToUpdate === "gradeBasedPayment") {
+            paymentState.gradeLevelChecked = action.payload.gradeLevelChecked;
+          } else if (action.payload.paymentToUpdate === "genderBasedPayment") {
+            paymentState.genderChecked = action.payload.genderChecked;
+          } else if (
+            action.payload.paymentToUpdate === "specialNeedBasedPayment"
+          ) {
+            paymentState.specialNeedChecked = action.payload.specialNeedChecked;
+          } else if (
+            action.payload.paymentToUpdate === "scholarshipBasedPayment"
+          ) {
+            paymentState.scholarshipChecked = action.payload.scholarshipChecked;
+          } else if (
+            action.payload.paymentToUpdate ===
+            "schoolPaymentTerm" + action.payload.id
+          ) {
+            paymentState.standardPaymentTermSelected =
+              action.payload.standardPaymentTermSelected;
+            paymentState.advancedPaymentTermSelected =
+              action.payload.advancedPaymentTermSelected;
+          } else if (action.payload.paymentToUpdate === "paymentType") {
+            paymentState.paymentTypeToUpdate =
+              action.payload.paymentTypeToUpdate;
           }
         }
       });
@@ -172,17 +176,6 @@ export const paymentSlice = createSlice({
 
     // Updating payment term statues
     // Deleting states
-    deletePayments: (state, action) => {
-      state.paymentState = state.paymentState.filter(
-        (payment) => payment.id !== action.payload.paymentId
-      );
-      state.paymentState.map((payment) => {
-        if (payment.id > action.payload.paymentId) {
-          payment.id -= 1;
-        }
-      });
-    },
-
     deletePaymentBase: (state, action) => {
       state.paymentState = state.paymentState.filter(
         (paymentBase) => paymentBase.id !== action.payload.id
@@ -216,8 +209,6 @@ export const {
   updatePayments,
   deletePaymentBase,
   resetPaymentStates,
-  createPayments,
-  deletePayments,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

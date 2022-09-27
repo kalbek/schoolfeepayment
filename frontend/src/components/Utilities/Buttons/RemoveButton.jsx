@@ -1,9 +1,7 @@
-import React from "react";
-
 const RemoveButton = ({ removables, index, subIndex }) => {
   return (
     <div
-      className="remove__terms-ctr"
+      className="remove__terms-ctr "
       onClick={() => removables(index, subIndex)}
     >
       <h2 className="school__accent-negative">Remove</h2>

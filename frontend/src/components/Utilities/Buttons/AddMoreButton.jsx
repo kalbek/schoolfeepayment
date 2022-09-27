@@ -5,6 +5,7 @@ const AddMoreButton = ({ handleLinks, label }) => {
     <button
       tabIndex={11}
       className={popup ? " inactive-bg btn-onemore" : "btn-onemore"}
+      // className={popup ? " inactive-bg btn-onemore" : "add-more--button"}
       onClick={handleLinks}
     >
       <div className="add__social-link">

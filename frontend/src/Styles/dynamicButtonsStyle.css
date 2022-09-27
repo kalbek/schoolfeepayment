@@ -51,6 +51,11 @@
   margin-right: 5px;
 }
 
+.add-more--button::before {
+  content: url("../Assets/Images/plusbtn.svg");
+
+}
+
 .social-link--label::before:hover {
   color: #004080;
 }
