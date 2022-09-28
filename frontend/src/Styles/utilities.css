@@ -197,29 +197,29 @@
   margin-top: 1rem;
 }
 
-.mlnp9{
-  margin-left: -.9rem;
+.mlnp9 {
+  margin-left: -0.9rem;
 }
-.mlnp8{
-  margin-left: -.8rem;
+.mlnp8 {
+  margin-left: -0.8rem;
 }
-.mlnp7{
-  margin-left: -.7rem;
+.mlnp7 {
+  margin-left: -0.7rem;
 }
-.mln5{
-  margin-left: -.5rem;
+.mln5 {
+  margin-left: -0.5rem;
 }
-.mln4{
-  margin-left: -.5rem;
+.mln4 {
+  margin-left: -0.5rem;
 }
-.mln5{
-  margin-left: -.8rem;
+.mln5 {
+  margin-left: -0.8rem;
 }
 .mlp5 {
   margin-left: 0.3rem;
 }
 .mlp3 {
-  margin-left:3px;
+  margin-left: 3px;
 }
 
 .-mt-10 {
@@ -228,7 +228,9 @@
 .mtminus1 {
   margin-top: -1rem;
 }
-
+.someGitThing {
+  margin-top: 0px;
+}
 .mtminus2 {
   margin-top: -2rem;
 }
@@ -284,7 +286,7 @@
   margin-left: 85%;
 }
 
-.pl3{
+.pl3 {
   padding-right: 3.5px;
 }
 
