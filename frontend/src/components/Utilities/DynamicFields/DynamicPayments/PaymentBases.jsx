@@ -5,16 +5,18 @@ const PaymentBases = ({
   handlePaymentBase,
   handleAddCustomPaymentBasis,
   handleCustomPaymentBase,
+  removeCustomPaymentBase,
   singlePayment,
   index,
-  removeCustomPaymentBase,
 }) => {
   // const customPaymentBase = singlePayment.paymentBase.customPaymentBased;
-  const periodPaymentBase = singlePayment.paymentBase.periodPaymentBase;
-  const gradeLevelPaymentBase = singlePayment.paymentBase.gradeLevelPaymentBase;
+  const periodPaymentBase = singlePayment.paymentBase.periodPaymentBase.value;
+  const gradeLevelPaymentBase =
+    singlePayment.paymentBase.gradeLevelPaymentBase.value;
   const creditHourPaymentBase =
-    singlePayment.paymentBase.creditHoursPaymentBase;
-  const courseTypePaymentBase = singlePayment.paymentBase.courseTypePaymentBase;
+    singlePayment.paymentBase.creditHoursPaymentBase.value;
+  const courseTypePaymentBase =
+    singlePayment.paymentBase.courseTypePaymentBase.value;
   const customPaymentBase = singlePayment.paymentBase.customPaymentBase;
 
   return (
@@ -35,11 +37,11 @@ const PaymentBases = ({
                   {console.log(periodPaymentBase.value === "true")}
                   <input
                     type="checkbox"
-                    name="paymentBase"
+                    name="periodPaymentBase"
                     id={"periodBasedPayment"}
                     tabIndex={9}
-                    value={periodPaymentBase.value}
-                    checked={periodPaymentBase.value}
+                    value={periodPaymentBase}
+                    checked={periodPaymentBase}
                     onChange={(event) => handlePaymentBase(event, index)}
                   />
                   <>
@@ -56,10 +58,10 @@ const PaymentBases = ({
                 >
                   <input
                     type="checkbox"
-                    name="paymentBase"
+                    name="gradeLevelPaymentBase"
                     id={"gradeBasedPayment"}
-                    value={gradeLevelPaymentBase.value}
-                    checked={gradeLevelPaymentBase.value}
+                    value={gradeLevelPaymentBase}
+                    checked={gradeLevelPaymentBase}
                     onChange={(e) => handlePaymentBase(e, index)}
                     tabIndex={9}
                   />
@@ -76,10 +78,10 @@ const PaymentBases = ({
                 >
                   <input
                     type="checkbox"
-                    name="paymentBase"
+                    name="creditHoursPaymentBase"
                     id={"creditHoursBasedPayment"}
-                    value={creditHourPaymentBase.value}
-                    checked={creditHourPaymentBase.value}
+                    value={creditHourPaymentBase}
+                    checked={creditHourPaymentBase}
                     onChange={(e) => handlePaymentBase(e, index)}
                     tabIndex={9}
                   />
@@ -95,16 +97,14 @@ const PaymentBases = ({
                   {/*Checkbox for course based payment */}
                   <label
                     className="checkbox-items flex flex-cs"
-                    htmlFor={"courseTypeBasedPayment"}
+                    htmlFor="courseTypeBasedPayment"
                   >
                     <input
                       type="checkbox"
-                      name="paymentBase"
-                      id={"courseTypeBasedPayment"}
-                      // value={singlePayment.gradeLevelChecked}
-                      // checked={singlePayment.gradeLevelChecked}
-                      value={courseTypePaymentBase.value}
-                      checked={courseTypePaymentBase.value}
+                      name="courseTypePaymentBase"
+                      id="courseTypeBasedPayment"
+                      value={courseTypePaymentBase}
+                      checked={courseTypePaymentBase}
                       onChange={(e) => handlePaymentBase(e, index)}
                       tabIndex={9}
                     />
@@ -114,13 +114,18 @@ const PaymentBases = ({
                       </span>
                     </>
                   </label>
-                  {/*Checkbox for custom type based payment */}
+                  {/*Checkbox for custom type based payment goes here */}
                   {/* Add custom basis button */}
                   <label
                     className="checkbox-items flex flex-cs mlnp7"
-                    htmlFor={"gradeBasedPayment_" + index}
+                    htmlFor={"customPaymentBase"}
+                    onClick={() => handleAddCustomPaymentBasis(index)}
                   >
-                    <AddMoreButton handleLinks={handleAddCustomPaymentBasis} />
+                    <AddMoreButton
+                      index={index}
+                      handleLinks={() => console.log("defined at label")}
+                      // handleLinks={handleAddCustomPaymentBasis}
+                    />
                     <>
                       <span className="mln5">
                         &nbsp; <p>Add Custom Basis</p>
@@ -131,8 +136,8 @@ const PaymentBases = ({
                 <></>
               </div>
               {/* INPUT FOR DYNAMIC CUSTOM PAYMENT BASE */}
-              {customPaymentBase.map((base, index) => (
-                <div key={index} className="flex-cs">
+              {customPaymentBase.paymentBases.map((base, baseIndex) => (
+                <div key={baseIndex} className="flex-cs mtn5">
                   <div className="flex-c inputs gapp5">
                     <div className="flex-cs gapp5">
                       <input
@@ -140,14 +145,17 @@ const PaymentBases = ({
                         className="cursor-auto"
                         name="paymentBase"
                         id={"courseTypeBasedPayment"}
-                        placeholder={"Custom payment base name"}
-                        // value={base.customPaymentBaseName}
-                        onChange={(e) => handleCustomPaymentBase(e, index)}
+                        placeholder={"Custom payment base"}
+                        value={base.customPaymentBaseName}
+                        onChange={(event) =>
+                          handleCustomPaymentBase(event, index, baseIndex)
+                        }
                         tabIndex={9}
                       />
                       <RemoveLinksButton
                         remove={removeCustomPaymentBase}
                         index={index}
+                        subIndex={baseIndex}
                       />
                     </div>
                     <div className="mb5px"></div>

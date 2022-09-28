@@ -1,15 +1,21 @@
 import { useSelector, useDispatch } from "react-redux";
 import AddMoreButton from "../Buttons/AddMoreButton";
 import RemoveButton from "../Buttons/RemoveButton";
-import PaymentType from "./DynamicPayments/PaymentTypes";
+import PaymentTypes from "./DynamicPayments/PaymentTypes";
 import PaymentTerms from "./DynamicPayments/PaymentTerms";
 import PaymentBases from "./DynamicPayments/PaymentBases";
-import DiscountParameters from "./DynamicPayments/DiscountParameters";
+import DiscountParameters from "./DynamicPayments/PaymentDiscounts";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   createPayments,
+  createPaymentBase,
   deletePayments,
-  updatePayments,
+  updatePaymentType,
+  updatePaymentBase,
+  updatePaymentDiscount,
+  updateCustomPaymentBase,
+  updatePaymentTerm,
+  deletePaymentBase,
 } from "../../../features/paymentBase/paymentBaseSlice";
 
 const DynamicPayments = ({ formData }) => {
@@ -74,52 +80,91 @@ const DynamicPayments = ({ formData }) => {
     );
   };
   const handlePaymentType = (event, index) => {
-    const { id, name, value } = event.target;
-    console.log("id: " + id);
-    console.log("name: " + name);
-    console.log("value: " + value);
-
+    const { value } = event.target;
     dispatch(
-      updatePayments({
+      updatePaymentType({
         paymentId: index,
-        paymentToUpdate: name,
         paymentName: value,
       })
     );
   };
+
   const handlePaymentBase = (event, index) => {
-    console.log("hey")
-    const { id, name } = event.target;
+    const { name } = event.target;
     paymentState.map((state) => {
       if (state.id === index) {
-        // identify the current payment base type to update
-        const paymentBaseToUpdate =
-          id === "periodBasedPayment"
-            ? !state.paymentBase.periodPaymentBase.value
-            : id === "gradeBasedPayment"
-            ? !state.paymentBase.gradeLevelPaymentBase.value
-            : id === "creditHoursBasedPayment"
-            ? !state.paymentBase.creditHoursPaymentBase.value
-            : id === "courseTypeBasedPayment"
-            ? !state.paymentBase.courseTypePaymentBase.value
-            : null;
-
-        // update the payment base
-        console.log("paymentBaseToUpdate: " + id)
         dispatch(
-          updatePayments({
+          updatePaymentBase({
             paymentId: index,
-            paymentToUpdate: name,
-            selectedValue: paymentBaseToUpdate,
-            paymentBaseType: id,
+            selectedValue: !state.paymentBase[name].value,
+            paymentBaseType: name,
           })
         );
       }
     });
   };
-  const handlePaymentDiscount = (event, index) => {};
+  const handlePaymentDiscount = (event, index) => {
+    const { name, id } = event.target;
+    paymentState.map((state) => {
+      if (state.id === index) {
+        dispatch(
+          updatePaymentDiscount({
+            paymentId: index,
+            selectedValue: !state.discountParameters[name].value,
+            paymentDiscountType: name,
+            genderType: id,
+            gender: state.discountParameters[name].genders,
+          })
+        );
+      }
+    });
+  };
+  const handleCustomPaymentBase = (event, index, baseIndex) => {
+    const { name, id, value } = event.target;
+    paymentState.map((state) => {
+      if (state.id === index) {
+        dispatch(
+          updateCustomPaymentBase({
+            paymentId: index,
+            customPaymentBaseId: baseIndex,
+            value: value,
+          })
+        );
+      }
+    });
+  };
+  const handleAddCustomPaymentBasis = (index) => {
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          createPaymentBase({
+            paymentIndex: index,
+            paymentBase: {
+              id: payment.paymentBase.customPaymentBase.paymentBases.length,
+              customPaymentBaseName: "",
+              paymentDueDates: "",
+            },
+          })
+        );
+      }
+    });
+  };
   const handlePaymentTerm = (event, index) => {};
-  const handleAddCustomPaymentBasis = (event, index) => {};
+  const removeCustomPaymentBase = (index, subIndex) => {
+    console.log("subIndex: " + subIndex);
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          deletePaymentBase({
+            paymentIndex: index,
+            baseIndex: subIndex,
+          })
+        );
+      }
+    });
+  };
+
+ 
   const handleAddCustomPaymentDiscount = (event, index) => {};
 
   return (
@@ -127,7 +172,7 @@ const DynamicPayments = ({ formData }) => {
       {paymentState.map((singlePayment, index) => (
         <div key={index}>
           <div className="flex-start gapp6">
-            <PaymentType
+            <PaymentTypes
               singlePayment={singlePayment}
               index={index}
               handlePaymentType={handlePaymentType}
@@ -136,7 +181,9 @@ const DynamicPayments = ({ formData }) => {
               singlePayment={singlePayment}
               index={index}
               handlePaymentBase={handlePaymentBase}
+              handleCustomPaymentBase={handleCustomPaymentBase}
               handleAddCustomPaymentBasis={handleAddCustomPaymentBasis}
+              removeCustomPaymentBase={removeCustomPaymentBase}
             />
 
             <DiscountParameters

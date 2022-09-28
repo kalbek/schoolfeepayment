@@ -7,7 +7,6 @@ import Preview from "../Utilities/Buttons/Preview";
 import "../../Styles/utilities.css";
 import {
   createPaymentBase,
-  updatePayments,
   deletePaymentBase,
   resetPaymentStates,
 } from "../../features/paymentBase/paymentBaseSlice";
@@ -77,22 +76,7 @@ function PaymentInfo({ formData, setFormData }) {
       });
   }, []);
 
-  // handling payment types dropdown onselect/on change event
-  function handlePaymentTypeSelect(e, index) {
-    const { id, name, value } = e.target;
-    const payments = formDataPayments;
-    dispatch(
-      updatePayments({
-        id: index,
-        paymentToUpdate: name,
-        paymentTypeToUpdate: value,
-      })
-    );
-    payments[index][name] = value;
-    // setFormData({ ...formData, schoolPayments: payments });
-    // console.log(value)
-    // console.log(formDataPayments);
-  }
+  
 
   // handling payment amount change
   const handlePaymentAmount = (e, index) => {
@@ -102,35 +86,7 @@ function PaymentInfo({ formData, setFormData }) {
     setFormData({ ...formData, schoolPayments: amount });
   };
 
-  function handlePayments(e, index) {
-    const { id, name, value } = e.target;
-    const formDataPaymentTerm = formDataPayments;
-    // console.log("id: " + id)
-    // console.log("value: " + value)
-    paymentState.map((baseState) => {
-      if (baseState.id === index) {
-        dispatch(
-          updatePayments({
-            id: index,
-            paymentToUpdate: id,
-            paymentTerm: id,
-            periodChecked: !baseState.periodChecked,
-            gradeLevelChecked: !baseState.gradeLevelChecked,
-            genderChecked: !baseState.genderChecked,
-            specialNeedChecked: !baseState.specialNeedChecked,
-            scholarshipChecked: !baseState.scholarshipChecked,
-            standardPaymentTermSelected: !baseState.standardPaymentTermSelected,
-            advancedPaymentTermSelected: !baseState.advancedPaymentTermSelected,
-          })
-        );
-        formDataPaymentTerm[index]["standardPaymentTerm"] =
-          !baseState.standardPaymentTermSelected;
-        formDataPaymentTerm[index]["advancedPaymentTerm"] =
-          !baseState.advancedPaymentTermSelected;
-        setFormData({ ...formData, schoolPayments: formDataPaymentTerm });
-      }
-    });
-  }
+   
 
   const removePayments = (index) => {
     const list = formDataPayments;
@@ -175,11 +131,9 @@ function PaymentInfo({ formData, setFormData }) {
           )}
           <DynamicPayments
             formData={formData}
-            handlePaymentTypeSelect={handlePaymentTypeSelect}
             handlePaymentAmount={handlePaymentAmount}
             removePayments={removePayments}
             addPayments={addPayments}
-            handlePayments={handlePayments}
           />
           <div className="flex-ccc">
             {formDataPayments.length === 0 ? (

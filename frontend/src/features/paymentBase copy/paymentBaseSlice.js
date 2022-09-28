@@ -59,57 +59,49 @@ const initialState = {
         ],
       },
       // payment discount parameters
-      discountParameters: [
-        {
-          id: 0,
-          discountType: {
-            genderBasedDiscount: {
-              value: false,
-              genders: [
-                {
-                  id: 0,
-                  genderType: "",
-                  discountRate: 0,
-                  paymentAmount: 0,
-                },
-              ],
-            },
-            specialNeedsBasedDiscount: {
-              value: false,
-              specialNeeds: [
-                {
-                  id: 0,
-                  specialNeedType: "",
-                  discountRate: 0,
-                  paymentAmount: 0,
-                },
-              ],
-            },
-            scholarshipBasedDiscount: {
-              value: false,
-              scholarships: [
-                {
-                  id: 0,
-                  scholarshipType: "",
-                  discountRate: 0,
-                  paymentAmount: 0,
-                },
-              ],
-            },
-            customPaymentDiscount: {
-              value: false,
-              customDiscounts: [
-                {
-                  id: 0,
-                  customDiscountName: "",
-                  discountRate: 0,
-                  paymentAmount: 0,
-                },
-              ],
-            },
+      discountParameters: {
+        id: 0,
+        genderBasedDiscount: {
+          value: false,
+          genders: {
+            male: false,
+            female: true,
           },
         },
-      ],
+        specialNeedsBasedDiscount: {
+          value: false,
+          specialNeeds: [
+            {
+              id: 0,
+              specialNeedType: "",
+              discountRate: 0,
+              paymentAmount: 0,
+            },
+          ],
+        },
+        scholarshipBasedDiscount: {
+          value: false,
+          scholarships: [
+            {
+              id: 0,
+              scholarshipType: "",
+              discountRate: 0,
+              paymentAmount: 0,
+            },
+          ],
+        },
+        customPaymentDiscount: {
+          value: false,
+          customDiscounts: [
+            {
+              id: 0,
+              customDiscountName: "",
+              discountRate: 0,
+              paymentAmount: 0,
+            },
+          ],
+        },
+      },
 
       totalPaymentAmount: {
         id: 0,

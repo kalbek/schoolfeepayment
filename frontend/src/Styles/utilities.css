@@ -218,6 +218,9 @@
 .mlp5 {
   margin-left: 0.3rem;
 }
+.mlp3 {
+  margin-left:3px;
+}
 
 .-mt-10 {
   margin-top: -10%;
@@ -238,6 +241,9 @@
 }
 .mtn30 {
   margin-top: -30%;
+}
+.mtn7 {
+  margin-top: -7%;
 }
 .mtn5 {
   margin-top: -5%;
@@ -297,6 +303,15 @@
 }
 .gapfull {
   gap: 10vw;
+}
+.gap3vw {
+  gap: 3vw;
+}
+.gap2vw {
+  gap: 2vw;
+}
+.gap2p5vw {
+  gap: 2.5vw;
 }
 
 .pointer:hover {
