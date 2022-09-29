@@ -22,8 +22,8 @@ const PaymentBases = ({
   return (
     <>
       <div>
-        <div className="checkbox-inputs input__group field-group-container">
-          <div className="flex-cs checkbox-group">
+        <div className="checkbox-inputs input__group ">
+          <div className="flex-cs checkbox-group field-group-container">
             <section className="flex-left">
               <label htmlFor="">
                 <h3>Payment Base</h3>

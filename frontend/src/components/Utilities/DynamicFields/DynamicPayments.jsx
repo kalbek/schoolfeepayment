@@ -16,6 +16,12 @@ import {
   updateCustomPaymentBase,
   updatePaymentTerm,
   deletePaymentBase,
+  createSpecialNeedDiscount,
+  createScholarshipDiscount,
+  updateSpecialNeedDiscount,
+  updateScholarshipDiscount,
+  deleteSpecialNeedDiscount,
+  deleteScholarshipDiscount,
 } from "../../../features/paymentBase/paymentBaseSlice";
 
 const DynamicPayments = ({ formData }) => {
@@ -151,7 +157,6 @@ const DynamicPayments = ({ formData }) => {
   };
   const handlePaymentTerm = (event, index) => {};
   const removeCustomPaymentBase = (index, subIndex) => {
-    console.log("subIndex: " + subIndex);
     paymentState.map((payment) => {
       if (payment.id === index) {
         dispatch(
@@ -164,46 +169,160 @@ const DynamicPayments = ({ formData }) => {
     });
   };
 
- 
+  // METHODS TO HANDLE CRUD OPERATIONS FOR PAYMENT DISCOUNTS
+  const addSpcialNeedPaymentDiscount = (index) => {
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          createSpecialNeedDiscount({
+            paymentId: index,
+            specialNeeds: {
+              id: payment.discountParameters.specialNeedsBasedDiscount
+                .specialNeeds.length,
+              specialNeedName: "",
+              discountPercentage: 0,
+            },
+          })
+        );
+      }
+    });
+  };
+
+  const addScholarshipsPaymentDiscount = (index) => {
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          createScholarshipDiscount({
+            paymentId: index,
+            scholarships: {
+              id: payment.discountParameters.scholarshipBasedDiscount
+                .scholarships.length,
+              scholarshipName: "",
+              discountPercentage: 0,
+            },
+          })
+        );
+      }
+    });
+  };
+
+  const handleSpcialNeedPaymentDiscount = (event, index, specialNeedIndex) => {
+    const { value } = event.target;
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          updateSpecialNeedDiscount({
+            paymentId: index,
+            specialNeedId: specialNeedIndex,
+            value: value,
+          })
+        );
+      }
+    });
+  };
+
+  const handleScholarshipsPaymentDiscount = (
+    event,
+    index,
+    scholarshipIndex
+  ) => {
+    console.log("go");
+    const { value } = event.target;
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          updateScholarshipDiscount({
+            paymentId: index,
+            scholarshipId: scholarshipIndex,
+            scholarshipName: value,
+          })
+        );
+      }
+    });
+  };
+
+  const remvoeSpcialNeedPaymentDiscount = (index, specialNeedIndex) => {
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          deleteSpecialNeedDiscount({
+            paymentId: index,
+            specialNeedId: specialNeedIndex,
+          })
+        );
+      }
+    });
+  };
+
+  const remvoeScholarshipsPaymentDiscount = (index, scholarshipIndex) => {
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          deleteScholarshipDiscount({
+            paymentId: index,
+            scholarshipId: scholarshipIndex,
+          })
+        );
+      }
+    });
+  };
+  // END OFMETHODS TO HANDLE CRUD OPERATIONS FOR PAYMENT DISCOUNTS
+
   const handleAddCustomPaymentDiscount = (event, index) => {};
 
   return (
     <>
       {paymentState.map((singlePayment, index) => (
         <div key={index}>
-          <div className="flex-start gapp6">
-            <PaymentTypes
-              singlePayment={singlePayment}
-              index={index}
-              handlePaymentType={handlePaymentType}
-            />
-            <PaymentBases
-              singlePayment={singlePayment}
-              index={index}
-              handlePaymentBase={handlePaymentBase}
-              handleCustomPaymentBase={handleCustomPaymentBase}
-              handleAddCustomPaymentBasis={handleAddCustomPaymentBasis}
-              removeCustomPaymentBase={removeCustomPaymentBase}
-            />
+          <div className="flex-start gapp6 field-group-container">
+            <section className="flex-start gapp6 pb2">
+              <PaymentTypes
+                singlePayment={singlePayment}
+                index={index}
+                handlePaymentType={handlePaymentType}
+              />
+              <PaymentBases
+                singlePayment={singlePayment}
+                index={index}
+                handlePaymentBase={handlePaymentBase}
+                handleCustomPaymentBase={handleCustomPaymentBase}
+                handleAddCustomPaymentBasis={handleAddCustomPaymentBasis}
+                removeCustomPaymentBase={removeCustomPaymentBase}
+              />
 
-            <DiscountParameters
-              singlePayment={singlePayment}
-              index={index}
-              handlePaymentDiscount={handlePaymentDiscount}
-              handleAddCustomPaymentDiscount={handleAddCustomPaymentDiscount}
-            />
+              <DiscountParameters
+                singlePayment={singlePayment}
+                index={index}
+                handlePaymentDiscount={handlePaymentDiscount}
+                handleAddCustomPaymentDiscount={handleAddCustomPaymentDiscount}
+                addSpcialNeedPaymentDiscount={addSpcialNeedPaymentDiscount}
+                addScholarshipsPaymentDiscount={addScholarshipsPaymentDiscount}
+                handleSpcialNeedPaymentDiscount={
+                  handleSpcialNeedPaymentDiscount
+                }
+                handleScholarshipsPaymentDiscount={
+                  handleScholarshipsPaymentDiscount
+                }
+                remvoeSpcialNeedPaymentDiscount={
+                  remvoeSpcialNeedPaymentDiscount
+                }
+                remvoeScholarshipsPaymentDiscount={
+                  remvoeScholarshipsPaymentDiscount
+                }
+              />
 
-            <PaymentTerms
-              singlePayment={singlePayment}
-              index={index}
-              handlePaymentTerm={handlePaymentTerm}
-            />
+              <PaymentTerms
+                singlePayment={singlePayment}
+                index={index}
+                handlePaymentTerm={handlePaymentTerm}
+              />
 
-            {paymentState.length > 1 ? (
-              <RemoveButton removables={removePayments} index={index} />
-            ) : (
-              <></>
-            )}
+              {paymentState.length > 1 ? (
+                <RemoveButton removables={removePayments} index={index} />
+              ) : (
+                <></>
+              )}
+            </section>
           </div>
 
           {paymentState.length - 1 === index && paymentState.length < 24 ? (

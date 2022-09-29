@@ -254,7 +254,8 @@
   cursor: pointer;
 }
 
-.field-group-container section {
+.field-group-container section,
+.field-subgroup-container section {
   border: 1px solid #d3d3cd;
   border-radius: 5px;
   margin-top: 0.4rem;
@@ -275,12 +276,17 @@
   /* color: #2d8cf0; */
 }
 
-.field-group-container:focus-within section,
-.field-group-container:hover section {
+.field-group-container:focus-within> section,
+.field-group-container:hover> section {
   border: 1px solid #2d8cf0;
 }
 .field-group-container:focus-within h3 {
   color: #2d8cf0;
+}
+
+.field-subgroup-container:focus-within section,
+.field-subgroup-container:hover section {
+  border: 1px solid #2d8cf0;
 }
 
 .checkbox-group span {

@@ -106,6 +106,9 @@
 .pb1 {
   padding-bottom: 1%;
 }
+.pb2 {
+  padding-bottom: 2%;
+}
 .pl1 {
   padding-left: 1%;
 }
@@ -353,4 +356,44 @@
 
 .cursor-auto:hover {
   cursor: auto;
+}
+
+.remove-btn-container {
+  height: 0.8em;
+  width: 25px;
+  background-color: #fff;
+}
+
+.remove-btn {
+  width: 15px;
+  border-radius: 30%;
+  margin-top: 22%;
+  margin-left: 18%;
+  height: 0.1em;
+  background-color: #5393fa;
+}
+
+.add-btn-x1 {
+  width: 8px;
+  height: 0.1em;
+}
+.add-btn-x2 {
+  width: 8px;
+  height: 0.1em;
+}
+.add-btn-y {
+  height: 14px;
+  width: 0.1em;
+}
+
+.add-btn-container {
+  height: 1.2em;
+  width: 25px;
+  background-color: #fff;
+}
+
+.add-btn-x1,
+.add-btn-x2,
+.add-btn-y {
+  background-color: #5393fa;
 }

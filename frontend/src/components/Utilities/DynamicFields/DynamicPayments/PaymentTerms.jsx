@@ -3,7 +3,7 @@ const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
     <>
       <div>
         {/* PAYMENT TERM SELECT OPTION */}
-        <div className="checkbox-inputs input__group field-group-container">
+        <div className="checkbox-inputs input__group field-group-container pt2">
           <section className="flex-left">
             <label htmlFor="">
               <h3>Payment Term</h3>

@@ -68,23 +68,23 @@ const initialState = {
         specialNeedsBasedDiscount: {
           value: false,
           specialNeeds: [
-            {
-              id: 0,
-              specialNeedType: "",
-              discountRate: 0,
-              paymentAmount: 0,
-            },
+            // {
+            //   id: 0,
+            //   specialNeedType: "",
+            //   discountRate: 0,
+            //   paymentAmount: 0,
+            // },
           ],
         },
         scholarshipBasedDiscount: {
           value: false,
           scholarships: [
-            {
-              id: 0,
-              scholarshipType: "",
-              discountRate: 0,
-              paymentAmount: 0,
-            },
+            // {
+            //   id: 0,
+            //   scholarshipType: "",
+            //   discountRate: 0,
+            //   paymentAmount: 0,
+            // },
           ],
         },
         customPaymentDiscount: {
@@ -129,23 +129,127 @@ export const paymentSlice = createSlice({
     },
 
     createPaymentBase: (state, action) => {
-      console.log(action.payload);
-      // console.log(current(state).paymentState.paymentBase)
       state.paymentState.map((payments) => {
         if (payments.id === action.payload.paymentIndex) {
-          console.log(action.payload.paymentBase);
           payments.paymentBase.customPaymentBase.paymentBases.push(
             action.payload.paymentBase
           );
         }
       });
-      // state.paymentState.push(action.payload);
-      console.log(current(state.paymentState));
     },
+
     createPaymentDiscount: (state, action) => {
       state.paymentState.push(action.payload);
     },
 
+    // CRUD OPERATINS FOR PAYMENT DICOUNT PARAMETERS
+    createSpecialNeedDiscount: (state, action) => {
+      state.paymentState.map((payment) => {
+        if (payment.id === action.payload.paymentId) {
+          payment.discountParameters.specialNeedsBasedDiscount.specialNeeds.push(
+            action.payload.specialNeeds
+          );
+          console.log(
+            current(
+              payment.discountParameters.specialNeedsBasedDiscount.specialNeeds
+            )
+          );
+        }
+      });
+    },
+
+    createScholarshipDiscount: (state, action) => {
+      state.paymentState.map((payment) => {
+        if (payment.id === action.payload.paymentId) {
+          payment.discountParameters.scholarshipBasedDiscount.scholarships.push(
+            action.payload.scholarships
+          );
+        }
+        console.log(
+          current(
+            payment.discountParameters.scholarshipBasedDiscount.scholarships
+          )
+        );
+      });
+    },
+
+    updateSpecialNeedDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
+            (specialNeeds) => {
+              if (specialNeeds.id === action.payload.specialNeedId) {
+                specialNeeds.specialNeedName = action.payload.value;
+              }
+            }
+          );
+        }
+      });
+    },
+
+    updateScholarshipDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.scholarshipBasedDiscount.scholarships.map(
+            (scholarships) => {
+              if (scholarships.id === action.payload.scholarshipId) {
+                scholarships.scholarshipName = action.payload.scholarshipName;
+              }
+            }
+          );
+        }
+      });
+    },
+
+    deleteSpecialNeedDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds =
+            paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.filter(
+              (specialNeeds) => specialNeeds.id !== action.payload.specialNeedId
+            );
+        }
+      });
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
+            (specialNeed) => {
+              console.log("state sp id: " + specialNeed.id);
+              console.log("special need id: " + action.payload.specialNeedId);
+              if (specialNeed.id > action.payload.specialNeedId) {
+                specialNeed.id -= 1;
+              }
+            }
+          );
+        }
+      });
+    },
+
+    // til now
+    deleteScholarshipDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.scholarshipBasedDiscount.scholarships =
+            paymentState.discountParameters.scholarshipBasedDiscount.scholarships.filter(
+              (scholarships) => scholarships.id !== action.payload.scholarshipId
+            );
+        }
+      });
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.scholarshipBasedDiscount.scholarships.map(
+            (scholarship) => {
+              if (scholarship.id > action.payload.scholarshipId) {
+                scholarship.id -= 1;
+              }
+            }
+          );
+        }
+      });
+    },
+    // END OF CRUD OPERATINS FOR PAYMENT DICOUNT PARAMETERS
     updatePaymentType: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.id === action.payload.paymentId) {
@@ -272,7 +376,6 @@ export const paymentSlice = createSlice({
           );
         }
       });
-
       state.paymentState.map((payment) => {
         if (payment.id === action.payload.paymentIndex) {
           payment.paymentBase.customPaymentBase.paymentBases.map((base) => {
@@ -312,6 +415,12 @@ export const {
   resetPaymentStates,
   createPayments,
   deletePayments,
+  createSpecialNeedDiscount,
+  createScholarshipDiscount,
+  updateSpecialNeedDiscount,
+  updateScholarshipDiscount,
+  deleteSpecialNeedDiscount,
+  deleteScholarshipDiscount,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;
