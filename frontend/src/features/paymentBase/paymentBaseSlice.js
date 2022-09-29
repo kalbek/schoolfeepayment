@@ -90,12 +90,12 @@ const initialState = {
         customPaymentDiscount: {
           value: false,
           customDiscounts: [
-            {
-              id: 0,
-              customDiscountName: "",
-              discountRate: 0,
-              paymentAmount: 0,
-            },
+            // {
+            //   id: 0,
+            //   customDiscountName: "",
+            //   discountRate: 0,
+            //   paymentAmount: 0,
+            // },
           ],
         },
       },
@@ -173,6 +173,21 @@ export const paymentSlice = createSlice({
       });
     },
 
+    createCustomDiscount: (state, action) => {
+      state.paymentState.map((payment) => {
+        if (payment.id === action.payload.paymentId) {
+          payment.discountParameters.customPaymentDiscount.customDiscounts.push(
+            action.payload.discounts
+          );
+        }
+        console.log(
+          current(
+            payment.discountParameters.customPaymentDiscount.customDiscounts
+          )
+        );
+      });
+    },
+
     updateSpecialNeedDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.id === action.payload.paymentId) {
@@ -194,6 +209,22 @@ export const paymentSlice = createSlice({
             (scholarships) => {
               if (scholarships.id === action.payload.scholarshipId) {
                 scholarships.scholarshipName = action.payload.scholarshipName;
+              }
+            }
+          );
+        }
+      });
+    },
+
+    updateCustomDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
+            (customDiscount) => {
+              console.log("pid: " + action.payload.discountIndex)
+              if (customDiscount.id === action.payload.discountIndex) {
+                customDiscount.discountName = action.payload.discountName;
+                customDiscount.discountPercentage = action.payload.discountPercentage;
               }
             }
           );
@@ -226,7 +257,7 @@ export const paymentSlice = createSlice({
       });
     },
 
-    // til now
+ 
     deleteScholarshipDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.id === action.payload.paymentId) {
@@ -243,6 +274,29 @@ export const paymentSlice = createSlice({
             (scholarship) => {
               if (scholarship.id > action.payload.scholarshipId) {
                 scholarship.id -= 1;
+              }
+            }
+          );
+        }
+      });
+    },
+
+    deleteCustomDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.customPaymentDiscount.customDiscounts =
+            paymentState.discountParameters.customPaymentDiscount.customDiscounts.filter(
+              (customDiscounts) => customDiscounts.id !== action.payload.customDiscountIndex
+            );
+        }
+      });
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.id === action.payload.paymentId) {
+          paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
+            (customDiscounts) => {
+              if (customDiscounts.id > action.payload.customDiscountIndex) {
+                customDiscounts.id -= 1;
               }
             }
           );
@@ -410,6 +464,7 @@ export const {
   updatePaymentBase,
   updateCustomPaymentBase,
   updatePaymentDiscount,
+  updateCustomDiscount,
   updatePaymentTerm,
   deletePaymentBase,
   resetPaymentStates,
@@ -417,10 +472,12 @@ export const {
   deletePayments,
   createSpecialNeedDiscount,
   createScholarshipDiscount,
+  createCustomDiscount,
   updateSpecialNeedDiscount,
   updateScholarshipDiscount,
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,
+  deleteCustomDiscount,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

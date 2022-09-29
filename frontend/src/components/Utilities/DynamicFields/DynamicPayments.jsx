@@ -13,15 +13,18 @@ import {
   updatePaymentType,
   updatePaymentBase,
   updatePaymentDiscount,
+  updateCustomDiscount,
   updateCustomPaymentBase,
   updatePaymentTerm,
   deletePaymentBase,
   createSpecialNeedDiscount,
   createScholarshipDiscount,
+  createCustomDiscount,
   updateSpecialNeedDiscount,
   updateScholarshipDiscount,
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,
+  deleteCustomDiscount,
 } from "../../../features/paymentBase/paymentBaseSlice";
 
 const DynamicPayments = ({ formData }) => {
@@ -206,6 +209,24 @@ const DynamicPayments = ({ formData }) => {
     });
   };
 
+  const addCustomPaymentDiscount = (index) => {
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          createCustomDiscount({
+            paymentId: index,
+            discounts: {
+              id: payment.discountParameters.customPaymentDiscount
+                .customDiscounts.length,
+              discountName: "",
+              discountPercentage: 0,
+            },
+          })
+        );
+      }
+    });
+  };
+
   const handleSpcialNeedPaymentDiscount = (event, index, specialNeedIndex) => {
     const { value } = event.target;
     paymentState.map((payment) => {
@@ -226,7 +247,6 @@ const DynamicPayments = ({ formData }) => {
     index,
     scholarshipIndex
   ) => {
-    console.log("go");
     const { value } = event.target;
     paymentState.map((payment) => {
       if (payment.id === index) {
@@ -235,6 +255,23 @@ const DynamicPayments = ({ formData }) => {
             paymentId: index,
             scholarshipId: scholarshipIndex,
             scholarshipName: value,
+          })
+        );
+      }
+    });
+  };
+
+  const handleCustomDiscount = (event, index, customDiscountIndex) => {
+    const { value } = event.target;
+    console.log(value)
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          updateCustomDiscount({
+            paymentId: index,
+            discountName: value,
+            discountIndex: customDiscountIndex,
+            discountPercentage: 0,
           })
         );
       }
@@ -261,6 +298,18 @@ const DynamicPayments = ({ formData }) => {
           deleteScholarshipDiscount({
             paymentId: index,
             scholarshipId: scholarshipIndex,
+          })
+        );
+      }
+    });
+  };
+  const remvoeCustomPaymentDiscount = (index, discountIndex) => {
+    paymentState.map((payment) => {
+      if (payment.id === index) {
+        dispatch(
+          deleteCustomDiscount({
+            paymentId: index,
+            customDiscountIndex: discountIndex,
           })
         );
       }
@@ -300,6 +349,8 @@ const DynamicPayments = ({ formData }) => {
                 handleSpcialNeedPaymentDiscount={
                   handleSpcialNeedPaymentDiscount
                 }
+                handleCustomDiscount={handleCustomDiscount}
+                addCustomPaymentDiscount={addCustomPaymentDiscount}
                 handleScholarshipsPaymentDiscount={
                   handleScholarshipsPaymentDiscount
                 }
@@ -308,6 +359,9 @@ const DynamicPayments = ({ formData }) => {
                 }
                 remvoeScholarshipsPaymentDiscount={
                   remvoeScholarshipsPaymentDiscount
+                }
+                remvoeCustomPaymentDiscount={
+                  remvoeCustomPaymentDiscount
                 }
               />
 

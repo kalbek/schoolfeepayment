@@ -10,10 +10,13 @@ const PaymentDiscounts = ({
   index,
   addSpcialNeedPaymentDiscount,
   addScholarshipsPaymentDiscount,
+  addCustomPaymentDiscount,
   handleSpcialNeedPaymentDiscount,
   handleScholarshipsPaymentDiscount,
+  handleCustomDiscount,
   remvoeSpcialNeedPaymentDiscount,
   remvoeScholarshipsPaymentDiscount,
+  remvoeCustomPaymentDiscount,
 }) => {
   const genderBasedDiscount =
     singlePayment.discountParameters.genderBasedDiscount;
@@ -21,6 +24,8 @@ const PaymentDiscounts = ({
     singlePayment.discountParameters.specialNeedsBasedDiscount;
   const scholarshipBasedDiscount =
     singlePayment.discountParameters.scholarshipBasedDiscount;
+
+  const customDiscount = singlePayment.discountParameters.customPaymentDiscount;
   return (
     <>
       <div>
@@ -149,6 +154,7 @@ const PaymentDiscounts = ({
                                 type="text"
                                 name="specialNeedsBasedDiscount"
                                 id={"specialNeedPaymentDiscount"}
+                                placeholder="Special Need type"
                                 value={specialNeed.specialNeedName}
                                 onChange={(event) =>
                                   handleSpcialNeedPaymentDiscount(
@@ -231,6 +237,7 @@ const PaymentDiscounts = ({
                                 type="text"
                                 name="specialNeedsBasedDiscount"
                                 id={"specialNeedPaymentDiscount"}
+                                placeholder="Scholarship type"
                                 value={scholarship.scholarshipName}
                                 onChange={(event) =>
                                   handleScholarshipsPaymentDiscount(
@@ -266,9 +273,11 @@ const PaymentDiscounts = ({
                         <label
                           className="checkbox-items flex flex-cs mln4"
                           htmlFor={"gradeBasedPayment_" + index}
+                          onClick={() => addCustomPaymentDiscount(index)}
                         >
                           <AddMoreButton
-                            handleLinks={handleAddCustomPaymentDiscount}
+                            index={index}
+                            handleLinks={addCustomPaymentDiscount}
                           />
                           <>
                             <span className="mlnp9">
@@ -279,6 +288,39 @@ const PaymentDiscounts = ({
                       </div>
                       <></>
                     </div>
+
+                    {customDiscount.customDiscounts.map(
+                      (discount, discountIndex) => (
+                        <div key={discountIndex} className="flex-cs mtn5">
+                          <div className="flex-c inputs gapp5">
+                            <div className="flex-cs gapp5">
+                              <input
+                                type="text"
+                                name="customDiscount"
+                                id={"customDiscount"}
+                                placeholder="Custom discount name"
+                                value={discount.discountName}
+                                onChange={(event) =>
+                                  handleCustomDiscount(
+                                    event,
+                                    index,
+                                    discountIndex
+                                  )
+                                }
+                                tabIndex={9}
+                              />
+
+                              <RemoveLinksButton
+                                remove={remvoeCustomPaymentDiscount}
+                                index={index}
+                                subIndex={discountIndex}
+                              />
+                            </div>
+                            <div className="mb5px"></div>
+                          </div>
+                        </div>
+                      )
+                    )}
                   </div>
                   <></>
                 </div>
