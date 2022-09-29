@@ -1,4 +1,8 @@
 const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
+  const standardPaymentTerm = singlePayment.paymentTerm.standardPaymentTerm  
+  console.log("spt: " + standardPaymentTerm)
+  const advancedPaymenTerm = singlePayment.paymentTerm.advancedPaymenTerm  
+  console.log("apt: " + advancedPaymenTerm)
   return (
     <>
       <div>
@@ -17,9 +21,9 @@ const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
                   type="radio"
                   name={"schoolPaymentTerm"}
                   id={"standardPaymentTerm"}
-                  value={singlePayment.standardPaymentTermSelected}
-                  checked={singlePayment.standardPaymentTermSelected}
-                  onChange={(e) => handlePaymentTerm(e, index)}
+                  value={standardPaymentTerm}
+                  checked={standardPaymentTerm}
+                  onChange={(event) => handlePaymentTerm(event, index)}
                   tabIndex={9}
                 />
                 <span>
@@ -34,9 +38,9 @@ const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
                   type="radio"
                   name={"schoolPaymentTerm"}
                   id={"advancedPaymentTerm"}
-                  value={singlePayment.advancedPaymentTermSelected}
-                  checked={singlePayment.advancedPaymentTermSelected === true}
-                  onChange={(e) => handlePaymentTerm(e, index)}
+                  value={advancedPaymenTerm}
+                  checked={advancedPaymenTerm}
+                  onChange={(event) => handlePaymentTerm(event, index)}
                   tabIndex={9}
                 />
                 <span>

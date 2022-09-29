@@ -273,11 +273,10 @@
 
 .checkbox-inputs:focus-within label {
   transition: all 0.3s ease;
-  /* color: #2d8cf0; */
 }
 
-.field-group-container:focus-within> section,
-.field-group-container:hover> section {
+.field-group-container:focus-within > section,
+.field-group-container:hover > section {
   border: 1px solid #2d8cf0;
 }
 .field-group-container:focus-within h3 {

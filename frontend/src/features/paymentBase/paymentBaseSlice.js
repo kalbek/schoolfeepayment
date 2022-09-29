@@ -67,37 +67,20 @@ const initialState = {
         },
         specialNeedsBasedDiscount: {
           value: false,
-          specialNeeds: [
-            // {
-            //   id: 0,
-            //   specialNeedType: "",
-            //   discountRate: 0,
-            //   paymentAmount: 0,
-            // },
-          ],
+          specialNeeds: [],
         },
         scholarshipBasedDiscount: {
           value: false,
-          scholarships: [
-            // {
-            //   id: 0,
-            //   scholarshipType: "",
-            //   discountRate: 0,
-            //   paymentAmount: 0,
-            // },
-          ],
+          scholarships: [],
         },
         customPaymentDiscount: {
           value: false,
-          customDiscounts: [
-            // {
-            //   id: 0,
-            //   customDiscountName: "",
-            //   discountRate: 0,
-            //   paymentAmount: 0,
-            // },
-          ],
+          customDiscounts: [],
         },
+      },
+      paymentTerm: {
+        standardPaymentTerm: true,
+        advancedPaymenTerm: false,
       },
 
       totalPaymentAmount: {
@@ -112,7 +95,7 @@ const initialState = {
       scholarshipChecked: false,
       paymentToUpdate: null,
       paymentTypeToUpdate: "Tutorial Fee",
-      paymentTerm: "Standard",
+      // paymentTerm: "Standard",
       standardPaymentTermSelected: true,
       advancedPaymentTermSelected: false,
     },
@@ -221,10 +204,11 @@ export const paymentSlice = createSlice({
         if (paymentState.id === action.payload.paymentId) {
           paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
             (customDiscount) => {
-              console.log("pid: " + action.payload.discountIndex)
+              console.log("pid: " + action.payload.discountIndex);
               if (customDiscount.id === action.payload.discountIndex) {
                 customDiscount.discountName = action.payload.discountName;
-                customDiscount.discountPercentage = action.payload.discountPercentage;
+                customDiscount.discountPercentage =
+                  action.payload.discountPercentage;
               }
             }
           );
@@ -257,7 +241,6 @@ export const paymentSlice = createSlice({
       });
     },
 
- 
     deleteScholarshipDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.id === action.payload.paymentId) {
@@ -286,7 +269,8 @@ export const paymentSlice = createSlice({
         if (paymentState.id === action.payload.paymentId) {
           paymentState.discountParameters.customPaymentDiscount.customDiscounts =
             paymentState.discountParameters.customPaymentDiscount.customDiscounts.filter(
-              (customDiscounts) => customDiscounts.id !== action.payload.customDiscountIndex
+              (customDiscounts) =>
+                customDiscounts.id !== action.payload.customDiscountIndex
             );
         }
       });
@@ -301,6 +285,13 @@ export const paymentSlice = createSlice({
             }
           );
         }
+      });
+    },
+
+    updatePaymentTerms: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        paymentState.paymentTerm.standardPaymentTerm = action.payload.standardPaymentTerm
+        paymentState.paymentTerm.advancedPaymenTerm = action.payload.advancedPaymenTerm
       });
     },
     // END OF CRUD OPERATINS FOR PAYMENT DICOUNT PARAMETERS

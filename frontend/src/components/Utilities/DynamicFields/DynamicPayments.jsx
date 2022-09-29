@@ -158,7 +158,19 @@ const DynamicPayments = ({ formData }) => {
       }
     });
   };
-  const handlePaymentTerm = (event, index) => {};
+  const handlePaymentTerm = (event, index) => {
+    const { id, name, value } = event.target;
+    paymentState.map((paymentState) => {
+      dispatch(
+        updatePaymentTerm({
+          id: index,
+          standardPaymentTerm: !paymentState.paymentTerm.standardPaymentTerm,
+          advancedPaymenTerm: !paymentState.paymentTerm.advancedPaymenTerm,
+        })
+      );
+    });
+     
+  };
   const removeCustomPaymentBase = (index, subIndex) => {
     paymentState.map((payment) => {
       if (payment.id === index) {
