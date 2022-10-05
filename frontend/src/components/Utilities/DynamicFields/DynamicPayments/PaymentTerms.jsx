@@ -13,14 +13,14 @@ const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
             <div className="flex-c checkbox-group flex-start">
               <label
                 className="checkbox-items flex flex-cs"
-                id={"standardPaymentTerm"}
+                htmlFor={"standardPaymentTerm" + index}
               >
                 <input
                   type="radio"
                   name={"schoolPaymentTerm"}
-                  id={"standardPaymentTerm"}
-                  value={standardPaymentTerm}
-                  checked={standardPaymentTerm}
+                  id={"standardPaymentTerm" + index}
+                  // value={paymentTerm}
+                  // checked={paymentTerm === "standard" + index}
                   onChange={(event) => handlePaymentTerm(event, index)}
                   tabIndex={9}
                 />
@@ -30,14 +30,14 @@ const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
               </label>
               <label
                 className="checkbox-items flex flex-cs mtn30"
-                id={"advancedPaymentTerm"}
+                htmlFor={"advancedPaymentTerm" + index}
               >
                 <input
                   type="radio"
                   name={"schoolPaymentTerm"}
-                  id={"advancedPaymentTerm"}
-                  value={advancedPaymenTerm}
-                  checked={advancedPaymenTerm}
+                  id={"advancedPaymentTerm" + index}
+                  // value={paymenTerm}
+                  // checked={paymentTerm === "advanced" + index}
                   onChange={(event) => handlePaymentTerm(event, index)}
                   tabIndex={9}
                 />

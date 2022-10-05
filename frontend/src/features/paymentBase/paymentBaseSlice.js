@@ -276,15 +276,35 @@ export const paymentSlice = createSlice({
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           // Check payment discount type to update
+          console.log(
+            "action.payload.selectedValue" + action.payload.selectedValue
+          );
           if (
             action.payload.paymentDiscountType ===
             "genderBasedDiscount" + action.payload.paymentId
           ) {
             paymentState.discountParameters.genderBasedDiscount.value =
               action.payload.selectedValue;
-            paymentState.discountParameters.genderBasedDiscount.genderType =
-              paymentState.discountParameters.genderBasedDiscount.genderType +
-              action.payload.paymentId;
+            if (!action.payload.selectedValue) {
+              if (
+                paymentState.discountParameters.genderBasedDiscount.genderType.charAt(
+                  0
+                ) === "f"
+              ) {
+                paymentState.discountParameters.genderBasedDiscount.genderType =
+                  "female";
+              } else if (
+                paymentState.discountParameters.genderBasedDiscount.genderType.charAt(
+                  0
+                ) === "m"
+              ) {
+                paymentState.discountParameters.genderBasedDiscount.genderType =
+                  "male";
+              }
+            } else
+              paymentState.discountParameters.genderBasedDiscount.genderType =
+                paymentState.discountParameters.genderBasedDiscount.genderType +
+                action.payload.paymentId;
           } else if (
             action.payload.paymentDiscountType ===
             "specialNeedsBasedDiscount" + action.payload.paymentId
@@ -299,6 +319,9 @@ export const paymentSlice = createSlice({
               action.payload.selectedValue;
           }
         }
+        console.log(
+          current(paymentState.discountParameters.genderBasedDiscount)
+        );
       });
     },
     // bring updateGenderBasedPaymentDiscount HERE

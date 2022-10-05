@@ -89,7 +89,6 @@ const PaymentDiscounts = ({
                                 handleGenderTypesForDiscount(event, index)
                               }
                             />
-                            {console.log("hey: " + genderType)}
                             <Radio
                               label="F"
                               className={"flex-cs"}

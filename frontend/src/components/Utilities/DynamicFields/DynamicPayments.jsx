@@ -206,7 +206,6 @@ const DynamicPayments = ({ formData }) => {
             selectedValue: !state.discountParameters[name].value,
             paymentDiscountType: name + index,
             // I'm not sure if these two are useful
-            
           })
         );
       }
@@ -272,7 +271,6 @@ const DynamicPayments = ({ formData }) => {
   const handleGenderTypesForDiscount = (event, index) => {
     const { id, name, value } = event.target;
     paymentState.map((payment) => {
-      // console.log("so: " + payment.discountParameters[name].value);
       if (payment.Id === index) {
         dispatch(
           updateGendersForPaymentDiscount({
