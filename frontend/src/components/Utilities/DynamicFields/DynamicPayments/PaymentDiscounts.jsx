@@ -39,6 +39,7 @@ const PaymentDiscounts = ({
   const gender =
     paymentState.paymentState[index].discountParameters.genderBasedDiscount
       .genderType;
+
   return (
     <>
       <div>

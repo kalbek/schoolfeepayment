@@ -7,6 +7,7 @@ const initialState = {
       paymentType: {
         isCustomPaymentType: false,
         paymentName: "Tuition Fee",
+        customPaymentName: "",
         paymentAmount: 0,
       },
       // PAYMENT BASES OR BASES IN WICH EACH PAYMENT DEPENDS ON !!
@@ -141,14 +142,19 @@ export const paymentSlice = createSlice({
           paymentState.paymentType.paymentName = action.payload.paymentName;
           paymentState.paymentType.isCustomPaymentType =
             action.payload.isCustomPaymentType;
+          //  if custom payment type is selected clear text box value for new input
         }
+        // if (action.payload.isCustomPaymentType) paymentState.paymentType = "";
       });
     },
 
     updateCustomPaymentType: (state, action) => {
+      console.log("action.payload.paymentName: " + action.payload.paymentName);
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          paymentState.paymentType.paymentName = action.payload.paymentName;
+          // paymentState.paymentType.paymentName = "Tuition Fee"
+          paymentState.paymentType.customPaymentName =
+            action.payload.paymentName;
         }
       });
       console.log("heys");
@@ -159,6 +165,7 @@ export const paymentSlice = createSlice({
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentIndex) {
           paymentState.paymentType.isCustomPaymentType = false;
+          paymentState.paymentType.customPaymentName = "";
         }
       });
     },
@@ -275,10 +282,6 @@ export const paymentSlice = createSlice({
     updatePaymentDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          // Check payment discount type to update
-          console.log(
-            "action.payload.selectedValue" + action.payload.selectedValue
-          );
           if (
             action.payload.paymentDiscountType ===
             "genderBasedDiscount" + action.payload.paymentId
@@ -286,21 +289,9 @@ export const paymentSlice = createSlice({
             paymentState.discountParameters.genderBasedDiscount.value =
               action.payload.selectedValue;
             if (!action.payload.selectedValue) {
-              if (
-                paymentState.discountParameters.genderBasedDiscount.genderType.charAt(
-                  0
-                ) === "f"
-              ) {
-                paymentState.discountParameters.genderBasedDiscount.genderType =
-                  "female";
-              } else if (
-                paymentState.discountParameters.genderBasedDiscount.genderType.charAt(
-                  0
-                ) === "m"
-              ) {
-                paymentState.discountParameters.genderBasedDiscount.genderType =
-                  "male";
-              }
+              // reset defalult gender selection of gender based discounts to default (female)
+              paymentState.discountParameters.genderBasedDiscount.genderType =
+                "female";
             } else
               paymentState.discountParameters.genderBasedDiscount.genderType =
                 paymentState.discountParameters.genderBasedDiscount.genderType +
@@ -311,17 +302,27 @@ export const paymentSlice = createSlice({
           ) {
             paymentState.discountParameters.specialNeedsBasedDiscount.value =
               action.payload.selectedValue;
+
+            // if special needs are checked off, clear previously defined values
+            if (!action.payload.selectedValue) {
+              paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.splice(
+                0
+              );
+            }
           } else if (
             action.payload.paymentDiscountType ===
             "scholarshipBasedDiscount" + action.payload.paymentId
           ) {
             paymentState.discountParameters.scholarshipBasedDiscount.value =
               action.payload.selectedValue;
+            // if scholarshps are checked off, clear previously defined values
+            if (!action.payload.selectedValue) {
+              paymentState.discountParameters.scholarshipBasedDiscount.scholarships.splice(
+                0
+              );
+            }
           }
         }
-        console.log(
-          current(paymentState.discountParameters.genderBasedDiscount)
-        );
       });
     },
     // bring updateGenderBasedPaymentDiscount HERE

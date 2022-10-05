@@ -46,6 +46,7 @@ const DynamicPayments = ({ formData }) => {
         paymentType: {
           isCustomPaymentType: false,
           paymentName: "Tuiton Fee",
+          customPaymentName: "",
           paymentAmount: 0,
         },
         paymentBase: {

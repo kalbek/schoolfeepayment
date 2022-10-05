@@ -26,6 +26,8 @@ const PaymentType = ({
 
   const { popup } = useSelector((state) => state.popups);
   const paymentState = useSelector((state) => state.payments);
+  console.log(paymentState.paymentState[index].paymentType.paymentName);
+
   return (
     <>
       <div>
@@ -42,7 +44,10 @@ const PaymentType = ({
                     name="creditHoursPaymentBase"
                     id={"creditHoursBasedPayment"}
                     placeholder="e.g. Club Activity Fee"
-                    // value={creditHourPaymentBase}
+                    value={
+                      paymentState.paymentState[index].paymentType
+                        .customPaymentName
+                    }
                     // checked={creditHourPaymentBase}
                     onChange={(e) => handleCustomPaymentType(e, index)}
                     tabIndex={9}
@@ -66,7 +71,6 @@ const PaymentType = ({
                   onChange={(event) => handlePaymentType(event, index)}
                   tabIndex={9}
                   value={singlePayment.paymentType.paymentName}
-                  // value={singlePayment.paymentType.paymentName}
                 >
                   {paymentType.map((payment) => (
                     <option value={payment.value} key={payment.value}>
