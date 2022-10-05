@@ -126,6 +126,7 @@ export const paymentSlice = createSlice({
     },
 
     // CRUD OPERATINS FOR PAYMENT DICOUNT PARAMETERS
+    // HEY GIT
     createSpecialNeedDiscount: (state, action) => {
       state.paymentState.map((payment) => {
         if (payment.id === action.payload.paymentId) {
@@ -290,8 +291,10 @@ export const paymentSlice = createSlice({
 
     updatePaymentTerms: (state, action) => {
       state.paymentState.map((paymentState) => {
-        paymentState.paymentTerm.standardPaymentTerm = action.payload.standardPaymentTerm
-        paymentState.paymentTerm.advancedPaymenTerm = action.payload.advancedPaymenTerm
+        paymentState.paymentTerm.standardPaymentTerm =
+          action.payload.standardPaymentTerm;
+        paymentState.paymentTerm.advancedPaymenTerm =
+          action.payload.advancedPaymenTerm;
       });
     },
     // END OF CRUD OPERATINS FOR PAYMENT DICOUNT PARAMETERS
