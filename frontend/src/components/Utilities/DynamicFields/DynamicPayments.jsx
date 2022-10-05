@@ -98,7 +98,7 @@ const DynamicPayments = ({ formData }) => {
           Id: 0,
           genderBasedDiscount: {
             value: false,
-            genderType: "Female",
+            genderType: "female",
             discountFormale: false,
             discountForfemale: true,
             male: false,
@@ -151,9 +151,7 @@ const DynamicPayments = ({ formData }) => {
     );
   };
   const handleCustomPaymentType = (event, index) => {
-    console.log("handling Custom payment type");
     const { value } = event.target;
-    console.log("now value: " + value);
     dispatch(
       updateCustomPaymentType({
         paymentId: index,
@@ -162,7 +160,6 @@ const DynamicPayments = ({ formData }) => {
     );
   };
   const removeCustomPaymentType = (index) => {
-    console.log("remove custom payments types");
     dispatch(
       deleteCustomPaymentType({
         paymentIndex: index,
@@ -172,13 +169,28 @@ const DynamicPayments = ({ formData }) => {
 
   const handlePaymentBase = (event, index) => {
     const { name } = event.target;
+    console.log("index: " + index);
     paymentState.map((state) => {
       if (state.Id === index) {
         dispatch(
           updatePaymentBase({
             paymentId: index,
             selectedValue: !state.paymentBase[name].value,
-            paymentBaseType: name,
+            paymentBaseType: name + index,
+          })
+        );
+      }
+    });
+  };
+  const handleSelectGenderBasedPaymentDiscount = (event, index) => {
+    const { name } = event.target;
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          updateGenderBasedPaymentDiscount({
+            paymentId: index,
+            selectedValue: !payment.discountParameters[name].value,
+            paymentDiscountType: name + index,
           })
         );
       }
@@ -192,9 +204,9 @@ const DynamicPayments = ({ formData }) => {
           updatePaymentDiscount({
             paymentId: index,
             selectedValue: !state.discountParameters[name].value,
-            paymentDiscountType: name,
-            genderType: Id,
-            gender: state.discountParameters[name].genders,
+            paymentDiscountType: name + index,
+            // I'm not sure if these two are useful
+            
           })
         );
       }
@@ -256,33 +268,18 @@ const DynamicPayments = ({ formData }) => {
   };
 
   // METHODS TO HANDLE CRUD OPERATIONS FOR PAYMENT DISCOUNTS
-  const handleSelectGenderBasedPaymentDiscount = (event, index) => {
-    const { id, name } = event.target;
-    console.log(paymentState);
-    paymentState.map((payment) => {
-      if (payment.Id === index) {
-        dispatch(
-          updateGenderBasedPaymentDiscount({
-            paymentId: index,
-            // name: "genderBasedDiscount",
-            // Id: payment.discountParameters.genderBasedDiscount.genderType,
-            selectedValue: !payment.discountParameters[name].value,
-          })
-        );
-      }
-    });
-  };
 
   const handleGenderTypesForDiscount = (event, index) => {
-    const { id, name } = event.target;
+    const { id, name, value } = event.target;
     paymentState.map((payment) => {
-      console.log("so: " + payment.discountParameters[name].value);
+      // console.log("so: " + payment.discountParameters[name].value);
       if (payment.Id === index) {
         dispatch(
           updateGendersForPaymentDiscount({
             paymentId: index,
-            genderType: id,
-            selectedValue: !payment.discountParameters[name].value,
+            // genderType: value,
+            genderName: id,
+            // selectedValue: !payment.discountParameters[name].value,
           })
         );
       }

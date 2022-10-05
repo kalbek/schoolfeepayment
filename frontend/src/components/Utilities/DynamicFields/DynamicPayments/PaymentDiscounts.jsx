@@ -3,6 +3,7 @@ import RemoveLinksButton from "../../Buttons/RemoveLinksButton";
 import Remove from "../../Buttons/Remove";
 import Add from "../../Buttons/Add";
 import Radio from "../../../InputControls/Radio";
+import { useSelector } from "react-redux";
 const PaymentDiscounts = ({
   handlePaymentDiscount,
   handleSelectGenderBasedPaymentDiscount,
@@ -24,13 +25,20 @@ const PaymentDiscounts = ({
   remvoeCustomPaymentDiscount,
 }) => {
   const genderBasedDiscount =
-    singlePayment.discountParameters.genderBasedDiscount;
+    singlePayment.discountParameters.genderBasedDiscount.value;
+  const genderType =
+    singlePayment.discountParameters.genderBasedDiscount.genderType;
   const specialNeedsBasedDiscount =
-    singlePayment.discountParameters.specialNeedsBasedDiscount;
+    singlePayment.discountParameters.specialNeedsBasedDiscount.value;
   const scholarshipBasedDiscount =
-    singlePayment.discountParameters.scholarshipBasedDiscount;
+    singlePayment.discountParameters.scholarshipBasedDiscount.value;
 
   const customDiscount = singlePayment.discountParameters.customPaymentDiscount;
+  const paymentState = useSelector((state) => state.payments);
+
+  const gender =
+    paymentState.paymentState[index].discountParameters.genderBasedDiscount
+      .genderType;
   return (
     <>
       <div>
@@ -47,20 +55,17 @@ const PaymentDiscounts = ({
                     <div className="flex-cs">
                       <div className="flex gap2vw ">
                         <label
-                          htmlFor={"genderBasedDiscount" + index}
                           className="checkbox-items flex flex-left"
+                          htmlFor={"genderBasedDiscount" + index}
                         >
                           <input
                             type="checkbox"
                             name="genderBasedDiscount"
                             id={"genderBasedDiscount" + index}
-                            value={genderBasedDiscount.value}
-                            checked={genderBasedDiscount.value}
+                            value={genderBasedDiscount}
+                            checked={genderBasedDiscount}
                             onChange={(event) =>
-                              handleSelectGenderBasedPaymentDiscount(
-                                event,
-                                index
-                              )
+                              handlePaymentDiscount(event, index)
                             }
                             tabIndex={9}
                           />
@@ -71,45 +76,28 @@ const PaymentDiscounts = ({
                           </>
                         </label>
                         {/* If gender based payment discount is checked display for gender types */}
-                        {genderBasedDiscount.value && (
+                        {genderBasedDiscount && (
                           <div className="flex-cs gapp5 mlp3">
-                            {console.log("Male+index: " + genderBasedDiscount.genderType + index)}
+                            {/* {index} */}
                             <Radio
                               label="M"
-                              name={"genderBasedDiscount"}
-                              id={"Male" + index}
+                              id={"male" + index}
                               className={"flex-cs"}
-                              value={genderBasedDiscount.genderType}
-                              checked={
-                                genderBasedDiscount.genderType ===
-                                "Male" + index
-                              }
-                              // checked={
-                              //   genderBasedDiscount.genders.male
-                              // }
+                              value={genderType}
+                              checked={genderType === "male" + index}
                               onChange={(event) =>
-                                handleGenderTypesForDiscount(
-                                  event,
-                                  index
-                                )
+                                handleGenderTypesForDiscount(event, index)
                               }
                             />
-                            {console.log("here: " + genderBasedDiscount.genderType)}
+                            {console.log("hey: " + genderType)}
                             <Radio
                               label="F"
                               className={"flex-cs"}
-                              checked={
-                                genderBasedDiscount.genderType ===
-                                "Female" + index
-                              }
-                              value={genderBasedDiscount.genderType}
-                              name={"genderBasedDiscount"}
-                              id={"Female" + index}
+                              value={genderType}
+                              checked={genderType === "female" + index}
+                              id={"female" + index}
                               onChange={(event) =>
-                                handleGenderTypesForDiscount(
-                                  event,
-                                  index
-                                )
+                                handleGenderTypesForDiscount(event, index)
                               }
                             />
                           </div>
@@ -123,14 +111,14 @@ const PaymentDiscounts = ({
                       <div className="flex-cs gap2vw">
                         <label
                           className="checkbox-items flex flex-cs"
-                          htmlFor={"specialNeedPaymentDiscount"}
+                          htmlFor={"specialNeedPaymentDiscount" + index}
                         >
                           <input
                             type="checkbox"
                             name="specialNeedsBasedDiscount"
-                            id={"specialNeedPaymentDiscount"}
-                            value={specialNeedsBasedDiscount.value}
-                            checked={specialNeedsBasedDiscount.value}
+                            id={"specialNeedPaymentDiscount" + index}
+                            value={specialNeedsBasedDiscount}
+                            checked={specialNeedsBasedDiscount}
                             onChange={(e) => handlePaymentDiscount(e, index)}
                             tabIndex={9}
                           />
@@ -145,7 +133,7 @@ const PaymentDiscounts = ({
                         {/* handleScholarshipsPaymentDiscount  */}
                         {/*   */}
                         {/* remvoeScholarshipsPaymentDiscount  */}
-                        {specialNeedsBasedDiscount.value && (
+                        {specialNeedsBasedDiscount && (
                           <label
                             className="checkbox-items flex flex-cs mln4"
                             htmlFor={"gradeBasedPayment_" + index}
@@ -168,7 +156,7 @@ const PaymentDiscounts = ({
                     </div>
 
                     {/* SPECIAL NEED INPUT BOX AND ITS REMOVE BUTTON GOES HERE */}
-                    {specialNeedsBasedDiscount.specialNeeds.map(
+                    {singlePayment.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
                       (specialNeed, specialNeedIndex) => (
                         <div key={specialNeedIndex} className="flex-cs mtn5">
                           <div className="flex-c inputs gapp5">
@@ -211,14 +199,14 @@ const PaymentDiscounts = ({
                       <div className="flex gap2p5vw">
                         <label
                           className="checkbox-items flex flex-cs"
-                          htmlFor={"scholarshipBasedPaymentDiscount"}
+                          htmlFor={"scholarshipBasedPaymentDiscount" + index}
                         >
                           <input
                             type="checkbox"
                             name="scholarshipBasedDiscount"
-                            id={"scholarshipBasedPaymentDiscount"}
-                            value={scholarshipBasedDiscount.value}
-                            checked={scholarshipBasedDiscount.value}
+                            id={"scholarshipBasedPaymentDiscount" + index}
+                            value={scholarshipBasedDiscount}
+                            checked={scholarshipBasedDiscount}
                             onChange={(e) => handlePaymentDiscount(e, index)}
                             tabIndex={9}
                           />
@@ -228,7 +216,7 @@ const PaymentDiscounts = ({
                             </span>
                           </>
                         </label>
-                        {scholarshipBasedDiscount.value && (
+                        {scholarshipBasedDiscount && (
                           <label
                             className="checkbox-items flex flex-cs mln4"
                             htmlFor={"gradeBasedPayment_" + index}
@@ -251,7 +239,7 @@ const PaymentDiscounts = ({
                       <></>
                     </div>
 
-                    {scholarshipBasedDiscount.scholarships.map(
+                    {singlePayment.discountParameters.scholarshipBasedDiscount.scholarships.map(
                       (scholarship, scholarshipIndex) => (
                         <div key={scholarshipIndex} className="flex-cs mtn5">
                           <div className="flex-c inputs gapp5">

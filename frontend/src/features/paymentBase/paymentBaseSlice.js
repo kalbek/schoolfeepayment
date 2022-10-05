@@ -60,7 +60,7 @@ const initialState = {
         Id: 0,
         genderBasedDiscount: {
           value: false,
-          genderType: "Female",
+          genderType: "female",
           discountFormale: false,
           discountForfemale: true,
           genders: {
@@ -68,6 +68,7 @@ const initialState = {
             female: true,
           },
         },
+
         specialNeedsBasedDiscount: {
           value: false,
           specialNeeds: [],
@@ -110,11 +111,24 @@ export const paymentSlice = createSlice({
       state.paymentState.map((payment) => {
         if (payment.Id > action.payload.paymentId) {
           payment.Id -= 1;
+          if (
+            payment.discountParameters.genderBasedDiscount.genderType.charAt(
+              0
+            ) === "m"
+          )
+            payment.discountParameters.genderBasedDiscount.genderType =
+              "male" + payment.Id;
+          else if (
+            payment.discountParameters.genderBasedDiscount.genderType.charAt(
+              0
+            ) === "f"
+          )
+            payment.discountParameters.genderBasedDiscount.genderType =
+              "female" + payment.Id;
         }
       });
     },
     // END OF PAYMENTS ACTIONS IN GENERAL
-
     // ACTIONS FOR PAYMENT TYPE
     createCustomPaymentType: (state, action) => {
       state.paymentState.map((paymentState) => {
@@ -155,21 +169,27 @@ export const paymentSlice = createSlice({
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           // Check particular payment base type
-          if (action.payload.paymentBaseType === "periodPaymentBase") {
+          if (
+            action.payload.paymentBaseType ===
+            "periodPaymentBase" + action.payload.paymentId
+          ) {
             paymentState.paymentBase.periodPaymentBase.value =
               action.payload.selectedValue;
           } else if (
-            action.payload.paymentBaseType === "gradeLevelPaymentBase"
+            action.payload.paymentBaseType ===
+            "gradeLevelPaymentBase" + action.payload.paymentId
           ) {
             paymentState.paymentBase.gradeLevelPaymentBase.value =
               action.payload.selectedValue;
           } else if (
-            action.payload.paymentBaseType === "creditHoursPaymentBase"
+            action.payload.paymentBaseType ===
+            "creditHoursPaymentBase" + action.payload.paymentId
           ) {
             paymentState.paymentBase.creditHoursPaymentBase.value =
               action.payload.selectedValue;
           } else if (
-            action.payload.paymentBaseType === "courseTypePaymentBase"
+            action.payload.paymentBaseType ===
+            "courseTypePaymentBase" + action.payload.paymentId
           ) {
             paymentState.paymentBase.courseTypePaymentBase.value =
               action.payload.selectedValue;
@@ -177,6 +197,27 @@ export const paymentSlice = createSlice({
         }
       });
     },
+    updateGenderBasedPaymentDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          if (action.payload.paymentDiscountType === "genderBasedDiscount") {
+            paymentState.discountParameters.paymentDiscountType =
+              action.payload.selectedValue;
+          }
+        }
+      });
+      console.log("hey: " + action.payload.Id + action.payload.paymentId);
+    },
+    // updateGenderBasedPaymentDiscount: (state, action) => {
+    //   state.paymentState.map((paymentState) => {
+    //     if (paymentState.Id === action.payload.paymentId) {
+    //       paymentState.discountParameters.genderBasedDiscount.value =
+    //         action.payload.selectedValue;
+    //     }
+    //   });
+    //   console.log("hey: " + action.payload.Id + action.payload.paymentId);
+    // },
+
     createCustomPaymentBase: (state, action) => {
       state.paymentState.map((payments) => {
         if (payments.Id === action.payload.paymentIndex) {
@@ -235,24 +276,24 @@ export const paymentSlice = createSlice({
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           // Check payment discount type to update
-          if (action.payload.paymentDiscountType === "genderBasedDiscount") {
-            if (action.payload.genderType === "default") {
-              paymentState.discountParameters.genderBasedDiscount.value =
-                action.payload.selectedValue;
-            } else if (action.payload.genderType === "Male") {
-              paymentState.discountParameters.genderBasedDiscount.genderType =
-                "Male";
-            } else if (action.payload.genderType === "Female") {
-              paymentState.discountParameters.genderBasedDiscount.genderType =
-                "Female";
-            }
+          if (
+            action.payload.paymentDiscountType ===
+            "genderBasedDiscount" + action.payload.paymentId
+          ) {
+            paymentState.discountParameters.genderBasedDiscount.value =
+              action.payload.selectedValue;
+            paymentState.discountParameters.genderBasedDiscount.genderType =
+              paymentState.discountParameters.genderBasedDiscount.genderType +
+              action.payload.paymentId;
           } else if (
-            action.payload.paymentDiscountType === "specialNeedsBasedDiscount"
+            action.payload.paymentDiscountType ===
+            "specialNeedsBasedDiscount" + action.payload.paymentId
           ) {
             paymentState.discountParameters.specialNeedsBasedDiscount.value =
               action.payload.selectedValue;
           } else if (
-            action.payload.paymentDiscountType === "scholarshipBasedDiscount"
+            action.payload.paymentDiscountType ===
+            "scholarshipBasedDiscount" + action.payload.paymentId
           ) {
             paymentState.discountParameters.scholarshipBasedDiscount.value =
               action.payload.selectedValue;
@@ -260,36 +301,18 @@ export const paymentSlice = createSlice({
         }
       });
     },
-
-    // Update selection of payment discount types
-    updateGenderBasedPaymentDiscount: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        if (paymentState.Id === action.payload.paymentId) {
-          paymentState.discountParameters.genderBasedDiscount.value =
-            action.payload.selectedValue;
-          // paymentState.discountParameters.genderBasedDiscount.genderType =
-          //   action.payload.Id + action.payload.paymentId;
-        }
-      });
-      console.log("hey: " + action.payload.Id + action.payload.paymentId);
-    },
+    // bring updateGenderBasedPaymentDiscount HERE
 
     updateGendersForPaymentDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          if (action.payload.genderType === "Male" + action.payload.paymentId) {
-            console.log("malla");
-            paymentState.discountParameters.genderBasedDiscount.genderType =
-              "Male" + action.payload.paymentId;
-          } else if (
-            action.payload.genderType ===
-            "Female" + action.payload.paymentId
-          ) {
-            console.log("femalla");
-            paymentState.discountParameters.genderBasedDiscount.genderType =
-              "Female" + action.payload.paymentId;
-          }
+          console.log(action.payload.genderName);
+          paymentState.discountParameters.genderBasedDiscount.genderType =
+            action.payload.genderName;
         }
+        console.log(
+          current(paymentState.discountParameters.genderBasedDiscount)
+        );
       });
     },
     updateScholarshipBasedPaymentDiscount: (state, action) => {

@@ -18,11 +18,10 @@ const PaymentBases = ({
   const courseTypePaymentBase =
     singlePayment.paymentBase.courseTypePaymentBase.value;
   const customPaymentBase = singlePayment.paymentBase.customPaymentBase;
-
   return (
     <>
       <div>
-        <div className="checkbox-inputs input__group "> 
+        <div className="checkbox-inputs input__group ">
           <div className="flex-cs checkbox-group field-group-container">
             <section className="flex-left">
               <label htmlFor="">
@@ -32,12 +31,12 @@ const PaymentBases = ({
                 {/* Checkbox for period based payment */}
                 <label
                   className="checkbox-items flex flex-cs"
-                  htmlFor={"periodBasedPayment"}
+                  htmlFor={"periodBasedPayment" + index}
                 >
                   <input
                     type="checkbox"
                     name="periodPaymentBase"
-                    id={"periodBasedPayment"}
+                    id={"periodBasedPayment" + index}
                     tabIndex={9}
                     value={periodPaymentBase}
                     checked={periodPaymentBase}
@@ -53,12 +52,12 @@ const PaymentBases = ({
                 {/*Checkbox for grade based payment */}
                 <label
                   className="checkbox-items flex flex-cs"
-                  htmlFor={"gradeBasedPayment"}
+                  htmlFor={"gradeBasedPayment" + index}
                 >
                   <input
                     type="checkbox"
                     name="gradeLevelPaymentBase"
-                    id={"gradeBasedPayment"}
+                    id={"gradeBasedPayment" + index}
                     value={gradeLevelPaymentBase}
                     checked={gradeLevelPaymentBase}
                     onChange={(e) => handlePaymentBase(e, index)}
@@ -73,12 +72,12 @@ const PaymentBases = ({
                 {/*Checkbox for credit hours based payment */}
                 <label
                   className="checkbox-items flex flex-cs"
-                  htmlFor={"creditHoursBasedPayment"}
+                  htmlFor={"creditHoursBasedPayment" + index}
                 >
                   <input
                     type="checkbox"
                     name="creditHoursPaymentBase"
-                    id={"creditHoursBasedPayment"}
+                    id={"creditHoursBasedPayment" + index}
                     value={creditHourPaymentBase}
                     checked={creditHourPaymentBase}
                     onChange={(e) => handlePaymentBase(e, index)}
@@ -96,12 +95,12 @@ const PaymentBases = ({
                   {/*Checkbox for course based payment */}
                   <label
                     className="checkbox-items flex flex-cs"
-                    htmlFor="courseTypeBasedPayment"
+                    htmlFor={"courseTypeBasedPayment" + index}
                   >
                     <input
                       type="checkbox"
                       name="courseTypePaymentBase"
-                      id="courseTypeBasedPayment"
+                      id={"courseTypeBasedPayment" + index}
                       value={courseTypePaymentBase}
                       checked={courseTypePaymentBase}
                       onChange={(e) => handlePaymentBase(e, index)}
