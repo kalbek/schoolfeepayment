@@ -36,7 +36,7 @@ export const periodSlice = createSlice({
             periodState.periodTypeName = "Term";
           } else if (action.payload.periodTypeName === "Quarter") {
             periodState.periodTypeName = "Quarter";
-          } else if (action.payload.periodTypeName === "Custom_Period") {
+          } else if (action.payload.periodTypeName === "Custom Period") {
             periodState.periodTypeName = "Custom Period";
           }
         } else if (action.payload.periodToUpdate === "periodShift") {

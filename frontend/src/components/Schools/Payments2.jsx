@@ -41,7 +41,7 @@ const Payments2 = ({
           Now is the time for Numbers! --
           <strong> Payment Amounts --</strong>
         </h1>
-        <h3 className="form__subtitle">
+        <h3  className="form__subtitle">
           Based on the data you provided earlier your school's payment detail is
           mapped to look like this
         </h3>
@@ -70,15 +70,15 @@ const Payments2 = ({
           <td></td>
         </th>
         <tbody>
-          {paymentState.map((payments) => (
+          {/* {paymentState.map((payments) => (
             <tr>
               <td>{payments.paymentTypeToUpdate} </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
-      <div className="f-start wrap">
-        &nbsp;&nbsp;&nbsp;
+      <div className="f-start wrap mlp5">
+        {/* &nbsp;&nbsp;&nbsp; */}
         {educationalDivisionState.map((division, divisionIndex) => (
           <div
             key={divisionIndex}
@@ -89,10 +89,10 @@ const Payments2 = ({
               <div className="input__group flex-cs m20">
                 <div className="inputs input--small">
                   <div className="flex-cs">
-                    <label htmlFor="">Payment Types</label>
-                    <label htmlFor="">Amount (ETB)</label>
-                    <label htmlFor="">Discounts (%)</label>
-                    <label htmlFor="">Duedates (%)</label>
+                    <label htmlFor=""><u> Payment Types</u> </label>
+                    <label htmlFor=""><u>  Amount (ETB)</u></label>
+                    <label htmlFor=""><u>  Discounts (%)</u></label>
+                    <label htmlFor=""><u>  Duedates (%)</u></label>
                   </div>
                   <br />
                   <label htmlFor="">
@@ -102,6 +102,8 @@ const Payments2 = ({
                           {paymentState.map((singlePayment) => (
                             <li>
                               <div className="flex-cs">
+                                <p>Tuition Fee</p>
+                                <p>{singlePayment.paymentType.paymentName}</p>
                                 {singlePayment.paymentTypeToUpdate} &nbsp;
                                 <Textbox
                                   value={division.divisionName}
@@ -131,13 +133,12 @@ const Payments2 = ({
                                   name="educationalDivision"
                                   placeholder={""}
                                   tabIndex={1}
-                                  onChange={(event) =>
-                                    handleUpdateEducationalDivisions(
-                                      event,
-                                      divisionIndex
-                                    )
-                                  }
-                                  label={""}
+                                  // onChange={(event) =>
+                                  //   handleUpdateEducationalDivisions(
+                                  //     event,
+                                  //     divisionIndex
+                                  //   )
+                                  // }
                                 />
                               </div>
                             </li>
@@ -153,12 +154,12 @@ const Payments2 = ({
                                   name="educationalDivision"
                                   placeholder={""}
                                   tabIndex={1}
-                                  onChange={(event) =>
-                                    handleUpdateEducationalDivisions(
-                                      event,
-                                      divisionIndex
-                                    )
-                                  }
+                                  // onChange={(event) =>
+                                  //   handleUpdateEducationalDivisions(
+                                  //     event,
+                                  //     divisionIndex
+                                  //   )
+                                  // }
                                   label={""}
                                 />
                               </div>
@@ -166,11 +167,33 @@ const Payments2 = ({
                           ))}
                         </div>
                       </div>
+                      
                     </ul>
                   </label>
                   <br />
+                  <div className="flex-cs ml5r">
+                        <></>
+                        <div className="flex-end">
+                          <Textbox
+                            value={division.divisionName}
+                            id="Stage"
+                            name="educationalDivision"
+                            placeholder={""}
+                            tabIndex={1}
+                            // onChange={(event) =>
+                            //   handleUpdateEducationalDivisions(
+                            //     event,
+                            //     divisionIndex
+                            //   )
+                            // }
+                            label={(<u>Total</u>) }
+                          />
+                        </div>
+                      </div>
                 </div>
+                
               </div>
+              
             </div>
           </div>
         ))}

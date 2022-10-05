@@ -4,19 +4,25 @@ import RemoveButton from "../Buttons/RemoveButton";
 import PaymentTypes from "./DynamicPayments/PaymentTypes";
 import PaymentTerms from "./DynamicPayments/PaymentTerms";
 import PaymentBases from "./DynamicPayments/PaymentBases";
-import DiscountParameters from "./DynamicPayments/PaymentDiscounts";
+import PaymentDiscounts from "./DynamicPayments/PaymentDiscounts";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   createPayments,
-  createPaymentBase,
+  createCustomPaymentBase,
   deletePayments,
   updatePaymentType,
+  updateCustomPaymentType,
+  deleteCustomPaymentType,
   updatePaymentBase,
+  updateGenderBasedPaymentDiscount,
+  updateScholarshipBasedPaymentDiscount,
+  updateSpecialNeedBasedPaymentDiscount,
   updatePaymentDiscount,
   updateCustomDiscount,
   updateCustomPaymentBase,
+  updateGendersForPaymentDiscount,
   updatePaymentTerm,
-  deletePaymentBase,
+  deleteCustomPaymentBase,
   createSpecialNeedDiscount,
   createScholarshipDiscount,
   createCustomDiscount,
@@ -32,51 +38,97 @@ const DynamicPayments = ({ formData }) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   const lastPaymentState = paymentState[paymentState.length - 1];
   const { popup } = useSelector((state) => state.popups);
-  const formDataPayments = [...formData.schoolPayments];
-  const addPayments = () => {
+  // const formDataPayments = [...formData.schoolPayments];
+  const handleAddPayments = () => {
     dispatch(
       createPayments({
-        id: lastPaymentState.id + 1,
-        paymentType: [],
+        Id: paymentState.length,
+        paymentType: {
+          isCustomPaymentType: false,
+          paymentName: "Tuiton Fee",
+          paymentAmount: 0,
+        },
         paymentBase: {
           periodPaymentBase: {
             value: true,
-            periods: [],
+            periods: [
+              {
+                Id: 0,
+                periodName: "",
+                startDate: "",
+                endDate: "",
+                paymentDueDate: "",
+                paymentAmount: "",
+              },
+            ],
           },
           gradeLevelPaymentBase: {
             value: true,
-            grades: [],
+            grades: [
+              {
+                Id: 0,
+                gradeName: "",
+                numberOfSections: "",
+                paymentAmount: "",
+              },
+            ],
           },
           creditHoursPaymentBase: {
             value: false,
           },
           courseTypePaymentBase: {
             value: false,
-            courses: [],
+            courses: [
+              {
+                Id: 0,
+                courseName: "",
+                creditHour: 0,
+                contactHour: 0,
+                paymentAmount: 0,
+              },
+            ],
           },
-
-          customPaymentBase: [],
+          customPaymentBase: {
+            value: false,
+            paymentBases: [],
+          },
         },
+        // payment discount parameters
         discountParameters: {
-          id: lastPaymentState.discountParameters.id + 1,
-          discountType: {
-            genderBasedDiscount: {
-              value: false,
-              genders: [],
-            },
-            specialNeedsBasedDiscount: {
-              value: false,
-              specialNeeds: [],
-            },
-            scholarshipBasedDiscount: {
-              value: false,
-              scholarships: [],
-            },
-            customPaymentDiscount: {
-              value: false,
-              customDiscounts: [],
+          Id: 0,
+          genderBasedDiscount: {
+            value: false,
+            genderType: "Female",
+            discountFormale: false,
+            discountForfemale: true,
+            male: false,
+            female: true,
+            genders: {
+              male: false,
+              female: true,
             },
           },
+          specialNeedsBasedDiscount: {
+            value: false,
+            specialNeeds: [],
+          },
+          scholarshipBasedDiscount: {
+            value: false,
+            scholarships: [],
+          },
+          customPaymentDiscount: {
+            value: false,
+            customDiscounts: [],
+          },
+        },
+        paymentTerm: {
+          standardPaymentTerm: true,
+          advancedPaymenTerm: false,
+        },
+
+        totalPaymentAmount: {
+          Id: 0,
+          paymentAmount: 0,
         },
       })
     );
@@ -92,8 +144,28 @@ const DynamicPayments = ({ formData }) => {
     const { value } = event.target;
     dispatch(
       updatePaymentType({
+        isCustomPaymentType: value === "Custom Fees",
         paymentId: index,
         paymentName: value,
+      })
+    );
+  };
+  const handleCustomPaymentType = (event, index) => {
+    console.log("handling Custom payment type");
+    const { value } = event.target;
+    console.log("now value: " + value);
+    dispatch(
+      updateCustomPaymentType({
+        paymentId: index,
+        paymentName: value,
+      })
+    );
+  };
+  const removeCustomPaymentType = (index) => {
+    console.log("remove custom payments types");
+    dispatch(
+      deleteCustomPaymentType({
+        paymentIndex: index,
       })
     );
   };
@@ -101,7 +173,7 @@ const DynamicPayments = ({ formData }) => {
   const handlePaymentBase = (event, index) => {
     const { name } = event.target;
     paymentState.map((state) => {
-      if (state.id === index) {
+      if (state.Id === index) {
         dispatch(
           updatePaymentBase({
             paymentId: index,
@@ -113,15 +185,15 @@ const DynamicPayments = ({ formData }) => {
     });
   };
   const handlePaymentDiscount = (event, index) => {
-    const { name, id } = event.target;
+    const { name, Id } = event.target;
     paymentState.map((state) => {
-      if (state.id === index) {
+      if (state.Id === index) {
         dispatch(
           updatePaymentDiscount({
             paymentId: index,
             selectedValue: !state.discountParameters[name].value,
             paymentDiscountType: name,
-            genderType: id,
+            genderType: Id,
             gender: state.discountParameters[name].genders,
           })
         );
@@ -129,9 +201,9 @@ const DynamicPayments = ({ formData }) => {
     });
   };
   const handleCustomPaymentBase = (event, index, baseIndex) => {
-    const { name, id, value } = event.target;
+    const { name, Id, value } = event.target;
     paymentState.map((state) => {
-      if (state.id === index) {
+      if (state.Id === index) {
         dispatch(
           updateCustomPaymentBase({
             paymentId: index,
@@ -144,12 +216,12 @@ const DynamicPayments = ({ formData }) => {
   };
   const handleAddCustomPaymentBasis = (index) => {
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
-          createPaymentBase({
+          createCustomPaymentBase({
             paymentIndex: index,
             paymentBase: {
-              id: payment.paymentBase.customPaymentBase.paymentBases.length,
+              Id: payment.paymentBase.customPaymentBase.paymentBases.length,
               customPaymentBaseName: "",
               paymentDueDates: "",
             },
@@ -159,23 +231,22 @@ const DynamicPayments = ({ formData }) => {
     });
   };
   const handlePaymentTerm = (event, index) => {
-    const { id, name, value } = event.target;
+    const { Id, name, value } = event.target;
     paymentState.map((paymentState) => {
       dispatch(
         updatePaymentTerm({
-          id: index,
+          Id: index,
           standardPaymentTerm: !paymentState.paymentTerm.standardPaymentTerm,
           advancedPaymenTerm: !paymentState.paymentTerm.advancedPaymenTerm,
         })
       );
     });
-     
   };
   const removeCustomPaymentBase = (index, subIndex) => {
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
-          deletePaymentBase({
+          deleteCustomPaymentBase({
             paymentIndex: index,
             baseIndex: subIndex,
           })
@@ -185,14 +256,73 @@ const DynamicPayments = ({ formData }) => {
   };
 
   // METHODS TO HANDLE CRUD OPERATIONS FOR PAYMENT DISCOUNTS
+  const handleSelectGenderBasedPaymentDiscount = (event, index) => {
+    const { id, name } = event.target;
+    console.log(paymentState);
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          updateGenderBasedPaymentDiscount({
+            paymentId: index,
+            // name: "genderBasedDiscount",
+            // Id: payment.discountParameters.genderBasedDiscount.genderType,
+            selectedValue: !payment.discountParameters[name].value,
+          })
+        );
+      }
+    });
+  };
+
+  const handleGenderTypesForDiscount = (event, index) => {
+    const { id, name } = event.target;
+    paymentState.map((payment) => {
+      console.log("so: " + payment.discountParameters[name].value);
+      if (payment.Id === index) {
+        dispatch(
+          updateGendersForPaymentDiscount({
+            paymentId: index,
+            genderType: id,
+            selectedValue: !payment.discountParameters[name].value,
+          })
+        );
+      }
+    });
+  };
+  const handleSelectSpecialNeedBasedPaymentDiscount = (index) => {
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          updateScholarshipBasedPaymentDiscount({
+            paymentId: index,
+            selectedValue:
+              !payment.discountParameters.specialNeedsBasedDiscount.value,
+          })
+        );
+      }
+    });
+  };
+  const handleSelectScholarshipBasedPaymentDiscount = (index) => {
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          updateSpecialNeedBasedPaymentDiscount({
+            paymentId: index,
+            selectedValue:
+              !payment.discountParameters.scholarshipBasedDiscount.value,
+          })
+        );
+      }
+    });
+  };
+
   const addSpcialNeedPaymentDiscount = (index) => {
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           createSpecialNeedDiscount({
             paymentId: index,
             specialNeeds: {
-              id: payment.discountParameters.specialNeedsBasedDiscount
+              Id: payment.discountParameters.specialNeedsBasedDiscount
                 .specialNeeds.length,
               specialNeedName: "",
               discountPercentage: 0,
@@ -205,12 +335,12 @@ const DynamicPayments = ({ formData }) => {
 
   const addScholarshipsPaymentDiscount = (index) => {
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           createScholarshipDiscount({
             paymentId: index,
             scholarships: {
-              id: payment.discountParameters.scholarshipBasedDiscount
+              Id: payment.discountParameters.scholarshipBasedDiscount
                 .scholarships.length,
               scholarshipName: "",
               discountPercentage: 0,
@@ -223,12 +353,12 @@ const DynamicPayments = ({ formData }) => {
 
   const addCustomPaymentDiscount = (index) => {
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           createCustomDiscount({
             paymentId: index,
             discounts: {
-              id: payment.discountParameters.customPaymentDiscount
+              Id: payment.discountParameters.customPaymentDiscount
                 .customDiscounts.length,
               discountName: "",
               discountPercentage: 0,
@@ -242,7 +372,7 @@ const DynamicPayments = ({ formData }) => {
   const handleSpcialNeedPaymentDiscount = (event, index, specialNeedIndex) => {
     const { value } = event.target;
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           updateSpecialNeedDiscount({
             paymentId: index,
@@ -261,7 +391,7 @@ const DynamicPayments = ({ formData }) => {
   ) => {
     const { value } = event.target;
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           updateScholarshipDiscount({
             paymentId: index,
@@ -275,9 +405,8 @@ const DynamicPayments = ({ formData }) => {
 
   const handleCustomDiscount = (event, index, customDiscountIndex) => {
     const { value } = event.target;
-    console.log(value)
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           updateCustomDiscount({
             paymentId: index,
@@ -292,7 +421,7 @@ const DynamicPayments = ({ formData }) => {
 
   const remvoeSpcialNeedPaymentDiscount = (index, specialNeedIndex) => {
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           deleteSpecialNeedDiscount({
             paymentId: index,
@@ -305,7 +434,7 @@ const DynamicPayments = ({ formData }) => {
 
   const remvoeScholarshipsPaymentDiscount = (index, scholarshipIndex) => {
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           deleteScholarshipDiscount({
             paymentId: index,
@@ -317,7 +446,7 @@ const DynamicPayments = ({ formData }) => {
   };
   const remvoeCustomPaymentDiscount = (index, discountIndex) => {
     paymentState.map((payment) => {
-      if (payment.id === index) {
+      if (payment.Id === index) {
         dispatch(
           deleteCustomDiscount({
             paymentId: index,
@@ -337,10 +466,13 @@ const DynamicPayments = ({ formData }) => {
         <div key={index}>
           <div className="flex-start gapp6 field-group-container">
             <section className="flex-start gapp6 pb2">
+              {/* {index} */}
               <PaymentTypes
                 singlePayment={singlePayment}
                 index={index}
                 handlePaymentType={handlePaymentType}
+                handleCustomPaymentType={handleCustomPaymentType}
+                removeCustomPaymentType={removeCustomPaymentType}
               />
               <PaymentBases
                 singlePayment={singlePayment}
@@ -351,9 +483,19 @@ const DynamicPayments = ({ formData }) => {
                 removeCustomPaymentBase={removeCustomPaymentBase}
               />
 
-              <DiscountParameters
+              <PaymentDiscounts
                 singlePayment={singlePayment}
                 index={index}
+                handleSelectGenderBasedPaymentDiscount={
+                  handleSelectGenderBasedPaymentDiscount
+                }
+                handleSelectSpecialNeedBasedPaymentDiscount={
+                  handleSelectSpecialNeedBasedPaymentDiscount
+                }
+                handleSelectScholarshipBasedPaymentDiscount={
+                  handleSelectScholarshipBasedPaymentDiscount
+                }
+                //
                 handlePaymentDiscount={handlePaymentDiscount}
                 handleAddCustomPaymentDiscount={handleAddCustomPaymentDiscount}
                 addSpcialNeedPaymentDiscount={addSpcialNeedPaymentDiscount}
@@ -372,9 +514,8 @@ const DynamicPayments = ({ formData }) => {
                 remvoeScholarshipsPaymentDiscount={
                   remvoeScholarshipsPaymentDiscount
                 }
-                remvoeCustomPaymentDiscount={
-                  remvoeCustomPaymentDiscount
-                }
+                remvoeCustomPaymentDiscount={remvoeCustomPaymentDiscount}
+                handleGenderTypesForDiscount={handleGenderTypesForDiscount}
               />
 
               <PaymentTerms
@@ -394,7 +535,7 @@ const DynamicPayments = ({ formData }) => {
           {paymentState.length - 1 === index && paymentState.length < 24 ? (
             <AddMoreButton
               label="Add Payment Types"
-              handleLinks={addPayments}
+              handleLinks={handleAddPayments}
             />
           ) : (
             ""

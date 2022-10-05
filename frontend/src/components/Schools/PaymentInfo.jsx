@@ -5,11 +5,7 @@ import SmallCard from "../Utilities/Cards/SmallCard";
 import Preview from "../Utilities/Buttons/Preview";
 
 import "../../Styles/utilities.css";
-import {
-  createPaymentBase,
-  deletePaymentBase,
-  resetPaymentStates,
-} from "../../features/paymentBase/paymentBaseSlice";
+import {} from "../../features/paymentBase/paymentBaseSlice";
 import "../../Styles/formStyles.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -17,91 +13,6 @@ import { useEffect } from "react";
 function PaymentInfo({ formData, setFormData }) {
   const dispatch = useDispatch();
   const paymentState = useSelector((state) => state.payments.paymentState);
-
-  const formDataPayments = [...formData.schoolPayments];
-  const addPayments = () => {
-    formData.schoolPayments.length < 30 &&
-      setFormData({
-        ...formData,
-        schoolPayments: [
-          ...formDataPayments,
-          {
-            paymentType: "Tuition Fee",
-            // paymentAmount: 0,
-            paymentTerm: "One time payment",
-            paymentDueDate: new Date(),
-            periodBasedPayment: true,
-            gradeLevelBasedPayment: true,
-            genderBasedPayment: false,
-            specialNeedBasedPayment: false,
-            scholarshipBasedPayment: false,
-            standardPaymentTerm: true,
-            advancedPaymentTerm: false,
-          },
-        ],
-      });
-    dispatch(
-      createPaymentBase({
-        id: paymentState[paymentState.length - 1].id + 1,
-        periodChecked: true,
-        gradeLevelChecked: true,
-        genderChecked: false,
-        specialNeedChecked: false,
-        scholarshipChecked: false,
-        standardPaymentTermSelected: true,
-        advancedPaymentTermSelected: false,
-      })
-    );
-  };
-  useEffect(() => {
-    if (formData.schoolPayments.length === 0)
-      setFormData({
-        ...formData,
-        schoolPayments: [
-          ...formDataPayments,
-          {
-            paymentType: "Tuition Fee",
-            // paymentAmount: 0,
-            paymentTerm: "Standard",
-            paymentDueDate: new Date(),
-            periodBasedPayment: true,
-            gradeLevelBasedPayment: true,
-            genderBasedPayment: false,
-            specialNeedBasedPayment: true,
-            scholarshipBasedPayment: false,
-            standardPaymentTerm: true,
-            advancedPaymentTerm: false,
-          },
-        ],
-      });
-  }, []);
-
-  
-
-  // handling payment amount change
-  const handlePaymentAmount = (e, index) => {
-    const { name, value } = e.target;
-    const amount = formDataPayments;
-    amount[index][name] = value;
-    setFormData({ ...formData, schoolPayments: amount });
-  };
-
-   
-
-  const removePayments = (index) => {
-    const list = formDataPayments;
-    list.splice(index, 1);
-    setFormData({ ...formData, schoolPayments: list });
-    dispatch(deletePaymentBase({ id: index }));
-  };
-
-  const resetPayments = () => {
-    const list = formDataPayments;
-    list.splice(1, list.length);
-    list[0].paymentType = "Tuition Fee";
-    setFormData({ ...formData, schoolPayments: list });
-    dispatch(resetPaymentStates());
-  };
 
   return (
     <div className="flex">
@@ -117,31 +28,7 @@ function PaymentInfo({ formData, setFormData }) {
             </h3>
           </div>
 
-          {formDataPayments.length > 1 ? (
-            <RemoveLinksButton
-              remove={resetPayments}
-              label={"Reset Payments"}
-            />
-          ) : (
-            <>
-              <br />
-              <br />
-              <br />
-            </>
-          )}
-          <DynamicPayments
-            formData={formData}
-            handlePaymentAmount={handlePaymentAmount}
-            removePayments={removePayments}
-            addPayments={addPayments}
-          />
-          <div className="flex-ccc">
-            {formDataPayments.length === 0 ? (
-              <AddMoreButton label="Add Payments" handleLinks={addPayments} />
-            ) : (
-              ""
-            )}
-          </div>
+          <DynamicPayments />
         </div>
       </div>
     </div>

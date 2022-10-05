@@ -5,11 +5,16 @@ import Add from "../../Buttons/Add";
 import Radio from "../../../InputControls/Radio";
 const PaymentDiscounts = ({
   handlePaymentDiscount,
+  handleSelectGenderBasedPaymentDiscount,
+  handleSelectSpecialNeedBasedPaymentDiscount,
+  handleSelectScholarshipBasedPaymentDiscount,
+
   handleAddCustomPaymentDiscount,
   singlePayment,
   index,
   addSpcialNeedPaymentDiscount,
   addScholarshipsPaymentDiscount,
+  handleGenderTypesForDiscount,
   addCustomPaymentDiscount,
   handleSpcialNeedPaymentDiscount,
   handleScholarshipsPaymentDiscount,
@@ -42,16 +47,21 @@ const PaymentDiscounts = ({
                     <div className="flex-cs">
                       <div className="flex gap2vw ">
                         <label
-                          htmlFor={"default"}
+                          htmlFor={"genderBasedDiscount" + index}
                           className="checkbox-items flex flex-left"
                         >
                           <input
                             type="checkbox"
                             name="genderBasedDiscount"
-                            id={"default"}
+                            id={"genderBasedDiscount" + index}
                             value={genderBasedDiscount.value}
                             checked={genderBasedDiscount.value}
-                            onChange={(e) => handlePaymentDiscount(e, index)}
+                            onChange={(event) =>
+                              handleSelectGenderBasedPaymentDiscount(
+                                event,
+                                index
+                              )
+                            }
                             tabIndex={9}
                           />
                           <>
@@ -63,30 +73,43 @@ const PaymentDiscounts = ({
                         {/* If gender based payment discount is checked display for gender types */}
                         {genderBasedDiscount.value && (
                           <div className="flex-cs gapp5 mlp3">
+                            {console.log("Male+index: " + genderBasedDiscount.genderType + index)}
                             <Radio
                               label="M"
                               name={"genderBasedDiscount"}
-                              id={"Male"}
+                              id={"Male" + index}
                               className={"flex-cs"}
                               value={genderBasedDiscount.genderType}
                               checked={
-                                genderBasedDiscount.genderType === "Male"
+                                genderBasedDiscount.genderType ===
+                                "Male" + index
                               }
+                              // checked={
+                              //   genderBasedDiscount.genders.male
+                              // }
                               onChange={(event) =>
-                                handlePaymentDiscount(event, index)
+                                handleGenderTypesForDiscount(
+                                  event,
+                                  index
+                                )
                               }
                             />
+                            {console.log("here: " + genderBasedDiscount.genderType)}
                             <Radio
                               label="F"
                               className={"flex-cs"}
                               checked={
-                                genderBasedDiscount.genderType === "Female"
+                                genderBasedDiscount.genderType ===
+                                "Female" + index
                               }
-                              name={"genderBasedDiscount"}
-                              id={"Female"}
                               value={genderBasedDiscount.genderType}
+                              name={"genderBasedDiscount"}
+                              id={"Female" + index}
                               onChange={(event) =>
-                                handlePaymentDiscount(event, index)
+                                handleGenderTypesForDiscount(
+                                  event,
+                                  index
+                                )
                               }
                             />
                           </div>

@@ -116,14 +116,14 @@ const DynamicPeriods = ({
                         className="form-radio-button"
                         type="radio"
                         name="periodType"
-                        id="Custom_Period"
+                        id="Custom Period"
                         value={
                           periodState[periodState.length - 1].periodTypeName ===
                           "Custom_Period"
                         }
                         checked={
                           periodState[periodState.length - 1].periodTypeName ===
-                          "Custom_Period"
+                          "Custom Period"
                         }
                         onChange={(event) => handleUpdatePerods(event)}
                         tabIndex={9}

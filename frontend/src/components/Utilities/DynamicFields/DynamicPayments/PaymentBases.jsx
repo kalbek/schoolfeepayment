@@ -22,7 +22,7 @@ const PaymentBases = ({
   return (
     <>
       <div>
-        <div className="checkbox-inputs input__group ">
+        <div className="checkbox-inputs input__group "> 
           <div className="flex-cs checkbox-group field-group-container">
             <section className="flex-left">
               <label htmlFor="">
@@ -34,7 +34,6 @@ const PaymentBases = ({
                   className="checkbox-items flex flex-cs"
                   htmlFor={"periodBasedPayment"}
                 >
-                  {console.log(periodPaymentBase.value === "true")}
                   <input
                     type="checkbox"
                     name="periodPaymentBase"

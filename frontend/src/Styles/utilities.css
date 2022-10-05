@@ -200,6 +200,10 @@
   margin-top: 1rem;
 }
 
+.ml5r{
+  margin-left: 30rem;
+}
+
 .mlnp9 {
   margin-left: -0.9rem;
 }
@@ -225,6 +229,9 @@
   margin-left: 3px;
 }
 
+.-mt-5 {
+  margin-top: -5%;
+}
 .-mt-10 {
   margin-top: -10%;
 }

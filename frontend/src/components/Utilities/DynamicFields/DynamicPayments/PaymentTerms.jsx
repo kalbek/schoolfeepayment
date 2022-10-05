@@ -1,8 +1,6 @@
 const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
   const standardPaymentTerm = singlePayment.paymentTerm.standardPaymentTerm  
-  console.log("spt: " + standardPaymentTerm)
   const advancedPaymenTerm = singlePayment.paymentTerm.advancedPaymenTerm  
-  console.log("apt: " + advancedPaymenTerm)
   return (
     <>
       <div>
