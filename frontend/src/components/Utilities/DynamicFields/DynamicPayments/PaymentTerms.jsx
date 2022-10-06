@@ -1,6 +1,9 @@
 const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
-  const standardPaymentTerm = singlePayment.paymentTerm.standardPaymentTerm  
-  const advancedPaymenTerm = singlePayment.paymentTerm.advancedPaymenTerm  
+  const standardPaymentTerm = singlePayment.paymentTerm.standardPaymentTerm;
+  const advancedPaymenTerm = singlePayment.paymentTerm.advancedPaymenTerm;
+  const paymentType = singlePayment.paymentTerm.paymentTermType;
+  console.log("hey: " + paymentType);
+
   return (
     <>
       <div>
@@ -13,14 +16,13 @@ const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
             <div className="flex-c checkbox-group flex-start">
               <label
                 className="checkbox-items flex flex-cs"
-                htmlFor={"standardPaymentTerm" + index}
+                htmlFor={"standard" + index}
               >
                 <input
                   type="radio"
-                  name={"schoolPaymentTerm"}
-                  id={"standardPaymentTerm" + index}
-                  // value={paymentTerm}
-                  // checked={paymentTerm === "standard" + index}
+                  id={"standard" + index}
+                  value={paymentType}
+                  checked={paymentType === "standard" + index}
                   onChange={(event) => handlePaymentTerm(event, index)}
                   tabIndex={9}
                 />
@@ -30,14 +32,13 @@ const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
               </label>
               <label
                 className="checkbox-items flex flex-cs mtn30"
-                htmlFor={"advancedPaymentTerm" + index}
+                htmlFor={"advanced" + index}
               >
                 <input
                   type="radio"
-                  name={"schoolPaymentTerm"}
-                  id={"advancedPaymentTerm" + index}
-                  // value={paymenTerm}
-                  // checked={paymentTerm === "advanced" + index}
+                  id={"advanced" + index}
+                  value={paymentType}
+                  checked={paymentType === "advanced" + index}
                   onChange={(event) => handlePaymentTerm(event, index)}
                   tabIndex={9}
                 />

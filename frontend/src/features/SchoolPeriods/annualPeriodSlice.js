@@ -2,6 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   annualPeriodState: [
     {
+      topLevelPeriod: [
+        {
+          id: 0,
+          periodTypeName: "Semester",
+          periodName: "",
+          shiftName: "regularShift",
+          periodStartDate: new Date().toISOString(),
+          periodEndDate: new Date().toISOString(),
+          hasRegularShift: true,
+          hasExtensionShift: false,
+          hasWeekendShift: false,
+          hasCustomShift: false,
+          customShiftName: "",
+          periodToUpdate: "periodType",
+        },
+      ],
       id: 0,
       periodTypeName: "Semester",
       periodName: "",

@@ -66,6 +66,10 @@ const PeriodInfo = ({ formData, setFormData }) => {
     //   ],
     // });
   };
+
+  const handleTopLevelPeriod = () => {
+    
+  }
   const handleUpdatePerods = (event, index) => {
     const { id, name, value } = event.target;
     const formDataPeriodType = formDataPeriod;
@@ -181,6 +185,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
             handleFormRadioSelection={handleSchoolsPeriodRadioSelection}
             removePeriods={removePeriods}
             handleAnnualPeriodDuration={handleAnnualPeriodDuration}
+            handleTopLevelPeriod={handleTopLevelPeriod}
             handleUpdatePerods={handleUpdatePerods}
             handleNewPeriods={handleNewPeriods}
             resetAllPeriods={resetAllPeriods}

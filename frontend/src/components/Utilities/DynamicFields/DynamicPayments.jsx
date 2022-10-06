@@ -198,7 +198,7 @@ const DynamicPayments = ({ formData }) => {
     });
   };
   const handlePaymentDiscount = (event, index) => {
-    const { name, Id } = event.target;
+    const { name } = event.target;
     paymentState.map((state) => {
       if (state.Id === index) {
         dispatch(
@@ -213,7 +213,7 @@ const DynamicPayments = ({ formData }) => {
     });
   };
   const handleCustomPaymentBase = (event, index, baseIndex) => {
-    const { name, Id, value } = event.target;
+    const { value } = event.target;
     paymentState.map((state) => {
       if (state.Id === index) {
         dispatch(
@@ -243,15 +243,16 @@ const DynamicPayments = ({ formData }) => {
     });
   };
   const handlePaymentTerm = (event, index) => {
-    const { Id, name, value } = event.target;
+    const { id } = event.target;
     paymentState.map((paymentState) => {
-      dispatch(
-        updatePaymentTerm({
-          Id: index,
-          standardPaymentTerm: !paymentState.paymentTerm.standardPaymentTerm,
-          advancedPaymenTerm: !paymentState.paymentTerm.advancedPaymenTerm,
-        })
-      );
+      if (paymentState.Id === index) {
+        dispatch(
+          updatePaymentTerm({
+            paymentId: index,
+            paymentTermType: id,
+          })
+        );
+      }
     });
   };
   const removeCustomPaymentBase = (index, subIndex) => {
@@ -270,7 +271,7 @@ const DynamicPayments = ({ formData }) => {
   // METHODS TO HANDLE CRUD OPERATIONS FOR PAYMENT DISCOUNTS
 
   const handleGenderTypesForDiscount = (event, index) => {
-    const { id, name, value } = event.target;
+    const { id } = event.target;
     paymentState.map((payment) => {
       if (payment.Id === index) {
         dispatch(

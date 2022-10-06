@@ -84,6 +84,7 @@ const initialState = {
         },
       },
       paymentTerm: {
+        paymentTermType: "standard",
         standardPaymentTerm: true,
         advancedPaymenTerm: false,
       },
@@ -149,7 +150,6 @@ export const paymentSlice = createSlice({
     },
 
     updateCustomPaymentType: (state, action) => {
-      console.log("action.payload.paymentName: " + action.payload.paymentName);
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           // paymentState.paymentType.paymentName = "Tuition Fee"
@@ -157,8 +157,6 @@ export const paymentSlice = createSlice({
             action.payload.paymentName;
         }
       });
-      console.log("heys");
-      console.log(current(state.paymentState));
     },
 
     deleteCustomPaymentType: (state, action) => {
@@ -213,7 +211,6 @@ export const paymentSlice = createSlice({
           }
         }
       });
-      console.log("hey: " + action.payload.Id + action.payload.paymentId);
     },
     // updateGenderBasedPaymentDiscount: (state, action) => {
     //   state.paymentState.map((paymentState) => {
@@ -222,7 +219,6 @@ export const paymentSlice = createSlice({
     //         action.payload.selectedValue;
     //     }
     //   });
-    //   console.log("hey: " + action.payload.Id + action.payload.paymentId);
     // },
 
     createCustomPaymentBase: (state, action) => {
@@ -252,17 +248,11 @@ export const paymentSlice = createSlice({
     deleteCustomPaymentBase: (state, action) => {
       state.paymentState.map((payment) => {
         if (payment.Id === action.payload.paymentIndex) {
-          console.log(
-            current(payment).paymentBase.customPaymentBase.paymentBases
-          );
           payment.paymentBase.customPaymentBase.paymentBases =
             payment.paymentBase.customPaymentBase.paymentBases.filter(
               (customPaymentBase) =>
                 customPaymentBase.Id !== action.payload.baseIndex
             );
-          console.log(
-            current(payment).paymentBase.customPaymentBase.paymentBases
-          );
         }
       });
       state.paymentState.map((payment) => {
@@ -330,13 +320,9 @@ export const paymentSlice = createSlice({
     updateGendersForPaymentDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          console.log(action.payload.genderName);
           paymentState.discountParameters.genderBasedDiscount.genderType =
             action.payload.genderName;
         }
-        console.log(
-          current(paymentState.discountParameters.genderBasedDiscount)
-        );
       });
     },
     updateScholarshipBasedPaymentDiscount: (state, action) => {
@@ -363,11 +349,6 @@ export const paymentSlice = createSlice({
           payment.discountParameters.specialNeedsBasedDiscount.specialNeeds.push(
             action.payload.specialNeeds
           );
-          console.log(
-            current(
-              payment.discountParameters.specialNeedsBasedDiscount.specialNeeds
-            )
-          );
         }
       });
     },
@@ -379,11 +360,6 @@ export const paymentSlice = createSlice({
             action.payload.scholarships
           );
         }
-        console.log(
-          current(
-            payment.discountParameters.scholarshipBasedDiscount.scholarships
-          )
-        );
       });
     },
 
@@ -430,7 +406,6 @@ export const paymentSlice = createSlice({
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
             (customDiscount) => {
-              console.log("pId: " + action.payload.discountIndex);
               if (customDiscount.Id === action.payload.discountIndex) {
                 customDiscount.discountName = action.payload.discountName;
                 customDiscount.discountPercentage =
@@ -456,8 +431,6 @@ export const paymentSlice = createSlice({
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
             (specialNeed) => {
-              console.log("state sp Id: " + specialNeed.Id);
-              console.log("special need Id: " + action.payload.specialNeedId);
               if (specialNeed.Id > action.payload.specialNeedId) {
                 specialNeed.Id -= 1;
               }
@@ -514,17 +487,16 @@ export const paymentSlice = createSlice({
       });
     },
 
-    updatePaymentTerms: (state, action) => {
+    updatePaymentTerm: (state, action) => {
       state.paymentState.map((paymentState) => {
-        paymentState.paymentTerm.standardPaymentTerm =
-          action.payload.standardPaymentTerm;
-        paymentState.paymentTerm.advancedPaymenTerm =
-          action.payload.advancedPaymenTerm;
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentTerm.paymentTermType =
+            action.payload.paymentTermType;
+        }
       });
     },
     // END OF CRUD OPERATINS FOR PAYMENT DICOUNT PARAMETERS
-
-    updatePaymentTerm: (state, action) => {
+    updatePaymentTerms: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           if (action.payload.paymentToUpdate === "paymentTerm") {
