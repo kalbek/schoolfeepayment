@@ -1,17 +1,21 @@
 import { useSelector } from "react-redux";
-import DatePicker from "react-datepicker"
+import DatePicker from "react-datepicker";
 import RemoveButton from "../../Buttons/RemoveButton";
 import "react-datepicker/dist/react-datepicker.css";
 import { parse } from "date-fns";
 
-const DateRanges = ({handleUpdatePerods, handleAnnualPeriodDuration, removePeriods}) => {
-    const periodState = useSelector((state) => state.periods.annualPeriodState);
+const DateRanges = ({
+  handleUpdatePerods,
+  handleAnnualPeriodDuration,
+  removePeriods,
+}) => {
+  const periodState = useSelector((state) => state.periods.annualPeriodState);
   return (
     <>
       {periodState.map((singlePeriod, index) => (
         <div key={index} className="flex-c dynamic-periods-container pl1">
           {/* INITIAL PERIOD INPUT GROUPS */}
-          <section>
+          <>
             <div className="flex-start ">
               <div className="input__group flex-c m20">
                 <div className="flex-cr inputs input--medium">
@@ -49,20 +53,17 @@ const DateRanges = ({handleUpdatePerods, handleAnnualPeriodDuration, removePerio
               {/* Periods start date */}
               <div className="input__group flex-c m20 ">
                 <div className="input__group flex-cr inputs input--small">
-                  {/* {console.log("hey: "+ typeof parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date()) )} */}
                   <DatePicker
                     className="pointer"
-                    // value = {parse(singlePeriod.periodStartDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
                     selected={parse(
                       singlePeriod.periodStartDate,
                       "yyyy-MM-dd'T'HH:mm:ss.SSSX",
                       new Date()
-                    )}
-                    // value={singlePeriod.periodStartDate}
-                    // selected={singlePeriod.periodStartDate}
-                    onChange={(date) =>
-                      handleAnnualPeriodDuration(
-                        {
+                      )}
+                      value={singlePeriod.periodStartDate.substring(0, 10)}
+                      onChange={(date) =>
+                        handleAnnualPeriodDuration(
+                          {
                           target: {
                             value: date,
                             name: "periodDetails",
@@ -72,7 +73,7 @@ const DateRanges = ({handleUpdatePerods, handleAnnualPeriodDuration, removePerio
                         index
                       )
                     }
-                    showTimeSelect
+                    // showTimeSelect
                     showYearDropdown
                     scrollableMonthYearDropdown
                     dateFormat="Pp"
@@ -80,7 +81,7 @@ const DateRanges = ({handleUpdatePerods, handleAnnualPeriodDuration, removePerio
                   />
                   <label htmlFor="periodStartDate">
                     {" "}
-                    <p>Start Date</p>
+                    <p>Start Date </p>
                   </label>
                 </div>
               </div>
@@ -88,15 +89,12 @@ const DateRanges = ({handleUpdatePerods, handleAnnualPeriodDuration, removePerio
                 <div className="input__group flex-cr inputs input--small">
                   <DatePicker
                     className="pointer"
-                    // value={singlePeriod.periodEndDate}
-                    // value = {parse('2020-02-24T10:34:02.998Z', "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
-                    // value = {parse(singlePeriod.periodEndDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())}
                     selected={parse(
                       singlePeriod.periodEndDate,
                       "yyyy-MM-dd'T'HH:mm:ss.SSSX",
                       new Date()
                     )}
-                    // selected={singlePeriod.periodEndDate}
+                    value={singlePeriod.periodEndDate.substring(0, 10)}
                     onChange={(date) =>
                       handleAnnualPeriodDuration(
                         {
@@ -109,7 +107,7 @@ const DateRanges = ({handleUpdatePerods, handleAnnualPeriodDuration, removePerio
                         index
                       )
                     }
-                    showTimeSelect
+                    // showTimeSelect
                     showYearDropdown
                     scrollableMonthYearDropdown
                     dateFormat="Pp"
@@ -117,7 +115,7 @@ const DateRanges = ({handleUpdatePerods, handleAnnualPeriodDuration, removePerio
                   />
                   <label htmlFor="periodEndDate">
                     {" "}
-                    <p>End Date</p>
+                    <p>End Date &nbsp;&nbsp;&nbsp;  [yyyy-mm-dd]</p>
                   </label>
                 </div>
               </div>
@@ -133,7 +131,7 @@ const DateRanges = ({handleUpdatePerods, handleAnnualPeriodDuration, removePerio
                 )}
               </div>
             </div>
-          </section>
+          </>
         </div>
       ))}
     </>

@@ -102,11 +102,11 @@ const Payments2 = ({
                           {paymentState.map((singlePayment) => (
                             <li>
                               <div className="flex-cs">
-                                <p>Tuition Fee</p>
+                                {/* <p>Tuition Fee</p> */}
                                 <p>{singlePayment.paymentType.paymentName}</p>
                                 {singlePayment.paymentTypeToUpdate} &nbsp;
                                 <Textbox
-                                  value={division.divisionName}
+                                  // value={division.divisionName}
                                   id="Stage"
                                   name="educationalDivision"
                                   placeholder={""}

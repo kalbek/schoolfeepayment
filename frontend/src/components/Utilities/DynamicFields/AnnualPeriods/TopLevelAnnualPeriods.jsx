@@ -2,20 +2,15 @@ import RemoveButton from "../../Buttons/RemoveButton";
 import RemoveLinksButton from "../../Buttons/RemoveLinksButton";
 import AddMoreButton from "../../Buttons/AddMoreButton";
 import { useSelector } from "react-redux";
-
-const AnnualPeriods = ({
-  removePeriods,
-  handleUpdatePerods,
-}) => {
+const TopLevelAnnualPeriods = ({ removePeriods, handleUpdatePerods }) => {
   const periodState = useSelector((state) => state.periods.annualPeriodState);
   return (
     <>
       <div className="flex-left">
-   
         <div className="checkbox-inputs input__group field-group-container">
           <section className="flex-left">
             <label htmlFor="">
-              <h3>Annual Periods</h3>
+              <h3>Top-level Annual Period</h3>
             </label>
             <div className="flex-cs">{/* School Shifts */}</div>
             <div className="flex-cs checkbox-group">
@@ -117,4 +112,4 @@ const AnnualPeriods = ({
   );
 };
 
-export default AnnualPeriods;
+export default TopLevelAnnualPeriods;

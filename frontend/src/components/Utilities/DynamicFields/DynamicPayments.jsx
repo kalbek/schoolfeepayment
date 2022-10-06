@@ -170,7 +170,6 @@ const DynamicPayments = ({ formData }) => {
 
   const handlePaymentBase = (event, index) => {
     const { name } = event.target;
-    console.log("index: " + index);
     paymentState.map((state) => {
       if (state.Id === index) {
         dispatch(

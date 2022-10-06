@@ -1,9 +1,5 @@
 const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
-  const standardPaymentTerm = singlePayment.paymentTerm.standardPaymentTerm;
-  const advancedPaymenTerm = singlePayment.paymentTerm.advancedPaymenTerm;
   const paymentType = singlePayment.paymentTerm.paymentTermType;
-  console.log("hey: " + paymentType);
-
   return (
     <>
       <div>

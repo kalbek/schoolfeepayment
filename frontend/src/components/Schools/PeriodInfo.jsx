@@ -67,9 +67,13 @@ const PeriodInfo = ({ formData, setFormData }) => {
     // });
   };
 
-  const handleTopLevelPeriod = () => {
-    
-  }
+  const handleTopLevelPeriod = (event, index) => {
+    const {id, name, value} = event.target
+    console.log("id: "+id)
+    console.log("name: " + name)
+    console.log("value: " + value)
+    console.log("index: " + index)
+  };
   const handleUpdatePerods = (event, index) => {
     const { id, name, value } = event.target;
     const formDataPeriodType = formDataPeriod;
@@ -154,7 +158,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
         periodEndDate: value.toISOString(),
       })
     );
-
     // const dates = formDataPeriod;
     // dates[index][name] = value;
     // setFormData({ ...formData, schoolPayments: dates });
@@ -162,10 +165,10 @@ const PeriodInfo = ({ formData, setFormData }) => {
 
   return (
     <>
-      <div className="flex gapfull">
+      <div className="flex gapfull ">
         <div className="school-info pt1">
           <div>
-            <h1 className="form__titles--mid">
+            <h1 className="form__titles--mid -ml-3-5">
               {" "}
               And now, tell us about your school's Semisters and Terms{" "}
             </h1>
@@ -178,6 +181,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
             <br />
             <br />
           </>
+        
           <DynamicPeriods
             formData={formData}
             setFormData={setFormData}

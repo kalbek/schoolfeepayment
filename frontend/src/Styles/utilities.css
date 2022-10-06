@@ -204,6 +204,9 @@
   margin-left: 30rem;
 }
 
+.mln2 {
+  margin-left: -2.4rem;
+}
 .mlnp9 {
   margin-left: -0.9rem;
 }
@@ -403,4 +406,51 @@
 .add-btn-x2,
 .add-btn-y {
   background-color: #5393fa;
+}
+
+/* POSITIVE MARGINS */
+.mt-1 {
+  margin-top: 1rem;
+}
+.mb-1 {
+  margin-bottom: 1rem;
+}
+.mb-p5 {
+  margin-bottom: 0.5rem;
+}
+/* NEGATIVE MARGINS */
+.-ml-p5 {
+  margin-left: -0.5rem;
+}
+.-ml-1 {
+  margin-left: -1rem;
+}
+.-ml-2 {
+  margin-left: -2rem;
+}
+.-ml-2 {
+  margin-left: -2rem;
+}
+.-ml-3 {
+  margin-left: -3rem;
+}
+.-ml-3-5 {
+  margin-left: -3.5rem;
+}
+.-ml-4 {
+  margin-left: -4rem;
+}
+
+
+.-mt-1 {
+  margin-top: -1rem;
+}
+.-mt-2 {
+  margin-top: -2rem;
+}
+.-mt-3 {
+  margin-top: -3rem;
+}
+.-mt-4 {
+  margin-top: -4rem;
 }

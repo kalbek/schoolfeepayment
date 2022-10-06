@@ -5,6 +5,7 @@ const initialState = {
       topLevelPeriod: [
         {
           id: 0,
+          value: false,
           periodTypeName: "Semester",
           periodName: "",
           shiftName: "regularShift",
@@ -16,8 +17,25 @@ const initialState = {
           hasCustomShift: false,
           customShiftName: "",
           periodToUpdate: "periodType",
+          subPeriods: [
+            {
+              id: 0,
+              periodTypeName: "Semester",
+              periodName: "",
+              shiftName: "regularShift",
+              periodStartDate: new Date().toISOString(),
+              periodEndDate: new Date().toISOString(),
+              hasRegularShift: true,
+              hasExtensionShift: false,
+              hasWeekendShift: false,
+              hasCustomShift: false,
+              customShiftName: "",
+              periodToUpdate: "periodType",
+            },
+          ],
         },
       ],
+
       id: 0,
       periodTypeName: "Semester",
       periodName: "",
@@ -38,6 +56,50 @@ export const periodSlice = createSlice({
   name: "periods",
   initialState,
   reducers: {
+    // The new action
+    // End of the new action
+
+    // The new action
+    createTopLevelPeriods: (state, action) => {
+      state.annualPeriodState.push(action.payload);
+    },
+    createSubPeriods: (state, action) => {
+      state.annualPeriodState.map((period) => {
+        if (period.Id === action.payload.TopLevelId) {
+          period.topLevelPeriod.subPeriods.push(action.payload.subPeriods);
+        }
+      });
+    },
+    updateTopLevelPeriods: (state, action) => {
+      state.annualPeriodState.map((period) => {
+        if (period.Id === action.payload.TopLevelId) {
+          // To do updatation
+          period.periodTypeName = action.payload.periodTypeName;
+          period.periodName = action.payload.periodName;
+          period.shiftName = action.payload.shiftName;
+          period.periodStartDate = action.payload.periodStartDate;
+          period.periodEndDate = action.payload.periodEndDate;
+          period.hasRegularShift = action.payload.hasRegularShift;
+          period.hasExtensionShift = action.payload.hasExtensionShift;
+          period.hasWeekendShift = action.payload.hasWeekendShift;
+          period.hasCustomShift = action.payload.hasCustomShift;
+          period.customShiftName = action.payload.customShiftName;
+          period.periodToUpdate = action.payload.periodToUpdate;
+        }
+      });
+    },
+    updateSubPeriods: (state, action) => {
+      state.annualPeriodState.map((period) => {
+        if (period.Id === action.payload.TopLevelId){
+          period.subPeriods.map(subPeriod => {
+            if (subPeriod.Id === action.payload.subPeriodId){
+              // To do sub period updation
+            }
+          })
+        }
+      });
+    },
+    // End of the new action
     createPeriods: (state, action) => {
       state.annualPeriodState.push(action.payload);
     },
