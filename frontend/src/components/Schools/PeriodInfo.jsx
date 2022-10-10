@@ -2,7 +2,8 @@ import DynamicPeriods from "../Utilities/DynamicFields/DynamicPeriods";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  createPeriods,
+  createSubPeriods,
+  createTopLevelPeriods,
   updatePeriods,
   deletePeriods,
   resetPeriods,
@@ -10,77 +11,81 @@ import {
 const PeriodInfo = ({ formData, setFormData }) => {
   const formDataPeriod = [...formData.annualPeriod];
   const dispatch = useDispatch();
-  const periodState = useSelector((state) => state.periods.annualPeriodState);
-
-  useEffect(() => {
-    if (formDataPeriod.length === 0)
-      setFormData({
-        ...formData,
-        annualPeriod: [
-          ...formDataPeriod,
-          {
-            periodType: "Semester",
-            PeriodTypeName: "Semester",
-            periodStartDate: new Date(),
-            periodEndDate: new Date(),
+  const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
+  const handleNewSubPeriods = () => {
+    topLevelPeirod.map((topLevelPeirod) => {
+      const lastSubPeriod =
+        topLevelPeirod.subPeriods[topLevelPeirod.subPeriods.length - 1];
+      dispatch(
+        createSubPeriods({
+          topLevelId: topLevelPeirod.id,
+          subPeriod: {
+            id: topLevelPeirod.subPeriods.length,
+            periodTypeName: lastSubPeriod.periodTypeName,
+            periodName: "",
+            shiftName: lastSubPeriod.shiftName,
+            periodStartDate: lastSubPeriod.periodEndDate,
+            periodEndDate: new Date().toISOString(),
             hasRegularShift: true,
             hasExtensionShift: false,
             hasWeekendShift: false,
             hasCustomShift: false,
             customShiftName: "",
-            customShift: [],
+            periodToUpdate: "periodType",
           },
-        ],
-      });
-  }, []);
-
-  const handleNewPeriods = () => {
-    periodState.length < 30 &&
-      dispatch(
-        createPeriods({
-          id: periodState[periodState.length - 1].id + 1,
-          periodTypeName: periodState[periodState.length - 1].periodTypeName,
-          periodName: "",
-          shiftName: "regularShift",
-          periodStartDate: new Date().toISOString(),
-          periodEndDate: new Date().toISOString(),
-          hasRegularShift: true,
-          hasExtensionShift: false,
-          hasWeekendShift: false,
-          hasCustomShift: false,
-          customShiftName: "",
-          periodToUpdate: "periodType",
         })
       );
+    });
+  };
 
-    // setFormData({
-    //   ...formData,
-    //   annualPeriod: [
-    //     ...formDataPeriod,
-    //     {
-    //       periodType: formDataPeriod[formDataPeriod.length - 1].periodType,
-    //       PeriodTypeName: formDataPeriod[formDataPeriod.length - 1].periodTypeName,
-    //       annualPeriodStartDate: new Date(),
-    //       annualPeriodEndDate: new Date(),
-    //     },
-    //   ],
-    // });
+  const handleNewTopLevelPeriod = (event, index) => {
+    const { id, name, value } = event.target;
+
+    // console.log(topLevelPeirod.length);
+
+    dispatch(
+      createTopLevelPeriods({
+        id: topLevelPeirod.length,
+        value: false,
+        periodTypeName: "Semester",
+        periodName: "",
+        shiftName: "regularShift",
+        periodStartDate: new Date().toISOString(),
+        periodEndDate: new Date().toISOString(),
+        hasRegularShift: true,
+        hasExtensionShift: false,
+        hasWeekendShift: false,
+        hasCustomShift: false,
+        customShiftName: "",
+        periodToUpdate: "periodType",
+        subPeriods: [],
+      })
+    );
+    console.log("id: " + id);
+    console.log("name: " + name);
+    console.log("value: " + value);
   };
 
   const handleTopLevelPeriod = (event, index) => {
-    const {id, name, value} = event.target
-    console.log("id: "+id)
-    console.log("name: " + name)
-    console.log("value: " + value)
-    console.log("index: " + index)
+    // const {id, name, value} = event.target
+    // console.log("id: "+id)
+    // console.log("name: " + name)
+    // console.log("value: " + value)
+    // console.log("index: " + index)
   };
-  const handleUpdatePerods = (event, index) => {
+  const handleUpdatePerods = (event, index, subPeriodIndex) => {
     const { id, name, value } = event.target;
+    // console.log("id: " + id);
+    // console.log("name: " + name);
+    // console.log("value: " + value);
+    // console.log("subPeriodIndex: " + subPeriodIndex);
     const formDataPeriodType = formDataPeriod;
-    periodState.map((basePeriod) => {
+    topLevelPeirod.map((basePeriod) => {
+      // console.log("basePeriod.id : " + basePeriod.id);
       dispatch(
         updatePeriods({
-          id: index,
+          topLevelPeirodId: index,
+          subPeriodId: subPeriodIndex,
           periodToUpdate: name,
           periodTypeName: id,
           periodDetailsType: id,
@@ -95,7 +100,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
         })
       );
       // CHECK THIS LOGIC
-      periodState.map((basePeriod) => {});
+      topLevelPeirod.map((basePeriod) => {});
       formDataPeriodType["isSemesterPeriodType"] =
         !basePeriod.isSemesterPeriodType;
       formDataPeriodType["isTermPeriodType"] = !basePeriod.isTermPeriodType;
@@ -104,7 +109,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
       formDataPeriodType["isCustomPeriodType"] = !basePeriod.isCustomPeriodType;
       // setFormData({ ...formData, annualPeriod: formDataPeriodType });
     });
-    periodState.map((basePeriod) => {});
+    topLevelPeirod.map((basePeriod) => {});
     //   setFormData({
     //     ...formData,
     //     annualPeriod: [
@@ -119,13 +124,9 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
 
   const resetAllPeriods = () => {
-    if (periodState.length > 0) {
-      dispatch(resetPeriods({ id: periodState[0].id }));
+    if (topLevelPeirod.length > 0) {
+      dispatch(resetPeriods({ id: topLevelPeirod[0].id }));
     }
-
-    // const list = formDataPeriod;
-    // list.splice(1, list.length);
-    // setFormData({ ...formData, annualPeriod: list });
   };
   const removePeriods = (index) => {
     const list = formDataPeriod;
@@ -146,11 +147,12 @@ const PeriodInfo = ({ formData, setFormData }) => {
     periods[index][name] = value;
     setFormData({ ...formData, annualPeriod: periods });
   }
-  function handleAnnualPeriodDuration(date, index) {
+  function handleAnnualPeriodDuration(date, index, subPeriodIndex) {
     const { name, value, id } = date.target;
     dispatch(
       updatePeriods({
         id: index,
+        subPeriodId: subPeriodIndex,
         periodToUpdate: name,
         periodTypeName: id,
         periodDetailsType: id,
@@ -158,9 +160,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
         periodEndDate: value.toISOString(),
       })
     );
-    // const dates = formDataPeriod;
-    // dates[index][name] = value;
-    // setFormData({ ...formData, schoolPayments: dates });
   }
 
   return (
@@ -181,7 +180,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
             <br />
             <br />
           </>
-        
           <DynamicPeriods
             formData={formData}
             setFormData={setFormData}
@@ -190,8 +188,9 @@ const PeriodInfo = ({ formData, setFormData }) => {
             removePeriods={removePeriods}
             handleAnnualPeriodDuration={handleAnnualPeriodDuration}
             handleTopLevelPeriod={handleTopLevelPeriod}
+            handleNewTopLevelPeriod={handleNewTopLevelPeriod}
             handleUpdatePerods={handleUpdatePerods}
-            handleNewPeriods={handleNewPeriods}
+            handleNewSubPeriods={handleNewSubPeriods}
             resetAllPeriods={resetAllPeriods}
           />
         </div>

@@ -1,17 +1,17 @@
-import RemoveButton from "../../Buttons/RemoveButton";
-import RemoveLinksButton from "../../Buttons/RemoveLinksButton";
-import AddMoreButton from "../../Buttons/AddMoreButton";
 import { useSelector } from "react-redux";
-
-const AnnualPeriods = ({
-  removePeriods,
-  handleUpdatePerods,
-}) => {
-  const periodState = useSelector((state) => state.periods.annualPeriodState);
+const AnnualPeriods = ({ handleUpdatePerods }) => {
+  const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
+  const lastSubperiod =
+    topLevelPeirod[topLevelPeirod.length - 1].subPeriods[
+      topLevelPeirod[topLevelPeirod.length - 1].subPeriods.length - 1
+    ];
   return (
     <>
+      {/* {topLevelPeirod.map((subPeirod, index) => (
+        <>hey</>
+      ))} */}
+
       <div className="flex-left">
-   
         <div className="checkbox-inputs input__group field-group-container">
           <section className="flex-left">
             <label htmlFor="">
@@ -25,14 +25,12 @@ const AnnualPeriods = ({
                   type="radio"
                   name={"periodType"}
                   id={"Semester"}
-                  value={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Semester"
-                  }
-                  checked={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Semester"
-                  }
+                  value={lastSubperiod.periodTypeName === "Semester"}
+                  checked={lastSubperiod.periodTypeName === "Semester"}
+                  // checked={
+                  //   topLevelPeirod[topLevelPeirod.length - 1].periodTypeName ===
+                  //   "Semester"
+                  // }
                   onChange={(event) => handleUpdatePerods(event)}
                   tabIndex={9}
                 />
@@ -47,14 +45,8 @@ const AnnualPeriods = ({
                   type="radio"
                   name="periodType"
                   id="Term"
-                  value={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Term"
-                  }
-                  checked={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Term"
-                  }
+                  value={lastSubperiod.periodTypeName === "Term"}
+                  checked={lastSubperiod.periodTypeName === "Term"}
                   onChange={(event) => handleUpdatePerods(event)}
                   tabIndex={9}
                 />
@@ -69,14 +61,8 @@ const AnnualPeriods = ({
                   type="radio"
                   name="periodType"
                   id="Quarter"
-                  value={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Quarter"
-                  }
-                  checked={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Quarter"
-                  }
+                  value={lastSubperiod.periodTypeName === "Quarter"}
+                  checked={lastSubperiod.periodTypeName === "Quarter"}
                   onChange={(event) => handleUpdatePerods(event)}
                   tabIndex={9}
                 />
@@ -94,14 +80,8 @@ const AnnualPeriods = ({
                   type="radio"
                   name="periodType"
                   id="Custom Period"
-                  value={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Custom_Period"
-                  }
-                  checked={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Custom Period"
-                  }
+                  value={lastSubperiod.periodTypeName === "Custom_Period"}
+                  checked={lastSubperiod.periodTypeName === "Custom Period"}
                   onChange={(event) => handleUpdatePerods(event)}
                   tabIndex={9}
                 />

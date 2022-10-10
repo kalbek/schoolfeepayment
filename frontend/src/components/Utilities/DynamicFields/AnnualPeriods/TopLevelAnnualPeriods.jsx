@@ -3,7 +3,7 @@ import RemoveLinksButton from "../../Buttons/RemoveLinksButton";
 import AddMoreButton from "../../Buttons/AddMoreButton";
 import { useSelector } from "react-redux";
 const TopLevelAnnualPeriods = ({ removePeriods, handleUpdatePerods }) => {
-  const periodState = useSelector((state) => state.periods.annualPeriodState);
+  const periodState = useSelector((state) => state.periods.topLevelPeriod);
   return (
     <>
       <div className="flex-left">

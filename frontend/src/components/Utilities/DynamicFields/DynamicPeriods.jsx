@@ -17,22 +17,23 @@ import DateRanges from "./AnnualPeriods/DateRanges";
 const DynamicPeriods = ({
   formData,
   setFormData,
-  handleNewPeriods,
+  handleNewSubPeriods,
   removePeriods,
   handleAnnualPeriodDuration,
   handleUpdatePerods,
+  handleNewTopLevelPeriod,
   handleTopLevelPeriod,
   resetAllPeriods,
 }) => {
-  const formDataPeriod = [...formData.annualPeriod];
-  const periodState = useSelector((state) => state.periods.annualPeriodState);
-  periodState.map(periods => {
-    console.log(periods.topLevelPeriod)
+  const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
+  const lastSubperiod =
+    topLevelPeirod[topLevelPeirod.length - 1].subPeriods[
+      topLevelPeirod[topLevelPeirod.length - 1].subPeriods.length - 1
+    ];
 
-  })
   return (
     <>
-      {/* {console.log(periodState)} */}
+      {/* {console.log(topLevelPeirod)} */}
 
       <div className="flex-cr field-group-container -mt-3">
         <section>
@@ -40,17 +41,18 @@ const DynamicPeriods = ({
             <div className="flex-c">
               <div className="pr1rem flex-end">
                 <div className="flex-left">
-                  <div className="mb-p5">
-                    <TopLevelAnnualPeriods
-                      handleUpdatePerods={handleUpdatePerods}
-                      handleTopLevelPeriod={handleTopLevelPeriod}
-                    />
-                  </div>
-
+                  {topLevelPeirod.length > 1 && (
+                    <div className="mb-p5">
+                      <TopLevelAnnualPeriods
+                        handleUpdatePerods={handleUpdatePerods}
+                        handleTopLevelPeriod={handleTopLevelPeriod}
+                      />
+                    </div>
+                  )}
                   <div className="flex">
                     <AnnualPeriods
                       handleUpdatePerods={handleUpdatePerods}
-                      handleTopLevelPeriod={handleTopLevelPeriod}
+                      handleNewTopLevelPeriod={handleNewTopLevelPeriod}
                     />
                     <Shifts handleUpdatePerods={handleUpdatePerods} />
                   </div>
@@ -58,12 +60,12 @@ const DynamicPeriods = ({
               </div>
             </div>
             <>
-              {periodState.length > 1 ? (
+              {topLevelPeirod.length > 1 ? (
                 <RemoveLinksButton
                   remove={resetAllPeriods}
                   label={
                     "Reset " +
-                    periodState[periodState.length - 1].periodTypeName +
+                    topLevelPeirod[topLevelPeirod.length - 1].periodTypeName +
                     "s"
                   }
                 />
@@ -78,16 +80,14 @@ const DynamicPeriods = ({
             />
             <div className="flex-start mln3">
               <div>
-                {periodState.length > 0 && periodState.length < 20 ? (
+                {topLevelPeirod.length > 0 && topLevelPeirod.length < 20 ? (
                   <AddMoreButton
                     label={
-                      periodState[periodState.length - 1].periodTypeName ===
-                      "Custom"
+                      lastSubperiod.periodTypeName === "Custom"
                         ? "Add One More "
-                        : "Add One More " +
-                          periodState[periodState.length - 1].periodTypeName
+                        : "Add One More " + lastSubperiod.periodTypeName
                     }
-                    handleLinks={handleNewPeriods}
+                    handleLinks={handleNewSubPeriods}
                   />
                 ) : (
                   ""
@@ -95,18 +95,34 @@ const DynamicPeriods = ({
               </div>
             </div>
           </div>
-
           {/* <div className="flex-c">
           <SmallCard formData={formData} />
           <Preview />
         </div> */}
         </section>
         <div>
-          <AddMoreButton
-            label={"Add top-level period"}
-            handleLinks={handleTopLevelPeriod}
-            // index={index}
-          />
+          <div className="checkbox-inputs input__group flex-cs checkbox-group">
+            {/* Checkbox for period based payment */}
+            <label
+              className="checkbox-items flex flex-cs"
+              htmlFor={"newToplevelAnnualPeriod"}
+            >
+              <input
+                type="checkbox"
+                name="topLevelAnnualPeriod"
+                id={"newToplevelAnnualPeriod"}
+                tabIndex={9}
+                // value={topLevelPeirod[topLevelPeirod.length - 1].hasRegularShift}
+                // checked={topLevelPeirod[topLevelPeirod.length - 1].hasRegularShift}
+                onChange={(event) => handleNewTopLevelPeriod(event)}
+              />
+              <>
+                <span>
+                  &nbsp; <p>Add top-level period</p>
+                </span>
+              </>
+            </label>
+          </div>
         </div>
       </div>
     </>
