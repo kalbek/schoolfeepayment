@@ -370,8 +370,8 @@ const DynamicGradesLastBk = ({
                           label={
                             gradeState[gradeState.length - 1]
                               .educationLevelTypeName === "Custom_Level"
-                              ? "Add One More "
-                              : "Add One More " +
+                              ? "Add one more "
+                              : "Add one more " +
                                 gradeState[gradeState.length - 1]
                                   .educationLevelTypeName
                           }

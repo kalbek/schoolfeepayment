@@ -200,7 +200,7 @@
   margin-top: 1rem;
 }
 
-.ml5r{
+.ml5r {
   margin-left: 30rem;
 }
 
@@ -409,6 +409,21 @@
 }
 
 /* POSITIVE MARGINS */
+.ml-p5 {
+  margin-left: 0.5rem;
+}
+.ml-p3 {
+  margin-left: 0.3rem;
+}
+.ml-p2 {
+  margin-left: 0.2rem;
+}
+.ml-p1 {
+  margin-left: 0.1rem;
+}
+.ml-1 {
+  margin-left: 1rem;
+}
 .mt-1 {
   margin-top: 1rem;
 }
@@ -440,7 +455,6 @@
 .-ml-4 {
   margin-left: -4rem;
 }
-
 
 .-mt-1 {
   margin-top: -1rem;

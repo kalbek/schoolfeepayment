@@ -33,18 +33,6 @@ const initialState = {
       ],
     },
   ],
-  // id: 0,
-  // periodTypeName: "Semester",
-  // periodName: "",
-  // shiftName: "regularShift",
-  // periodStartDate: new Date().toISOString(),
-  // periodEndDate: new Date().toISOString(),
-  // hasRegularShift: true,
-  // hasExtensionShift: false,
-  // hasWeekendShift: false,
-  // hasCustomShift: false,
-  // customShiftName: "",
-  // periodToUpdate: "periodType",
 };
 
 export const periodSlice = createSlice({
@@ -56,7 +44,7 @@ export const periodSlice = createSlice({
 
     // The new action
     createTopLevelPeriods: (state, action) => {
-      state.annualPeriodState.push(action.payload);
+      state.topLevelPeriod.push(action.payload);
     },
     createSubPeriods: (state, action) => {
       console.log("topLevelId: " + action.payload.topLevelId);
@@ -67,23 +55,8 @@ export const periodSlice = createSlice({
       });
     },
 
-    updateTopLevelPeriods: (state, action) => {
-      state.annualPeriodState.map((period) => {
-        if (period.Id === action.payload.TopLevelId) {
-          // To do updatation
-          period.periodTypeName = action.payload.periodTypeName;
-          period.periodName = action.payload.periodName;
-          period.shiftName = action.payload.shiftName;
-          period.periodStartDate = action.payload.periodStartDate;
-          period.periodEndDate = action.payload.periodEndDate;
-          period.hasRegularShift = action.payload.hasRegularShift;
-          period.hasExtensionShift = action.payload.hasExtensionShift;
-          period.hasWeekendShift = action.payload.hasWeekendShift;
-          period.hasCustomShift = action.payload.hasCustomShift;
-          period.customShiftName = action.payload.customShiftName;
-          period.periodToUpdate = action.payload.periodToUpdate;
-        }
-      });
+    includeTopLevelPeriods: (state, action) => {
+      state.topLevelPeriod[0].value = action.payload.value;
     },
 
     updateSubPeriods: (state, action) => {
@@ -100,12 +73,7 @@ export const periodSlice = createSlice({
 
     // End of the new action
     createSubPeriods: (state, action) => {
-      // state.topLevelPeriod.push(action.payload);
-      // console.log("action.payload.topLevelId: " + action.payload.topLevelId);
-      // console.log(action.payload.subPeriod);
       state.topLevelPeriod.map((toplevelPeriod) => {
-        // console.log(current(toplevelPeriod).subPeriods);
-        // console.log(toplevelPeriod.id);
         if (toplevelPeriod.id === action.payload.topLevelId) {
           toplevelPeriod.subPeriods.push(action.payload.subPeriod);
         }
@@ -160,12 +128,23 @@ export const periodSlice = createSlice({
     },
 
     deletePeriods: (state, action) => {
-      state.annualPeriodState = state.annualPeriodState.filter(
-        (period) => period.id !== action.payload.id
-      );
-      state.annualPeriodState.map((period) => {
-        if (period.id > action.payload.id) {
-          period.id -= 1;
+      state.topLevelPeriod.map((topLevel) => {
+        console.log(current(topLevel).subPeriods);
+        if (topLevel.id === action.payload.topLevelId) {
+          topLevel.subPeriods = topLevel.subPeriods.filter(
+            (subPeriod) => subPeriod.id != action.payload.id
+          );
+        }
+        console.log(current(topLevel).subPeriods);
+      });
+
+      state.topLevelPeriod.map((toplevelPeriod) => {
+        if (toplevelPeriod.id === action.payload.topLevelId) {
+          toplevelPeriod.subPeriods.map((subPeriod) => {
+            if (subPeriod.id > action.payload.id) {
+              subPeriod.id -= 1;
+            }
+          });
         }
       });
     },
@@ -181,6 +160,7 @@ export const periodSlice = createSlice({
 export const {
   createTopLevelPeriods,
   createSubPeriods,
+  includeTopLevelPeriods,
   updatePeriods,
   deletePeriods,
   resetPeriods,

@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 const Shifts = ({ handleUpdatePerods }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
+  
   return (
     <>
       <div className="checkbox-inputs input__group field-group-container">

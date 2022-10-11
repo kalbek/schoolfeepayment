@@ -2,12 +2,12 @@ import { useSelector } from "react-redux";
 import RemoveButton from "../Utilities/Buttons/RemoveButton";
 import AddMoreButton from "../Utilities/Buttons/AddMoreButton";
 const Department = ({
-  formData,
-  setFormData,
-  handleNewGrades,
-  removeGrades,
-  handleUpdateGrades,
-  resetAllGrades,
+   ,
+   ,
+   ,
+   ,
+   ,
+   ,
 }) => {
   const gradeState = useSelector((state) => state.grades.gradeDivisionState);
   const selectedDivisoinName = gradeState[gradeState.length - 1].divisionName;
@@ -36,15 +36,11 @@ const Department = ({
                         {selectedDivisoinName === "StagesDivison"
                           ? "Stages"
                           : ""}
-                        {console.log(
-                          gradeState[gradeState.length - 1].divisionName
-                        )}
                       </p>
                     </label>
                     <br />
                   </div>
                 </div>
-
                 <div className="remove-periods-icon flex-c">
                   {gradeState.length > 1 ? (
                     <>
@@ -61,20 +57,20 @@ const Department = ({
         ))}
       </section>
       {gradeState.length > 0 && gradeState.length < 20 ? (
-                    <>
-                      <AddMoreButton
-                        label={
-                          gradeState[gradeState.length - 1].divisionName ===
-                          "Custom_Division"
-                            ? "Add One more"
-                            : "Add one more " +
-                              gradeState[gradeState.length - 1].divisionName
-                        }
-                      />
-                    </>
-                  ) : (
-                    <></>
-                  )}
+        <>
+          <AddMoreButton
+            label={
+              gradeState[gradeState.length - 1].divisionName ===
+              "Custom_Division"
+                ? "Add one more"
+                : "Add one more " +
+                  gradeState[gradeState.length - 1].divisionName
+            }
+          />
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
