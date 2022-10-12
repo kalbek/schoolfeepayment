@@ -55,9 +55,11 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
 
   const handleTopLevelPeriodUpdate = (event, index) => {
-    const { id } = event.target;
+    const { id, name, value } = event.target;
     dispatch(
       updateTopLevelAnnualPeriod({
+        inputControlType: name,
+        value: value,
         periodIndex: index,
         periodTypeName: id,
       })

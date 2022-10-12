@@ -20,6 +20,7 @@ const TopLevelAnnualPeriods = ({ handleTopLevelPeriodUpdate, index }) => {
                   <input
                     className="form-radio-button"
                     type="radio"
+                    name="topLevelPeriodRadio"
                     id="TopQuarter"
                     checked={periodState[index].periodTypeName === "TopQuarter"}
                     onChange={(event) =>
@@ -36,6 +37,7 @@ const TopLevelAnnualPeriods = ({ handleTopLevelPeriodUpdate, index }) => {
                   <input
                     className="form-radio-button"
                     type="radio"
+                    name="topLevelPeriodRadio"
                     id="TopTerm"
                     checked={periodState[index].periodTypeName === "TopTerm"}
                     onChange={(event) =>
@@ -54,6 +56,7 @@ const TopLevelAnnualPeriods = ({ handleTopLevelPeriodUpdate, index }) => {
                 >
                   <input
                     type="radio"
+                    name="topLevelPeriodRadio"
                     id={"TopSemester"}
                     checked={
                       periodState[index].periodTypeName === "TopSemester"
@@ -77,6 +80,8 @@ const TopLevelAnnualPeriods = ({ handleTopLevelPeriodUpdate, index }) => {
                     <input
                       className="form-radio-button"
                       type="radio"
+                      name="topLevelPeriodRadio"
+                      value={periodState[index].periodTypeName}
                       id="TopCustom Period"
                       checked={
                         periodState[index].periodTypeName ===
@@ -98,8 +103,8 @@ const TopLevelAnnualPeriods = ({ handleTopLevelPeriodUpdate, index }) => {
                       <div className="flex-cr inputs input--medium ">
                         <input
                           type="text"
+                          name="topLevelPeriodText"
                           // value={subPeriod.periodName}
-                          name="periodDetails"
                           id="periodDescription"
                           placeholder="Custom Period Name"
                           tabIndex={1}

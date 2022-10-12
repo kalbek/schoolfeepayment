@@ -75,14 +75,19 @@ export const periodSlice = createSlice({
     updateTopLevelAnnualPeriod: (state, action) => {
       state.topLevelPeriod.map((periodState) => {
         if (periodState.id === action.payload.periodIndex) {
-          if (action.payload.periodTypeName === "TopQuarter") {
-            periodState.periodTypeName = "TopQuarter";
-          } else if (action.payload.periodTypeName === "TopTerm") {
-            periodState.periodTypeName = "TopTerm";
-          } else if (action.payload.periodTypeName === "TopSemester") {
-            periodState.periodTypeName = "TopSemester";
-          } else if (action.payload.periodTypeName === "TopCustom Period") {
-            periodState.periodTypeName = "TopCustom Period";
+          if (action.payload.inputControlType === "topLevelPeriodRadio") {
+            if (action.payload.periodTypeName === "TopQuarter") {
+              periodState.periodTypeName = "TopQuarter";
+            } else if (action.payload.periodTypeName === "TopTerm") {
+              periodState.periodTypeName = "TopTerm";
+            } else if (action.payload.periodTypeName === "TopSemester") {
+              periodState.periodTypeName = "TopSemester";
+            } else if (action.payload.periodTypeName === "TopCustom Period") {
+              periodState.periodTypeName = "TopCustom Period";
+            }
+          }
+          else if (action.payload.inputControlType === "topLevelPeriodRadio") {
+            periodState.periodTypeName = action.payload.value
           }
         }
       });
