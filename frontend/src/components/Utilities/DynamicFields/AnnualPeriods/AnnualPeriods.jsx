@@ -7,7 +7,7 @@ const AnnualPeriods = ({ handleUpdateSubperiods, index }) => {
   //     topLevelPeirod[index].subPeriods.length - 1
   //   ];
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
- 
+
   return (
     <>
       <div className="flex-left">

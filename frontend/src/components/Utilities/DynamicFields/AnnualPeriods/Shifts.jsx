@@ -5,6 +5,7 @@ const Shifts = ({ handlePeriodShifts, index }) => {
   return (
     <>
       <div className="checkbox-inputs input__group field-group-container">
+        {/* {console.log(index + ": " + periodState[index].hasRegularShift)} */}
         <section className="flex-left">
           <label htmlFor="">
             <h3>Shifts</h3>
@@ -20,7 +21,7 @@ const Shifts = ({ handlePeriodShifts, index }) => {
                 name="periodShift"
                 id={"regularShift"}
                 tabIndex={9}
-                value={periodState[index].hasRegularShift}
+                // value={periodState[index].hasRegularShift}
                 checked={periodState[index].hasRegularShift}
                 onChange={(event) => handlePeriodShifts(event, index)}
               />
@@ -39,7 +40,7 @@ const Shifts = ({ handlePeriodShifts, index }) => {
                 type="checkbox"
                 name="periodShift"
                 id={"extensionShift"}
-                value={periodState[index].hasExtensionShift}
+                // value={periodState[index].hasExtensionShift}
                 checked={periodState[index].hasExtensionShift}
                 onChange={(event) => handlePeriodShifts(event, index)}
                 tabIndex={9}
@@ -59,7 +60,7 @@ const Shifts = ({ handlePeriodShifts, index }) => {
                 type="checkbox"
                 name="periodShift"
                 id={"weekendShift"}
-                value={periodState[index].hasWeekendShift}
+                // value={periodState[index].hasWeekendShift}
                 checked={periodState[index].hasWeekendShift}
                 onChange={(event) => handlePeriodShifts(event, index)}
                 tabIndex={9}
@@ -79,7 +80,7 @@ const Shifts = ({ handlePeriodShifts, index }) => {
                 type="checkbox"
                 name="periodShift"
                 id={"customShift"}
-                value={periodState[index].hasCustomShift}
+                // value={periodState[index].hasCustomShift}
                 checked={periodState[index].hasCustomShift}
                 onChange={(event) => handlePeriodShifts(event, index)}
                 tabIndex={9}

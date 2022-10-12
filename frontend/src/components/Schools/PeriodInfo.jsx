@@ -7,6 +7,7 @@ import {
   includeTopLevelPeriods,
   updateTopLevelAnnualPeriod,
   updateSubperiods,
+  updateShifts,
   deletePeriods,
   resetPeriods,
 } from "../../features/SchoolPeriods/annualPeriodSlice";
@@ -54,6 +55,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
 
   const handleTopLevelPeriodUpdate = (event, index) => {
+    console.log("index: " + index)
     const { id } = event.target;
     dispatch(
       updateTopLevelAnnualPeriod({
@@ -64,12 +66,11 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
   const handlePeriodShifts = (event, index) => {
     const { id } = event.target;
-    console.log("id: " + id)
+    // console.log("id: " + id)
     console.log("index: " + index)
     topLevelPeirod.map((period) => {
-      if (period.id === index) {
         dispatch(
-          updateTopLevelAnnualPeriod({
+          updateShifts({
             periodIndex: index,
             shiftName: id,
             hasRegularShift: !period.hasRegularShift,
@@ -78,7 +79,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
             hasCustomShift: !period.hasCustomShift,
           })
         );
-      }
     });
   };
 
