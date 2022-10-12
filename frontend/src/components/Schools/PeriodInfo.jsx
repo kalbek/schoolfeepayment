@@ -5,14 +5,17 @@ import {
   createSubPeriods,
   createTopLevelPeriods,
   includeTopLevelPeriods,
-  updatePeriods,
+  updateTopLevelAnnualPeriod,
+  updateSubperiods,
   deletePeriods,
   resetPeriods,
 } from "../../features/SchoolPeriods/annualPeriodSlice";
+
 const PeriodInfo = ({ formData, setFormData }) => {
   const formDataPeriod = [...formData.annualPeriod];
   const dispatch = useDispatch();
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
+
   const handleNewSubPeriods = () => {
     topLevelPeirod.map((topLevelPeirod) => {
       const lastSubPeriod =
@@ -40,16 +43,62 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
 
   const includeTopLevelPeriod = () => {
-        dispatch(includeTopLevelPeriods({value: !topLevelPeirod[0].value}))
-  }
+    dispatch(includeTopLevelPeriods({ value: !topLevelPeirod[0].value }));
+    if (topLevelPeirod[0].value === false) {
+      dispatch(
+        updateTopLevelAnnualPeriod({
+          periodTypeName: "TopQuarter",
+        })
+      );
+    }
+  };
 
+  const handleTopLevelPeriodUpdate = (event, index) => {
+    const { id } = event.target;
+    dispatch(
+      updateTopLevelAnnualPeriod({
+        periodIndex: index,
+        periodTypeName: id,
+      })
+    );
+  };
+  const handlePeriodShifts = (event, index) => {
+    const { id } = event.target;
+    console.log("id: " + id)
+    console.log("index: " + index)
+    topLevelPeirod.map((period) => {
+      if (period.id === index) {
+        dispatch(
+          updateTopLevelAnnualPeriod({
+            periodIndex: index,
+            shiftName: id,
+            hasRegularShift: !period.hasRegularShift,
+            hasExtensionShift: !period.hasExtensionShift,
+            hasWeekendShift: !period.hasWeekendShift,
+            hasCustomShift: !period.hasCustomShift,
+          })
+        );
+      }
+    });
+  };
+
+  const handleUpdateSubperiods = (event, index) => {
+    const { id } = event.target;
+    dispatch(
+      updateSubperiods({
+        periodIndex: index,
+        subperiodTypeName: id,
+      })
+    );
+  };
   const handleNewTopLevelPeriod = () => {
     dispatch(
       createTopLevelPeriods({
         id: topLevelPeirod.length,
         value: false,
-        periodTypeName: "Semester",
+        periodTypeName: "TopQuarter",
         periodName: "",
+        subperiodTypeName: "Semester",
         shiftName: "regularShift",
         periodStartDate: new Date().toISOString(),
         periodEndDate: new Date().toISOString(),
@@ -87,28 +136,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
     // console.log("index: " + index)
   };
 
-  const handleUpdatePerods = (event, index, subPeriodIndex) => {
-    const { id, name, value } = event.target;
-    topLevelPeirod.map((basePeriod) => {
-      dispatch(
-        updatePeriods({
-          // topLevelPeirodId: index,
-          subPeriodId: subPeriodIndex,
-          periodToUpdate: name,
-          periodTypeName: id,
-          periodDetailsType: id,
-          shiftName: id,
-          periodName: value,
-          periodStartDate: value,
-          periodEndDate: value,
-          hasRegularShift: !basePeriod.hasRegularShift,
-          hasExtensionShift: !basePeriod.hasExtensionShift,
-          hasWeekendShift: !basePeriod.hasWeekendShift,
-          hasCustomShift: !basePeriod.hasCustomShift,
-        })
-      );
-    });
-  };
   const resetAllPeriods = () => {
     if (topLevelPeirod.length > 0) {
       dispatch(resetPeriods({ id: topLevelPeirod[0].id }));
@@ -137,7 +164,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
   function handleAnnualPeriodDuration(date, index, subPeriodIndex) {
     const { name, value, id } = date.target;
     dispatch(
-      updatePeriods({
+      updateSubperiods({
         id: index,
         subPeriodId: subPeriodIndex,
         periodToUpdate: name,
@@ -175,9 +202,11 @@ const PeriodInfo = ({ formData, setFormData }) => {
             removePeriods={removePeriods}
             handleAnnualPeriodDuration={handleAnnualPeriodDuration}
             handleTopLevelPeriod={handleTopLevelPeriod}
+            handlePeriodShifts={handlePeriodShifts}
             handleNewTopLevelPeriod={handleNewTopLevelPeriod}
+            handleTopLevelPeriodUpdate={handleTopLevelPeriodUpdate}
             includeTopLevelPeriod={includeTopLevelPeriod}
-            handleUpdatePerods={handleUpdatePerods}
+            handleUpdateSubperiods={handleUpdateSubperiods}
             handleNewSubPeriods={handleNewSubPeriods}
             resetAllPeriods={resetAllPeriods}
           />

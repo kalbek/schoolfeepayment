@@ -1,8 +1,5 @@
-import RemoveButton from "../../Buttons/RemoveButton";
-import RemoveLinksButton from "../../Buttons/RemoveLinksButton";
-import AddMoreButton from "../../Buttons/AddMoreButton";
 import { useSelector } from "react-redux";
-const TopLevelAnnualPeriods = ({ removePeriods, handleUpdatePerods }) => {
+const TopLevelAnnualPeriods = ({ handleTopLevelPeriodUpdate, index }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
   return (
     <>
@@ -13,97 +10,111 @@ const TopLevelAnnualPeriods = ({ removePeriods, handleUpdatePerods }) => {
               <h3>Top-level Annual Period</h3>
             </label>
             <div className="flex-cs">{/* School Shifts */}</div>
-            <div className="flex-cs checkbox-group">
-              {/* Radio buttons for semesters */}
-              <label className="checkbox-items flex flex-cs" id={"Semester"}>
-                <input
-                  type="radio"
-                  name={"periodType"}
-                  id={"Semester"}
-                  value={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Semester"
-                  }
-                  checked={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Semester"
-                  }
-                  onChange={(event) => handleUpdatePerods(event)}
-                  tabIndex={9}
-                />
-                <span>
-                  &nbsp; <p>Semesters</p>
-                </span>
-              </label>
-              {/* Radio buttons for terms */}
-              <label className="checkbox-items flex flex-cs" id={"Term"}>
-                <input
-                  className="form-radio-button"
-                  type="radio"
-                  name="periodType"
-                  id="Term"
-                  value={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Term"
-                  }
-                  checked={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Term"
-                  }
-                  onChange={(event) => handleUpdatePerods(event)}
-                  tabIndex={9}
-                />
-                <span>
-                  &nbsp; <p>Terms</p>
-                </span>
-              </label>
-              {/* Radio buttons for quarters */}
-              <label className="checkbox-items flex flex-cs" id={"Quarter"}>
-                <input
-                  className="form-radio-button"
-                  type="radio"
-                  name="periodType"
-                  id="Quarter"
-                  value={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Quarter"
-                  }
-                  checked={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Quarter"
-                  }
-                  onChange={(event) => handleUpdatePerods(event)}
-                  tabIndex={9}
-                />
-                <span>
-                  &nbsp; <p>Quarters</p>
-                </span>
-              </label>
-              {/* Radio buttons for other periods */}
-              <label
-                className="checkbox-items flex flex-cs"
-                id={"Custom_Period"}
-              >
-                <input
-                  className="form-radio-button"
-                  type="radio"
-                  name="periodType"
-                  id="Custom Period"
-                  value={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Custom_Period"
-                  }
-                  checked={
-                    periodState[periodState.length - 1].periodTypeName ===
-                    "Custom Period"
-                  }
-                  onChange={(event) => handleUpdatePerods(event)}
-                  tabIndex={9}
-                />
-                <span>
-                  &nbsp; <p>Custom &nbsp; &nbsp; </p>
-                </span>
-              </label>
+            <div className="flex-ccc gapfull">
+              <div className="flex-cs checkbox-group">
+                {/* Radio buttons for quarters */}
+                <label
+                  className="checkbox-items flex flex-cs"
+                  id={"TopQuarter"}
+                >
+                  <input
+                    className="form-radio-button"
+                    type="radio"
+                    id="TopQuarter"
+                    checked={periodState[index].periodTypeName === "TopQuarter"}
+                    onChange={(event) =>
+                      handleTopLevelPeriodUpdate(event, index)
+                    }
+                    tabIndex={9}
+                  />
+                  <span>
+                    &nbsp; <p>Quarters</p>
+                  </span>
+                </label>
+                {/* Radio buttons for terms */}
+                <label className="checkbox-items flex flex-cs" id={"TopTerm"}>
+                  <input
+                    className="form-radio-button"
+                    type="radio"
+                    id="TopTerm"
+                    checked={periodState[index].periodTypeName === "TopTerm"}
+                    onChange={(event) =>
+                      handleTopLevelPeriodUpdate(event, index)
+                    }
+                    tabIndex={10}
+                  />
+                  <span>
+                    &nbsp; <p>Terms</p>
+                  </span>
+                </label>
+                {/* Radio buttons for semesters */}
+                <label
+                  className="checkbox-items flex flex-cs"
+                  id={"TopSemester"}
+                >
+                  <input
+                    type="radio"
+                    id={"TopSemester"}
+                    checked={
+                      periodState[index].periodTypeName === "TopSemester"
+                    }
+                    onChange={(event) =>
+                      handleTopLevelPeriodUpdate(event, index)
+                    }
+                    tabIndex={9}
+                  />
+                  <span>
+                    &nbsp; <p>Semesters</p>
+                  </span>
+                </label>
+
+                {/* Radio buttons for other periods */}
+                <>
+                  <label
+                    className="checkbox-items flex flex-cs"
+                    id={"TopCustom Period"}
+                  >
+                    <input
+                      className="form-radio-button"
+                      type="radio"
+                      id="TopCustom Period"
+                      checked={
+                        periodState[index].periodTypeName ===
+                        "TopCustom Period"
+                      }
+                      onChange={(event) =>
+                        handleTopLevelPeriodUpdate(event, index)
+                      }
+                      tabIndex={9}
+                    />
+                    <span>
+                      &nbsp; <p>Custom &nbsp; &nbsp; </p>
+                    </span>
+                  </label>
+
+                  {/* <div className="ml-1p5"></div> */}
+                  {periodState[index].periodTypeName === "TopCustom Period" && (
+                    <div className="-mt-1p5 ml-1 pr-8">
+                      <div className="flex-cr inputs input--medium ">
+                        <input
+                          type="text"
+                          // value={subPeriod.periodName}
+                          name="periodDetails"
+                          id="periodDescription"
+                          placeholder="Custom Period Name"
+                          tabIndex={1}
+                          // onChange={(event) =>
+                          //   handleUpdateCustomTopPerod(event)
+                          // }
+                        />
+                        <br />
+                      </div>
+                    </div>
+                  )}
+                </>
+
+                {/* Input box for custom  */}
+              </div>
             </div>
           </section>
         </div>

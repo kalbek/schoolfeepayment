@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-const Shifts = ({ handleUpdatePerods }) => {
+const Shifts = ({ handlePeriodShifts, index }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
-  
+
   return (
     <>
       <div className="checkbox-inputs input__group field-group-container">
@@ -20,9 +20,9 @@ const Shifts = ({ handleUpdatePerods }) => {
                 name="periodShift"
                 id={"regularShift"}
                 tabIndex={9}
-                value={periodState[periodState.length - 1].hasRegularShift}
-                checked={periodState[periodState.length - 1].hasRegularShift}
-                onChange={(event) => handleUpdatePerods(event)}
+                value={periodState[index].hasRegularShift}
+                checked={periodState[index].hasRegularShift}
+                onChange={(event) => handlePeriodShifts(event, index)}
               />
               <>
                 <span>
@@ -30,7 +30,6 @@ const Shifts = ({ handleUpdatePerods }) => {
                 </span>
               </>
             </label>
-
             {/*Checkbox for extension shift */}
             <label
               className="checkbox-items flex flex-cs"
@@ -40,9 +39,9 @@ const Shifts = ({ handleUpdatePerods }) => {
                 type="checkbox"
                 name="periodShift"
                 id={"extensionShift"}
-                value={periodState[periodState.length - 1].hasExtensionShift}
-                checked={periodState[periodState.length - 1].hasExtensionShift}
-                onChange={(event) => handleUpdatePerods(event)}
+                value={periodState[index].hasExtensionShift}
+                checked={periodState[index].hasExtensionShift}
+                onChange={(event) => handlePeriodShifts(event, index)}
                 tabIndex={9}
               />
               <>
@@ -51,7 +50,6 @@ const Shifts = ({ handleUpdatePerods }) => {
                 </span>
               </>
             </label>
-
             {/*Checkbox for weekend shift*/}
             <label
               htmlFor={"weekendShift"}
@@ -61,9 +59,9 @@ const Shifts = ({ handleUpdatePerods }) => {
                 type="checkbox"
                 name="periodShift"
                 id={"weekendShift"}
-                value={periodState[periodState.length - 1].hasWeekendShift}
-                checked={periodState[periodState.length - 1].hasWeekendShift}
-                onChange={(event) => handleUpdatePerods(event)}
+                value={periodState[index].hasWeekendShift}
+                checked={periodState[index].hasWeekendShift}
+                onChange={(event) => handlePeriodShifts(event, index)}
                 tabIndex={9}
               />
               <>
@@ -81,9 +79,9 @@ const Shifts = ({ handleUpdatePerods }) => {
                 type="checkbox"
                 name="periodShift"
                 id={"customShift"}
-                value={periodState[periodState.length - 1].hasCustomShift}
-                checked={periodState[periodState.length - 1].hasCustomShift}
-                onChange={(event) => handleUpdatePerods(event)}
+                value={periodState[index].hasCustomShift}
+                checked={periodState[index].hasCustomShift}
+                onChange={(event) => handlePeriodShifts(event, index)}
                 tabIndex={9}
               />
               <>

@@ -20,7 +20,10 @@ const DynamicPeriods = ({
   handleNewSubPeriods,
   removePeriods,
   handleAnnualPeriodDuration,
+  handleTopLevelPeriodUpdate,
   handleUpdatePerods,
+  handlePeriodShifts,
+  handleUpdateSubperiods,
   handleNewTopLevelPeriod,
   includeTopLevelPeriod,
   handleTopLevelPeriod,
@@ -33,7 +36,7 @@ const DynamicPeriods = ({
     ];
   return (
     <>
-      <div className=" -mt-3">
+      <div className="-mt-3">
         <div>
           <div className="checkbox-inputs input__group flex-cs checkbox-group ml-p3">
             {/* Checkbox for period based payment */}
@@ -59,7 +62,14 @@ const DynamicPeriods = ({
           </div>
         </div>
         {topLevelPeirod.map((period, index) => (
-          <div key={index} className="flex-cr field-group-container">
+          <div
+            key={index}
+            className={
+              topLevelPeirod[0].value
+                ? "flex-cr field-group-container"
+                : "flex-cr"
+            }
+          >
             <section>
               <div className="flex-c">
                 <div className="pr1rem flex-end">
@@ -68,21 +78,28 @@ const DynamicPeriods = ({
                       <div className="mb-p5">
                         <TopLevelAnnualPeriods
                           handleUpdatePerods={handleUpdatePerods}
-                          handleTopLevelPeriod={handleTopLevelPeriod}
+                          handleTopLevelPeriodUpdate={
+                            handleTopLevelPeriodUpdate
+                          }
+                          index={index}
                         />
                       </div>
                     )}
                     <div className="flex">
                       <AnnualPeriods
-                        handleUpdatePerods={handleUpdatePerods}
+                        handleUpdateSubperiods={handleUpdateSubperiods}
                         handleNewTopLevelPeriod={handleNewTopLevelPeriod}
+                        index={index}
                       />
-                      <Shifts handleUpdatePerods={handleUpdatePerods} />
+                      <Shifts
+                        handlePeriodShifts={handlePeriodShifts}
+                        index={index}
+                      />
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex-c">
+              <div className="flex-c -ml-p7">
                 <DateRanges
                   handleUpdatePerods={handleUpdatePerods}
                   handleAnnualPeriodDuration={handleAnnualPeriodDuration}
@@ -104,6 +121,7 @@ const DynamicPeriods = ({
                             lastSubperiod.periodTypeName.slice(1)
                       }
                       handleLinks={handleNewSubPeriods}
+                      index={index}
                     />
                   ) : (
                     ""
@@ -125,7 +143,6 @@ const DynamicPeriods = ({
             )}
           </div>
         </div>
-
         {/* <div className="flex-c">
           <SmallCard formData={formData} />
           <Preview />
