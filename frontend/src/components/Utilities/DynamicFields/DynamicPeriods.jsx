@@ -88,7 +88,6 @@ const DynamicPeriods = ({
                     <div className="flex">
                       <AnnualPeriods
                         handleUpdateSubperiods={handleUpdateSubperiods}
-                        handleNewTopLevelPeriod={handleNewTopLevelPeriod}
                         index={index}
                       />
                       <Shifts

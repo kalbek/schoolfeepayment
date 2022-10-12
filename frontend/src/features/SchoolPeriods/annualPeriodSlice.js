@@ -118,16 +118,28 @@ export const periodSlice = createSlice({
     updateShifts: (state, action) => {
       state.topLevelPeriod.map((periodState) => {
         if (periodState.id === action.payload.periodIndex) {
-          if (action.payload.shiftName === "regularShift") {
+          if (
+            action.payload.shiftName ===
+            "regularShift" + action.payload.periodIndex
+          ) {
             periodState.hasRegularShift = action.payload.hasRegularShift;
           }
-          if (action.payload.shiftName === "extensionShift") {
+          if (
+            action.payload.shiftName ===
+            "extensionShift" + action.payload.periodIndex
+          ) {
             periodState.hasExtensionShift = action.payload.hasExtensionShift;
           }
-          if (action.payload.shiftName === "weekendShift") {
+          if (
+            action.payload.shiftName ===
+            "weekendShift" + action.payload.periodIndex
+          ) {
             periodState.hasWeekendShift = action.payload.hasWeekendShift;
           }
-          if (action.payload.shiftName === "customShift") {
+          if (
+            action.payload.shiftName ===
+            "customShift" + action.payload.periodIndex
+          ) {
             periodState.hasCustomShift = action.payload.hasCustomShift;
           }
         }

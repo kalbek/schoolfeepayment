@@ -55,7 +55,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
 
   const handleTopLevelPeriodUpdate = (event, index) => {
-    console.log("index: " + index)
     const { id } = event.target;
     dispatch(
       updateTopLevelAnnualPeriod({
@@ -66,9 +65,10 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
   const handlePeriodShifts = (event, index) => {
     const { id } = event.target;
-    // console.log("id: " + id)
-    console.log("index: " + index)
+    console.log("id: " + id);
+    console.log("index: " + index);
     topLevelPeirod.map((period) => {
+      if (period.id === index) {
         dispatch(
           updateShifts({
             periodIndex: index,
@@ -79,6 +79,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
             hasCustomShift: !period.hasCustomShift,
           })
         );
+      }
     });
   };
 
