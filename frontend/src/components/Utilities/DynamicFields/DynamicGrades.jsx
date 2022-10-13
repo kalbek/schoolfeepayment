@@ -357,7 +357,6 @@ const DynamicGrades = ({
                   ) : (
                     ""
                   )}
-
                   {/* Add sections for educational subdivisons */}
                 </div>
               </div>
@@ -367,7 +366,6 @@ const DynamicGrades = ({
           </div>
         ))}
       </div>
-
       {/* BUTTON TO ADD A NEW EDUCATIONAL DIVISION CONTROL */}
       <div className="input-group__container flex-start pt2">
         <div>

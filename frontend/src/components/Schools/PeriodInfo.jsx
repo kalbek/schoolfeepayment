@@ -1,11 +1,14 @@
 import DynamicPeriods from "../Utilities/DynamicFields/DynamicPeriods";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import {
   createSubPeriods,
   createTopLevelPeriods,
   includeTopLevelPeriods,
+  resetToplevelPeriod,
   updateTopLevelAnnualPeriod,
   updateSubperiods,
+  deleteToplevelPeriod,
   updateShifts,
   deletePeriods,
   resetPeriods,
@@ -15,7 +18,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
   const formDataPeriod = [...formData.annualPeriod];
   const dispatch = useDispatch();
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
-
+  const lastToplevelPeriod = topLevelPeirod[topLevelPeirod.length - 1];
   const handleNewSubPeriods = (index) => {
     console.log("index is: " + index);
     topLevelPeirod.map((topLevelPeirod) => {
@@ -45,9 +48,11 @@ const PeriodInfo = ({ formData, setFormData }) => {
     });
   };
 
-  const includeTopLevelPeriod = () => {
-    dispatch(includeTopLevelPeriods({ value: !topLevelPeirod[0].value }));
+  // Watch out for first top level value
+  useEffect(() => {
     if (topLevelPeirod[0].value === false) {
+      console.log("inside");
+      dispatch(resetToplevelPeriod({ id: topLevelPeirod[0].id }));
       dispatch(
         updateTopLevelAnnualPeriod({
           periodIndex: 0,
@@ -56,7 +61,27 @@ const PeriodInfo = ({ formData, setFormData }) => {
         })
       );
     }
+    console.log("useEffect: "+ topLevelPeirod[0].value)
+
+  },[topLevelPeirod[0].value])
+  const includeTopLevelPeriod = () => {
+    console.log("hey: " + topLevelPeirod[0].value);
+    dispatch(
+      includeTopLevelPeriods({ id: 0, value: !topLevelPeirod[0].value })
+    );
+    
+
+    console.log("first is: " + topLevelPeirod[0].value);
   };
+
+  function removeToplevelPeriod(index) {
+    dispatch(deleteToplevelPeriod({ id: index }));
+    // if (topLevelPeirod.length === 2) {
+    //   console.log("hdflsdk");
+    //   dispatch(includeTopLevelPeriods({ id: index, value: false }));
+    // }
+    console.log(topLevelPeirod.length);
+  }
 
   const handleTopLevelPeriodUpdate = (event, index) => {
     const { id, name, value } = event.target;
@@ -106,7 +131,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
         dispatch(
           createTopLevelPeriods({
             id: index,
-            value: false,
+            value: true,
             periodTypeName: "Quarter",
             subperiodTypeName: "Semester",
             periodName: "",
@@ -240,6 +265,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
             handleAnnualPeriodDuration={handleAnnualPeriodDuration}
             handleTopLevelPeriod={handleTopLevelPeriod}
             handleUpdateCustomTopPeriod={handleUpdateCustomTopPeriod}
+            removeToplevelPeriod={removeToplevelPeriod}
             handlePeriodShifts={handlePeriodShifts}
             handleNewTopLevelPeriod={handleNewTopLevelPeriod}
             handleUpdateCustomSubPeriod={handleUpdateCustomSubPeriod}

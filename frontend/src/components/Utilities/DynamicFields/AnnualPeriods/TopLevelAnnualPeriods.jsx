@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
+import DeleteButton from "../../Buttons/DeleteButton";
 const TopLevelAnnualPeriods = ({
   handleTopLevelPeriodUpdate,
   handleUpdateCustomTopPeriod,
+  removeToplevelPeriod,
   index,
 }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
@@ -10,6 +12,11 @@ const TopLevelAnnualPeriods = ({
     <>
       <div className="flex-left">
         <div className="checkbox-inputs input__group field-group-container">
+          <div className="ml-100 pointer">
+            {periodState.length > 1 && (
+              <DeleteButton deleteAction={removeToplevelPeriod} index={index} />
+            )}
+          </div>
           <section className="flex-left">
             <label htmlFor="">
               <h3>Top-level Annual Period</h3>

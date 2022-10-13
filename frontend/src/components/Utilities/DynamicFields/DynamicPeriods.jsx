@@ -2,6 +2,7 @@ import RemoveButton from "../Buttons/RemoveButton";
 import RemoveLinksButton from "../Buttons/RemoveLinksButton";
 import "../../../Styles/dynamicButtonsStyle.css";
 import AddMoreButton from "../Buttons/AddMoreButton";
+import DeleteButton from "../Buttons/DeleteButton";
 import { useSelector } from "react-redux";
 import SmallCard from "../Cards/SmallCard";
 import Preview from "../Buttons/Preview";
@@ -23,6 +24,7 @@ const DynamicPeriods = ({
   handleTopLevelPeriodUpdate,
   handleUpdateCustomTopPeriod,
   handleUpdateCustomSubPeriod,
+  removeToplevelPeriod,
   handleUpdatePerods,
   handlePeriodShifts,
   handleUpdateSubperiods,
@@ -32,6 +34,7 @@ const DynamicPeriods = ({
   resetAllPeriods,
 }) => {
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
+  const lastToplevelPeriod = topLevelPeirod[topLevelPeirod.length - 1]
   const lastSubperiod =
     topLevelPeirod[topLevelPeirod.length - 1].subPeriods[
       topLevelPeirod[topLevelPeirod.length - 1].subPeriods.length - 1
@@ -39,6 +42,7 @@ const DynamicPeriods = ({
 
   return (
     <>
+    {console.log("tlp.length: " + topLevelPeirod.length)}
       <div className="-mt-3">
         <div>
           <div className="checkbox-inputs input__group flex-cs checkbox-group ml-p3">
@@ -52,8 +56,8 @@ const DynamicPeriods = ({
                 name="topLevelAnnualPeriod"
                 id={"newToplevelAnnualPeriod"}
                 tabIndex={9}
-                // value={topLevelPeirod[topLevelPeirod.length - 1].hasRegularShift}
-                // checked={topLevelPeirod[topLevelPeirod.length - 1].hasRegularShift}
+                checked={topLevelPeirod[0].value}
+                // checked={false}
                 onChange={includeTopLevelPeriod}
               />
               <>
@@ -77,7 +81,8 @@ const DynamicPeriods = ({
               <div className="flex-c">
                 <div className="pr1rem flex-end">
                   <div className="flex-left">
-                    {topLevelPeirod[0].value && (
+                    {console.log(lastToplevelPeriod.value)}
+                    {lastToplevelPeriod.value && (
                       <div className="mb-p5">
                         <TopLevelAnnualPeriods
                           handleUpdateCustomTopPeriod={
@@ -86,6 +91,7 @@ const DynamicPeriods = ({
                           handleTopLevelPeriodUpdate={
                             handleTopLevelPeriodUpdate
                           }
+                          removeToplevelPeriod={removeToplevelPeriod}
                           index={index}
                         />
                       </div>

@@ -409,6 +409,9 @@
 }
 
 /* POSITIVE MARGINS */
+.ml-100 {
+  margin-left: 100%;
+}
 .ml-p5 {
   margin-left: 0.5rem;
 }
