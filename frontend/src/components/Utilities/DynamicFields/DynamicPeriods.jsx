@@ -8,9 +8,9 @@ import Preview from "../Buttons/Preview";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parse } from "date-fns";
-
+import { useEffect } from "react";
 import TopLevelAnnualPeriods from "./AnnualPeriods/TopLevelAnnualPeriods";
-import AnnualPeriods from "./AnnualPeriods/AnnualPeriods";
+import AnnualSubPeriods from "./AnnualPeriods/AnnualSubPeriods";
 import Shifts from "./AnnualPeriods/Shifts";
 import DateRanges from "./AnnualPeriods/DateRanges";
 
@@ -34,6 +34,7 @@ const DynamicPeriods = ({
     topLevelPeirod[topLevelPeirod.length - 1].subPeriods[
       topLevelPeirod[topLevelPeirod.length - 1].subPeriods.length - 1
     ];
+
   return (
     <>
       <div className="-mt-3">
@@ -77,7 +78,6 @@ const DynamicPeriods = ({
                     {topLevelPeirod[0].value && (
                       <div className="mb-p5">
                         <TopLevelAnnualPeriods
-                          handleUpdatePerods={handleUpdatePerods}
                           handleTopLevelPeriodUpdate={
                             handleTopLevelPeriodUpdate
                           }
@@ -86,7 +86,7 @@ const DynamicPeriods = ({
                       </div>
                     )}
                     <div className="flex">
-                      <AnnualPeriods
+                      <AnnualSubPeriods
                         handleUpdateSubperiods={handleUpdateSubperiods}
                         index={index}
                       />

@@ -1,5 +1,4 @@
 import DynamicPeriods from "../Utilities/DynamicFields/DynamicPeriods";
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   createSubPeriods,
@@ -58,8 +57,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
     const { id, name, value } = event.target;
     dispatch(
       updateTopLevelAnnualPeriod({
-        inputControlType: name,
-        value: value,
         periodIndex: index,
         periodTypeName: id,
       })
@@ -99,9 +96,9 @@ const PeriodInfo = ({ formData, setFormData }) => {
       createTopLevelPeriods({
         id: topLevelPeirod.length,
         value: false,
-        periodTypeName: "TopQuarter",
-        periodName: "",
+        periodTypeName: "TopSemester",
         subperiodTypeName: "Semester",
+        periodName: "",
         shiftName: "regularShift",
         periodStartDate: new Date().toISOString(),
         periodEndDate: new Date().toISOString(),

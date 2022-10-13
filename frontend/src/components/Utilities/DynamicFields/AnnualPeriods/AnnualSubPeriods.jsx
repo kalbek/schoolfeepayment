@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-const AnnualPeriods = ({ handleUpdateSubperiods, index }) => {
+const AnnualSubPeriods = ({ handleUpdateSubperiods, index }) => {
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
   const subperiod = topLevelPeirod[index].subPeriods[0];
   // const subperiod =
@@ -124,4 +124,4 @@ const AnnualPeriods = ({ handleUpdateSubperiods, index }) => {
   );
 };
 
-export default AnnualPeriods;
+export default AnnualSubPeriods;

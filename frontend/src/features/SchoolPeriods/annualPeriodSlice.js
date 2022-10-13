@@ -45,6 +45,7 @@ export const periodSlice = createSlice({
 
     // The new action
     createTopLevelPeriods: (state, action) => {
+      console.log(action.payload);
       state.topLevelPeriod.push(action.payload);
     },
     createSubPeriods: (state, action) => {
@@ -60,34 +61,17 @@ export const periodSlice = createSlice({
       state.topLevelPeriod[0].value = action.payload.value;
     },
 
-    updateSubPeriods: (state, action) => {
-      state.annualPeriodState.map((period) => {
-        if (period.Id === action.payload.TopLevelId) {
-          period.subPeriods.map((subPeriod) => {
-            if (subPeriod.Id === action.payload.subPeriodId) {
-              // To do sub period updation
-            }
-          });
-        }
-      });
-    },
-
     updateTopLevelAnnualPeriod: (state, action) => {
       state.topLevelPeriod.map((periodState) => {
         if (periodState.id === action.payload.periodIndex) {
-          if (action.payload.inputControlType === "topLevelPeriodRadio") {
-            if (action.payload.periodTypeName === "TopQuarter") {
-              periodState.periodTypeName = "TopQuarter";
-            } else if (action.payload.periodTypeName === "TopTerm") {
-              periodState.periodTypeName = "TopTerm";
-            } else if (action.payload.periodTypeName === "TopSemester") {
-              periodState.periodTypeName = "TopSemester";
-            } else if (action.payload.periodTypeName === "TopCustom Period") {
-              periodState.periodTypeName = "TopCustom Period";
-            }
-          }
-          else if (action.payload.inputControlType === "topLevelPeriodRadio") {
-            periodState.periodTypeName = action.payload.value
+          if (action.payload.periodTypeName === "Quarter") {
+            periodState.periodTypeName = "Quarter";
+          } else if (action.payload.periodTypeName === "Term") {
+            periodState.periodTypeName = "Term";
+          } else if (action.payload.periodTypeName === "Semester") {
+            periodState.periodTypeName = "Semester";
+          } else if (action.payload.periodTypeName === "Custom Period") {
+            periodState.periodTypeName = "Custom Period";
           }
         }
       });
