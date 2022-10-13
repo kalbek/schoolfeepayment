@@ -45,7 +45,6 @@ export const periodSlice = createSlice({
 
     // The new action
     createTopLevelPeriods: (state, action) => {
-      console.log(action.payload);
       state.topLevelPeriod.push(action.payload);
     },
     createSubPeriods: (state, action) => {
@@ -64,14 +63,18 @@ export const periodSlice = createSlice({
     updateTopLevelAnnualPeriod: (state, action) => {
       state.topLevelPeriod.map((periodState) => {
         if (periodState.id === action.payload.periodIndex) {
-          if (action.payload.periodTypeName === "Quarter") {
-            periodState.periodTypeName = "Quarter";
-          } else if (action.payload.periodTypeName === "Term") {
-            periodState.periodTypeName = "Term";
-          } else if (action.payload.periodTypeName === "Semester") {
-            periodState.periodTypeName = "Semester";
-          } else if (action.payload.periodTypeName === "Custom Period") {
-            periodState.periodTypeName = "Custom Period";
+          if (!action.payload.hasCustomValue) {
+            if (action.payload.periodTypeName === "Quarter") {
+              periodState.periodTypeName = "Quarter";
+            } else if (action.payload.periodTypeName === "Term") {
+              periodState.periodTypeName = "Term";
+            } else if (action.payload.periodTypeName === "Semester") {
+              periodState.periodTypeName = "Semester";
+            } else if (action.payload.periodTypeName === "Custom Period") {
+              periodState.periodTypeName = "";
+            }
+          } else {
+            periodState.periodTypeName = action.payload.value;
           }
         }
       });
@@ -80,14 +83,41 @@ export const periodSlice = createSlice({
     updateSubperiods: (state, action) => {
       state.topLevelPeriod.map((periodState) => {
         if (periodState.id === action.payload.periodIndex) {
-          if (action.payload.subperiodTypeName === "Semester") {
-            periodState.subperiodTypeName = "Semester";
-          } else if (action.payload.subperiodTypeName === "Term") {
-            periodState.subperiodTypeName = "Term";
-          } else if (action.payload.subperiodTypeName === "Quarter") {
-            periodState.subperiodTypeName = "Quarter";
-          } else if (action.payload.subperiodTypeName === "Custom Period") {
-            periodState.subperiodTypeName = "Custom Period";
+          if (!action.payload.hasCustomValue) {
+            if (action.payload.subperiodTypeName === "Semester") {
+              periodState.subperiodTypeName = "Semester";
+            } else if (action.payload.subperiodTypeName === "Term") {
+              periodState.subperiodTypeName = "Term";
+            } else if (action.payload.subperiodTypeName === "Quarter") {
+              periodState.subperiodTypeName = "Quarter";
+            } else if (action.payload.subperiodTypeName === "Custom Period") {
+              periodState.subperiodTypeName = "";
+            }
+          } else {
+            periodState.subperiodTypeName = action.payload.value;
+          }
+          if (action.payload.subperiodTypeName === "periodDescription") {
+            periodState.subPeriods.map((subperiod) => {
+              if (subperiod.id === action.payload.subPeriodIndex) {
+                subperiod.periodName = action.payload.value;
+              }
+            });
+          }
+          if (action.payload.periodToUpdate === "periodDates") {
+            console.log("one");
+            periodState.subPeriods.map((subperiod) => {
+              console.log("two");
+              if (subperiod.id === action.payload.subPeriodIndex) {
+                if (action.payload.periodTypeName === "periodStartDate") {
+                  console.log("three");
+                  subperiod.periodStartDate = action.payload.periodStartDate;
+                } else if (action.payload.periodTypeName === "periodEndDate") {
+                  console.log("four");
+                  subperiod.periodEndDate = action.payload.periodEndDate;
+                  console.log("five");
+                }
+              }
+            });
           }
         }
         periodState.subPeriods.map((subPeriod) => {
@@ -138,7 +168,7 @@ export const periodSlice = createSlice({
     // End of the new action
     createSubPeriods: (state, action) => {
       state.topLevelPeriod.map((toplevelPeriod) => {
-        if (toplevelPeriod.id === action.payload.topLevelId) {
+        if (toplevelPeriod.id === action.payload.periodIndex) {
           toplevelPeriod.subPeriods.push(action.payload.subPeriod);
         }
       });

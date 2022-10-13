@@ -5,16 +5,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import { parse } from "date-fns";
 
 const DateRanges = ({
-  handleUpdatePerods,
+  handleUpdateSubperiods,
   handleAnnualPeriodDuration,
   removePeriods,
   index,
 }) => {
-  const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
-
+  const periodState = useSelector((state) => state.periods.topLevelPeriod);
+  // console.log(periodState[index])
   return (
     <>
-      {topLevelPeirod[0].subPeriods.map((subPeriod, subPeriodIndex) => (
+      {periodState[index].subPeriods.map((subPeriod, subPeriodIndex) => (
         <div
           key={subPeriodIndex}
           className="flex-c dynamic-periods-container pl1"
@@ -29,28 +29,23 @@ const DateRanges = ({
                   name="periodDetails"
                   id="periodDescription"
                   placeholder={
-                    subPeriod.periodTypeName !== "Other"
+                    periodState[index].subperiodTypeName !== ""
                       ? "e.g. " +
-                        subPeriod.periodTypeName.charAt(0).toUpperCase() +
-                        subPeriod.periodTypeName.slice(1) +
+                        periodState[index].subperiodTypeName
+                          .charAt(0)
+                          .toUpperCase() +
+                        periodState[index].subperiodTypeName.slice(1) +
                         " " +
                         parseInt(subPeriod.id + 1)
-                      : "Your School's Period Name"
+                      : "Custom Subperiods"
                   }
                   tabIndex={1}
                   onChange={(event) =>
-                    handleUpdatePerods(event, index, subPeriodIndex)
+                    handleUpdateSubperiods(event, index, subPeriodIndex)
                   }
                 />
                 <label htmlFor="periodDescription">
-                  <p>
-                    {topLevelPeirod.length > 0 &&
-                    subPeriod.periodTypeName !== "Custom"
-                      ? subPeriod.periodTypeName.charAt(0).toUpperCase() +
-                        subPeriod.periodTypeName.slice(1) +
-                        "s"
-                      : "Period Name"}
-                  </p>
+                  <p>{periodState[index].subperiodTypeName}</p>
                 </label>
                 <br />
               </div>
@@ -71,7 +66,7 @@ const DateRanges = ({
                       {
                         target: {
                           value: date,
-                          name: "periodDetails",
+                          name: "periodDates",
                           id: "periodStartDate",
                         },
                       },
@@ -106,7 +101,7 @@ const DateRanges = ({
                       {
                         target: {
                           value: date,
-                          name: "periodDetails",
+                          name: "periodDates",
                           id: "periodEndDate",
                         },
                       },
@@ -126,7 +121,7 @@ const DateRanges = ({
                 </label>
               </div>
             </div>
-            {topLevelPeirod[0].subPeriods.length > 1 ? (
+            {periodState[0].subPeriods.length > 1 ? (
               <div className="remove-periods-icon flex-c">
                 <RemoveButton
                   removables={removePeriods}

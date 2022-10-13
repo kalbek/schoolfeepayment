@@ -1,20 +1,20 @@
 import { useSelector } from "react-redux";
-const AnnualSubPeriods = ({ handleUpdateSubperiods, index }) => {
-  const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
-  const subperiod = topLevelPeirod[index].subPeriods[0];
-  // const subperiod =
-  //   topLevelPeirod[index].subPeriods[
-  //     topLevelPeirod[index].subPeriods.length - 1
-  //   ];
+import { useRef } from "react";
+const AnnualSubPeriods = ({
+  handleUpdateCustomSubPeriod,
+  handleUpdateSubperiods,
+  index,
+}) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
-
+  const subperiodTypeName = periodState[index].subperiodTypeName;
+  const ref = useRef(null);
   return (
     <>
       <div className="flex-left">
         <div className="checkbox-inputs input__group field-group-container">
           <section className="flex-left">
             <label htmlFor="">
-              {topLevelPeirod[0].value ? (
+              {periodState[0].value ? (
                 <h3>Sub Periods</h3>
               ) : (
                 <h3>Annual Periods</h3>
@@ -80,11 +80,14 @@ const AnnualSubPeriods = ({ handleUpdateSubperiods, index }) => {
                     id={"Custom Period"}
                   >
                     <input
+                      ref={ref}
                       className="form-radio-button"
                       type="radio"
                       id="Custom Period"
                       checked={
-                        periodState[index].subperiodTypeName === "Custom Period"
+                        subperiodTypeName !== "Quarter" &&
+                        subperiodTypeName !== "Semester" &&
+                        subperiodTypeName !== "Term"
                       }
                       onChange={(event) => handleUpdateSubperiods(event, index)}
                       tabIndex={9}
@@ -94,26 +97,27 @@ const AnnualSubPeriods = ({ handleUpdateSubperiods, index }) => {
                     </span>
                   </label>
                 </div>
-
-                {/* <div className="ml-1p5"></div> */}
-                {periodState[index].subperiodTypeName === "Custom Period" && (
-                  <div className="-mt-1p5 pb-p5">
-                    <div className="flex-cr inputs input--medium ">
-                      <input
-                        type="text"
-                        // value={subPeriod.periodName}
-                        name="periodDetails"
-                        id="periodDescription"
-                        placeholder="Custom Subperiod Name"
-                        tabIndex={1}
-                        // onChange={(event) =>
-                        //   handleUpdateCustomTopPerod(event)
-                        // }
-                      />
-                      <br />
+                {subperiodTypeName !== "Quarter" &&
+                  subperiodTypeName !== "Semester" &&
+                  subperiodTypeName !== "Term" && (
+                    <div className="-mt-1p5 pb-p5">
+                      <div className="flex-cr inputs input--medium ">
+                        <input
+                          ref={ref}
+                          type="text"
+                          value={periodState[index].subperiodTypeName}
+                          name="periodDetails"
+                          id="custom subperiod"
+                          placeholder="Custom Subperiod Name"
+                          tabIndex={1}
+                          onChange={(event) =>
+                            handleUpdateCustomSubPeriod(event, index)
+                          }
+                        />
+                        <br />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
               {/* Input box for custom  */}
             </div>

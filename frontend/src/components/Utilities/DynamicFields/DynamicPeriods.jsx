@@ -21,6 +21,8 @@ const DynamicPeriods = ({
   removePeriods,
   handleAnnualPeriodDuration,
   handleTopLevelPeriodUpdate,
+  handleUpdateCustomTopPeriod,
+  handleUpdateCustomSubPeriod,
   handleUpdatePerods,
   handlePeriodShifts,
   handleUpdateSubperiods,
@@ -78,6 +80,9 @@ const DynamicPeriods = ({
                     {topLevelPeirod[0].value && (
                       <div className="mb-p5">
                         <TopLevelAnnualPeriods
+                          handleUpdateCustomTopPeriod={
+                            handleUpdateCustomTopPeriod
+                          }
                           handleTopLevelPeriodUpdate={
                             handleTopLevelPeriodUpdate
                           }
@@ -85,9 +90,12 @@ const DynamicPeriods = ({
                         />
                       </div>
                     )}
-                    <div className="flex">
+                    <div className="flex-start">
                       <AnnualSubPeriods
                         handleUpdateSubperiods={handleUpdateSubperiods}
+                        handleUpdateCustomSubPeriod={
+                          handleUpdateCustomSubPeriod
+                        }
                         index={index}
                       />
                       <Shifts
@@ -101,6 +109,7 @@ const DynamicPeriods = ({
               <div className="flex-c -ml-p7">
                 <DateRanges
                   handleUpdatePerods={handleUpdatePerods}
+                  handleUpdateSubperiods={handleUpdateSubperiods}
                   handleAnnualPeriodDuration={handleAnnualPeriodDuration}
                   removePeriods={removePeriods}
                   index={index}
@@ -138,6 +147,7 @@ const DynamicPeriods = ({
               <AddMoreButton
                 label={"Add new top-level period"}
                 handleLinks={handleNewTopLevelPeriod}
+                index={topLevelPeirod.length}
               />
             )}
           </div>

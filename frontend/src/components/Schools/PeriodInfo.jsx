@@ -16,29 +16,32 @@ const PeriodInfo = ({ formData, setFormData }) => {
   const dispatch = useDispatch();
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
 
-  const handleNewSubPeriods = () => {
+  const handleNewSubPeriods = (index) => {
+    console.log("index is: " + index);
     topLevelPeirod.map((topLevelPeirod) => {
       const lastSubPeriod =
         topLevelPeirod.subPeriods[topLevelPeirod.subPeriods.length - 1];
-      dispatch(
-        createSubPeriods({
-          topLevelId: topLevelPeirod.id,
-          subPeriod: {
-            id: topLevelPeirod.subPeriods.length,
-            periodTypeName: lastSubPeriod.periodTypeName,
-            periodName: "",
-            shiftName: lastSubPeriod.shiftName,
-            periodStartDate: lastSubPeriod.periodEndDate,
-            periodEndDate: new Date().toISOString(),
-            hasRegularShift: true,
-            hasExtensionShift: false,
-            hasWeekendShift: false,
-            hasCustomShift: false,
-            customShiftName: "",
-            periodToUpdate: "periodType",
-          },
-        })
-      );
+      if (topLevelPeirod.id === index) {
+        dispatch(
+          createSubPeriods({
+            periodIndex: index,
+            subPeriod: {
+              id: topLevelPeirod.subPeriods.length,
+              periodTypeName: lastSubPeriod.periodTypeName,
+              periodName: "",
+              shiftName: lastSubPeriod.shiftName,
+              periodStartDate: lastSubPeriod.periodEndDate,
+              periodEndDate: new Date().toISOString(),
+              hasRegularShift: true,
+              hasExtensionShift: false,
+              hasWeekendShift: false,
+              hasCustomShift: false,
+              customShiftName: "",
+              periodToUpdate: "periodType",
+            },
+          })
+        );
+      }
     });
   };
 
@@ -47,7 +50,9 @@ const PeriodInfo = ({ formData, setFormData }) => {
     if (topLevelPeirod[0].value === false) {
       dispatch(
         updateTopLevelAnnualPeriod({
-          periodTypeName: "TopQuarter",
+          periodIndex: 0,
+          periodTypeName: "Quarter",
+          hasCustomValue: false,
         })
       );
     }
@@ -59,6 +64,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
       updateTopLevelAnnualPeriod({
         periodIndex: index,
         periodTypeName: id,
+        hasCustomValue: false,
       })
     );
   };
@@ -82,36 +88,27 @@ const PeriodInfo = ({ formData, setFormData }) => {
     });
   };
 
-  const handleUpdateSubperiods = (event, index) => {
-    const { id } = event.target;
+  const handleUpdateSubperiods = (event, index, subPeriodIndex) => {
+    const { id, value } = event.target;
     dispatch(
       updateSubperiods({
         periodIndex: index,
+        subPeriodIndex: subPeriodIndex,
         subperiodTypeName: id,
+        value: value,
       })
     );
   };
-  const handleNewTopLevelPeriod = () => {
-    dispatch(
-      createTopLevelPeriods({
-        id: topLevelPeirod.length,
-        value: false,
-        periodTypeName: "TopSemester",
-        subperiodTypeName: "Semester",
-        periodName: "",
-        shiftName: "regularShift",
-        periodStartDate: new Date().toISOString(),
-        periodEndDate: new Date().toISOString(),
-        hasRegularShift: true,
-        hasExtensionShift: false,
-        hasWeekendShift: false,
-        hasCustomShift: false,
-        customShiftName: "",
-        periodToUpdate: "periodType",
-        subPeriods: [
-          {
-            id: topLevelPeirod[topLevelPeirod.length - 1].subPeriods.length,
-            periodTypeName: "Semester",
+
+  const handleNewTopLevelPeriod = (index) => {
+    topLevelPeirod.map((period) => {
+      if (period.id === index - 1) {
+        dispatch(
+          createTopLevelPeriods({
+            id: index,
+            value: false,
+            periodTypeName: "Quarter",
+            subperiodTypeName: "Semester",
             periodName: "",
             shiftName: "regularShift",
             periodStartDate: new Date().toISOString(),
@@ -122,10 +119,26 @@ const PeriodInfo = ({ formData, setFormData }) => {
             hasCustomShift: false,
             customShiftName: "",
             periodToUpdate: "periodType",
-          },
-        ],
-      })
-    );
+            subPeriods: [
+              {
+                id: 0,
+                periodTypeName: "Semester",
+                periodName: "",
+                shiftName: "regularShift",
+                periodStartDate: new Date().toISOString(),
+                periodEndDate: new Date().toISOString(),
+                hasRegularShift: true,
+                hasExtensionShift: false,
+                hasWeekendShift: false,
+                hasCustomShift: false,
+                customShiftName: "",
+                periodToUpdate: "periodType",
+              },
+            ],
+          })
+        );
+      }
+    });
   };
 
   const handleTopLevelPeriod = (event, index) => {
@@ -142,7 +155,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
     }
   };
   const removePeriods = (index) => {
-    console.log("hit");
     // const list = formDataPeriod;
     // list.splice(index, 1);
     // setFormData({ ...formData, annualPeriod: list });
@@ -163,15 +175,40 @@ const PeriodInfo = ({ formData, setFormData }) => {
   }
   function handleAnnualPeriodDuration(date, index, subPeriodIndex) {
     const { name, value, id } = date.target;
+    console.log("index: " + index);
+    console.log("name: " + name);
+    console.log("value: " + value);
+    console.log("id: " + id);
     dispatch(
       updateSubperiods({
-        id: index,
-        subPeriodId: subPeriodIndex,
+        periodIndex: index,
+        subPeriodIndex: subPeriodIndex,
         periodToUpdate: name,
         periodTypeName: id,
         periodDetailsType: id,
         periodStartDate: value.toISOString(),
         periodEndDate: value.toISOString(),
+      })
+    );
+  }
+
+  function handleUpdateCustomTopPeriod(event, index) {
+    const { value } = event.target;
+    dispatch(
+      updateTopLevelAnnualPeriod({
+        periodIndex: index,
+        hasCustomValue: true,
+        value: value,
+      })
+    );
+  }
+  function handleUpdateCustomSubPeriod(event, index) {
+    const { value } = event.target;
+    dispatch(
+      updateSubperiods({
+        periodIndex: index,
+        hasCustomValue: true,
+        value: value,
       })
     );
   }
@@ -202,8 +239,10 @@ const PeriodInfo = ({ formData, setFormData }) => {
             removePeriods={removePeriods}
             handleAnnualPeriodDuration={handleAnnualPeriodDuration}
             handleTopLevelPeriod={handleTopLevelPeriod}
+            handleUpdateCustomTopPeriod={handleUpdateCustomTopPeriod}
             handlePeriodShifts={handlePeriodShifts}
             handleNewTopLevelPeriod={handleNewTopLevelPeriod}
+            handleUpdateCustomSubPeriod={handleUpdateCustomSubPeriod}
             handleTopLevelPeriodUpdate={handleTopLevelPeriodUpdate}
             includeTopLevelPeriod={includeTopLevelPeriod}
             handleUpdateSubperiods={handleUpdateSubperiods}

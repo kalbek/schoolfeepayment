@@ -96,24 +96,24 @@ const Shifts = ({ handlePeriodShifts, index }) => {
               </div>
 
               {/* <div className="ml-1p5"></div> */}
-              {periodState[index].subperiodTypeName === "Custom Period" && (
+              {/* {periodState[index].subperiodTypeName === "Custom Period" && (
                 <div className="-mt-1p5 pb-p5">
                   <div className="flex-cr inputs input--medium ">
                     <input
                       type="text"
-                      // value={subPeriod.periodName}
+                      value={subPeriod.periodName}
                       name="periodDetails"
                       id="periodDescription"
                       placeholder="Custom Subperiod Name"
                       tabIndex={1}
-                      // onChange={(event) =>
-                      //   handleUpdateCustomTopPerod(event)
-                      // }
+                      onChange={(event) =>
+                        handleUpdateCustomTopPerod(event)
+                      }
                     />
                     <br />
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
             {/* Input box for custom  */}
           </div>
