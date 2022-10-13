@@ -19,7 +19,7 @@ const DynamicPeriods = ({
   formData,
   setFormData,
   handleNewSubPeriods,
-  removePeriods,
+  removeSubperiods,
   handleAnnualPeriodDuration,
   handleTopLevelPeriodUpdate,
   handleUpdateCustomTopPeriod,
@@ -34,15 +34,13 @@ const DynamicPeriods = ({
   resetAllPeriods,
 }) => {
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
-  const lastToplevelPeriod = topLevelPeirod[topLevelPeirod.length - 1]
+  const lastToplevelPeriod = topLevelPeirod[topLevelPeirod.length - 1];
   const lastSubperiod =
     topLevelPeirod[topLevelPeirod.length - 1].subPeriods[
       topLevelPeirod[topLevelPeirod.length - 1].subPeriods.length - 1
     ];
-
   return (
     <>
-    {console.log("tlp.length: " + topLevelPeirod.length)}
       <div className="-mt-3">
         <div>
           <div className="checkbox-inputs input__group flex-cs checkbox-group ml-p3">
@@ -117,7 +115,7 @@ const DynamicPeriods = ({
                   handleUpdatePerods={handleUpdatePerods}
                   handleUpdateSubperiods={handleUpdateSubperiods}
                   handleAnnualPeriodDuration={handleAnnualPeriodDuration}
-                  removePeriods={removePeriods}
+                  removeSubperiods={removeSubperiods}
                   index={index}
                 />
               </div>
@@ -125,14 +123,15 @@ const DynamicPeriods = ({
                 <div>
                   {topLevelPeirod.length > 0 && topLevelPeirod.length < 20 ? (
                     <AddMoreButton
+                
                       label={
-                        lastSubperiod.periodTypeName === "Custom Period"
+                        period.subperiodTypeName === "Custom Period"
                           ? "Add one more "
                           : "Add one more " +
-                            lastSubperiod.periodTypeName
+                            period.subperiodTypeName
                               .charAt(0)
                               .toLowerCase() +
-                            lastSubperiod.periodTypeName.slice(1)
+                            period.subperiodTypeName.slice(1)
                       }
                       handleLinks={handleNewSubPeriods}
                       index={index}
@@ -145,7 +144,7 @@ const DynamicPeriods = ({
             </section>
           </div>
           // topLevelPeirod[0].value
-        ))}
+        ))} 
         {/* Add top level period */}
         <div className="flex-ccc mln3">
           <div>

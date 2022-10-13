@@ -10,7 +10,7 @@ import {
   updateSubperiods,
   deleteToplevelPeriod,
   updateShifts,
-  deletePeriods,
+  deleteSubperiods,
   resetPeriods,
 } from "../../features/SchoolPeriods/annualPeriodSlice";
 
@@ -18,7 +18,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
   const formDataPeriod = [...formData.annualPeriod];
   const dispatch = useDispatch();
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
-  const lastToplevelPeriod = topLevelPeirod[topLevelPeirod.length - 1];
   const handleNewSubPeriods = (index) => {
     console.log("index is: " + index);
     topLevelPeirod.map((topLevelPeirod) => {
@@ -51,7 +50,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
   // Watch out for first top level value
   useEffect(() => {
     if (topLevelPeirod[0].value === false) {
-      console.log("inside");
       dispatch(resetToplevelPeriod({ id: topLevelPeirod[0].id }));
       dispatch(
         updateTopLevelAnnualPeriod({
@@ -61,30 +59,19 @@ const PeriodInfo = ({ formData, setFormData }) => {
         })
       );
     }
-    console.log("useEffect: "+ topLevelPeirod[0].value)
-
-  },[topLevelPeirod[0].value])
+  }, [topLevelPeirod[0].value]);
   const includeTopLevelPeriod = () => {
-    console.log("hey: " + topLevelPeirod[0].value);
     dispatch(
       includeTopLevelPeriods({ id: 0, value: !topLevelPeirod[0].value })
     );
-    
-
-    console.log("first is: " + topLevelPeirod[0].value);
   };
 
   function removeToplevelPeriod(index) {
     dispatch(deleteToplevelPeriod({ id: index }));
-    // if (topLevelPeirod.length === 2) {
-    //   console.log("hdflsdk");
-    //   dispatch(includeTopLevelPeriods({ id: index, value: false }));
-    // }
-    console.log(topLevelPeirod.length);
   }
 
   const handleTopLevelPeriodUpdate = (event, index) => {
-    const { id, name, value } = event.target;
+    const { id } = event.target;
     dispatch(
       updateTopLevelAnnualPeriod({
         periodIndex: index,
@@ -95,8 +82,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
   };
   const handlePeriodShifts = (event, index) => {
     const { id } = event.target;
-    console.log("id: " + id);
-    console.log("index: " + index);
     topLevelPeirod.map((period) => {
       if (period.id === index) {
         dispatch(
@@ -123,6 +108,10 @@ const PeriodInfo = ({ formData, setFormData }) => {
         value: value,
       })
     );
+  };
+
+  const removeSubperiods = (index, subPeriodIndex) => {
+    dispatch(deleteSubperiods({ id: index, subPeriodIndex: subPeriodIndex }));
   };
 
   const handleNewTopLevelPeriod = (index) => {
@@ -166,24 +155,12 @@ const PeriodInfo = ({ formData, setFormData }) => {
     });
   };
 
-  const handleTopLevelPeriod = (event, index) => {
-    // const {id, name, value} = event.target
-    // console.log("id: "+id)
-    // console.log("name: " + name)
-    // console.log("value: " + value)
-    // console.log("index: " + index)
-  };
+  const handleTopLevelPeriod = (event, index) => {};
 
   const resetAllPeriods = () => {
     if (topLevelPeirod.length > 0) {
       dispatch(resetPeriods({ id: topLevelPeirod[0].id }));
     }
-  };
-  const removePeriods = (index) => {
-    // const list = formDataPeriod;
-    // list.splice(index, 1);
-    // setFormData({ ...formData, annualPeriod: list });
-    dispatch(deletePeriods({ id: index, topLevelId: 0 }));
   };
 
   function handleSchoolsPeriodRadioSelection(event, index) {
@@ -261,7 +238,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
             setFormData={setFormData}
             handlePeriodsSelect={handlePeriodsSelect}
             handleFormRadioSelection={handleSchoolsPeriodRadioSelection}
-            removePeriods={removePeriods}
+            removeSubperiods={removeSubperiods}
             handleAnnualPeriodDuration={handleAnnualPeriodDuration}
             handleTopLevelPeriod={handleTopLevelPeriod}
             handleUpdateCustomTopPeriod={handleUpdateCustomTopPeriod}

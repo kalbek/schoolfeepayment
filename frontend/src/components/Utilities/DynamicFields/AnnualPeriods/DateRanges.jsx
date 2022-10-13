@@ -7,7 +7,7 @@ import { parse } from "date-fns";
 const DateRanges = ({
   handleUpdateSubperiods,
   handleAnnualPeriodDuration,
-  removePeriods,
+  removeSubperiods,
   index,
 }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
@@ -45,7 +45,12 @@ const DateRanges = ({
                   }
                 />
                 <label htmlFor="periodDescription">
-                  <p>{periodState[index].subperiodTypeName}</p>
+                  <p>
+                    {periodState[index].subperiodTypeName
+                      .charAt(0)
+                      .toUpperCase() +
+                      periodState[index].subperiodTypeName.slice(1)}
+                  </p>
                 </label>
                 <br />
               </div>
@@ -121,11 +126,12 @@ const DateRanges = ({
                 </label>
               </div>
             </div>
-            {periodState[0].subPeriods.length > 1 ? (
+            {periodState[index].subPeriods.length > 1 ? (
               <div className="remove-periods-icon flex-c">
                 <RemoveButton
-                  removables={removePeriods}
-                  index={subPeriodIndex}
+                  removables={removeSubperiods}
+                  index={index}
+                  subIndex={subPeriodIndex}
                 />
               </div>
             ) : (
