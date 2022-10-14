@@ -9,23 +9,35 @@ const DiscountAmountsTabel = () => {
   return (
     <div className="field-group-container">
       <section>
-        <table>
+        {/* payment types goes here */}
+        <table className="payment-table">
           <PaymentCaption label={" Payment Discount Percentages"} />
           <thead>
             <tr>
               <th></th>
               {/* headers for discount parameters */}
-              <th className="pr-7">
+              <th className="pl-2">
                 <PaymentHeader label={"Gender Discounts"} />
               </th>
-              <th className="pr-4">
-                <PaymentHeader label={"Special Needs"} />
+              <th className="pl-2">
+                <PaymentHeader label={"Special Need Discounts"} />
               </th>
-              <th className="pr-4">
-                <PaymentHeader label={"Scholarships"} />
+              <th className="pl-2">
+                <PaymentHeader label={"Scholarship Discounts"} />
               </th>
+              {paymentState.map((payments, index) =>
+                payments.discountParameters.customPaymentDiscount.customDiscounts.map(
+                  (customDiscount, subIndex) => (
+                    <th className="pl-2">
+                      <PaymentHeader
+                        key={subIndex}
+                        label={customDiscount.discountName}
+                      />
+                    </th>
+                  )
+                )
+              )}
             </tr>
-            {/* payment types goes here */}
           </thead>
           <tbody>
             {paymentState.map((payments, index) => (
@@ -34,21 +46,36 @@ const DiscountAmountsTabel = () => {
                   <PaymentHeader label={payments.paymentType.paymentName} />
                 </td>
                 {payments.discountParameters.genderBasedDiscount.value ? (
-                  <td className="pr-4">
-                    <Textbox divClassName={"bgr input--small input"} />
+                  <td className="pr-4 pl-2">
+                    <Textbox divClassName={"input--small input"} />
                   </td>
-                ) : <td></td>}
-                {payments.discountParameters.specialNeedsBasedDiscount
-                  .value ? (
-                  <td className="pr-4">
-                    <Textbox divClassName={"bgr input--small input"} />
+                ) : (
+                  <td></td>
+                )}
+                {payments.discountParameters.specialNeedsBasedDiscount.value ? (
+                  <td className="pr-4 pl-2">
+                    <Textbox divClassName={"input--small input"} />
                   </td>
-                ) : <td></td>}
+                ) : (
+                  <td></td>
+                )}
                 {payments.discountParameters.scholarshipBasedDiscount.value ? (
-                  <td>
-                    <Textbox divClassName={"bgr input--small input"} />
+                  <td className="pr-4 pl-2">
+                    <Textbox divClassName={"input--small input"} />
                   </td>
-                ) : <td></td>}
+                ) : (
+                  <td></td>
+                )}
+                {payments.discountParameters.customPaymentDiscount.customDiscounts.map(
+                  (customDiscount, subIndex) =>
+                    customDiscount.discountName !== "" ? (
+                      <td key={subIndex} className="pr-4 pl-2">
+                        <Textbox divClassName={"input--small input"} />
+                      </td>
+                    ) : (
+                      <></>
+                    )
+                )}
               </tr>
             ))}
             <tr>

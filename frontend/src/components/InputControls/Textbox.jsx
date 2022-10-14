@@ -11,10 +11,11 @@ const Textbox = ({
 }) => {
   return (
     <>
-      <div className="flex-cr inputs input--small">
+      <div className="mb-1 flex-cr inputs input--small">
         <input
           type="text"
           name={name}
+          placeholder={"Amount ETB"}
           id={id}
           tabIndex={1}
           onChange={onChange}

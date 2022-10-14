@@ -323,13 +323,11 @@
 }
 
 /* Table styles */
-.payment-table,
-.payment-table th,
-.payment-table tbody tr {
-  /* border: 1px solid gray; */
-  border-radius: 30px;
-}
 
-.payment-table {
-  border: 1px solid gray;
+.payment-table tbody tr > td:not(:first-child) {
+  /* border: 1px solid #d3d3cd; */
+  border: 1px solid #dcdc9f;
+}
+.payment-table tbody tr > td:not(:first-child) {
+  padding-bottom: 1rem;
 }
