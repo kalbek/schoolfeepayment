@@ -16,8 +16,6 @@ import Shifts from "./AnnualPeriods/Shifts";
 import DateRanges from "./AnnualPeriods/DateRanges";
 
 const DynamicPeriods = ({
-  formData,
-  setFormData,
   handleNewSubPeriods,
   removeSubperiods,
   handleAnnualPeriodDuration,
@@ -30,8 +28,6 @@ const DynamicPeriods = ({
   handleUpdateSubperiods,
   handleNewTopLevelPeriod,
   includeTopLevelPeriod,
-  handleTopLevelPeriod,
-  resetAllPeriods,
 }) => {
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
   const lastToplevelPeriod = topLevelPeirod[topLevelPeirod.length - 1];
@@ -79,7 +75,6 @@ const DynamicPeriods = ({
               <div className="flex-c">
                 <div className="pr1rem flex-end">
                   <div className="flex-left">
-                    {console.log(lastToplevelPeriod.value)}
                     {lastToplevelPeriod.value && (
                       <div className="mb-p5">
                         <TopLevelAnnualPeriods
@@ -123,14 +118,11 @@ const DynamicPeriods = ({
                 <div>
                   {topLevelPeirod.length > 0 && topLevelPeirod.length < 20 ? (
                     <AddMoreButton
-                
                       label={
                         period.subperiodTypeName === "Custom Period"
                           ? "Add one more "
                           : "Add one more " +
-                            period.subperiodTypeName
-                              .charAt(0)
-                              .toLowerCase() +
+                            period.subperiodTypeName.charAt(0).toLowerCase() +
                             period.subperiodTypeName.slice(1)
                       }
                       handleLinks={handleNewSubPeriods}
@@ -144,7 +136,7 @@ const DynamicPeriods = ({
             </section>
           </div>
           // topLevelPeirod[0].value
-        ))} 
+        ))}
         {/* Add top level period */}
         <div className="flex-ccc mln3">
           <div>

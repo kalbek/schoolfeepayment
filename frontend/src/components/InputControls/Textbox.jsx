@@ -7,21 +7,18 @@ const Textbox = ({
   onChange,
   label,
   className,
+  divClassName,
 }) => {
   return (
     <>
-      <div className="flex-cr">
+      <div className="flex-cr inputs input--small">
         <input
-          className={className}
           type="text"
-          value={value}
-          id={id}
           name={name}
-          placeholder={placeholder}
-          tabIndex={tabIndex}
+          id={id}
+          tabIndex={1}
           onChange={onChange}
         />
-        <label>{label}</label>
       </div>
     </>
   );

@@ -519,3 +519,16 @@
 .pb-p5 {
   padding-bottom: 0.5rem;
 }
+
+
+/* TOP PADDINGS */
+.pt-1 {
+  padding-top: 1rem;
+}
+
+
+/* CONTENT RELATED */
+.fit-content {
+  
+  min-width: fit-content;
+}

@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import AddMoreButton from "../Buttons/AddMoreButton";
-import RemoveButton from "../Buttons/RemoveButton";
-import PaymentTypes from "./DynamicPayments/PaymentTypes";
-import PaymentTerms from "./DynamicPayments/PaymentTerms";
-import PaymentBases from "./DynamicPayments/PaymentBases";
-import PaymentDiscounts from "./DynamicPayments/PaymentDiscounts";
+import AddMoreButton from "../../Buttons/AddMoreButton";
+import RemoveButton from "../../Buttons/RemoveButton";
+import PaymentTypes from "./PaymentTypes";
+import PaymentTerms from "./PaymentTerms";
+import PaymentBases from "./PaymentBases";
+import PaymentDiscounts from "./PaymentDiscounts";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   createPayments,
@@ -31,9 +31,9 @@ import {
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,
   deleteCustomDiscount,
-} from "../../../features/paymentBase/paymentBaseSlice";
+} from "../../../../features/paymentBase/paymentBaseSlice";
 
-const DynamicPayments = ({ formData }) => {
+const Payments1Actions = ({ formData }) => {
   const dispatch = useDispatch();
   const paymentState = useSelector((state) => state.payments.paymentState);
   const lastPaymentState = paymentState[paymentState.length - 1];
@@ -542,4 +542,4 @@ const DynamicPayments = ({ formData }) => {
   );
 };
 
-export default DynamicPayments;
+export default Payments1Actions;

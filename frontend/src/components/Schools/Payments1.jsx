@@ -1,7 +1,7 @@
+import Payments1Actions from "../Utilities/DynamicFields/DynamicPayments1/Payments1Actions";
 import "../../Styles/utilities.css";
 import "../../Styles/formStyles.css";
-import Paymens2Actions from "../Utilities/DynamicFields/DynamicPayments2/Paymens2Actions";
-function Payments2() {
+function Payments1() {
   return (
     <div className="flex">
       <div className="school-info">
@@ -9,18 +9,16 @@ function Payments2() {
         <div>
           <div>
             <h1 className="form__titles--mid">
-              Now is the time for Numbers! --
-              <strong> Payment Amounts --</strong>
+              Now let us fill your school payment info
             </h1>
             <h3 className="form__subtitle">
-              Based on the data you provided earlier your school's payment
-              detail is mapped to look like this
+              Please be precise while filling payment details.
             </h3>
           </div>
-          <Paymens2Actions />
+          <Payments1Actions />
         </div>
       </div>
     </div>
   );
 }
-export default Payments2;
+export default Payments1;

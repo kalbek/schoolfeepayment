@@ -15,12 +15,11 @@ import CompleteSteps from "./CompleteSteps";
 import Spinner from "../Utilities/Progress/Spinner";
 import SchoolInfo from "../../components/Schools/SchoolInfo";
 import TipsCard from "../Utilities/Cards/TipsCard";
-import PaymentScale from "./PaymentScale";
 import FormsFooter from "../../components/FormItems/FormsFooter";
 import FormPageControl from "../../components/FormItems/FormPageControl";
 import FormNavbar from "../../components/FormItems/FormNavbar";
 import PeriodInfo from "./PeriodInfo";
-import PaymentInfo from "./PaymentInfo";
+import PaymentInfo from "./Payments1";
 import GradeInfo from "./GradeInfo";
 import GradeTips from "./Tips/GradeTips";
 import PaymentTips from "./Tips/PaymentTips";
@@ -314,8 +313,18 @@ function CreateSchool() {
             {count === 3 && (
               <GradeInfo formData={formData} setFormData={setFormData} />
             )}
-            {count === 3.5 && navDir === "next" ? dispatch(increment()) : null}
-            {count === 3.5 && navDir === "back" ? dispatch(decrement()) : null}
+            {count === 3.5 && (
+              <PaymentTips formData={formData} setFormData={setFormData} />
+            )}
+
+            {/* {count === 3.5 && navDir === "next" ? (
+              dispatch(increment())
+            ) : count === 3.5 && navDir === "back" ? (
+              dispatch(decrement())
+            ) : (
+              <></>
+            )} */}
+            {/* {count === 3.5 && navDir === "back" ? dispatch(decrement()) : null} */}
             {count === 4 && (
               <Payments2 formData={formData} setFormData={setFormData} />
             )}
@@ -325,8 +334,8 @@ function CreateSchool() {
             {count === 5 && (
               <Achievements formData={formData} setFormData={setFormData} />
             )}
-            {count === 5.5 && navDir === "next" ? dispatch(increment()) : null}
-            {count === 5.5 && navDir === "back" ? dispatch(decrement()) : null}
+            {/* {count === 5.5 && navDir === "next" ? dispatch(increment()) : null}
+            {count === 5.5 && navDir === "back" ? dispatch(decrement()) : null} */}
             {count === 6 && (
               <CompleteSteps formData={formData} setFormData={setFormData} />
             )}
