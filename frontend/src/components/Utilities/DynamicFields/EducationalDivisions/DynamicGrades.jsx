@@ -1,14 +1,16 @@
-import RemoveButton from "../Buttons/RemoveButton";
-import RemoveLinksButton from "../Buttons/RemoveLinksButton";
-import "../../../Styles/dynamicButtonsStyle.css";
-import AddMoreButton from "../Buttons/AddMoreButton";
+import RemoveButton from "../../Buttons/RemoveButton";
+import RemoveLinksButton from "../../Buttons/RemoveLinksButton";
+import "../../../../Styles/dynamicButtonsStyle.css";
+import AddMoreButton from "../../Buttons/AddMoreButton";
 import { useSelector } from "react-redux";
-import Radio from "../../InputControls/Radio";
+import Radio from "../../../InputControls/Radio";
 
-import Textbox from "../../InputControls/Textbox";
-import SmallCard from "../Cards/SmallCard";
-import Preview from "../Buttons/Preview";
-import DeleteButton from "../Buttons/DeleteButton";
+// import Textbox from "../../../InputControls/Textbox";
+import Textbox from "./Utilities/Textbox";
+// import Textbox from "./utilities/Textbox"
+import SmallCard from "../../Cards/SmallCard";
+import Preview from "../../Buttons/Preview";
+import DeleteButton from "../../Buttons/DeleteButton";
 
 const DynamicGrades = ({
   formData,

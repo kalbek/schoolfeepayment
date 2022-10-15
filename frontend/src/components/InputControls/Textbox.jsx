@@ -11,15 +11,23 @@ const Textbox = ({
 }) => {
   return (
     <>
-      <div className="mb-1 flex-cr inputs input--small">
-        <input
-          type="text"
-          name={name}
-          placeholder={"Amount ETB"}
-          id={id}
-          tabIndex={1}
-          onChange={onChange}
-        />
+      <div className="field-group-container">
+        <section className="flex-cr input__group">
+          <label htmlFor={id}>
+            <p>{label}</p>
+            <div className="mb-1 inputs input--small">
+              <input
+                type="text"
+                name={name}
+                placeholder={placeholder}
+                id={id}
+                tabIndex={1}
+                label={label}
+                onChange={onChange}
+              />
+            </div>
+          </label>
+        </section>
       </div>
     </>
   );

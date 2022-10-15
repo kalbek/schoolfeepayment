@@ -369,7 +369,15 @@ export const paymentSlice = createSlice({
           payment.discountParameters.customPaymentDiscount.customDiscounts.push(
             action.payload.discounts
           );
+
+          if (
+            payment.discountParameters.customPaymentDiscount.customDiscounts
+              .length > 0
+          ) {
+            payment.discountParameters.customPaymentDiscount.value = true;
+          }
         }
+        console.log(current(payment).discountParameters.customPaymentDiscount.customDiscounts[0])
       });
     },
 
@@ -471,6 +479,12 @@ export const paymentSlice = createSlice({
               (customDiscounts) =>
                 customDiscounts.Id !== action.payload.customDiscountIndex
             );
+          if (
+            paymentState.discountParameters.customPaymentDiscount
+              .customDiscounts.length === 0
+          ) {
+            paymentState.discountParameters.customPaymentDiscount.value = false;
+          }
         }
       });
 

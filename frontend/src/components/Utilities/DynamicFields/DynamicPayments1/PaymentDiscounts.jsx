@@ -292,7 +292,7 @@ const PaymentDiscounts = ({
                           />
                           <>
                             <span className="mlnp9">
-                              &nbsp;&nbsp; <p>Custom Parameters</p>
+                              &nbsp;&nbsp; <p>Custom Discount Parameters</p>
                             </span>
                           </>
                         </label>
@@ -309,7 +309,7 @@ const PaymentDiscounts = ({
                                 type="text"
                                 name="customDiscount"
                                 id={"customDiscount"}
-                                placeholder="Custom discount name"
+                                placeholder="Discount name"
                                 value={discount.discountName}
                                 onChange={(event) =>
                                   handleCustomDiscount(

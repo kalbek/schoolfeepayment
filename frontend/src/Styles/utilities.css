@@ -109,6 +109,7 @@
 .pb2 {
   padding-bottom: 2%;
 }
+
 .pl1 {
   padding-left: 1%;
 }
@@ -268,6 +269,13 @@
 }
 .mbn5 {
   margin-bottom: -5%;
+}
+/* NEGATIVE MARGIN BOTTOM */
+.-mb-1 {
+  margin-bottom: -1rem;
+}
+.-mb-p5 {
+  margin-bottom: -0.5rem;
 }
 .mtn5 {
   margin-top: -5%;
@@ -526,6 +534,9 @@
   padding-top: 1rem;
 }
 
+.mt-1 {
+  margin-top: 1rem;
+}
 
 /* CONTENT RELATED */
 .fit-content {

@@ -19,7 +19,7 @@ const DateRanges = ({
           key={subPeriodIndex}
           className="flex-c dynamic-periods-container pl1"
         >
-          <div className="flex-start ">
+          <div className="flex-start">
             <div className="input__group flex-c m20">
               <div className="flex-cr inputs input--medium">
                 <input

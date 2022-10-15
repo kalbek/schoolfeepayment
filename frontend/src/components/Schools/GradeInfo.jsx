@@ -1,4 +1,5 @@
-import DynamicGrades from "../Utilities/DynamicFields/DynamicGrades";
+// import DynamicGrades from "../Utilities/DynamicFields/DynamicGrades";
+import DynamicGrades from "../Utilities/DynamicFields/EducationalDivisions/DynamicGrades";
 import SmallCard from "../Utilities/Cards/SmallCard";
 import Preview from "../Utilities/Buttons/Preview";
 import { useEffect } from "react";

@@ -352,6 +352,7 @@ const Payments1Actions = ({ formData }) => {
       if (payment.Id === index) {
         dispatch(
           createCustomDiscount({
+            
             paymentId: index,
             discounts: {
               Id: payment.discountParameters.customPaymentDiscount
