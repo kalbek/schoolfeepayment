@@ -1,19 +1,16 @@
 import { useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setPopup, setPopupType } from "../features/popups/popupSlice";
 
-const useClickAway = (ref, onClickAway) => {
-  const dispatch = useDispatch();
-
+const useClickAwayForClassnames = (ref, className, onClickAway) => {
   const callBackRef = useRef(onClickAway);
   useEffect(() => {
     callBackRef.current = onClickAway;
   }, [onClickAway]);
-  useEffect(() => { 
+  useEffect(() => {
     const onPointerDown = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
         callBackRef.current(event);
-        dispatch(setPopupType(""));
+        const span = ref.current;
+        span.className = { className };
       }
     };
     document.addEventListener("pointerdown", onPointerDown);
@@ -23,4 +20,4 @@ const useClickAway = (ref, onClickAway) => {
   }, [ref]);
 };
 
-export default useClickAway;
+export default useClickAwayForClassnames;

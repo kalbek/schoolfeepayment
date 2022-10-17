@@ -223,10 +223,20 @@
   border-color: #2d8cf0;
 }
 
-/* #inputs:focus-within input {
-  transition: all 0.3s ease;
-  border-color: #2d8cf0;
-} */
+.focused-labels label {
+  /* transition: all 0.3s ease; */
+  color: #2d8cf0;
+}
+
+.table-headers {
+  font-size: 15px;
+}
+.table-captions p {
+  font-weight: 400;
+  font-size: 22px;
+  color: #2d8cf0;
+}
+
 
 .incomplete--inputs input {
   padding: 0 5px;
