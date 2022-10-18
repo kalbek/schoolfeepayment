@@ -1,78 +1,104 @@
 import { useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
-// import Textbox from "../../../InputControls/Textbox";
+import { useRef, useState } from "react";
 import Textbox from "./Utilities/Textbox";
-import useClickAwayForClassnames from "../../../../hooks/useClickAwayForClassnames";
 import EmptyField from "./Utilities/EmptyField";
 import PaymentHeader from "./TableComponents/PaymentHeader";
 import PaymentCaption from "./TableComponents/PaymentCaption";
+import { useEffect } from "react";
+
 const DiscountAmountsTabel = () => {
   const paymentState = useSelector((state) => state.payments.paymentState);
-  // const genderDiscount = paymentState.discountParameters.genderBasedDiscount.value
   const ref = useRef(null);
   const ref0 = useRef(null);
   const ref1 = useRef(null);
   const ref2 = useRef(null);
   const ref3 = useRef(null);
-
   const itemEls = useRef(new Array());
   const refEls = useRef(new Array());
 
-  const onAClick = (index) => {
-    // console.log(ref)
-    console.log(index)
-    // console.log(refEls.current);
-    if (itemEls.current[0].className.slice(2) === "pr-4 pl-2") {
-      ref0.current.className = "focused-labels";
-      ref1.current.className = "";
-      ref2.current.className = "";
-      ref3.current.className = "";
-      // console.log(refEls.current[0])
-      // console.log("one: "+ index.currentTarget.className.slice(0,1))
-      if (index.currentTarget.className.slice(0, 1) === "0") {
-        // console.log(refEls.current[0])
+  const onAClick = (e, index) => {
+    for (let i = 0; i < refEls.current.length; i++) {
+      let refs = refEls.current[i];
+      if (refs.className === refEls.current[index].className) {
+        refEls.current[i].className += " focused-labels";
+      } else {
+        if (refEls.current[i].className.includes("focused-labels")) {
+          const len = refEls.current[i].className.length;
+          refEls.current[i].className = refEls.current[i].className.slice(
+            0,
+            len - 15
+          );
+        }
       }
     }
+
+    console.log(e)
+    ref0.current.className = "focused-labels";
+    ref1.current.className = "";
+    ref2.current.className = "";
+    ref3.current.className = "";
   };
-  const onBClick = (index) => {
-    // console.log(ref)
-    console.log(index)
-    // console.log(refEls.current);
-    if (itemEls.current[1].className.slice(2) === "pr-4 pl-2") {
-      ref0.current.className = "";
-      ref1.current.className = "focused-labels";
-      ref2.current.className = "";
-      ref3.current.className = "";
-      // console.log(refEls.current[1])
-      // console.log("two: "+ index.currentTarget.className.slice(0,1))
-      if (index.currentTarget.className.slice(0, 1) === "1") {
-        // console.log(refEls.current[1])
-        ref.current = "one";
+  const onBClick = () => {
+    // console.log(refEls.current[1]);
+    console.log(itemEls.current[1].className);
+    console.log("so: " + itemEls.current[1].className);
+    ref0.current.className = "";
+    ref1.current.className = "focused-labels";
+    ref2.current.className = "";
+    ref3.current.className = "";
+  };
+  const onCClick = () => {
+    console.log(itemEls.current[2].className);
+    ref0.current.className = "";
+    ref1.current.className = "";
+    ref2.current.className = "focused-labels";
+    ref3.current.className = "";
+  };
+  const onDClick = () => {
+    console.log(itemEls.current[3].className);
+    ref0.current.className = "";
+    ref1.current.className = "";
+    ref2.current.className = "";
+    ref3.current.className = "focused-labels";
+  };
+
+  function rowClicked(index) {
+    console.log(index.target.lastChild.data);
+    for (let i = 0; i < refEls.current.length; i++) {
+      let refs = refEls.current[i];
+      if (refs.className === "pr-7 " + index.target.lastChild.data) {
+        refEls.current[i].className += " focused-labels";
+      } else {
+        if (refEls.current[i].className.includes("focused-labels")) {
+          const len = refEls.current[i].className.length;
+          refEls.current[i].className = refEls.current[i].className.slice(
+            0,
+            len - 15
+          );
+        }
       }
     }
-  };
-  const onCClick = (index) => {
-    if (itemEls.current[2].className.slice(2) === "pr-4 pl-2") {
-      ref0.current.className = "";
-      ref1.current.className = "";
-      ref2.current.className = "focused-labels";
-      ref3.current.className = "";
-      // console.log("three: " + index.currentTarget.className.slice(0, 1));
-      if (index.currentTarget.className.slice(0, 1) === "2") {
-        // console.log(refEls.current[2]);
-        ref.current = "two";
+  }
+
+  function BKUP(index) {
+    console.log(index.target.lastChild);
+    for (let i = 0; i < refEls.current.length; i++) {
+      let refs = refEls.current[i];
+      if (refs.className === "pr-7 " + index.target.lastChild.data) {
+        refEls.current[i].className += " focused-labels";
+      } else {
+        if (refEls.current[i].className.includes("focused-labels")) {
+          const len = refEls.current[i].className.length;
+          refEls.current[i].className = refEls.current[i].className.slice(
+            0,
+            len - 15
+          );
+        }
       }
     }
-  };
-  const onDClick = (index) => {
-    // console.log(index.currentTarget.className.slice(0, 1));
-    if (itemEls.current[3].className === "0") {
-      ref0.current.className = "";
-      ref1.current.className = "";
-      ref2.current.className = "";
-      ref3.current.className = "focused-labels";
-    }
-  };
+  }
+
+  // const rowClicked = (index) => {};
 
   return (
     <div className="field-group-container">
@@ -110,8 +136,12 @@ const DiscountAmountsTabel = () => {
             {paymentState.map((payments, index) => (
               <tr key={index}>
                 <td
-                  ref={(element) => refEls.current.push(element)}
-                  className={"pr-7 " + index}
+                  // ref={(element) => refEls.current.push(element)}
+                  ref={(element) => {
+                    refEls.current[index] = element;
+                  }}
+                  className={"pr-7 " + payments.paymentType.paymentName}
+                  onClick={rowClicked}
                 >
                   <span>
                     <PaymentHeader label={payments.paymentType.paymentName} />
@@ -122,8 +152,8 @@ const DiscountAmountsTabel = () => {
                 {payments.discountParameters.genderBasedDiscount.value ? (
                   <td
                     ref={(element) => itemEls.current.push(element)}
-                    onClick={onAClick}
-                    className={index + " pr-4 pl-2"}
+                    onClick={(e) => onAClick(e, index)}
+                    className={payments.paymentType.paymentName + " pr-4 pl-2 "}
                   >
                     <>
                       <Textbox
@@ -149,8 +179,8 @@ const DiscountAmountsTabel = () => {
                 {/* INPUT CONTROL FOR SPECIALNEED DISCOUNTS */}
                 <td
                   ref={(element) => itemEls.current.push(element)}
-                  onClick={onBClick}
-                  className={index + " pr-4 pl-2"}
+                  onClick={(e) => onAClick(e, index)}
+                  className={payments.paymentType.paymentName + " pr-4 pl-2"}
                 >
                   {payments.discountParameters.specialNeedsBasedDiscount
                     .value &&
@@ -189,8 +219,8 @@ const DiscountAmountsTabel = () => {
                 {/* INPUT CONTROL FOR SCHOLARSHIP DISCOUNTS */}
                 <td
                   ref={(element) => itemEls.current.push(element)}
-                  onClick={onCClick}
-                  className={index + " pr-4 pl-2"}
+                  onClick={(e) => onAClick(e, index)}
+                  className={payments.paymentType.paymentName + " pr-4 pl-2"}
                 >
                   {payments.discountParameters.scholarshipBasedDiscount.value &&
                   payments.discountParameters.scholarshipBasedDiscount
@@ -227,8 +257,8 @@ const DiscountAmountsTabel = () => {
                 {/* INPUT CONTROL FOR CUSTOM DISCOUNTS */}
                 <td
                   ref={(element) => itemEls.current.push(element)}
-                  onClick={onDClick}
-                  className={index}
+                  onClick={(e) => onAClick(e, index)}
+                  className={payments.paymentType.paymentName}
                 >
                   {payments.discountParameters.customPaymentDiscount.value ? (
                     payments.discountParameters.customPaymentDiscount.customDiscounts.map(
