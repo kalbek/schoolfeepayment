@@ -31,8 +31,6 @@ const DiscountAmountsTabel = () => {
         }
       }
     }
-
-    console.log(e)
     ref0.current.className = "focused-labels";
     ref1.current.className = "";
     ref2.current.className = "";
@@ -179,7 +177,7 @@ const DiscountAmountsTabel = () => {
                 {/* INPUT CONTROL FOR SPECIALNEED DISCOUNTS */}
                 <td
                   ref={(element) => itemEls.current.push(element)}
-                  onClick={(e) => onAClick(e, index)}
+                  onClick={onBClick}
                   className={payments.paymentType.paymentName + " pr-4 pl-2"}
                 >
                   {payments.discountParameters.specialNeedsBasedDiscount
@@ -219,7 +217,7 @@ const DiscountAmountsTabel = () => {
                 {/* INPUT CONTROL FOR SCHOLARSHIP DISCOUNTS */}
                 <td
                   ref={(element) => itemEls.current.push(element)}
-                  onClick={(e) => onAClick(e, index)}
+                  onClick={onCClick}
                   className={payments.paymentType.paymentName + " pr-4 pl-2"}
                 >
                   {payments.discountParameters.scholarshipBasedDiscount.value &&
@@ -257,7 +255,7 @@ const DiscountAmountsTabel = () => {
                 {/* INPUT CONTROL FOR CUSTOM DISCOUNTS */}
                 <td
                   ref={(element) => itemEls.current.push(element)}
-                  onClick={(e) => onAClick(e, index)}
+                  onClick={onDClick}
                   className={payments.paymentType.paymentName}
                 >
                   {payments.discountParameters.customPaymentDiscount.value ? (
