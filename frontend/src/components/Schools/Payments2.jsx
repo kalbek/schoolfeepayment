@@ -9,14 +9,16 @@ function Payments2() {
         <div>
           <div>
             <h1 className="form__titles--mid">
-              Now is the time for Numbers! --
-              <strong> Payment Amounts --</strong>
+              Okay, let't talk about Discounts
             </h1>
             <h3 className="form__subtitle">
-              Based on the data you provided earlier your school's payment
-              detail is mapped to look like this
+              <p>
+                The Discount Tabel is based on your schools discount parameters.
+              </p>
             </h3>
           </div>
+          <br />
+          <br />
           <Paymens2Actions />
         </div>
       </div>

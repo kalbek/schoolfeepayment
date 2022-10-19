@@ -6,7 +6,7 @@ const PaymentTerms = ({ handlePaymentTerm, singlePayment, index }) => {
         {/* PAYMENT TERM SELECT OPTION */}
         <div className="checkbox-inputs input__group field-group-container pt2">
           <section className="flex-left">
-            <label htmlFor="">
+            <label htmlFor="">  
               <h3>Payment Term</h3>
             </label>
             <div className="flex-c checkbox-group flex-start">

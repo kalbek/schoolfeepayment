@@ -33,7 +33,7 @@ import {
   deleteCustomDiscount,
 } from "../../../../features/paymentBase/paymentBaseSlice";
 
-const Payments1Actions = ({ formData }) => {
+const Payments1Actions = ({}) => {
   const dispatch = useDispatch();
   const paymentState = useSelector((state) => state.payments.paymentState);
   const lastPaymentState = paymentState[paymentState.length - 1];
@@ -48,6 +48,7 @@ const Payments1Actions = ({ formData }) => {
           paymentName: "Tuiton Fee",
           customPaymentName: "",
           paymentAmount: 0,
+          discountUnits: "amount" + paymentState.length,
         },
         paymentBase: {
           periodPaymentBase: {
@@ -94,9 +95,11 @@ const Payments1Actions = ({ formData }) => {
             paymentBases: [],
           },
         },
+
         // payment discount parameters
         discountParameters: {
           Id: 0,
+          discountUnit: "amount" + paymentState.length,
           genderBasedDiscount: {
             value: false,
             genderType: "female",
@@ -104,10 +107,6 @@ const Payments1Actions = ({ formData }) => {
             discountForfemale: true,
             male: false,
             female: true,
-            genders: {
-              male: false,
-              female: true,
-            },
           },
           specialNeedsBasedDiscount: {
             value: false,
@@ -123,8 +122,9 @@ const Payments1Actions = ({ formData }) => {
           },
         },
         paymentTerm: {
-          standardPaymentTerm: true,
-          advancedPaymenTerm: false,
+          paymentTermType: "standard" + paymentState.length,
+          // standardPaymentTerm: true,
+          // advancedPaymenTerm: false,
         },
 
         totalPaymentAmount: {
@@ -141,6 +141,7 @@ const Payments1Actions = ({ formData }) => {
       })
     );
   };
+
   const handlePaymentType = (event, index) => {
     const { value } = event.target;
     dispatch(
@@ -151,6 +152,7 @@ const Payments1Actions = ({ formData }) => {
       })
     );
   };
+
   const handleCustomPaymentType = (event, index) => {
     const { value } = event.target;
     dispatch(
@@ -160,6 +162,7 @@ const Payments1Actions = ({ formData }) => {
       })
     );
   };
+
   const removeCustomPaymentType = (index) => {
     dispatch(
       deleteCustomPaymentType({
@@ -182,6 +185,7 @@ const Payments1Actions = ({ formData }) => {
       }
     });
   };
+
   const handleSelectGenderBasedPaymentDiscount = (event, index) => {
     const { name } = event.target;
     paymentState.map((payment) => {
@@ -196,6 +200,7 @@ const Payments1Actions = ({ formData }) => {
       }
     });
   };
+
   const handlePaymentDiscount = (event, index) => {
     const { name } = event.target;
     paymentState.map((state) => {
@@ -211,6 +216,7 @@ const Payments1Actions = ({ formData }) => {
       }
     });
   };
+
   const handleCustomPaymentBase = (event, index, baseIndex) => {
     const { value } = event.target;
     paymentState.map((state) => {
@@ -268,7 +274,6 @@ const Payments1Actions = ({ formData }) => {
   };
 
   // METHODS TO HANDLE CRUD OPERATIONS FOR PAYMENT DISCOUNTS
-
   const handleGenderTypesForDiscount = (event, index) => {
     const { id } = event.target;
     paymentState.map((payment) => {
@@ -352,7 +357,6 @@ const Payments1Actions = ({ formData }) => {
       if (payment.Id === index) {
         dispatch(
           createCustomDiscount({
-            
             paymentId: index,
             discounts: {
               Id: payment.discountParameters.customPaymentDiscount

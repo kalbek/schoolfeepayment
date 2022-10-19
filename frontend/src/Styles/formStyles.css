@@ -209,6 +209,15 @@
   font-size: 13px;
   color: #545454;
 }
+.input__groupa label,
+l {
+  padding-bottom: 0.4em;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-style: bolder;
+  font-size: 13px;
+  color: #545454;
+}
 
 .form-duals {
   margin-top: 1rem;
@@ -236,7 +245,6 @@
   font-size: 22px;
   color: #2d8cf0;
 }
-
 
 .incomplete--inputs input {
   padding: 0 5px;
@@ -289,6 +297,7 @@
   /* padding-bottom: 0.6rem; */
   width: fit-content;
 }
+
 tbody tr {
   margin-bottom: 10rem;
 }

@@ -9,6 +9,7 @@ const initialState = {
         paymentName: "Tuition Fee",
         customPaymentName: "",
         paymentAmount: 0,
+        discountUnits: "amount0",
       },
       // PAYMENT BASES OR BASES IN WICH EACH PAYMENT DEPENDS ON !!
       paymentBase: {
@@ -56,37 +57,35 @@ const initialState = {
           paymentBases: [],
         },
       },
+
       //   PAYMENT DISCOUNT PARAMETERS IN WHICH EACH PAYMENT DISCOUNTS DEPENDS ON
       discountParameters: {
         Id: 0,
+        discountUnit: "amount",
         genderBasedDiscount: {
           value: false,
           genderType: "female",
           discountFormale: false,
           discountForfemale: true,
-          genders: {
-            male: false,
-            female: true,
-          },
         },
-
         specialNeedsBasedDiscount: {
           value: false,
           specialNeeds: [],
+          discountUnit: "percentage",
         },
         scholarshipBasedDiscount: {
           value: false,
           scholarships: [],
+          discountUnit: "percentage",
         },
         customPaymentDiscount: {
           value: false,
           customDiscounts: [],
+          discountUnit: "percentage",
         },
       },
       paymentTerm: {
-        paymentTermType: "standard",
-        standardPaymentTerm: true,
-        advancedPaymenTerm: false,
+        paymentTermType: "standard0",
       },
 
       totalPaymentAmount: {
@@ -127,6 +126,12 @@ export const paymentSlice = createSlice({
           )
             payment.discountParameters.genderBasedDiscount.genderType =
               "female" + payment.Id;
+          // update payment discount Units
+          if (payment.discountUnits.discountUnitType.charAt(0) === "p") {
+            payment.paymentType.discountUnits = "percentage" + payment.Id;
+          } else if (payment.discountUnits.discountUnitType.charAt(0) === "a") {
+            payment.paymentType.discountUnits = "amount" + payment.Id;
+          }
         }
       });
     },
@@ -212,14 +217,6 @@ export const paymentSlice = createSlice({
         }
       });
     },
-    // updateGenderBasedPaymentDiscount: (state, action) => {
-    //   state.paymentState.map((paymentState) => {
-    //     if (paymentState.Id === action.payload.paymentId) {
-    //       paymentState.discountParameters.genderBasedDiscount.value =
-    //         action.payload.selectedValue;
-    //     }
-    //   });
-    // },
 
     createCustomPaymentBase: (state, action) => {
       state.paymentState.map((payments) => {
@@ -237,7 +234,6 @@ export const paymentSlice = createSlice({
             (customBase) => {
               if (customBase.Id === action.payload.customPaymentBaseId) {
                 customBase.customPaymentBaseName = action.payload.value;
-                // customBase.customProperties.push = action.payload.customProperties
               }
             }
           );
@@ -377,7 +373,10 @@ export const paymentSlice = createSlice({
             payment.discountParameters.customPaymentDiscount.value = true;
           }
         }
-        console.log(current(payment).discountParameters.customPaymentDiscount.customDiscounts[0])
+        console.log(
+          current(payment).discountParameters.customPaymentDiscount
+            .customDiscounts[0]
+        );
       });
     },
 
@@ -509,6 +508,18 @@ export const paymentSlice = createSlice({
         }
       });
     },
+
+    updatePaymentDiscountUnit: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          console.log("PAYLOAD: " + action.payload.discountUnitType);
+          console.log("STATE_B4: " + paymentState.paymentType.discountUnits);
+          paymentState.discountParameters.discountUnit =
+            action.payload.discountUnitType;
+          // console.log("STATE_AFTER: " + paymentState.discountUnits.discountUnitType);
+        }
+      });
+    },
     // END OF CRUD OPERATINS FOR PAYMENT DICOUNT PARAMETERS
     updatePaymentTerms: (state, action) => {
       state.paymentState.map((paymentState) => {
@@ -573,6 +584,7 @@ export const {
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,
   deleteCustomDiscount,
+  updatePaymentDiscountUnit,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

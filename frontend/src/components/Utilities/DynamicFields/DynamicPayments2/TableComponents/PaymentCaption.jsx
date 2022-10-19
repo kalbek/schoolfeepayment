@@ -4,7 +4,7 @@ const PaymentCaption = ({ label }) => {
       <div className="flex-start input__group flex fit-content table-captions mb-1p5 mt-1 ">
         <label>
           <p>
-            <u>{label}</u>
+          {label}
           </p>
         </label>
       </div>
