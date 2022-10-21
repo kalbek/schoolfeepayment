@@ -2,7 +2,6 @@ import { useRef } from "react";
 const Textbox = ({
   value,
   id,
-  type,
   name,
   placeholder,
   tabIndex,
@@ -20,8 +19,8 @@ const Textbox = ({
             <p>{label}</p>
             <div className="mb-1 inputs input--small">
               <input
+                type="text"
                 name={name}
-                type={type}
                 value={value}
                 placeholder={placeholder}
                 id={id}

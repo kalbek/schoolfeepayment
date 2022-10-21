@@ -1,17 +1,16 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateGradeBasedDiscount } from "../../../../features/paymentBase/paymentBaseSlice";
 const DiscountBase = (props) => {
   const isGradeBasedDiscount =
     props.singlePayment.discountParameters.isGradeBasedDiscountType;
   const dispatch = useDispatch();
   const updateDiscountBase = () => {
-    console.log("index: " + props.index )
-      dispatch(
-        updateGradeBasedDiscount({
-          paymentId: props.index,
-          value: !props.singlePayment.discountParameters.isGradeBasedDiscountType,
-        })
-      );
+    dispatch(
+      updateGradeBasedDiscount({
+        paymentId: props.index,
+        value: !props.singlePayment.discountParameters.isGradeBasedDiscountType,
+      })
+    );
   };
   return (
     <div className="flex-start checkbox-group">
@@ -27,16 +26,14 @@ const DiscountBase = (props) => {
                 <div className="input__group pr-6">
                   <label
                     className="checkbox-items flex flex-cs   pr-1 "
-                    htmlFor={"grade-based-discount " + props.index}
+                    htmlFor={props.index}
                   >
                     <input
                       type="checkbox"
-                      // name={name}
-                      id={"grade-based-discount" + props.index}
-                      // id={id}
+                      id={props.index}
                       value={isGradeBasedDiscount}
                       checked={isGradeBasedDiscount}
-                      onChange={ updateDiscountBase}
+                      onChange={updateDiscountBase}
                     />
                     <>
                       <span className="mt-p2">

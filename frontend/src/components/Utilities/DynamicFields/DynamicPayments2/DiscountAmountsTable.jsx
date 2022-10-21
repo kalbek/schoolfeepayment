@@ -6,27 +6,24 @@ import PaymentHeader from "./TableComponents/PaymentHeader";
 import PaymentRowHeader from "./TableComponents/PaymentRowHeader";
 import {
   updatePaymentDiscountUnit,
-  updateGradeBasedDiscount,
+  updateDiscountValues,
 } from "../../../../features/paymentBase/paymentBaseSlice";
 import PaymentCaption from "./TableComponents/PaymentCaption";
-import PaymentTerms from "../DynamicPayments1/PaymentTerms";
 import DiscountUnits from "./DiscountUnits";
 import DiscountBase from "./DiscountBase";
-import { updatePaymentTerm } from "../../../../features/paymentBase/paymentBaseSlice";
+import DivisionBasedDiscounts from "./DivisionBasedDiscounts";
 
-const DiscountAmountsTabel = ({updateDiscountBase}) => {
+const DiscountAmountsTabel = ({
+  updateDiscountBase,
+  handleGradebasedDiscountAmount,
+}) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   const educationalDivisionState = useSelector(
     (state) => state.educationalDivisions.educationalDivision
   );
   const division =
     educationalDivisionState[0].educationalSubDivision[0].subDivisionType;
-  const lastDivisionState =
-    educationalDivisionState[educationalDivisionState.length - 1];
-  const lastSubDivisionState =
-    lastDivisionState.educationalSubDivision[
-      lastDivisionState.educationalSubDivision.length - 1
-    ];
+
   const updateDiscountUnits = (event, index) => {
     const { id } = event.target;
     paymentState.map((paymentState) => {
@@ -36,12 +33,26 @@ const DiscountAmountsTabel = ({updateDiscountBase}) => {
             paymentId: index,
             unitType: id,
           })
-          );
-        }
-      });
-    };
-    
-  
+        );
+      }
+    });
+  };
+  const handleDiscountAmountInputs = (event, index) => {
+    const { id, name, valueAsNumber } = event.target;
+    paymentState.map((paymentState) => {
+      console.log("name: " + name);
+      if (paymentState.Id === index) {
+        dispatch(
+          updateDiscountValues({
+            discountType: name,
+            paymentId: index,
+            unitType: id,
+            value: valueAsNumber,
+          })
+        );
+      }
+    });
+  };
 
   const dispatch = useDispatch();
   const ref0 = useRef(null);
@@ -201,18 +212,51 @@ const DiscountAmountsTabel = ({updateDiscountBase}) => {
                     onClick={(e) => onAClick(e, index)}
                     className={payments.paymentType.paymentName + " pr-4 pl-2"}
                   >
-                    <span>
+                    <span className="-mt-1">
                       <>
-                        <Textbox
-                          label={
-                            payments.discountParameters.genderBasedDiscount.genderType.charAt(
-                              0
-                            ) === "f"
-                              ? "Discount for female"
-                              : "Discount for male"
-                          }
-                          divClassName={"input--small input"}
-                        />
+                        {payments.discountParameters
+                          .isGradeBasedDiscountType ? (
+                          <>
+                            <span className="primary-label pb-1 ml-80">
+                              {/* Hide */}
+                            </span>
+                            <br />
+                            <DivisionBasedDiscounts
+                              index={index}
+                              handleGradebasedDiscountAmount={
+                                handleGradebasedDiscountAmount
+                              }
+                              singlePayment={payments}
+                            />
+                          </>
+                        ) : (
+                          <Textbox
+                            type="number"
+                            label={
+                              payments.discountParameters.genderBasedDiscount.genderType.charAt(
+                                0
+                              ) === "f"
+                                ? "Discount for female"
+                                : "Discount for male"
+                            }
+                            placeholder={
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? "In Percentage (%)"
+                                : "Amount in ETB"
+                            }
+                            onChange={(event) =>
+                              handleDiscountAmountInputs(event, index)
+                            }
+                            name={"gender-discounts"}
+                            divClassName={"input--small input"}
+                            value={
+                              payments.discountParameters.genderBasedDiscount
+                                .amount
+                            }
+                          />
+                        )}
                         <span>&nbsp;</span>
                       </>
                     </span>
@@ -234,11 +278,41 @@ const DiscountAmountsTabel = ({updateDiscountBase}) => {
                   payments.discountParameters.specialNeedsBasedDiscount
                     .specialNeeds.length === 0 ? (
                     <>
-                      <Textbox
-                        label={"Discount Specialneeds"}
-                        placeholder={"Amount Etb"}
-                      />
-
+                      {payments.discountParameters.isGradeBasedDiscountType ? (
+                        <>
+                          <span className="primary-label pb-1 ml-80">
+                            {/* Hide */}
+                          </span>
+                          <br />
+                          <DivisionBasedDiscounts
+                            index={index}
+                            handleGradebasedDiscountAmount={
+                              handleGradebasedDiscountAmount
+                            }
+                            singlePayment={payments}
+                          />
+                        </>
+                      ) : (
+                        <Textbox
+                          type="number"
+                          label={"Discount Specialneeds"}
+                          placeholder={
+                            payments.discountParameters.discountUnit.charAt(
+                              0
+                            ) === "p"
+                              ? "In Percentage (%)"
+                              : "Amount in ETB"
+                          }
+                          onChange={(event) =>
+                            handleDiscountAmountInputs(event, index)
+                          }
+                          value={
+                            payments.discountParameters
+                              .specialNeedsBasedDiscount.amount
+                          }
+                          name={"specialneed-discounts"}
+                        />
+                      )}
                       <span>&nbsp;</span>
                     </>
                   ) : payments.discountParameters.specialNeedsBasedDiscount
@@ -247,8 +321,24 @@ const DiscountAmountsTabel = ({updateDiscountBase}) => {
                       (specialNeeds, index) => (
                         <span key={index}>
                           <Textbox
+                            type="number"
                             label={
                               "Discount for " + specialNeeds.specialNeedName
+                            }
+                            placeholder={
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? "In Percentage (%)"
+                                : "Amount in ETB"
+                            }
+                            onChange={(event) =>
+                              handleDiscountAmountInputs(event, index)
+                            }
+                            name={"specialneed-discounts"}
+                            value={
+                              payments.discountParameters
+                                .specialNeedsBasedDiscount.amount
                             }
                           />
                           <span>&nbsp;</span>
@@ -272,10 +362,41 @@ const DiscountAmountsTabel = ({updateDiscountBase}) => {
                   payments.discountParameters.scholarshipBasedDiscount
                     .scholarships.length === 0 ? (
                     <>
-                      <Textbox
-                        label={"Discount for Scholarship"}
-                        placeholder={"Amount Etb"}
-                      />
+                      {payments.discountParameters.isGradeBasedDiscountType ? (
+                        <>
+                          <span className="primary-label pb-1 ml-80">
+                            {/* Hide */}
+                          </span>
+                          <br />
+                          <DivisionBasedDiscounts
+                            index={index}
+                            handleGradebasedDiscountAmount={
+                              handleGradebasedDiscountAmount
+                            }
+                            singlePayment={payments}
+                          />
+                        </>
+                      ) : (
+                        <Textbox
+                          type="number"
+                          label={"Discount for Scholarship"}
+                          placeholder={
+                            payments.discountParameters.discountUnit.charAt(
+                              0
+                            ) === "p"
+                              ? "In Percentage (%)"
+                              : "Amount in ETB"
+                          }
+                          onChange={(event) =>
+                            handleDiscountAmountInputs(event, index)
+                          }
+                          value={
+                            payments.discountParameters.scholarshipBasedDiscount
+                              .amount
+                          }
+                          name={"scholarship-discounts"}
+                        />
+                      )}
                       <span>&nbsp;</span>
                     </>
                   ) : payments.discountParameters.scholarshipBasedDiscount
@@ -284,9 +405,25 @@ const DiscountAmountsTabel = ({updateDiscountBase}) => {
                       (scholarship) => (
                         <span>
                           <Textbox
+                            type="number"
                             label={
                               "Discount for " + scholarship.scholarshipName
                             }
+                            placeholder={
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? "In Percentage (%)"
+                                : "Amount in ETB"
+                            }
+                            onChange={(event) =>
+                              handleDiscountAmountInputs(event, index)
+                            }
+                            value={
+                              payments.discountParameters
+                                .scholarshipBasedDiscount.amount
+                            }
+                            name={"scholarship-discounts"}
                           />
                           <span>&nbsp;</span>
                         </span>
@@ -310,11 +447,41 @@ const DiscountAmountsTabel = ({updateDiscountBase}) => {
                     payments.discountParameters.customPaymentDiscount.customDiscounts.map(
                       (customDiscount, subIndex) => (
                         <span key={subIndex}>
-                          <Textbox
-                            label={
-                              "Discount for " + customDiscount.discountName
-                            }
-                          />
+                          {payments.discountParameters
+                            .isGradeBasedDiscountType ? (
+                            <>
+                              <span className="primary-label pb-1 ml-80">
+                                {/* Hide */}
+                              </span>
+                              <br />
+                              <DivisionBasedDiscounts
+                                index={index}
+                                handleGradebasedDiscountAmount={
+                                  handleGradebasedDiscountAmount
+                                }
+                                singlePayment={payments}
+                              />
+                            </>
+                          ) : (
+                            <Textbox
+                              type="number"
+                              label={
+                                "Discount for " + customDiscount.discountName
+                              }
+                              placeholder={
+                                payments.discountParameters.discountUnit.charAt(
+                                  0
+                                ) === "p"
+                                  ? "In Percentage (%)"
+                                  : "Amount in ETB"
+                              }
+                              onChange={(event) =>
+                                handleDiscountAmountInputs(event, index)
+                              }
+                              value={customDiscount.amount}
+                              name={"custom-discounts"}
+                            />
+                          )}
                           <span>&nbsp;</span>
                         </span>
                       )

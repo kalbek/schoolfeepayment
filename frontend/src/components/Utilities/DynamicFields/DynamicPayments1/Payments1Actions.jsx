@@ -103,6 +103,7 @@ const Payments1Actions = ({}) => {
           discountUnit: "amount" + paymentState.length,
           genderBasedDiscount: {
             value: false,
+            amount: "",
             genderType: "female",
             discountFormale: false,
             discountForfemale: true,
@@ -111,14 +112,17 @@ const Payments1Actions = ({}) => {
           },
           specialNeedsBasedDiscount: {
             value: false,
+            amount: "",
             specialNeeds: [],
           },
           scholarshipBasedDiscount: {
             value: false,
+            amount: "",
             scholarships: [],
           },
           customPaymentDiscount: {
             value: false,
+            amount: "",
             customDiscounts: [],
           },
         },

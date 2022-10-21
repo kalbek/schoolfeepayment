@@ -28,6 +28,7 @@ const DiscountUnits = forwardRef((props, parentref) => {
                         props.handleDiscountUnits(event, props.index)
                       }
                       tabIndex={9}
+                      
                     />
                     <span className="mt-p2">
                       &nbsp; <p>{"(%) pct"}</p>

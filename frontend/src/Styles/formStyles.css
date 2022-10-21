@@ -201,6 +201,7 @@
   color: #767676;
 }
 .input__group label,
+.primary-label,
 .input--above-medium label {
   padding-bottom: 0.4em;
   font-family: "Inter", sans-serif;

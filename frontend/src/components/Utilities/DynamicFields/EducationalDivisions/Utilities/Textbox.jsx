@@ -20,6 +20,7 @@ const Textbox = ({
             <input
               type="text"
               name={name}
+              value={value}
               placeholder={placeholder}
               id={id}
               tabIndex={1}

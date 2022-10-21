@@ -420,6 +420,12 @@
 .ml-100 {
   margin-left: 100%;
 }
+.ml-80 {
+  margin-left: 80%;
+}
+.ml-70 {
+  margin-left: 70%;
+}
 .ml-p5 {
   margin-left: 0.5rem;
 }

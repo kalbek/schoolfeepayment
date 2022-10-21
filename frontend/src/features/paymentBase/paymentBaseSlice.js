@@ -65,22 +65,26 @@ const initialState = {
         isGradeBasedDiscountType: false,
         genderBasedDiscount: {
           value: false,
+          amount: "",
           genderType: "female",
           discountFormale: false,
           discountForfemale: true,
         },
         specialNeedsBasedDiscount: {
           value: false,
+          amount: "",
           specialNeeds: [],
           discountUnit: "percentage",
         },
         scholarshipBasedDiscount: {
           value: false,
+          amount: "",
           scholarships: [],
           discountUnit: "percentage",
         },
         customPaymentDiscount: {
           value: false,
+          amount: "",
           customDiscounts: [],
           discountUnit: "percentage",
         },
@@ -438,6 +442,36 @@ export const paymentSlice = createSlice({
       });
     },
 
+    updateDiscountValues: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          console.log("HIT");
+          console.log("action.payload.value: " + action.payload.value);
+          //  COME HERE
+          if (action.payload.discountType === "gender-discounts") {
+            console.log("1");
+            console.log(
+              paymentState.discountParameters.genderBasedDiscount.amount
+            );
+            paymentState.discountParameters.genderBasedDiscount.amount =
+              action.payload.value;
+          } else if (action.payload.discountType === "specialneed-discounts") {
+            console.log("2");
+            paymentState.discountParameters.specialNeedsBasedDiscount.amount =
+              action.payload.value;
+          } else if (action.payload.discountType === "scholarship-discounts") {
+            console.log("3");
+            paymentState.discountParameters.scholarshipBasedDiscount.amount =
+              action.payload.value;
+          } else if (action.payload.discountType === "custom-discounts") {
+            console.log("4");
+            paymentState.discountParameters.customPaymentDiscount.amount =
+              action.payload.value;
+          }
+        }
+      });
+    },
+
     deleteSpecialNeedDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
@@ -593,6 +627,7 @@ export const {
   updateSpecialNeedDiscount,
   updateScholarshipDiscount,
   updateGradeBasedDiscount,
+  updateDiscountValues,
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,
   deleteCustomDiscount,

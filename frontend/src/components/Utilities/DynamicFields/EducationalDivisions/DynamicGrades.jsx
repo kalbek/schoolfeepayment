@@ -5,9 +5,11 @@ import AddMoreButton from "../../Buttons/AddMoreButton";
 import { useSelector } from "react-redux";
 import Radio from "../../../InputControls/Radio";
 
-// import Textbox from "../../../InputControls/Textbox";
-import Textbox from "./Utilities/Textbox";
-// import Textbox from "./utilities/Textbox"
+// import Textbox " from "../../../InputControls/Textbox
+import Textbox from "./Utilities/Textbox"
+ 
+ 
+ 
 import SmallCard from "../../Cards/SmallCard";
 import Preview from "../../Buttons/Preview";
 import DeleteButton from "../../Buttons/DeleteButton";
@@ -204,6 +206,7 @@ const DynamicGrades = ({
                 <div className="flex-cr inputs input--medium">
                   <div className="flex-cs">
                     <Textbox
+                    type="text"
                       value={division.divisionName}
                       id="Stage"
                       name="educationalDivision"
@@ -248,7 +251,9 @@ const DynamicGrades = ({
                   {/*SUBDIVISIONS INPUT CONTROL*/}
                   <div className="flex">
                     <div className="input__group flex-cr inputs input--medium ">
+                      {console.log("d.sdn: " + subDivision.subDivisionName)}
                       <Textbox
+                      type="text"
                         value={subDivision.subDivisionName}
                         id={subDivision.subDivisionType}
                         name="educationalSubDivision"
@@ -299,6 +304,7 @@ const DynamicGrades = ({
                             subSubIndex={sectionIndex}
                           />
                           <Textbox
+                          type="text"
                             value={section.sectionName}
                             id={section.subDivisionType}
                             name="educationalSubDivision"
