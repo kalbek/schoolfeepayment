@@ -447,6 +447,7 @@ export const paymentSlice = createSlice({
         if (paymentState.Id === action.payload.paymentId) {
           console.log("HIT");
           console.log("action.payload.value: " + action.payload.value);
+          console.log("action.payload.discountType: " + action.payload.discountType);
           //  COME HERE
           if (action.payload.discountType === "gender-discounts") {
             console.log("1");
@@ -455,7 +456,14 @@ export const paymentSlice = createSlice({
             );
             paymentState.discountParameters.genderBasedDiscount.amount =
               action.payload.value;
-          } else if (action.payload.discountType === "specialneed-discounts") {
+          } 
+          else if (action.payload.discountType === "grade-based-gender-discounts") {
+            console.log(" wow");
+            paymentState.discountParameters.genderBasedDiscount.amount =
+              action.payload.value;
+          } 
+          
+          else if (action.payload.discountType === "specialneed-discounts") {
             console.log("2");
             paymentState.discountParameters.specialNeedsBasedDiscount.amount =
               action.payload.value;

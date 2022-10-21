@@ -60,6 +60,15 @@ export const educationalDivisionSlice = createSlice({
         }
       });
     },
+    updateGradeBasedDiscountValues: (state, action) => {
+      state.educationalDivision.map((division) => {
+        // COME HERE
+        console.log("hita hit");
+        if (division.id === action.payload.educationalDivisionId) {
+          division.divisionName = action.payload.divisionName;
+        }
+      });
+    },
 
     updateEducationalSubDivisions: (state, action) => {
       console.log(
@@ -238,6 +247,7 @@ export const {
   createSubDivisionSections,
   updateEducationalDivisions,
   updateEducationalSubDivisions,
+  updateGradeBasedDiscountValues,
   updateSubDivisionSections,
   deleteEducationalDivisions,
   deleteEducationalSubDivision,

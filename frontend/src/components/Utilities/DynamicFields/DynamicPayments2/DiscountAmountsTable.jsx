@@ -8,6 +8,7 @@ import {
   updatePaymentDiscountUnit,
   updateDiscountValues,
 } from "../../../../features/paymentBase/paymentBaseSlice";
+import { updateGradeBasedDiscountValues } from "../../../../features/Grades&Divisions/grades&DivisionsSlice";
 import PaymentCaption from "./TableComponents/PaymentCaption";
 import DiscountUnits from "./DiscountUnits";
 import DiscountBase from "./DiscountBase";
@@ -51,6 +52,29 @@ const DiscountAmountsTabel = ({
           })
         );
       }
+    });
+  };
+  const handleGradeBasedDiscountAmounts = (event, index) => {
+    console.log("ma men");
+    const { id, name, valueAsNumber } = event.target;
+    educationalDivisionState.map((division, index) => {
+      console.log(division);
+      paymentState.map((paymentState) => {
+        console.log("name: " + name);
+        if (division.id === paymentState.Id){
+          console.log("oha: "+division.id)
+        }
+        if (paymentState.Id === index) {
+          dispatch(
+            updateGradeBasedDiscountValues({
+              discountType: name,
+              paymentId: index,
+              unitType: id,
+              value: valueAsNumber,
+            })
+          );
+        }
+      });
     });
   };
 
@@ -227,6 +251,29 @@ const DiscountAmountsTabel = ({
                                 handleGradebasedDiscountAmount
                               }
                               singlePayment={payments}
+                              label={
+                                payments.discountParameters.genderBasedDiscount.genderType.charAt(
+                                  0
+                                ) === "f"
+                                  ? "Discount for female"
+                                  : "Discount for male"
+                              }
+                              placeholder={
+                                payments.discountParameters.discountUnit.charAt(
+                                  0
+                                ) === "p"
+                                  ? "In Percentage (%)"
+                                  : "Amount in ETB"
+                              }
+                              onChange={(event) =>
+                                handleGradeBasedDiscountAmounts(event, index)
+                              }
+                              name={"grade-based-gender-discounts"}
+                              divClassName={"input--small input"}
+                              value={
+                                payments.discountParameters.genderBasedDiscount
+                                  .amount
+                              }
                             />
                           </>
                         ) : (

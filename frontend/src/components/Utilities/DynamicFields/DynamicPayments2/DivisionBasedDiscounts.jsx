@@ -12,14 +12,18 @@ const DivisionBasedDiscounts = (props) => {
     <>
       <div className="flex-c">
         {educationalDivisionState.map((division, index) =>
-          division.educationalSubDivision.length > 1 ? (
+          division.educationalSubDivision.length >= 1 ? (
             <span key={index}>
-              {console.log("ye: " + division.educationalSubDivision.length)}
               {division.educationalSubDivision.map((subDivision, subIndex) => (
                 <span key={subIndex}>
                   <Textbox
                     type="number"
                     label={"For " + subDivision.subDivisionName}
+                    placeholder={props.placeholder}
+                    onChange={props.onChange}
+                    name={props.name}
+                    value={props.value}
+
                   />
                 </span>
               ))}
