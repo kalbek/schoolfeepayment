@@ -99,6 +99,7 @@ const Payments1Actions = ({}) => {
         // payment discount parameters
         discountParameters: {
           Id: 0,
+          isGradeBasedDiscountType: false,
           discountUnit: "amount" + paymentState.length,
           genderBasedDiscount: {
             value: false,

@@ -61,7 +61,8 @@ const initialState = {
       //   PAYMENT DISCOUNT PARAMETERS IN WHICH EACH PAYMENT DISCOUNTS DEPENDS ON
       discountParameters: {
         Id: 0,
-        discountUnit: "amount",
+        discountUnit: "amount0",
+        isGradeBasedDiscountType: false,
         genderBasedDiscount: {
           value: false,
           genderType: "female",
@@ -127,10 +128,12 @@ export const paymentSlice = createSlice({
             payment.discountParameters.genderBasedDiscount.genderType =
               "female" + payment.Id;
           // update payment discount Units
-          if (payment.discountUnits.discountUnitType.charAt(0) === "p") {
-            payment.paymentType.discountUnits = "percentage" + payment.Id;
-          } else if (payment.discountUnits.discountUnitType.charAt(0) === "a") {
-            payment.paymentType.discountUnits = "amount" + payment.Id;
+          if (payment.discountParameters.discountUnit.charAt(0) === "p") {
+            payment.discountParameters.discountUnit = "percentage" + payment.Id;
+          } else if (
+            payment.discountParameters.discountUnit.charAt(0) === "a"
+          ) {
+            payment.discountParameters.discountUnit = "amount" + payment.Id;
           }
         }
       });
@@ -424,6 +427,17 @@ export const paymentSlice = createSlice({
       });
     },
 
+    updateGradeBasedDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          console.log(action.payload.value);
+          console.log(paymentState.discountParameters.isGradeBasedDiscountType);
+          paymentState.discountParameters.isGradeBasedDiscountType =
+            action.payload.value;
+        }
+      });
+    },
+
     deleteSpecialNeedDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
@@ -512,11 +526,8 @@ export const paymentSlice = createSlice({
     updatePaymentDiscountUnit: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          console.log("PAYLOAD: " + action.payload.discountUnitType);
-          console.log("STATE_B4: " + paymentState.paymentType.discountUnits);
           paymentState.discountParameters.discountUnit =
-            action.payload.discountUnitType;
-          // console.log("STATE_AFTER: " + paymentState.discountUnits.discountUnitType);
+            action.payload.unitType;
         }
       });
     },
@@ -581,6 +592,7 @@ export const {
   createCustomDiscount,
   updateSpecialNeedDiscount,
   updateScholarshipDiscount,
+  updateGradeBasedDiscount,
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,
   deleteCustomDiscount,

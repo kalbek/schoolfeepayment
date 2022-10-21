@@ -323,6 +323,9 @@ tbody tr {
 .field-group-container:focus-within > h3 {
   color: #2d8cf0;
 }
+.row-headers:focus-within .table-headers {
+  color: #2d8cf0;
+}
 
 .field-subgroup-container:focus-within section,
 .field-subgroup-container:hover section {
