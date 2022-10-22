@@ -13,26 +13,24 @@ import {
   updatePaymentType,
   updateCustomPaymentType,
   deleteCustomPaymentType,
+  updateSelectionForGenderDiscount,
+  updateSelectionForSpecialneedDiscount,
+  updateSelectionForScholarshipDiscount,
   updatePaymentBase,
-  updateGenderBasedPaymentDiscount,
-  updateScholarshipBasedPaymentDiscount,
-  updateSpecialNeedBasedPaymentDiscount,
-  updatePaymentDiscount,
-  updateCustomDiscount,
+  updateCustomDiscountName,
   updateCustomPaymentBase,
-  updateGendersForPaymentDiscount,
+  updateGenderTypesRadioButtonSelection,
   updatePaymentTerm,
   deleteCustomPaymentBase,
   createSpecialNeedDiscount,
   createScholarshipDiscount,
   createCustomDiscount,
-  updateSpecialNeedDiscount,
-  updateScholarshipDiscount,
+  updateSpecialneedDiscountName,
+  updateScholarshipDiscountName,
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,
   deleteCustomDiscount,
 } from "../../../../features/paymentBase/paymentBaseSlice";
-
 const Payments1Actions = ({}) => {
   const dispatch = useDispatch();
   const paymentState = useSelector((state) => state.payments.paymentState);
@@ -104,25 +102,38 @@ const Payments1Actions = ({}) => {
           genderBasedDiscount: {
             value: false,
             amount: "",
+            percentage: "",
             genderType: "female",
             discountFormale: false,
             discountForfemale: true,
             male: false,
             female: true,
+            gradesEligibleForDiscount: [
+              // { gradeName: "", percentage: "", amount: "" },
+            ],
           },
           specialNeedsBasedDiscount: {
             value: false,
             amount: "",
+            percentage: "",
             specialNeeds: [],
+            gradesEligibleForDiscount: [
+              // { gradeName: "", percentage: "", amount: "" },
+            ],
           },
           scholarshipBasedDiscount: {
             value: false,
             amount: "",
+            percentage: "",
             scholarships: [],
+            gradesEligibleForDiscount: [
+              // { gradeName: "", percentage: "", amount: "" },
+            ],
           },
           customPaymentDiscount: {
             value: false,
             amount: "",
+            percentage: "",
             customDiscounts: [],
           },
         },
@@ -191,33 +202,37 @@ const Payments1Actions = ({}) => {
     });
   };
 
-  const handleSelectGenderBasedPaymentDiscount = (event, index) => {
-    const { name } = event.target;
-    paymentState.map((payment) => {
-      if (payment.Id === index) {
-        dispatch(
-          updateGenderBasedPaymentDiscount({
-            paymentId: index,
-            selectedValue: !payment.discountParameters[name].value,
-            paymentDiscountType: name + index,
-          })
-        );
-      }
-    });
-  };
-
-  const handlePaymentDiscount = (event, index) => {
+  const handlePaymentDiscountTypesSelection = (event, index) => {
     const { name } = event.target;
     paymentState.map((state) => {
       if (state.Id === index) {
-        dispatch(
-          updatePaymentDiscount({
-            paymentId: index,
-            selectedValue: !state.discountParameters[name].value,
-            paymentDiscountType: name + index,
-            // I'm not sure if these two are useful
-          })
-        );
+        if (name === "genderBasedDiscount") {
+          dispatch(
+            updateSelectionForGenderDiscount({
+              paymentId: index,
+              selectedValue: !state.discountParameters[name].value,
+              paymentDiscountType: name + index,
+            })
+          );
+        }
+        if (name === "specialNeedsBasedDiscount") {
+          dispatch(
+            updateSelectionForSpecialneedDiscount({
+              paymentId: index,
+              selectedValue: !state.discountParameters[name].value,
+              paymentDiscountType: name + index,
+            })
+          );
+        }
+        if (name === "scholarshipBasedDiscount") {
+          dispatch(
+            updateSelectionForScholarshipDiscount({
+              paymentId: index,
+              selectedValue: !state.discountParameters[name].value,
+              paymentDiscountType: name + index,
+            })
+          );
+        }
       }
     });
   };
@@ -284,37 +299,11 @@ const Payments1Actions = ({}) => {
     paymentState.map((payment) => {
       if (payment.Id === index) {
         dispatch(
-          updateGendersForPaymentDiscount({
+          updateGenderTypesRadioButtonSelection({
             paymentId: index,
             // genderType: value,
             genderName: id,
             // selectedValue: !payment.discountParameters[name].value,
-          })
-        );
-      }
-    });
-  };
-  const handleSelectSpecialNeedBasedPaymentDiscount = (index) => {
-    paymentState.map((payment) => {
-      if (payment.Id === index) {
-        dispatch(
-          updateScholarshipBasedPaymentDiscount({
-            paymentId: index,
-            selectedValue:
-              !payment.discountParameters.specialNeedsBasedDiscount.value,
-          })
-        );
-      }
-    });
-  };
-  const handleSelectScholarshipBasedPaymentDiscount = (index) => {
-    paymentState.map((payment) => {
-      if (payment.Id === index) {
-        dispatch(
-          updateSpecialNeedBasedPaymentDiscount({
-            paymentId: index,
-            selectedValue:
-              !payment.discountParameters.scholarshipBasedDiscount.value,
           })
         );
       }
@@ -331,7 +320,8 @@ const Payments1Actions = ({}) => {
               Id: payment.discountParameters.specialNeedsBasedDiscount
                 .specialNeeds.length,
               specialNeedName: "",
-              discountPercentage: 0,
+              percentage: "",
+              amount: "",
             },
           })
         );
@@ -349,7 +339,8 @@ const Payments1Actions = ({}) => {
               Id: payment.discountParameters.scholarshipBasedDiscount
                 .scholarships.length,
               scholarshipName: "",
-              discountPercentage: 0,
+              percentage: "",
+              amount: "",
             },
           })
         );
@@ -367,7 +358,8 @@ const Payments1Actions = ({}) => {
               Id: payment.discountParameters.customPaymentDiscount
                 .customDiscounts.length,
               discountName: "",
-              discountPercentage: 0,
+              discountPercentage: "",
+              discountAmount: "",
             },
           })
         );
@@ -375,12 +367,33 @@ const Payments1Actions = ({}) => {
     });
   };
 
-  const handleSpcialNeedPaymentDiscount = (event, index, specialNeedIndex) => {
+  const handleCustomDiscount = (event, index, customDiscountIndex) => {
+    const { value, name } = event.target;
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          updateCustomDiscountName({
+            paymentId: index,
+            discountName: value,
+            discountIndex: customDiscountIndex,
+            discountType: name,
+            discountPercentage: 0,
+          })
+        );
+      }
+    });
+  };
+
+  const handleSpcialNeedPaymentDiscountNames = (
+    event,
+    index,
+    specialNeedIndex
+  ) => {
     const { value } = event.target;
     paymentState.map((payment) => {
       if (payment.Id === index) {
         dispatch(
-          updateSpecialNeedDiscount({
+          updateSpecialneedDiscountName({
             paymentId: index,
             specialNeedId: specialNeedIndex,
             value: value,
@@ -399,26 +412,10 @@ const Payments1Actions = ({}) => {
     paymentState.map((payment) => {
       if (payment.Id === index) {
         dispatch(
-          updateScholarshipDiscount({
+          updateScholarshipDiscountName({
             paymentId: index,
             scholarshipId: scholarshipIndex,
             scholarshipName: value,
-          })
-        );
-      }
-    });
-  };
-
-  const handleCustomDiscount = (event, index, customDiscountIndex) => {
-    const { value } = event.target;
-    paymentState.map((payment) => {
-      if (payment.Id === index) {
-        dispatch(
-          updateCustomDiscount({
-            paymentId: index,
-            discountName: value,
-            discountIndex: customDiscountIndex,
-            discountPercentage: 0,
           })
         );
       }
@@ -492,22 +489,14 @@ const Payments1Actions = ({}) => {
               <PaymentDiscounts
                 singlePayment={singlePayment}
                 index={index}
-                handleSelectGenderBasedPaymentDiscount={
-                  handleSelectGenderBasedPaymentDiscount
+                handlePaymentDiscountTypesSelection={
+                  handlePaymentDiscountTypesSelection
                 }
-                handleSelectSpecialNeedBasedPaymentDiscount={
-                  handleSelectSpecialNeedBasedPaymentDiscount
-                }
-                handleSelectScholarshipBasedPaymentDiscount={
-                  handleSelectScholarshipBasedPaymentDiscount
-                }
-                //
-                handlePaymentDiscount={handlePaymentDiscount}
                 handleAddCustomPaymentDiscount={handleAddCustomPaymentDiscount}
                 addSpcialNeedPaymentDiscount={addSpcialNeedPaymentDiscount}
                 addScholarshipsPaymentDiscount={addScholarshipsPaymentDiscount}
-                handleSpcialNeedPaymentDiscount={
-                  handleSpcialNeedPaymentDiscount
+                handleSpcialNeedPaymentDiscountNames={
+                  handleSpcialNeedPaymentDiscountNames
                 }
                 handleCustomDiscount={handleCustomDiscount}
                 addCustomPaymentDiscount={addCustomPaymentDiscount}

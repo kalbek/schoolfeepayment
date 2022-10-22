@@ -66,25 +66,36 @@ const initialState = {
         genderBasedDiscount: {
           value: false,
           amount: "",
+          percentage: "",
           genderType: "female",
-          discountFormale: false,
-          discountForfemale: true,
+          gradesEligibleForDiscount: [
+            // { gradeName: "", percentage: "", amount: "" },
+          ],
         },
         specialNeedsBasedDiscount: {
           value: false,
           amount: "",
+          percentage: "",
           specialNeeds: [],
           discountUnit: "percentage",
+          gradesEligibleForDiscount: [
+            // { gradeName: "", percentage: "", amount: "" },
+          ],
         },
         scholarshipBasedDiscount: {
           value: false,
           amount: "",
+          percentage: "",
           scholarships: [],
           discountUnit: "percentage",
+          gradesEligibleForDiscount: [
+            // { gradeName: "", percentage: "", amount: "" },
+          ],
         },
         customPaymentDiscount: {
           value: false,
           amount: "",
+          percentage: "",
           customDiscounts: [],
           discountUnit: "percentage",
         },
@@ -214,16 +225,6 @@ export const paymentSlice = createSlice({
         }
       });
     },
-    updateGenderBasedPaymentDiscount: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        if (paymentState.Id === action.payload.paymentId) {
-          if (action.payload.paymentDiscountType === "genderBasedDiscount") {
-            paymentState.discountParameters.paymentDiscountType =
-              action.payload.selectedValue;
-          }
-        }
-      });
-    },
 
     createCustomPaymentBase: (state, action) => {
       state.paymentState.map((payments) => {
@@ -271,56 +272,54 @@ export const paymentSlice = createSlice({
 
     // END OF PYAMENT BASE ACTIONS
 
-    // ACTIONS FOR PAYMENT DISCOUNT
-    updatePaymentDiscount: (state, action) => {
+    updateSelectionForGenderDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          if (
-            action.payload.paymentDiscountType ===
-            "genderBasedDiscount" + action.payload.paymentId
-          ) {
-            paymentState.discountParameters.genderBasedDiscount.value =
-              action.payload.selectedValue;
-            if (!action.payload.selectedValue) {
-              // reset defalult gender selection of gender based discounts to default (female)
-              paymentState.discountParameters.genderBasedDiscount.genderType =
-                "female";
-            } else
-              paymentState.discountParameters.genderBasedDiscount.genderType =
-                paymentState.discountParameters.genderBasedDiscount.genderType +
-                action.payload.paymentId;
-          } else if (
-            action.payload.paymentDiscountType ===
-            "specialNeedsBasedDiscount" + action.payload.paymentId
-          ) {
-            paymentState.discountParameters.specialNeedsBasedDiscount.value =
-              action.payload.selectedValue;
+          paymentState.discountParameters.genderBasedDiscount.value =
+            action.payload.selectedValue;
+          if (!action.payload.selectedValue) {
+            // reset defalult gender selection of gender based discounts to default (female)
+            paymentState.discountParameters.genderBasedDiscount.genderType =
+              "female";
+          } else
+            paymentState.discountParameters.genderBasedDiscount.genderType =
+              paymentState.discountParameters.genderBasedDiscount.genderType +
+              action.payload.paymentId;
+        }
+      });
+    },
 
-            // if special needs are checked off, clear previously defined values
-            if (!action.payload.selectedValue) {
-              paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.splice(
-                0
-              );
-            }
-          } else if (
-            action.payload.paymentDiscountType ===
-            "scholarshipBasedDiscount" + action.payload.paymentId
-          ) {
-            paymentState.discountParameters.scholarshipBasedDiscount.value =
-              action.payload.selectedValue;
-            // if scholarshps are checked off, clear previously defined values
-            if (!action.payload.selectedValue) {
-              paymentState.discountParameters.scholarshipBasedDiscount.scholarships.splice(
-                0
-              );
-            }
+    updateSelectionForSpecialneedDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.specialNeedsBasedDiscount.value =
+            action.payload.selectedValue;
+
+          // if special needs are checked off, clear previously defined values
+          if (!action.payload.selectedValue) {
+            paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.splice(
+              0
+            );
           }
         }
       });
     },
-    // bring updateGenderBasedPaymentDiscount HERE
+    updateSelectionForScholarshipDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.scholarshipBasedDiscount.value =
+            action.payload.selectedValue;
+          // if scholarshps are checked off, clear previously defined values
+          if (!action.payload.selectedValue) {
+            paymentState.discountParameters.scholarshipBasedDiscount.scholarships.splice(
+              0
+            );
+          }
+        }
+      });
+    },
 
-    updateGendersForPaymentDiscount: (state, action) => {
+    updateGenderTypesRadioButtonSelection: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.discountParameters.genderBasedDiscount.genderType =
@@ -328,22 +327,7 @@ export const paymentSlice = createSlice({
         }
       });
     },
-    updateScholarshipBasedPaymentDiscount: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        if (paymentState.Id === action.payload.paymentId) {
-          paymentState.discountParameters.scholarshipBasedDiscount.value =
-            action.payload.selectedValue;
-        }
-      });
-    },
-    updateSpecialNeedBasedPaymentDiscount: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        if (paymentState.Id === action.payload.paymentId) {
-          paymentState.discountParameters.specialNeedsBasedDiscount.value =
-            action.payload.selectedValue;
-        }
-      });
-    },
+
     // End of Updation of selection of payment discount types
 
     createSpecialNeedDiscount: (state, action) => {
@@ -372,7 +356,6 @@ export const paymentSlice = createSlice({
           payment.discountParameters.customPaymentDiscount.customDiscounts.push(
             action.payload.discounts
           );
-
           if (
             payment.discountParameters.customPaymentDiscount.customDiscounts
               .length > 0
@@ -380,14 +363,102 @@ export const paymentSlice = createSlice({
             payment.discountParameters.customPaymentDiscount.value = true;
           }
         }
-        console.log(
-          current(payment).discountParameters.customPaymentDiscount
-            .customDiscounts[0]
-        );
+      });
+    },
+    updateEligibleGradesforDiscount: (state, action) => {
+      // console.log("eligible grades");
+      // console.log( action.payload.eligibelGrade);
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.slice(
+            0
+          );
+          paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.push(
+            action.payload.eligibelGrade
+          );
+        }
+      });
+    },
+    updateEligibleSpecialneedsforDiscount: (state, action) => {
+      // console.log("eligible specialneeds");
+      // console.log(action.payload.eligibelGrade);
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.specialNeedsBasedDiscount.gradesEligibleForDiscount.push(
+            action.payload.eligibelGrade
+          );
+        }
+      });
+    },
+    updateEligibleScholarshipsforDiscount: (state, action) => {
+      // console.log("eligible scholarships");
+      // console.log(action.payload.eligibelGrade);
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.scholarshipBasedDiscount.gradesEligibleForDiscount.push(
+            action.payload.eligibelGrade
+          );
+        }
+      });
+    },
+    updateGradeBasedDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          // toogle checkbox value for discount base
+          paymentState.discountParameters.isGradeBasedDiscountType =
+            action.payload.value;
+          //  if discount base checkbox is turned off clear eligible grade list from discount types to avoid duplication while toogle
+          // clear for gender discounts
+          if (
+            paymentState.discountParameters.genderBasedDiscount
+              .gradesEligibleForDiscount.length > 0
+          ) {
+            paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount =
+              paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.filter(
+                (val) => val.Id === -1
+              );
+          }
+          if (
+            // clear for specialneed discounts
+            paymentState.discountParameters.specialNeedsBasedDiscount
+              .gradesEligibleForDiscount.length > 0
+          ) {
+            paymentState.discountParameters.specialNeedsBasedDiscount.gradesEligibleForDiscount =
+              paymentState.discountParameters.specialNeedsBasedDiscount.gradesEligibleForDiscount.filter(
+                (val) => val.Id === -1
+              );
+          }
+          // clear for scholarship discounts
+          if (
+            paymentState.discountParameters.scholarshipBasedDiscount
+              .gradesEligibleForDiscount.length > 0
+          ) {
+            paymentState.discountParameters.scholarshipBasedDiscount.gradesEligibleForDiscount =
+              paymentState.discountParameters.scholarshipBasedDiscount.gradesEligibleForDiscount.filter(
+                (val) => val.Id === -1
+              );
+          }
+          // clear for custom discounts
+          // TODO ALSO APPLY FOR CUSTOM DISCOUNTS
+        }
       });
     },
 
-    updateSpecialNeedDiscount: (state, action) => {
+    updateGenderDiscountsValue: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          if (action.payload.discountType === "gender-by-percent") {
+            paymentState.discountParameters.genderBasedDiscount.percentage =
+              action.payload.value;
+          } else if (action.payload.discountType === "gender-by-amount") {
+            paymentState.discountParameters.genderBasedDiscount.amount =
+              action.payload.value;
+          }
+        }
+      });
+    },
+
+    updateSpecialneedDiscountName: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
@@ -400,8 +471,77 @@ export const paymentSlice = createSlice({
         }
       });
     },
+    updateSpecialNeedDiscountValue: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          if (
+            paymentState.discountParameters.specialNeedsBasedDiscount
+              .specialNeeds.length === 0
+          ) {
+            if (action.payload.discountType === "specialneed-by-percent") {
+              paymentState.discountParameters.specialNeedsBasedDiscount.percentage =
+                action.payload.value;
+            } else {
+              paymentState.discountParameters.specialNeedsBasedDiscount.amount =
+                action.payload.value;
+            }
+          } else {
+            paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
+              (specialNeeds) => {
+                if (specialNeeds.Id === action.payload.specialNeedId) {
+                  if (
+                    action.payload.discountType === "specialneed-by-percent"
+                  ) {
+                    specialNeeds.percentage = action.payload.value;
+                  } else if (
+                    action.payload.discountType === "specialneed-by-amount"
+                  ) {
+                    specialNeeds.amount = action.payload.value;
+                  }
+                }
+              }
+            );
+          }
+        }
+      });
+    },
 
-    updateScholarshipDiscount: (state, action) => {
+    updateScholarshipDiscountValue: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          if (
+            paymentState.discountParameters.scholarshipBasedDiscount
+              .scholarships.length === 0
+          ) {
+            if (action.payload.discountType === "scholarship-by-percent") {
+              paymentState.discountParameters.scholarshipBasedDiscount.percentage =
+                action.payload.value;
+            } else {
+              paymentState.discountParameters.scholarshipBasedDiscount.amount =
+                action.payload.value;
+            }
+          } else {
+            paymentState.discountParameters.scholarshipBasedDiscount.scholarships.map(
+              (scholarships) => {
+                if (scholarships.Id === action.payload.scholarshipId) {
+                  if (
+                    action.payload.discountType === "scholarship-by-percent"
+                  ) {
+                    scholarships.percentage = action.payload.value;
+                  } else if (
+                    action.payload.discountType === "scholarship-by-amount"
+                  ) {
+                    scholarships.amount = action.payload.value;
+                  }
+                }
+              }
+            );
+          }
+        }
+      });
+    },
+
+    updateScholarshipDiscountName: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.discountParameters.scholarshipBasedDiscount.scholarships.map(
@@ -415,15 +555,37 @@ export const paymentSlice = createSlice({
       });
     },
 
-    updateCustomDiscount: (state, action) => {
+    updateCustomDiscountName: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
             (customDiscount) => {
               if (customDiscount.Id === action.payload.discountIndex) {
                 customDiscount.discountName = action.payload.discountName;
-                customDiscount.discountPercentage =
-                  action.payload.discountPercentage;
+                if (action.payload.discountUnit === "custom-by-percent") {
+                  customDiscount.discountPercentage = action.payload.value;
+                }
+                if (action.payload.discountUnit === "custom-by-amount") {
+                  customDiscount.discountAmount = action.payload.value;
+                }
+              }
+            }
+          );
+        }
+      });
+    },
+    updateCustomDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
+            (customDiscount) => {
+              if (customDiscount.Id === action.payload.discountIndex) {
+                if (action.payload.discountUnit === "custom-by-percent") {
+                  customDiscount.discountPercentage = action.payload.value;
+                }
+                if (action.payload.discountUnit === "custom-by-amount") {
+                  customDiscount.discountAmount = action.payload.value;
+                }
               }
             }
           );
@@ -431,39 +593,20 @@ export const paymentSlice = createSlice({
       });
     },
 
-    updateGradeBasedDiscount: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        if (paymentState.Id === action.payload.paymentId) {
-          console.log(action.payload.value);
-          console.log(paymentState.discountParameters.isGradeBasedDiscountType);
-          paymentState.discountParameters.isGradeBasedDiscountType =
-            action.payload.value;
-        }
-      });
-    },
-
     updateDiscountValues: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          console.log("HIT");
-          console.log("action.payload.value: " + action.payload.value);
-          console.log("action.payload.discountType: " + action.payload.discountType);
           //  COME HERE
-          if (action.payload.discountType === "gender-discounts") {
-            console.log("1");
-            console.log(
-              paymentState.discountParameters.genderBasedDiscount.amount
-            );
+          console.log("come here: " + action.payload.discountType);
+          if (action.payload.discountType === "gender-by-percent") {
+            paymentState.discountParameters.genderBasedDiscount.percentage =
+              action.payload.value;
+          } else if (
+            action.payload.discountType === "grade-based-gender-discounts"
+          ) {
             paymentState.discountParameters.genderBasedDiscount.amount =
               action.payload.value;
-          } 
-          else if (action.payload.discountType === "grade-based-gender-discounts") {
-            console.log(" wow");
-            paymentState.discountParameters.genderBasedDiscount.amount =
-              action.payload.value;
-          } 
-          
-          else if (action.payload.discountType === "specialneed-discounts") {
+          } else if (action.payload.discountType === "specialneed-discounts") {
             console.log("2");
             paymentState.discountParameters.specialNeedsBasedDiscount.amount =
               action.payload.value;
@@ -612,29 +755,36 @@ export const paymentSlice = createSlice({
 });
 
 export const {
+  updateSelectionForGenderDiscount,
+  updateSelectionForSpecialneedDiscount,
+  updateSelectionForScholarshipDiscount,
   createCustomPaymentBase,
   updatePaymentType,
   updateCustomPaymentType,
   deleteCustomPaymentType,
   updatePaymentBase,
   updateCustomPaymentBase,
-  updateGenderBasedPaymentDiscount,
-  updateScholarshipBasedPaymentDiscount,
-  updateSpecialNeedBasedPaymentDiscount,
-  updatePaymentDiscount,
+
   updateCustomDiscount,
   updatePaymentTerm,
-  updateGendersForPaymentDiscount,
+  updateGenderTypesRadioButtonSelection,
   deleteCustomPaymentBase,
   resetPaymentStates,
   createPayments,
   deletePayments,
   createSpecialNeedDiscount,
+  updateEligibleSpecialneedsforDiscount,
+  updateEligibleScholarshipsforDiscount,
   createScholarshipDiscount,
   createCustomDiscount,
-  updateSpecialNeedDiscount,
-  updateScholarshipDiscount,
+  updateSpecialneedDiscountName,
   updateGradeBasedDiscount,
+  updateEligibleGradesforDiscount,
+  updateGenderDiscountsValue,
+  updateScholarshipDiscountValue,
+  updateScholarshipDiscountName,
+  updateSpecialNeedDiscountValue,
+  updateCustomDiscountName,
   updateDiscountValues,
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,

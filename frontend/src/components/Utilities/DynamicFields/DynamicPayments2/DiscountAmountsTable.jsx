@@ -6,13 +6,19 @@ import PaymentHeader from "./TableComponents/PaymentHeader";
 import PaymentRowHeader from "./TableComponents/PaymentRowHeader";
 import {
   updatePaymentDiscountUnit,
-  updateDiscountValues,
+  updateScholarshipDiscountValue,
+  updateCustomDiscount,
+  updateGenderDiscountsValue,
+  updateSpecialNeedDiscountValue,
 } from "../../../../features/paymentBase/paymentBaseSlice";
 import { updateGradeBasedDiscountValues } from "../../../../features/Grades&Divisions/grades&DivisionsSlice";
 import PaymentCaption from "./TableComponents/PaymentCaption";
 import DiscountUnits from "./DiscountUnits";
 import DiscountBase from "./DiscountBase";
 import DivisionBasedDiscounts from "./DivisionBasedDiscounts";
+import DivisionBasedGenderDiscounts from "./DivisionBasedGenderDiscounts";
+import DivisionBasedSpecialneedDiscounts from "./DivisionBasedSpecialneedDiscounts";
+import DivisionBasedScholarshipDiscounts from "./DivisionBasedScholarshipDiscounts";
 
 const DiscountAmountsTabel = ({
   updateDiscountBase,
@@ -38,31 +44,76 @@ const DiscountAmountsTabel = ({
       }
     });
   };
-  const handleDiscountAmountInputs = (event, index) => {
+  const handleDiscountAmountInputs = (event, index, subIndex) => {
+    console.log("sn");
     const { id, name, valueAsNumber } = event.target;
+    console.log("subIndex: " + subIndex);
     paymentState.map((paymentState) => {
       console.log("name: " + name);
+      console.log("index: " + index);
+      console.log("paymentState.Id: " + paymentState.Id);
       if (paymentState.Id === index) {
-        dispatch(
-          updateDiscountValues({
-            discountType: name,
-            paymentId: index,
-            unitType: id,
-            value: valueAsNumber,
-          })
-        );
+        if (name === "gender-by-percent" || name === "gender-by-amount") {
+          dispatch(
+            updateGenderDiscountsValue({
+              discountType: name,
+              paymentId: index,
+              unitType: id,
+              value: valueAsNumber,
+            })
+          );
+        } else if (
+          name === "specialneed-by-percent" ||
+          name === "specialneed-by-amount"
+        ) {
+          console.log("ind");
+          dispatch(
+            updateSpecialNeedDiscountValue({
+              discountType: name,
+              specialNeedId: subIndex,
+              paymentId: index,
+              unitType: id,
+              value: valueAsNumber,
+            })
+          );
+        } else if (
+          name === "scholarship-by-percent" ||
+          name === "scholarship-by-amount"
+        ) {
+          dispatch(
+            updateScholarshipDiscountValue({
+              discountType: name,
+              paymentId: index,
+              scholarshipId: subIndex,
+              unitType: id,
+              value: valueAsNumber,
+            })
+          );
+        } else if (
+          name === "custom-by-percent" ||
+          name === "custom-by-amount"
+        ) {
+          dispatch(
+            updateCustomDiscount({
+              paymentId: index,
+              discountIndex: subIndex,
+              discountUnit: name,
+              value: valueAsNumber,
+            })
+          );
+        }
       }
     });
   };
-  const handleGradeBasedDiscountAmounts = (event, index) => {
-    console.log("ma men");
+
+  const updateValuesforGradebasedGenderDiscounts = (event, index) => {
     const { id, name, valueAsNumber } = event.target;
     educationalDivisionState.map((division, index) => {
       console.log(division);
       paymentState.map((paymentState) => {
         console.log("name: " + name);
-        if (division.id === paymentState.Id){
-          console.log("oha: "+division.id)
+        if (division.id === paymentState.Id) {
+          console.log("oha: " + division.id);
         }
         if (paymentState.Id === index) {
           dispatch(
@@ -86,14 +137,17 @@ const DiscountAmountsTabel = ({
   const itemEls = useRef(new Array());
   const refEls = useRef(new Array());
 
+  function clearRefs(index) {
+    for (let a = 0; a < refEls.current.length; a++) {
+      if (a === index) continue;
+      else {
+        refEls.current[a].className = "pr-7";
+      }
+    }
+  }
   function handleClickRefs(index) {
     refEls.current.map((ref) => {
-      for (let a = 0; a < refEls.current.length; a++) {
-        if (a === index) continue;
-        else {
-          refEls.current[a].className = "pr-7";
-        }
-      }
+      clearRefs(index);
       if (ref.className === refEls.current[index].className) {
         ref.className += " focused-labels";
       } else {
@@ -105,14 +159,6 @@ const DiscountAmountsTabel = ({
         }
       }
     });
-  }
-  function clearRefs(index) {
-    for (let a = 0; a < refEls.current.length; a++) {
-      if (a === index) continue;
-      else {
-        refEls.current[a].className = "pr-7";
-      }
-    }
   }
 
   const onAClick = (e, index) => {
@@ -230,6 +276,7 @@ const DiscountAmountsTabel = ({
                 </td>
 
                 {/* INPUT CONTROL FOR GENDER DISCOUNTS */}
+
                 {payments.discountParameters.genderBasedDiscount.value ? (
                   <td
                     ref={(element) => itemEls.current.push(element)}
@@ -241,43 +288,16 @@ const DiscountAmountsTabel = ({
                         {payments.discountParameters
                           .isGradeBasedDiscountType ? (
                           <>
-                            <span className="primary-label pb-1 ml-80">
-                              {/* Hide */}
-                            </span>
-                            <br />
-                            <DivisionBasedDiscounts
-                              index={index}
-                              handleGradebasedDiscountAmount={
-                                handleGradebasedDiscountAmount
-                              }
-                              singlePayment={payments}
-                              label={
-                                payments.discountParameters.genderBasedDiscount.genderType.charAt(
-                                  0
-                                ) === "f"
-                                  ? "Discount for female"
-                                  : "Discount for male"
-                              }
-                              placeholder={
-                                payments.discountParameters.discountUnit.charAt(
-                                  0
-                                ) === "p"
-                                  ? "In Percentage (%)"
-                                  : "Amount in ETB"
-                              }
-                              onChange={(event) =>
-                                handleGradeBasedDiscountAmounts(event, index)
-                              }
-                              name={"grade-based-gender-discounts"}
-                              divClassName={"input--small input"}
-                              value={
-                                payments.discountParameters.genderBasedDiscount
-                                  .amount
+                            <DivisionBasedGenderDiscounts
+                              paymentId={index}
+                              onChange={
+                                updateValuesforGradebasedGenderDiscounts
                               }
                             />
                           </>
                         ) : (
                           <Textbox
+                            gradeBase={false}
                             type="number"
                             label={
                               payments.discountParameters.genderBasedDiscount.genderType.charAt(
@@ -296,11 +316,21 @@ const DiscountAmountsTabel = ({
                             onChange={(event) =>
                               handleDiscountAmountInputs(event, index)
                             }
-                            name={"gender-discounts"}
-                            divClassName={"input--small input"}
+                            name={
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? "gender-by-percent"
+                                : "gender-by-amount"
+                            }
                             value={
-                              payments.discountParameters.genderBasedDiscount
-                                .amount
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? payments.discountParameters
+                                    .genderBasedDiscount.percentage
+                                : payments.discountParameters
+                                    .genderBasedDiscount.amount
                             }
                           />
                         )}
@@ -327,16 +357,9 @@ const DiscountAmountsTabel = ({
                     <>
                       {payments.discountParameters.isGradeBasedDiscountType ? (
                         <>
-                          <span className="primary-label pb-1 ml-80">
-                            {/* Hide */}
-                          </span>
-                          <br />
-                          <DivisionBasedDiscounts
-                            index={index}
-                            handleGradebasedDiscountAmount={
-                              handleGradebasedDiscountAmount
-                            }
-                            singlePayment={payments}
+                          <DivisionBasedSpecialneedDiscounts
+                            paymentId={index}
+                            onChange={updateValuesforGradebasedGenderDiscounts}
                           />
                         </>
                       ) : (
@@ -353,11 +376,22 @@ const DiscountAmountsTabel = ({
                           onChange={(event) =>
                             handleDiscountAmountInputs(event, index)
                           }
-                          value={
-                            payments.discountParameters
-                              .specialNeedsBasedDiscount.amount
+                          name={
+                            payments.discountParameters.discountUnit.charAt(
+                              0
+                            ) === "p"
+                              ? "specialneed-by-percent"
+                              : "specialneed-by-amount"
                           }
-                          name={"specialneed-discounts"}
+                          value={
+                            payments.discountParameters.discountUnit.charAt(
+                              0
+                            ) === "p"
+                              ? payments.discountParameters
+                                  .specialNeedsBasedDiscount.percentage
+                              : payments.discountParameters
+                                  .specialNeedsBasedDiscount.amount
+                          }
                         />
                       )}
                       <span>&nbsp;</span>
@@ -365,8 +399,8 @@ const DiscountAmountsTabel = ({
                   ) : payments.discountParameters.specialNeedsBasedDiscount
                       .specialNeeds.length > 0 ? (
                     payments.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
-                      (specialNeeds, index) => (
-                        <span key={index}>
+                      (specialNeeds, subIndex) => (
+                        <span key={subIndex}>
                           <Textbox
                             type="number"
                             label={
@@ -380,12 +414,21 @@ const DiscountAmountsTabel = ({
                                 : "Amount in ETB"
                             }
                             onChange={(event) =>
-                              handleDiscountAmountInputs(event, index)
+                              handleDiscountAmountInputs(event, index, subIndex)
                             }
-                            name={"specialneed-discounts"}
+                            name={
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? "specialneed-by-percent"
+                                : "specialneed-by-amount"
+                            }
                             value={
-                              payments.discountParameters
-                                .specialNeedsBasedDiscount.amount
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? specialNeeds.percentage
+                                : specialNeeds.amount
                             }
                           />
                           <span>&nbsp;</span>
@@ -411,16 +454,9 @@ const DiscountAmountsTabel = ({
                     <>
                       {payments.discountParameters.isGradeBasedDiscountType ? (
                         <>
-                          <span className="primary-label pb-1 ml-80">
-                            {/* Hide */}
-                          </span>
-                          <br />
-                          <DivisionBasedDiscounts
-                            index={index}
-                            handleGradebasedDiscountAmount={
-                              handleGradebasedDiscountAmount
-                            }
-                            singlePayment={payments}
+                          <DivisionBasedScholarshipDiscounts
+                            paymentId={index}
+                            onChange={updateValuesforGradebasedGenderDiscounts}
                           />
                         </>
                       ) : (
@@ -438,10 +474,21 @@ const DiscountAmountsTabel = ({
                             handleDiscountAmountInputs(event, index)
                           }
                           value={
-                            payments.discountParameters.scholarshipBasedDiscount
-                              .amount
+                            payments.discountParameters.discountUnit.charAt(
+                              0
+                            ) === "p"
+                              ? payments.discountParameters
+                                  .scholarshipBasedDiscount.percentage
+                              : payments.discountParameters
+                                  .scholarshipBasedDiscount.amount
                           }
-                          name={"scholarship-discounts"}
+                          name={
+                            payments.discountParameters.discountUnit.charAt(
+                              0
+                            ) === "p"
+                              ? "scholarship-by-percent"
+                              : "scholarship-by-amount"
+                          }
                         />
                       )}
                       <span>&nbsp;</span>
@@ -449,8 +496,8 @@ const DiscountAmountsTabel = ({
                   ) : payments.discountParameters.scholarshipBasedDiscount
                       .scholarships.length > 0 ? (
                     payments.discountParameters.scholarshipBasedDiscount.scholarships.map(
-                      (scholarship) => (
-                        <span>
+                      (scholarship, subIndex) => (
+                        <span key={subIndex}>
                           <Textbox
                             type="number"
                             label={
@@ -464,13 +511,22 @@ const DiscountAmountsTabel = ({
                                 : "Amount in ETB"
                             }
                             onChange={(event) =>
-                              handleDiscountAmountInputs(event, index)
+                              handleDiscountAmountInputs(event, index, subIndex)
+                            }
+                            name={
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? "scholarship-by-percent"
+                                : "scholarship-by-amount"
                             }
                             value={
-                              payments.discountParameters
-                                .scholarshipBasedDiscount.amount
+                              payments.discountParameters.discountUnit.charAt(
+                                0
+                              ) === "p"
+                                ? scholarship.percentage
+                                : scholarship.amount
                             }
-                            name={"scholarship-discounts"}
                           />
                           <span>&nbsp;</span>
                         </span>
@@ -523,11 +579,30 @@ const DiscountAmountsTabel = ({
                                   : "Amount in ETB"
                               }
                               onChange={(event) =>
-                                handleDiscountAmountInputs(event, index)
+                                handleDiscountAmountInputs(
+                                  event,
+                                  index,
+                                  subIndex
+                                )
                               }
-                              value={customDiscount.amount}
-                              name={"custom-discounts"}
+                              value={
+                                payments.discountParameters.discountUnit.charAt(
+                                  0
+                                ) === "p"
+                                  ? customDiscount.discountPercentage
+                                  : customDiscount.discountAmount
+                              }
+                              name={
+                                payments.discountParameters.discountUnit.charAt(
+                                  0
+                                ) === "p"
+                                  ? "custom-by-percent"
+                                  : "custom-by-amount"
+                              }
                             />
+                          )}
+                          {console.log(
+                            payments.discountParameters.discountUnit.charAt(0)
                           )}
                           <span>&nbsp;</span>
                         </span>

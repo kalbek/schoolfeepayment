@@ -276,10 +276,12 @@ function CreateSchool() {
           progressItems={[
             "DETAILS",
             "PAYMENTS 1",
-            "SEMISTERS & TERMS",
-            "GRADES & DEPARTMENTS",
+            "SEMESTERS",
+            "GRADES",
+            "DISCOUNTS",
             "PAYMENTS 2",
-            "ACHIEVEMENTS",
+            // "ACHIEVEMENTS",
+            "REVIEW",
             "COMPLETE",
           ]}
           currentStep={formStep}

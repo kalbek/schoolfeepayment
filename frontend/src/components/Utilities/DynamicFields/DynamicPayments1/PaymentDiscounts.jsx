@@ -5,10 +5,8 @@ import Add from "../../Buttons/Add";
 import Radio from "../../../InputControls/Radio";
 import { useSelector } from "react-redux";
 const PaymentDiscounts = ({
-  handlePaymentDiscount,
-  handleSelectGenderBasedPaymentDiscount,
-  handleSelectSpecialNeedBasedPaymentDiscount,
-  handleSelectScholarshipBasedPaymentDiscount,
+  handlePaymentDiscountTypesSelection,
+ 
 
   handleAddCustomPaymentDiscount,
   singlePayment,
@@ -17,7 +15,7 @@ const PaymentDiscounts = ({
   addScholarshipsPaymentDiscount,
   handleGenderTypesForDiscount,
   addCustomPaymentDiscount,
-  handleSpcialNeedPaymentDiscount,
+  handleSpcialNeedPaymentDiscountNames,
   handleScholarshipsPaymentDiscount,
   handleCustomDiscount,
   remvoeSpcialNeedPaymentDiscount,
@@ -66,7 +64,7 @@ const PaymentDiscounts = ({
                             value={genderBasedDiscount}
                             checked={genderBasedDiscount}
                             onChange={(event) =>
-                              handlePaymentDiscount(event, index)
+                              handlePaymentDiscountTypesSelection(event, index)
                             }
                             tabIndex={9}
                           />
@@ -106,7 +104,7 @@ const PaymentDiscounts = ({
                       <></>
                     </div>
 
-                    {/*Checkbox for special need based payment */}
+                    {/* CHECKBOX FOR SPECIAL NEED DISCOUNT INPUTS */}
                     <div className="flex-cs mtn5">
                       <div className="flex-cs gap2vw">
                         <label
@@ -119,7 +117,7 @@ const PaymentDiscounts = ({
                             id={"specialNeedPaymentDiscount" + index}
                             value={specialNeedsBasedDiscount}
                             checked={specialNeedsBasedDiscount}
-                            onChange={(e) => handlePaymentDiscount(e, index)}
+                            onChange={(e) => handlePaymentDiscountTypesSelection(e, index)}
                             tabIndex={9}
                           />
                           <>
@@ -128,11 +126,6 @@ const PaymentDiscounts = ({
                             </span>
                           </>
                         </label>
-                        {/* If Special Needs is checked display add types for special needs */}
-                        {/*   */}
-                        {/* handleScholarshipsPaymentDiscount  */}
-                        {/*   */}
-                        {/* remvoeScholarshipsPaymentDiscount  */}
                         {specialNeedsBasedDiscount && (
                           <label
                             className="checkbox-items flex flex-cs mln4"
@@ -168,7 +161,7 @@ const PaymentDiscounts = ({
                                 placeholder="Special Need type"
                                 value={specialNeed.specialNeedName}
                                 onChange={(event) =>
-                                  handleSpcialNeedPaymentDiscount(
+                                  handleSpcialNeedPaymentDiscountNames(
                                     event,
                                     index,
                                     specialNeedIndex
@@ -207,7 +200,7 @@ const PaymentDiscounts = ({
                             id={"scholarshipBasedPaymentDiscount" + index}
                             value={scholarshipBasedDiscount}
                             checked={scholarshipBasedDiscount}
-                            onChange={(e) => handlePaymentDiscount(e, index)}
+                            onChange={(e) => handlePaymentDiscountTypesSelection(e, index)}
                             tabIndex={9}
                           />
                           <>

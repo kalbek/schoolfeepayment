@@ -13,7 +13,7 @@ function Payments2() {
             </h1>
             <h3 className="form__subtitle">
               <p>
-                The Discount Tabel is based on your schools discount parameters.
+                This Discount Tabel adapts with your school's discount rules.
               </p>
             </h3>
           </div>

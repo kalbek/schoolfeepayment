@@ -29,6 +29,14 @@
   margin-top: 60px;
   margin-left: 35px;
 }
+.remove__terms-ctr2 {
+  content: url("../Assets/Images/trash.svg");
+  cursor: pointer;
+  height: 15px;
+  margin-left: 8px;
+  /* margin-top: 60px;
+  margin-left: 35px; */
+}
 
 .social__link {
   padding: 5px 5px;
