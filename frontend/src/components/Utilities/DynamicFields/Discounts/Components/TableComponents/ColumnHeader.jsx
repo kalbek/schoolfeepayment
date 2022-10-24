@@ -1,4 +1,4 @@
-const PaymentHeader = ({ label }) => {
+const ColumnHeader = ({ label }) => {
   return (
     <div className="checkbox-inputs input__group">
       <label className="checkbox-items">
@@ -8,4 +8,4 @@ const PaymentHeader = ({ label }) => {
   );
 };
 
-export default PaymentHeader;
+export default ColumnHeader;

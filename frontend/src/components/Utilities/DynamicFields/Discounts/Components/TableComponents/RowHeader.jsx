@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-const PaymentRowHeader = forwardRef((props, parentref) => {
+const RowHeader = forwardRef((props, parentref) => {
   return (
     <div ref={parentref} className=" checkbox-inputs input__group ">
       <label className="checkbox-items">
@@ -11,4 +11,4 @@ const PaymentRowHeader = forwardRef((props, parentref) => {
   );
 });
 
-export default PaymentRowHeader;
+export default RowHeader;

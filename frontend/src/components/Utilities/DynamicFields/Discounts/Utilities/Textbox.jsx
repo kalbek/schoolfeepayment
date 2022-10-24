@@ -6,7 +6,10 @@ import RemoveLinksButton from "../../../Buttons/RemoveLinksButton";
 const Textbox = (props) => {
   return (
     <>
-      <div className="field-group-container">
+      {/* <div className="field-group-containera"> */}
+      <div
+        className={!props.hasTopLevelContainer ? "" : "field-group-container"}
+      >
         <section className="flex-cr input__group inputs">
           <div className="flex-cs">
             <label htmlFor={props.id}>
@@ -25,16 +28,12 @@ const Textbox = (props) => {
                 />
               </div>
             </label>
-            {/* <div className="-mt-4">
-              <RemoveLinksButton />{" "}
-            </div> */}
-            {console.log("props.gradeBase " + props.gradeBase)}
+
             {props.gradeBase && (
               <div className="-mt-4">
                 <RemoveButtonSmall />{" "}
               </div>
             )}
-            {/* <div className="-mt-4"><DeleteButton/>X</div> */}
           </div>
         </section>
       </div>

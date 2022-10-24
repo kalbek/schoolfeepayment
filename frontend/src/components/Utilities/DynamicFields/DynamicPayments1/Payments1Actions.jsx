@@ -221,15 +221,30 @@ const Payments1Actions = ({}) => {
               paymentId: index,
               selectedValue: !state.discountParameters[name].value,
               paymentDiscountType: name + index,
+              specialNeeds: {
+                Id: state.discountParameters.specialNeedsBasedDiscount
+                  .specialNeeds.length,
+                specialNeedName: "Specialneed ",
+                percentage: "",
+                amount: "",
+              },
             })
           );
         }
+        console.log(paymentState);
         if (name === "scholarshipBasedDiscount") {
           dispatch(
             updateSelectionForScholarshipDiscount({
               paymentId: index,
               selectedValue: !state.discountParameters[name].value,
               paymentDiscountType: name + index,
+              scholarships: {
+                Id: state.discountParameters.scholarshipBasedDiscount
+                  .scholarships.length,
+                scholarshipName: "Scholarship ",
+                percentage: "",
+                amount: "",
+              },
             })
           );
         }
@@ -319,7 +334,7 @@ const Payments1Actions = ({}) => {
             specialNeeds: {
               Id: payment.discountParameters.specialNeedsBasedDiscount
                 .specialNeeds.length,
-              specialNeedName: "",
+              specialNeedName: "Specialneed",
               percentage: "",
               amount: "",
             },
@@ -338,7 +353,7 @@ const Payments1Actions = ({}) => {
             scholarships: {
               Id: payment.discountParameters.scholarshipBasedDiscount
                 .scholarships.length,
-              scholarshipName: "",
+              scholarshipName: "Scholarship",
               percentage: "",
               amount: "",
             },
@@ -357,9 +372,10 @@ const Payments1Actions = ({}) => {
             discounts: {
               Id: payment.discountParameters.customPaymentDiscount
                 .customDiscounts.length,
-              discountName: "",
-              discountPercentage: "",
-              discountAmount: "",
+              discountName:
+                "Custom discount",
+              percentage: "",
+              pmount: "",
             },
           })
         );
@@ -461,8 +477,6 @@ const Payments1Actions = ({}) => {
   };
   // END OFMETHODS TO HANDLE CRUD OPERATIONS FOR PAYMENT DISCOUNTS
 
-  const handleAddCustomPaymentDiscount = (event, index) => {};
-
   return (
     <>
       {paymentState.map((singlePayment, index) => (
@@ -492,7 +506,6 @@ const Payments1Actions = ({}) => {
                 handlePaymentDiscountTypesSelection={
                   handlePaymentDiscountTypesSelection
                 }
-                handleAddCustomPaymentDiscount={handleAddCustomPaymentDiscount}
                 addSpcialNeedPaymentDiscount={addSpcialNeedPaymentDiscount}
                 addScholarshipsPaymentDiscount={addScholarshipsPaymentDiscount}
                 handleSpcialNeedPaymentDiscountNames={

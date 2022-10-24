@@ -26,7 +26,6 @@ const PaymentType = ({
 
   const { popup } = useSelector((state) => state.popups);
   const paymentState = useSelector((state) => state.payments);
-
   return (
     <>
       <div>

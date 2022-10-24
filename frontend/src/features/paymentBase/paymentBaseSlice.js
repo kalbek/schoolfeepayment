@@ -295,6 +295,10 @@ export const paymentSlice = createSlice({
           paymentState.discountParameters.specialNeedsBasedDiscount.value =
             action.payload.selectedValue;
 
+          // add a single specialneed type to specialneed lists
+          paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.push(
+            action.payload.specialNeeds
+          );
           // if special needs are checked off, clear previously defined values
           if (!action.payload.selectedValue) {
             paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.splice(
@@ -309,6 +313,13 @@ export const paymentSlice = createSlice({
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.discountParameters.scholarshipBasedDiscount.value =
             action.payload.selectedValue;
+          console.log(
+            current(paymentState).discountParameters.scholarshipBasedDiscount
+          );
+          // add a single scolarship type to scholarship lists
+          paymentState.discountParameters.scholarshipBasedDiscount.scholarships.push(
+            action.payload.scholarships
+          );
           // if scholarshps are checked off, clear previously defined values
           if (!action.payload.selectedValue) {
             paymentState.discountParameters.scholarshipBasedDiscount.scholarships.splice(
@@ -351,6 +362,7 @@ export const paymentSlice = createSlice({
     },
 
     createCustomDiscount: (state, action) => {
+      console.log(action.payload.discounts);
       state.paymentState.map((payment) => {
         if (payment.Id === action.payload.paymentId) {
           payment.discountParameters.customPaymentDiscount.customDiscounts.push(
@@ -644,6 +656,16 @@ export const paymentSlice = createSlice({
           );
         }
       });
+
+      // if there are no special needs turn off the checkbox
+      state.paymentState.map((paymentState) => {
+        if (
+          paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds
+            .length === 0
+        )
+          paymentState.discountParameters.specialNeedsBasedDiscount.value =
+            !paymentState.discountParameters.specialNeedsBasedDiscount.value;
+      });
     },
 
     deleteScholarshipDiscount: (state, action) => {
@@ -666,6 +688,15 @@ export const paymentSlice = createSlice({
             }
           );
         }
+      });
+      // if there are no special needs turn off the checkbox
+      state.paymentState.map((paymentState) => {
+        if (
+          paymentState.discountParameters.scholarshipBasedDiscount.scholarships
+            .length === 0
+        )
+          paymentState.discountParameters.scholarshipBasedDiscount.value =
+            !paymentState.discountParameters.scholarshipBasedDiscount.value;
       });
     },
 

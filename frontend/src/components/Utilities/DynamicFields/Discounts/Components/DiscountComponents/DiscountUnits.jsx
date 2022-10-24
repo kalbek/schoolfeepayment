@@ -7,7 +7,7 @@ const DiscountUnits = forwardRef((props, parentref) => {
         {/* PAYMENT TERM SELECT OPTION */}
         <div className="field-group-container">
           <section
-          //    ref={parentref}
+          // ref={parentref}
           >
             <div className="flex-c flex-start input__group inputs ">
               <label htmlFor="" className="-mb-p5f ">
@@ -28,14 +28,12 @@ const DiscountUnits = forwardRef((props, parentref) => {
                         props.handleDiscountUnits(event, props.index)
                       }
                       tabIndex={9}
-                      
                     />
                     <span className="mt-p2">
                       &nbsp; <p>{"(%) pct"}</p>
                     </span>
                   </label>
                 </div>
-
                 <div
                   //   ref={
                   //     paymentType === "amount" + props.index ? parentref : null

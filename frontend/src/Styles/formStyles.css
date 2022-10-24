@@ -224,7 +224,7 @@ l {
   margin-top: 1rem;
 }
 
-.inputs:focus-within label {
+.inputs:focus-within label, .focused-label:focus-within .focused-label {
   transition: all 0.3s ease;
   color: #2d8cf0;
 }

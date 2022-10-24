@@ -10,7 +10,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { reset } from "../../features/auth/authSlice";
 import Achievements from "./Achievements";
-import Payments2 from "./Payments2";
+import Discounts from "./Discounts";
+// import Payments2 from "./Payments2";
 import CompleteSteps from "./CompleteSteps";
 import Spinner from "../Utilities/Progress/Spinner";
 import SchoolInfo from "../../components/Schools/SchoolInfo";
@@ -327,9 +328,8 @@ function CreateSchool() {
               <></>
             )} */}
             {/* {count === 3.5 && navDir === "back" ? dispatch(decrement()) : null} */}
-            {count === 4 && (
-              <Payments2 formData={formData} setFormData={setFormData} />
-            )}
+            {/* PAYMENTS 2 GOES HERE */}
+            {count === 4 && <Discounts />}
             {count === 4.5 && (
               <AchievementsTips formData={formData} setFormData={setFormData} />
             )}

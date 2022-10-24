@@ -4,7 +4,7 @@ import {
   updateEligibleGradesforDiscount,
   updateEligibleSpecialneedsforDiscount,
   updateEligibleScholarshipsforDiscount,
-} from "../../../../features/paymentBase/paymentBaseSlice";
+} from "../../../../../../features/paymentBase/paymentBaseSlice";
 const DiscountBase = (props) => {
   const isGradeBasedDiscount =
     props.singlePayment.discountParameters.isGradeBasedDiscountType;
@@ -19,7 +19,6 @@ const DiscountBase = (props) => {
         value: !props.singlePayment.discountParameters.isGradeBasedDiscountType,
       })
     );
-
     if (!props.singlePayment.discountParameters.isGradeBasedDiscountType) {
       educationalDivisionState.map((division) => {
         {

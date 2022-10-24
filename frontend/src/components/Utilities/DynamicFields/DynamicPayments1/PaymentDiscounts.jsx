@@ -6,7 +6,6 @@ import Radio from "../../../InputControls/Radio";
 import { useSelector } from "react-redux";
 const PaymentDiscounts = ({
   handlePaymentDiscountTypesSelection,
- 
 
   handleAddCustomPaymentDiscount,
   singlePayment,
@@ -117,7 +116,9 @@ const PaymentDiscounts = ({
                             id={"specialNeedPaymentDiscount" + index}
                             value={specialNeedsBasedDiscount}
                             checked={specialNeedsBasedDiscount}
-                            onChange={(e) => handlePaymentDiscountTypesSelection(e, index)}
+                            onChange={(e) =>
+                              handlePaymentDiscountTypesSelection(e, index)
+                            }
                             tabIndex={9}
                           />
                           <>
@@ -132,10 +133,7 @@ const PaymentDiscounts = ({
                             htmlFor={"gradeBasedPayment_" + index}
                             onClick={() => addSpcialNeedPaymentDiscount(index)}
                           >
-                            {/* <Add /> */}
                             <AddMoreButton
-                              index={index}
-                              handleLinks={handleAddCustomPaymentDiscount}
                             />
                             <>
                               <span className="mlnp9">
@@ -175,11 +173,7 @@ const PaymentDiscounts = ({
                                 index={index}
                                 subIndex={specialNeedIndex}
                               />
-                              {/* <Remove
-                                action={remvoeSpcialNeedPaymentDiscount}
-                                index={index}
-                                subIndex={specialNeedIndex}
-                              /> */}
+                    
                             </div>
                             <div className="mb5px"></div>
                           </div>
@@ -200,7 +194,9 @@ const PaymentDiscounts = ({
                             id={"scholarshipBasedPaymentDiscount" + index}
                             value={scholarshipBasedDiscount}
                             checked={scholarshipBasedDiscount}
-                            onChange={(e) => handlePaymentDiscountTypesSelection(e, index)}
+                            onChange={(e) =>
+                              handlePaymentDiscountTypesSelection(e, index)
+                            }
                             tabIndex={9}
                           />
                           <>
@@ -217,10 +213,7 @@ const PaymentDiscounts = ({
                               addScholarshipsPaymentDiscount(index)
                             }
                           >
-                            <AddMoreButton
-                              index={index}
-                              handleLinks={handleAddCustomPaymentDiscount}
-                            />
+                            <AddMoreButton />
                             <>
                               <span className="mlnp9">
                                 &nbsp;&nbsp; <p>Add Types</p>
@@ -231,7 +224,6 @@ const PaymentDiscounts = ({
                       </div>
                       <></>
                     </div>
-
                     {singlePayment.discountParameters.scholarshipBasedDiscount.scholarships.map(
                       (scholarship, scholarshipIndex) => (
                         <div key={scholarshipIndex} className="flex-cs mtn5">
@@ -252,17 +244,11 @@ const PaymentDiscounts = ({
                                 }
                                 tabIndex={9}
                               />
-
                               <RemoveLinksButton
                                 remove={remvoeScholarshipsPaymentDiscount}
                                 index={index}
                                 subIndex={scholarshipIndex}
                               />
-                              {/* <Remove
-                                action={remvoeScholarshipsPaymentDiscount}
-                                index={index}
-                                subIndex={scholarshipIndex}
-                              /> */}
                             </div>
                             <div className="mb5px"></div>
                           </div>
