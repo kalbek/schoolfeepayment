@@ -12,7 +12,7 @@ function Discounts() {
             </h1>
             <h3 className="form__subtitle">
               <p>
-                Look how the Discount Tabel already adapts with your discount
+                Look how this Discount Tabel adapts with your schools discount
                 rules.
               </p>
             </h3>

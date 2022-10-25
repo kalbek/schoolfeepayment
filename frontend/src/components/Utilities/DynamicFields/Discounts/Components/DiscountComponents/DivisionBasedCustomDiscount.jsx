@@ -1,21 +1,20 @@
 import Textbox from "../../Utilities/Textbox";
 import { useSelector } from "react-redux";
-
-const DivisionBasedSpecialneedDiscounts = (props) => {
+const DivisionBasedCustomDiscount = (props) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
       <span>
         {paymentState[props.paymentIndex].discountParameters
-          .specialNeedsBasedDiscount.specialNeeds.length > 0 &&
-          props.currentSpecialneed.gradesEligibleForDiscount.map(
+          .customPaymentDiscount.customDiscounts.length > 0 &&
+          props.currentCustom.gradesEligibleForDiscount.map(
             (grade, subIndex) => (
               <span key={subIndex}>
                 <Textbox
                   Id={props.paymentIndex}
                   gradeBase={true}
                   index={props.paymentIndex}
-                  subIndex={props.currentSpecialneed.Id}
+                  subIndex={props.currentCustom.Id}
                   dicountType={props.dicountType}
                   subSubIndex={grade.Id}
                   type="number"
@@ -26,15 +25,15 @@ const DivisionBasedSpecialneedDiscounts = (props) => {
                     paymentState[
                       props.paymentIndex
                     ].discountParameters.discountUnit.charAt(0) === "p"
-                      ? "grade-based-specialneed-percentage"
-                      : "grade-based-specialneed-amount"
+                      ? "grade-based-custom-percentage"
+                      : "grade-based-custom-amount"
                   }
                   value={
                     paymentState[
                       props.paymentIndex
                     ].discountParameters.discountUnit.charAt(0) === "p"
-                      ? props.currentSpecialneed.percentage
-                      : props.currentSpecialneed.amount
+                      ? props.currentCustom.percentage
+                      : props.currentCustom.amount
                   }
                 />
               </span>
@@ -45,4 +44,4 @@ const DivisionBasedSpecialneedDiscounts = (props) => {
   );
 };
 
-export default DivisionBasedSpecialneedDiscounts;
+export default DivisionBasedCustomDiscount;

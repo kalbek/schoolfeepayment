@@ -227,6 +227,9 @@ const Payments1Actions = ({}) => {
                 specialNeedName: "Specialneed ",
                 percentage: "",
                 amount: "",
+                gradesEligibleForDiscount: [
+                  // { gradeName: "", percentage: "", amount: "" },
+                ],
               },
             })
           );
@@ -244,6 +247,9 @@ const Payments1Actions = ({}) => {
                 scholarshipName: "Scholarship ",
                 percentage: "",
                 amount: "",
+                gradesEligibleForDiscount: [
+                  // { gradeName: "", percentage: "", amount: "" },
+                ],
               },
             })
           );
@@ -337,6 +343,9 @@ const Payments1Actions = ({}) => {
               specialNeedName: "Specialneed",
               percentage: "",
               amount: "",
+              gradesEligibleForDiscount: [
+                // { gradeName: "", percentage: "", amount: "" },
+              ],
             },
           })
         );
@@ -356,6 +365,9 @@ const Payments1Actions = ({}) => {
               scholarshipName: "Scholarship",
               percentage: "",
               amount: "",
+              gradesEligibleForDiscount: [
+                // { gradeName: "", percentage: "", amount: "" },
+              ],
             },
           })
         );
@@ -372,10 +384,12 @@ const Payments1Actions = ({}) => {
             discounts: {
               Id: payment.discountParameters.customPaymentDiscount
                 .customDiscounts.length,
-              discountName:
-                "Custom discount",
+              discountName: "Custom discount",
               percentage: "",
-              pmount: "",
+              amount: "",
+              gradesEligibleForDiscount: [
+                // { gradeName: "", percentage: "", amount: "" },
+              ],
             },
           })
         );

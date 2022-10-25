@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import {
   updateGradeBasedDiscount,
   updateEligibleGradesforDiscount,
   updateEligibleSpecialneedsforDiscount,
   updateEligibleScholarshipsforDiscount,
+  updateEligibleGradesforCustomDiscount,
 } from "../../../../../../features/paymentBase/paymentBaseSlice";
 const DiscountBase = (props) => {
   const isGradeBasedDiscount =
@@ -11,14 +13,33 @@ const DiscountBase = (props) => {
   const educationalDivisionState = useSelector(
     (state) => state.educationalDivisions.educationalDivision
   );
+  const paymentState = useSelector((state) => state.payments.paymentState);
+
+  // RESET PAYMENT BASE CHECKBOX ON PAYGE LOAD
+  useEffect(() => {
+    paymentState.map((payment) => {
+      dispatch(
+        updateGradeBasedDiscount({
+          paymentId: payment.Id,
+          value: false,
+        })
+      );
+      console.log("occurred");
+    });
+  }, []);
+
   const dispatch = useDispatch();
   const updateDiscountBase = () => {
+    {
+      console.log("props Index: " + props.index);
+    }
     dispatch(
       updateGradeBasedDiscount({
         paymentId: props.index,
         value: !props.singlePayment.discountParameters.isGradeBasedDiscountType,
       })
     );
+
     if (!props.singlePayment.discountParameters.isGradeBasedDiscountType) {
       educationalDivisionState.map((division) => {
         {
@@ -37,6 +58,7 @@ const DiscountBase = (props) => {
                 },
               })
             );
+
             dispatch(
               updateEligibleSpecialneedsforDiscount({
                 paymentId: props.index,
@@ -51,8 +73,24 @@ const DiscountBase = (props) => {
                 },
               })
             );
+
             dispatch(
               updateEligibleScholarshipsforDiscount({
+                paymentId: props.index,
+                value:
+                  !props.singlePayment.discountParameters
+                    .isGradeBasedDiscountType,
+                eligibelGrade: {
+                  Id: subIndex,
+                  gradeName: subDivision.subDivisionName,
+                  percentage: "",
+                  amount: "",
+                },
+              })
+            );
+
+            dispatch(
+              updateEligibleGradesforCustomDiscount({
                 paymentId: props.index,
                 value:
                   !props.singlePayment.discountParameters
@@ -83,7 +121,7 @@ const DiscountBase = (props) => {
               <div className="flex gapp5 -mt-p5">
                 <div className="input__group pr-6">
                   <label
-                    className="checkbox-items flex flex-cs   pr-1 "
+                    className="checkbox-items flex flex-cs pr-1 "
                     htmlFor={props.index}
                   >
                     <input

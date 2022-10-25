@@ -133,8 +133,7 @@ const PaymentDiscounts = ({
                             htmlFor={"gradeBasedPayment_" + index}
                             onClick={() => addSpcialNeedPaymentDiscount(index)}
                           >
-                            <AddMoreButton
-                            />
+                            <AddMoreButton />
                             <>
                               <span className="mlnp9">
                                 &nbsp;&nbsp;<p>Add Types</p>
@@ -173,7 +172,6 @@ const PaymentDiscounts = ({
                                 index={index}
                                 subIndex={specialNeedIndex}
                               />
-                    
                             </div>
                             <div className="mb5px"></div>
                           </div>
@@ -265,10 +263,7 @@ const PaymentDiscounts = ({
                           htmlFor={"gradeBasedPayment_" + index}
                           onClick={() => addCustomPaymentDiscount(index)}
                         >
-                          <AddMoreButton
-                            index={index}
-                            handleLinks={addCustomPaymentDiscount}
-                          />
+                          <AddMoreButton />
                           <>
                             <span className="mlnp9">
                               &nbsp;&nbsp; <p>Custom Discount Parameters</p>

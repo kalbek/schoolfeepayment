@@ -155,11 +155,7 @@ export const paymentSlice = createSlice({
     },
     // END OF PAYMENTS ACTIONS IN GENERAL
     // ACTIONS FOR PAYMENT TYPE
-    createCustomPaymentType: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        paymentState.push(action.payload.payment);
-      });
-    },
+
     updatePaymentType: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
@@ -190,6 +186,7 @@ export const paymentSlice = createSlice({
         }
       });
     },
+
     // END OF PAYMENT TYPE ACTIONS
 
     // ACTIONS FOR PAYMENT BASE
@@ -339,9 +336,8 @@ export const paymentSlice = createSlice({
       });
     },
 
-    // End of Updation of selection of payment discount types
-
     createSpecialNeedDiscount: (state, action) => {
+      console.log(action.payload.specialNeeds);
       state.paymentState.map((payment) => {
         if (payment.Id === action.payload.paymentId) {
           payment.discountParameters.specialNeedsBasedDiscount.specialNeeds.push(
@@ -377,9 +373,8 @@ export const paymentSlice = createSlice({
         }
       });
     },
+
     updateEligibleGradesforDiscount: (state, action) => {
-      // console.log("eligible grades");
-      // console.log( action.payload.eligibelGrade);
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.slice(
@@ -391,24 +386,46 @@ export const paymentSlice = createSlice({
         }
       });
     },
+
     updateEligibleSpecialneedsforDiscount: (state, action) => {
-      // console.log("eligible specialneeds");
-      // console.log(action.payload.eligibelGrade);
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          paymentState.discountParameters.specialNeedsBasedDiscount.gradesEligibleForDiscount.push(
-            action.payload.eligibelGrade
+          console.log(
+            current(paymentState).discountParameters.specialNeedsBasedDiscount
+              .specialNeeds
+          );
+          paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
+            (specialNeed) => {
+              specialNeed.gradesEligibleForDiscount.push(
+                action.payload.eligibelGrade
+              );
+            }
           );
         }
       });
     },
     updateEligibleScholarshipsforDiscount: (state, action) => {
-      // console.log("eligible scholarships");
-      // console.log(action.payload.eligibelGrade);
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          paymentState.discountParameters.scholarshipBasedDiscount.gradesEligibleForDiscount.push(
-            action.payload.eligibelGrade
+          paymentState.discountParameters.scholarshipBasedDiscount.scholarships.map(
+            (scholarship) => {
+              scholarship.gradesEligibleForDiscount.push(
+                action.payload.eligibelGrade
+              );
+            }
+          );
+        }
+      });
+    },
+    updateEligibleGradesforCustomDiscount: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
+            (customs) => {
+              customs.gradesEligibleForDiscount.push(
+                action.payload.eligibelGrade
+              );
+            }
           );
         }
       });
@@ -430,27 +447,40 @@ export const paymentSlice = createSlice({
                 (val) => val.Id === -1
               );
           }
-          if (
-            // clear for specialneed discounts
-            paymentState.discountParameters.specialNeedsBasedDiscount
-              .gradesEligibleForDiscount.length > 0
-          ) {
-            paymentState.discountParameters.specialNeedsBasedDiscount.gradesEligibleForDiscount =
-              paymentState.discountParameters.specialNeedsBasedDiscount.gradesEligibleForDiscount.filter(
-                (val) => val.Id === -1
-              );
-          }
+          // clear for specialneed discounts
+          paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
+            (specialNeed) => {
+              if (specialNeed.gradesEligibleForDiscount.length > 0) {
+                specialNeed.gradesEligibleForDiscount =
+                  specialNeed.gradesEligibleForDiscount.filter(
+                    (grades) => grades.Id === -1
+                  );
+              }
+            }
+          );
+
           // clear for scholarship discounts
-          if (
-            paymentState.discountParameters.scholarshipBasedDiscount
-              .gradesEligibleForDiscount.length > 0
-          ) {
-            paymentState.discountParameters.scholarshipBasedDiscount.gradesEligibleForDiscount =
-              paymentState.discountParameters.scholarshipBasedDiscount.gradesEligibleForDiscount.filter(
-                (val) => val.Id === -1
-              );
-          }
+          paymentState.discountParameters.scholarshipBasedDiscount.scholarships.map(
+            (scholarship) => {
+              if (scholarship.gradesEligibleForDiscount.length > 0) {
+                scholarship.gradesEligibleForDiscount =
+                  scholarship.gradesEligibleForDiscount.filter(
+                    (grades) => grades.Id === -1
+                  );
+              }
+            }
+          );
           // clear for custom discounts
+          paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
+            (customs) => {
+              if (customs.gradesEligibleForDiscount.length > 0) {
+                customs.gradesEligibleForDiscount =
+                  customs.gradesEligibleForDiscount.filter(
+                    (grades) => grades.Id === -1
+                  );
+              }
+            }
+          );
           // TODO ALSO APPLY FOR CUSTOM DISCOUNTS
         }
       });
@@ -730,6 +760,124 @@ export const paymentSlice = createSlice({
       });
     },
 
+    deleteEligibleGradeforGenderDiscounts: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount =
+            paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.filter(
+              (grades) => grades.Id !== action.payload.eligibelGradeId
+            );
+        }
+      });
+      // state.paymentState.map((paymentState) => {
+      //   if (paymentState.Id === action.payload.paymentId) {
+      //     paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.map(
+      //       (grade) => {
+      //         if (grade.Id > action.payload.eligibelGradeId) {
+      //           grade.Id -= 1;
+      //         }
+      //       }
+      //     );
+      //   }
+      // });
+    },
+
+    deleteEligibleGradeforSpecialneedDiscounts: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.specialNeedsBasedDiscount.specialNeeds.map(
+            (specialneed) => {
+              if (specialneed.Id === action.payload.specialNeedId) {
+                specialneed.gradesEligibleForDiscount =
+                  specialneed.gradesEligibleForDiscount.filter(
+                    (grade) => grade.Id !== action.payload.eligibelGradeId
+                  );
+              }
+            }
+          );
+        }
+      });
+    //   state.paymentState.map((paymentState) => {
+    //     if (paymentState.Id === action.payload.paymentId) {
+    //       paymentState.discountParameters.scholarshipBasedDiscount.specialNeeds.map(
+    //         (specialneed) => {
+    //           if (specialneed.Id === action.payload.specialNeedId) {
+    //             specialneed.gradesEligibleForDiscount.map((grade) => {
+    //               if (grade.Id > action.payload.eligibelGradeId) {
+    //                 grade.Id -= 1;
+    //               }
+    //             });
+    //           }
+    //         }
+    //       );
+    //     }
+    //   });
+     },
+
+    deleteEligibleGradeforScholarshipDiscounts: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.scholarshipBasedDiscount.scholarships.map(
+            (scholarship) => {
+              if (scholarship.Id === action.payload.scholarshipId) {
+                scholarship.gradesEligibleForDiscount =
+                  scholarship.gradesEligibleForDiscount.filter(
+                    (grade) => grade.Id !== action.payload.eligibelGradeId
+                  );
+              }
+            }
+          );
+        }
+      });
+      // state.paymentState.map((paymentState) => {
+      //   if (paymentState.Id === action.payload.paymentId) {
+      //     paymentState.discountParameters.scholarshipBasedDiscount.scholarships.map(
+      //       (scholarship) => {
+      //         if (scholarship.Id === action.payload.scholarshipId) {
+      //           scholarship.gradesEligibleForDiscount.map((grade) => {
+      //             if (grade.Id > action.payload.eligibelGradeId) {
+      //               grade.Id -= 1;
+      //             }
+      //           });
+      //         }
+      //       }
+      //     );
+      //   }
+      // });
+    },
+
+    deleteEligibleGradeforCustomDiscounts: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
+            (customs) => {
+              if (customs.Id === action.payload.customId) {
+                customs.gradesEligibleForDiscount =
+                  customs.gradesEligibleForDiscount.filter(
+                    (grade) => grade.Id !== action.payload.eligibelGradeId
+                  );
+              }
+            }
+          );
+        }
+      });
+      // state.paymentState.map((paymentState) => {
+      //   if (paymentState.Id === action.payload.paymentId) {
+      //     paymentState.discountParameters.customPaymentDiscount.customDiscounts.map(
+      //       (customs) => {
+      //         if (customs.Id === action.payload.customId) {
+      //           customs.gradesEligibleForDiscount.map((grade) => {
+      //             if (grade.Id > action.payload.eligibelGradeId) {
+      //               grade.Id -= 1;
+      //             }
+      //           });
+      //         }
+      //       }
+      //     );
+      //   }
+      // });
+    },
+
     updatePaymentTerm: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
@@ -809,8 +957,13 @@ export const {
   createScholarshipDiscount,
   createCustomDiscount,
   updateSpecialneedDiscountName,
+  deleteEligibleGradeforGenderDiscounts,
+  deleteEligibleGradeforSpecialneedDiscounts,
+  deleteEligibleGradeforScholarshipDiscounts,
+  deleteEligibleGradeforCustomDiscounts,
   updateGradeBasedDiscount,
   updateEligibleGradesforDiscount,
+  updateEligibleGradesforCustomDiscount,
   updateGenderDiscountsValue,
   updateScholarshipDiscountValue,
   updateScholarshipDiscountName,

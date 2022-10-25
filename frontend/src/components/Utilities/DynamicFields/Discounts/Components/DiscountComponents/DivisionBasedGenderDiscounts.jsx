@@ -5,35 +5,43 @@ const DivisionBasedGenderDiscounts = (props) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
-      <div className="flex-c">
-        {paymentState.map((payment, index) => (
-          <span key={index}>
-            {payment.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.map(
-              (grades, subIndex) => (
-                <span key={subIndex}>
-                  <Textbox
-                    gradeBase={true}
-                    type="number"
-                    label={props.nolabel ? "" : "For " + grades.gradeName}
-                    placeholder={props.placeholder}
-                    onChange={props.onChange}
-                    name={
-                      payment.discountParameters.discountUnit.charAt(0) === "p"
-                        ? "grade-based-gender-percentage"
-                        : "grade-based-gender-amount"
-                    }
-                    value={
-                      payment.discountParameters.discountUnit.charAt(0) === "p"
-                        ? grades.percentage
-                        : grades.amount
-                    }
-                  />
-                </span>
-              )
-            )}
-          </span>
-        ))}
-      </div>
+      <span>
+        {paymentState[props.paymentIndex].discountParameters.genderBasedDiscount
+          .gradesEligibleForDiscount.length > 0 &&
+          paymentState[
+            props.paymentIndex
+          ].discountParameters.genderBasedDiscount.gradesEligibleForDiscount.map(
+            (grade, subIndex) => (
+              <span key={subIndex}>
+                <Textbox
+                  Id={props.paymentIndex}
+                  gradeBase={true}
+                  index={props.paymentIndex}
+                  dicountType={props.dicountType}
+                  subSubIndex={grade.Id}
+                  type="number"
+                  label={"For " + grade.gradeName}
+                  placeholder={props.placeholder}
+                  onChange={props.onChange}
+                  name={
+                    paymentState[
+                      props.paymentIndex
+                    ].discountParameters.discountUnit.charAt(0) === "p"
+                      ? "grade-based-gender-percentage"
+                      : "grade-based-gender-amount"
+                  }
+                  value={
+                    paymentState[
+                      props.paymentIndex
+                    ].discountParameters.discountUnit.charAt(0) === "p"
+                      ? grade.percentage
+                      : grade.amount
+                  }
+                />
+              </span>
+            )
+          )}
+      </span>
     </>
   );
 };
