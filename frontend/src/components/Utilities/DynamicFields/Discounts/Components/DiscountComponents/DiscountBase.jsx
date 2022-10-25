@@ -16,17 +16,17 @@ const DiscountBase = (props) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
 
   // RESET PAYMENT BASE CHECKBOX ON PAYGE LOAD
-  useEffect(() => {
-    paymentState.map((payment) => {
-      dispatch(
-        updateGradeBasedDiscount({
-          paymentId: payment.Id,
-          value: false,
-        })
-      );
-      console.log("occurred");
-    });
-  }, []);
+  // useEffect(() => {
+  //   paymentState.map((payment) => {
+  //     dispatch(
+  //       updateGradeBasedDiscount({
+  //         paymentId: payment.Id,
+  //         value: false,
+  //       })
+  //     );
+  //     console.log("occurred");
+  //   });
+  // }, []);
 
   const dispatch = useDispatch();
   const updateDiscountBase = () => {

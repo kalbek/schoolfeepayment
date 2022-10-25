@@ -342,9 +342,9 @@ const DiscountTable = ({
                               <DivisionBasedGenderDiscounts
                                 dicountType={"gender-discount"}
                                 paymentIndex={index}
-                                onChange={
-                                  updateValuesforGradebasedGenderDiscounts
-                                }
+                                // onChange={
+                                //   updateValuesforGradebasedGenderDiscounts
+                                // }
                               />
                               <span>&nbsp;</span>
                             </section>

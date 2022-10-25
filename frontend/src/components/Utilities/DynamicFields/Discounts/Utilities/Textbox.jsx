@@ -11,6 +11,10 @@ import { deleteEligibleGradeforCustomDiscounts } from "../../../../../features/p
 
 const Textbox = (props) => {
   const dispatch = useDispatch();
+  const handleTextboxValue = (event) => {
+    const {id, name, value} = event.target
+    console.log(name)
+  }
   const removeEligibleGradeforDiscounts = (props) => {
     // console.log("paymentIndex: " + props.index);
     // console.log("discountTypeIndex: " + props.subIndex);
@@ -67,7 +71,7 @@ const Textbox = (props) => {
                   id={props.Id}
                   tabIndex={1}
                   label={props.label}
-                  onChange={props.onChange}
+                  onChange={(event) => handleTextboxValue(event)}
                   onFocus={props.onFocus}
                 />
               </div>

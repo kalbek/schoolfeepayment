@@ -769,17 +769,17 @@ export const paymentSlice = createSlice({
             );
         }
       });
-      // state.paymentState.map((paymentState) => {
-      //   if (paymentState.Id === action.payload.paymentId) {
-      //     paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.map(
-      //       (grade) => {
-      //         if (grade.Id > action.payload.eligibelGradeId) {
-      //           grade.Id -= 1;
-      //         }
-      //       }
-      //     );
-      //   }
-      // });
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.discountParameters.genderBasedDiscount.gradesEligibleForDiscount.map(
+            (grade) => {
+              if (grade.Id > action.payload.eligibelGradeId) {
+                grade.Id -= 1;
+              }
+            }
+          );
+        }
+      });
     },
 
     deleteEligibleGradeforSpecialneedDiscounts: (state, action) => {
