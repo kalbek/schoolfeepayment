@@ -515,7 +515,9 @@ const DiscountTable = ({
                           (scholarships, subIndex) =>
                             // IF NUM OF SCHOLARSHIPS ARE MORE THAN ONE DISPLAY SCHOLARSHIPT TYPE NAMES AS LABEL
                             payments.discountParameters.scholarshipBasedDiscount
-                              .scholarships.length > 0 ? (
+                              .scholarships.length > 0 &&
+                            scholarships.gradesEligibleForDiscount.length >
+                              0 ? (
                               <span
                                 className="field-group-container"
                                 key={subIndex}
