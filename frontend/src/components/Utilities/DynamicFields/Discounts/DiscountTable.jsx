@@ -6,15 +6,8 @@ import EmptyField from "./Utilities/EmptyField";
 import ColumnHeader from "./Components/TableComponents/ColumnHeader";
 import RowHeader from "./Components/TableComponents/RowHeader";
 import Label from "./Utilities/Label";
-import {
-  updatePaymentDiscountUnit,
-  updateScholarshipDiscountValue,
-  updateCustomDiscount,
-  updateGenderDiscountsValue,
-  updateSpecialNeedDiscountValue,
-} from "../../../../features/paymentBase/paymentBaseSlice";
+import { updatePaymentDiscountUnit } from "../../../../features/paymentBase/paymentBaseSlice";
 // import DiscountTableFunctions.updateDiscountUnits from
-import { updateGradeBasedDiscountValues } from "../../../../features/Grades&Divisions/grades&DivisionsSlice";
 import TableCaption from "./Components/TableComponents/TableCaption";
 import DiscountUnits from "./Components/DiscountComponents/DiscountUnits";
 import DiscountBase from "./Components/DiscountComponents/DiscountBase";
@@ -22,11 +15,7 @@ import DivisionBasedGenderDiscounts from "./Components/DiscountComponents/Divisi
 import DivisionBasedSpecialneedDiscounts from "./Components/DiscountComponents/DivisionBasedSpecialneedDiscounts";
 import DivisionBasedScholarshipDiscounts from "./Components/DiscountComponents/DivisionBasedScholarshipDiscounts";
 import DivisionBasedCustomDiscount from "./Components/DiscountComponents/DivisionBasedCustomDiscount";
-const DiscountTable = ({
-  updateDiscountBase,
-  handleTextboxValue,
-  handleGradebasedDiscountAmount,
-}) => {
+const DiscountTable = ({ updateDiscountBase, handleTextboxValue }) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   const educationalDivisionState = useSelector(
     (state) => state.educationalDivisions.educationalDivision
@@ -60,7 +49,7 @@ const DiscountTable = ({
     for (let a = 0; a < refEls.current.length; a++) {
       if (a === index) continue;
       else {
-        refEls.current[a].className = "pr-7";
+        refEls.current[a].className = "pr-7 field-group-container";
       }
     }
   }
@@ -74,7 +63,7 @@ const DiscountTable = ({
         for (let a = 0; a < refEls.current.length; a++) {
           if (a === index) continue;
           else {
-            refEls.current[a].className = " pr-7";
+            refEls.current[a].className = " pr-7 field-group-container";
           }
         }
       }
@@ -137,14 +126,14 @@ const DiscountTable = ({
   }, [paymentState]);
 
   return (
-    <div className="field-group-container">
+    <div className="field-group-containera">
       <section>
         <table className="payment-tablea">
-          <TableCaption label={"Payment Discount Tabel"} />
+          {/* <TableCaption label={"Payment Discount Tabel"} /> */}
           <thead>
-            <tr>
+            <tr className="bg--th ">
               <th>
-                <span className="flex-ccc -ml-1">
+                <span className="flex-start ">
                   <div className="checkbox-inputs input__group">
                     <label className="checkbox-items">
                       <p className=" table-headers flex-start pb-1 pt-1 ml-p5">
@@ -154,11 +143,9 @@ const DiscountTable = ({
                   </div>
                 </span>
               </th>
-              {/* headers for discount parameters */}
               {gender && (
                 <th className="pr-6 ">
-                  <span className="flex-ccc ">
-                    {/* {console.log(gender)} */}
+                  <span className="flex-start ">
                     <span ref={ref0}>
                       <ColumnHeader label={"Gender Discounts"} />
                     </span>
@@ -168,7 +155,7 @@ const DiscountTable = ({
               )}
               {specialneed && (
                 <th className="pr-6 ">
-                  <span className="flex-ccc ">
+                  <span className="flex-start pr-6">
                     <span ref={ref1}>
                       <ColumnHeader label={"Special Need Discounts"} />
                     </span>
@@ -178,7 +165,7 @@ const DiscountTable = ({
               )}
               {scholarship && (
                 <th className="pr-6 ">
-                  <span className="flex-ccc ">
+                  <span className="flex-start ">
                     <span ref={ref2}>
                       <ColumnHeader label={"Scholarship Discounts"} />
                     </span>
@@ -188,7 +175,7 @@ const DiscountTable = ({
               )}
               {custom && (
                 <th className="pr-6 ">
-                  <span className="flex-ccc ">
+                  <span className="flex-start ">
                     <span ref={ref3}>
                       <ColumnHeader label={"Custom Discounts"} />
                     </span>
@@ -198,19 +185,22 @@ const DiscountTable = ({
               )}
             </tr>
           </thead>
-          <tbody>
+          <tbody className=" last-oflast-element">
             {/* PAYMENT TYPES  */}
             {paymentState.map((payments, index) => (
-              <tr key={index}>
+              <tr
+                key={index}
+                className={"field-group-container bottom-boarder-not-last"}
+              >
                 <td className={payments.paymentType.paymentName}>
                   <div
                     onClick={() => clearRefs(index)}
                     ref={(element) => {
                       refEls.current[index] = element;
                     }}
-                    className="flex-c flex-start field-group-container pr-7"
+                    className="flex-c flex-start mt-1 pr-7 field-group-container"
                   >
-                    <section className="row-headers flex-start flex-c">
+                    <section className="row-headers mt-1 flex-start flex-c">
                       <RowHeader label={payments.paymentType.paymentName} />
                       <DiscountUnits
                         singlePayment={payments}
@@ -243,7 +233,6 @@ const DiscountTable = ({
                   <td
                     ref={(element) => itemEls.current.push(element)}
                     onClick={(e) => onAClick(e, index)}
-                    // className={payments.paymentType.paymentName}
                     className={payments.paymentType.paymentName + " pr-2"}
                     // className={payments.paymentType.paymentName + " pr-4 pl-2"}
                   >
@@ -254,8 +243,8 @@ const DiscountTable = ({
                         .gradesEligibleForDiscount.length > 0 ? (
                         <>
                           {/* <span className="field-group-container"> */}
-                          <span>
-                            <section className="focused-label">
+                          <span className="field-group-container">
+                            <section className="focused-label ">
                               <Label
                                 label={
                                   payments.discountParameters.genderBasedDiscount.genderType.charAt(
@@ -315,12 +304,6 @@ const DiscountTable = ({
                                 : payments.discountParameters
                                     .genderBasedDiscount.amount
                             }
-                            bottomLabel={
-                              payments.discountParameters
-                                .isGradeBasedDiscountType
-                                ? true
-                                : false
-                            }
                             gradeType={division}
                           />
                         </span>
@@ -338,10 +321,7 @@ const DiscountTable = ({
                 )}
                 {/* INPUT CONTROL FOR SPECIALNEED DISCOUNTS */}
                 {/* IF SCHOOLS HAVE A SCHOLARSHIP BASED DISCOUNT RECIVE PERCERTAGE OR AMOUNT VALUES FOR SCHOLARSHIP DISCOUNTS */}
-                {/* {console.log(
-                  payments.discountParameters.specialNeedsBasedDiscount
-                    .specialNeeds[index].gradesEligibleForDiscount
-                )} */}
+
                 {specialneed &&
                 payments.discountParameters.specialNeedsBasedDiscount.value ? (
                   <td
@@ -523,7 +503,6 @@ const DiscountTable = ({
                                 key={subIndex}
                               >
                                 <section className="focused-label">
-                                  {console.log(scholarships)}
                                   <Label label={scholarships.scholarshipName} />
                                   <DivisionBasedScholarshipDiscounts
                                     dicountType={"scholarship-discount"}
@@ -661,12 +640,11 @@ const DiscountTable = ({
 
                 {/* START HERE  */}
                 {/* IF SCHOOLS HAVE A CUSTOMS BASED DISCOUNT RECIVE PERCERTAGE OR AMOUNT VALUES FOR CUSTOMS DISCOUNTS */}
-                {/* {console.log(payments.discountParameters.customPaymentDiscount.value)} */}
 
                 {payments.discountParameters.customPaymentDiscount.value ? (
                   <td
                     ref={(element) => itemEls.current.push(element)}
-                    onClick={(e) => onCClick(e, index)}
+                    onClick={(e) => onDClick(e, index)}
                     className={payments.paymentType.paymentName + " pr-2"}
                   >
                     {/* IF CUSTOMS DISCOUNT IS BASED ON GRADES  */}
@@ -685,7 +663,6 @@ const DiscountTable = ({
                                 className="field-group-container"
                                 key={subIndex}
                               >
-                                {console.log(custom.gradesEligibleForDiscount)}
                                 <section className="focused-label">
                                   <Label label={custom.discountName} />
                                   <DivisionBasedCustomDiscount

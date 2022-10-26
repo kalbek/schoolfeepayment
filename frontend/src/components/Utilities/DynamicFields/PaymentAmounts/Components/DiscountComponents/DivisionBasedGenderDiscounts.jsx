@@ -1,21 +1,23 @@
 import Textbox from "../../Utilities/Textbox";
 import { useSelector } from "react-redux";
 
-const DivisionBasedSpecialneedDiscounts = (props) => {
+const DivisionBasedGenderDiscounts = (props) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
       <span>
-        {paymentState[props.paymentIndex].discountParameters
-          .specialNeedsBasedDiscount.specialNeeds.length > 0 &&
-          props.currentSpecialneed.gradesEligibleForDiscount.map(
+        {paymentState[props.paymentIndex].discountParameters.genderBasedDiscount
+          .gradesEligibleForDiscount.length > 0 &&
+          paymentState[
+            props.paymentIndex
+          ].discountParameters.genderBasedDiscount.gradesEligibleForDiscount.map(
             (grade, subIndex) => (
               <span key={subIndex}>
+                {console.log(props)}
                 <Textbox
                   Id={props.paymentIndex}
                   gradeBase={true}
                   index={props.paymentIndex}
-                  subIndex={props.currentSpecialneed.Id}
                   dicountType={props.dicountType}
                   subSubIndex={grade.Id}
                   type="number"
@@ -26,8 +28,8 @@ const DivisionBasedSpecialneedDiscounts = (props) => {
                     paymentState[
                       props.paymentIndex
                     ].discountParameters.discountUnit.charAt(0) === "p"
-                      ? "grade-based-specialneed-percentage"
-                      : "grade-based-specialneed-amount"
+                      ? "grade-based-gender-percentage"
+                      : "grade-based-gender-amount"
                   }
                   value={
                     paymentState[
@@ -45,4 +47,4 @@ const DivisionBasedSpecialneedDiscounts = (props) => {
   );
 };
 
-export default DivisionBasedSpecialneedDiscounts;
+export default DivisionBasedGenderDiscounts;

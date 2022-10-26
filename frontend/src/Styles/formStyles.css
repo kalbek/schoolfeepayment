@@ -224,7 +224,8 @@ l {
   margin-top: 1rem;
 }
 
-.inputs:focus-within label, .focused-label:focus-within .focused-label {
+.inputs:focus-within label,
+.focused-label:focus-within .focused-label {
   transition: all 0.3s ease;
   color: #2d8cf0;
 }
@@ -292,6 +293,17 @@ l {
   border: 1px solid #d3d3cd;
   border-radius: 5px;
   margin-top: 0.4rem;
+  padding-top: 5px;
+  padding-left: 8px;
+  padding-right: 15px;
+  /* padding-bottom: 0.6rem; */
+  width: fit-content;
+}
+
+.field-group-container2 section {
+  border: 1px solid #d3d3cd;
+  border-radius: 5px;
+  margin-top: 1rem;
   padding-top: 5px;
   padding-left: 8px;
   padding-right: 15px;
@@ -374,4 +386,21 @@ tbody tr {
 }
 .payment-table tbody tr > td:not(:first-child) {
   padding-bottom: 1rem;
+}
+.payment-tableaa-table tbody tr > td:not(:first-child) {
+  padding-bottom: 1rem;
+}
+.payment-tableaa-table tbody tr > td {
+  background-color: blue;
+  padding-bottom: 1rem;
+}
+
+.last-element {
+  border-bottom: 1px solid #545457;
+}
+.last-oflast-element {
+  border-bottom: 2px solid #545457;
+}
+.bottom-boarder-not-last > td {
+  border-bottom: 1px solid #545457;
 }

@@ -11,6 +11,10 @@ const DivisionBasedSpecialneedDiscounts = (props) => {
           props.currentSpecialneed.gradesEligibleForDiscount.map(
             (grade, subIndex) => (
               <span key={subIndex}>
+                {/* {console.log(
+                  paymentState[props.paymentIndex].discountParameters
+                    .specialNeedsBasedDiscount.specialNeeds
+                )} */}
                 <Textbox
                   Id={props.paymentIndex}
                   gradeBase={true}

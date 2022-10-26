@@ -1,8 +1,8 @@
 const ColumnHeader = ({ label }) => {
   return (
-    <div className="checkbox-inputs input__group">
+    <div className="checkbox-inputs input__group flex flex-start">
       <label className="checkbox-items">
-        <p className=" table-headers flex-start pb-1 pt-1  ">{label}</p>
+        <p className=" table-headers ">{label}</p>
       </label>
     </div>
   );

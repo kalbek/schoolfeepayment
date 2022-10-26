@@ -62,6 +62,10 @@
   background-color: red;
 }
 
+.bg--th {
+  background-color: #d7d7d7;
+}
+
 .f-start {
   display: flex;
   align-content: flex-start;
@@ -457,13 +461,13 @@
   margin-top: 1rem;
 }
 .mt-p2 {
-  margin-top: .2rem;
+  margin-top: 0.2rem;
 }
 .mt-p3 {
-  margin-top: .3rem;
+  margin-top: 0.3rem;
 }
 .mt-p5 {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 .mb-3 {
   margin-bottom: 3rem;
@@ -556,6 +560,18 @@
 .pr-8 {
   padding-right: 2rem;
 }
+.pr-10 {
+  padding-right: 2.5rem;
+}
+.pr-12 {
+  padding-right: 3rem;
+}
+.pr-14 {
+  padding-right: 3.5rem;
+}
+.pr-16 {
+  padding-right: 4rem;
+}
 /* BOTTOM PADDINGS */
 .pb-1 {
   padding-bottom: 1rem;
@@ -563,7 +579,6 @@
 .pb-p5 {
   padding-bottom: 0.5rem;
 }
-
 
 /* TOP PADDINGS */
 .pt-1 {
@@ -601,6 +616,5 @@
 
 /* CONTENT RELATED */
 .fit-content {
-  
   min-width: fit-content;
 }

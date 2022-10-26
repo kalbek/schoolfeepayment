@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { reset } from "../../features/auth/authSlice";
 import Achievements from "./Achievements";
 import Discounts from "./Discounts";
+import PaymentAmounts from "./PaymentAmounts";
+import PaymentAmountTable from "../Utilities/DynamicFields/PaymentAmounts/PaymentAmountTable";
 // import Payments2 from "./Payments2";
 import CompleteSteps from "./CompleteSteps";
 import Spinner from "../Utilities/Progress/Spinner";
@@ -276,12 +278,12 @@ function CreateSchool() {
         <FormNavbar
           progressItems={[
             "DETAILS",
-            "PAYMENTS 1",
+            "PAYMENT TYPES",
             "SEMESTERS",
             "GRADES",
             "DISCOUNTS",
-            "PAYMENTS 2",
-            // "ACHIEVEMENTS",
+            "PAYMENT AMOUNTS",
+            "ACHIEVEMENTS",
             "REVIEW",
             "COMPLETE",
           ]}
@@ -333,9 +335,7 @@ function CreateSchool() {
             {count === 4.5 && (
               <AchievementsTips formData={formData} setFormData={setFormData} />
             )}
-            {count === 5 && (
-              <Achievements formData={formData} setFormData={setFormData} />
-            )}
+            {count === 5 && <PaymentAmounts />}
             {/* {count === 5.5 && navDir === "next" ? dispatch(increment()) : null}
             {count === 5.5 && navDir === "back" ? dispatch(decrement()) : null} */}
             {count === 6 && (
