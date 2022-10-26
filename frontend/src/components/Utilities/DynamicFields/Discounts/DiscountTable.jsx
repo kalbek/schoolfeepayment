@@ -315,6 +315,13 @@ const DiscountTable = ({
                                 : payments.discountParameters
                                     .genderBasedDiscount.amount
                             }
+                            bottomLabel={
+                              payments.discountParameters
+                                .isGradeBasedDiscountType
+                                ? true
+                                : false
+                            }
+                            gradeType={division}
                           />
                         </span>
                       )}
@@ -360,12 +367,6 @@ const DiscountTable = ({
                                 className="field-group-container"
                                 key={subIndex}
                               >
-                                {console.log(
-                                  specialneed.gradesEligibleForDiscount
-                                )}
-                                {/* {console.log(
-                                  specialneed.gradesEligibleForDiscount
-                                )} */}
                                 <section className="focused-label">
                                   <Label label={specialneed.specialNeedName} />
                                   <DivisionBasedSpecialneedDiscounts
@@ -411,7 +412,12 @@ const DiscountTable = ({
                                         ? "specialneed-by-percent"
                                         : "specialneed-by-amount"
                                     }
-                                    bottomLabel={true}
+                                    bottomLabel={
+                                      payments.discountParameters
+                                        .isGradeBasedDiscountType
+                                        ? true
+                                        : false
+                                    }
                                     gradeType={division}
                                   />
                                 </span>
@@ -419,9 +425,6 @@ const DiscountTable = ({
                             ) : (
                               // IF NUM OF SCHOLARSHIPS ARE ONLY 1 DO NOT DISPLAY SCHOLARSHIPT TYPE NAMES AS LABEL
                               <>
-                                {console.log(
-                                  specialneed.gradesEligibleForDiscount
-                                )}
                                 <DivisionBasedSpecialneedDiscounts
                                   dicountType={"specialneed-discount"}
                                   paymentIndex={index}
@@ -452,9 +455,6 @@ const DiscountTable = ({
                                     ? "In Percentage (%)"
                                     : "Amount in ETB"
                                 }
-                                // onChange={(event) =>
-                                //   handleDiscountAmountInputs(event, index)
-                                // }
                                 value={
                                   payments.discountParameters.discountUnit.charAt(
                                     0
@@ -469,6 +469,13 @@ const DiscountTable = ({
                                     ? "specialneed-by-percent"
                                     : "specialneed-by-amount"
                                 }
+                                bottomLabel={
+                                  payments.discountParameters
+                                    .isGradeBasedDiscountType
+                                    ? true
+                                    : false
+                                }
+                                gradeType={division}
                               />
                             </span>
                           )
@@ -525,6 +532,51 @@ const DiscountTable = ({
                                   <span>&nbsp;</span>
                                 </section>
                               </span>
+                            ) : scholarships.gradesEligibleForDiscount
+                                .length === 0 ? (
+                              <>
+                                <span>
+                                  <Textbox2
+                                    index={index}
+                                    subIndex={subIndex}
+                                    Id={index}
+                                    type="number"
+                                    hasTopLevelContainer={true}
+                                    label={scholarship.scholarshipName}
+                                    placeholder={
+                                      payments.discountParameters.discountUnit.charAt(
+                                        0
+                                      ) === "p"
+                                        ? "In Percentage (%)"
+                                        : "Amount in ETB"
+                                    }
+                                    // onChange={(event) =>
+                                    //   handleDiscountAmountInputs(event, index)
+                                    // }
+                                    value={
+                                      payments.discountParameters.discountUnit.charAt(
+                                        0
+                                      ) === "p"
+                                        ? scholarship.percentage
+                                        : scholarship.amount
+                                    }
+                                    name={
+                                      payments.discountParameters.discountUnit.charAt(
+                                        0
+                                      ) === "p"
+                                        ? "scholarship-by-percent"
+                                        : "scholarship-by-amount"
+                                    }
+                                    bottomLabel={
+                                      payments.discountParameters
+                                        .isGradeBasedDiscountType
+                                        ? true
+                                        : false
+                                    }
+                                    gradeType={division}
+                                  />
+                                </span>
+                              </>
                             ) : (
                               // IF NUM OF SCHOLARSHIPS ARE ONLY 1 DO NOT DISPLAY SCHOLARSHIPT TYPE NAMES AS LABEL
                               <>
@@ -576,6 +628,13 @@ const DiscountTable = ({
                                     ? "scholarship-by-percent"
                                     : "scholarship-by-amount"
                                 }
+                                bottomLabel={
+                                  payments.discountParameters
+                                    .isGradeBasedDiscountType
+                                    ? true
+                                    : false
+                                }
+                                gradeType={division}
                               />
                             </span>
                           )
@@ -618,11 +677,13 @@ const DiscountTable = ({
                           (custom, subIndex) =>
                             // IF NUM OF CUSTOMS ARE MORE THAN ONE DISPLAY CUSTOMS TYPE NAMES AS LABEL
                             payments.discountParameters.customPaymentDiscount
-                              .customDiscounts.length > 0 ? (
+                              .customDiscounts.length > 0 &&
+                            custom.gradesEligibleForDiscount.length > 0 ? (
                               <span
                                 className="field-group-container"
                                 key={subIndex}
                               >
+                                {console.log(custom.gradesEligibleForDiscount)}
                                 <section className="focused-label">
                                   <Label label={custom.discountName} />
                                   <DivisionBasedCustomDiscount
@@ -634,6 +695,51 @@ const DiscountTable = ({
                                   <span>&nbsp;</span>
                                 </section>
                               </span>
+                            ) : custom.gradesEligibleForDiscount.length ===
+                              0 ? (
+                              <>
+                                <span>
+                                  <Textbox2
+                                    Id={index}
+                                    index={index}
+                                    subIndex={subIndex}
+                                    type="number"
+                                    hasTopLevelContainer={true}
+                                    label={custom.discountName}
+                                    placeholder={
+                                      payments.discountParameters.discountUnit.charAt(
+                                        0
+                                      ) === "p"
+                                        ? "In Percentage (%)"
+                                        : "Amount in ETB"
+                                    }
+                                    // onChange={(event) =>
+                                    //   handleDiscountAmountInputs(event, index)
+                                    // }
+                                    value={
+                                      payments.discountParameters.discountUnit.charAt(
+                                        0
+                                      ) === "p"
+                                        ? custom.percentage
+                                        : custom.amount
+                                    }
+                                    name={
+                                      payments.discountParameters.discountUnit.charAt(
+                                        0
+                                      ) === "p"
+                                        ? "custom-by-percent"
+                                        : "custom-by-amount"
+                                    }
+                                    bottomLabel={
+                                      payments.discountParameters
+                                        .isGradeBasedDiscountType
+                                        ? true
+                                        : false
+                                    }
+                                    gradeType={division}
+                                  />
+                                </span>
+                              </>
                             ) : (
                               // IF NUM OF SCHOLARSHIPS ARE ONLY 1 DO NOT DISPLAY SCHOLARSHIPT TYPE NAMES AS LABEL
                               <>
@@ -685,6 +791,13 @@ const DiscountTable = ({
                                     ? "custom-by-percent"
                                     : "custom-by-amount"
                                 }
+                                bottomLabel={
+                                  payments.discountParameters
+                                    .isGradeBasedDiscountType
+                                    ? true
+                                    : false
+                                }
+                                gradeType={division}
                               />
                             </span>
                           )

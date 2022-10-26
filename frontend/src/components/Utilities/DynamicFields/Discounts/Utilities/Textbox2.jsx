@@ -139,7 +139,7 @@ const Textbox2 = (props) => {
                 />
               </div>
               <div className="-mt-p5 flex-end">
-                {props.bottomLabel ? <>Not {props.gradeType} based</> : <></>}
+                {props.bottomLabel ? <>Not {props.gradeType} based </> : <></>}
               </div>
             </label>
             {props.gradeBase && (
