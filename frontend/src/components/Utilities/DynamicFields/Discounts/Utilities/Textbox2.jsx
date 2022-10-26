@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import DeleteButton from "../../../Buttons/DeleteButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import RemoveButton from "../../../Buttons/RemoveButton";
 import RemoveButtonSmall from "../../../Buttons/RemoveButtonSmall";
 import RemoveLinksButton from "../../../Buttons/RemoveLinksButton";
@@ -9,69 +9,74 @@ import { deleteEligibleGradeforScholarshipDiscounts } from "../../../../../featu
 import { deleteEligibleGradeforSpecialneedDiscounts } from "../../../../../features/paymentBase/paymentBaseSlice";
 import { deleteEligibleGradeforCustomDiscounts } from "../../../../../features/paymentBase/paymentBaseSlice";
 import {
-  setValuesForGradeBasedGenderDiscount,
-  setValuesForGradeBasedSpecialneedDiscount,
-  setValuesForGradeBasedScholarshipDiscount,
-  setValuesForGradeBasedCustomDiscount,
+  updateScholarshipDiscountValue,
+  updateCustomDiscount,
+  updateGenderDiscountsValue,
+  updateSpecialNeedDiscountValue,
 } from "../../../../../features/paymentBase/paymentBaseSlice";
 
-const Textbox = (props) => {
+const Textbox2 = (props) => {
   const dispatch = useDispatch();
-  const handleTextboxValue = (event) => {
+  const paymentState = useSelector((state) => state.payments.paymentState);
+  const handleDiscountAmountInputs = (event) => {
     const { id, name, valueAsNumber } = event.target;
+    console.log("focus here");
     console.log(name);
-    if (
-      name === "grade-based-gender-amount" ||
-      name === "grade-based-gender-percentage"
-    ) {
-      dispatch(
-        setValuesForGradeBasedGenderDiscount({
-          paymentId: props.index,
-          eligibelGradeId: props.subSubIndex,
-          unitType: name,
-          value: valueAsNumber,
-        })
-      );
-    } else if (
-      name === "grade-based-specialneed-amount" ||
-      name === "grade-based-specialneed-percentage"
-    ) {
-      dispatch(
-        setValuesForGradeBasedSpecialneedDiscount({
-          paymentId: props.index,
-          specialNeedId: props.subIndex,
-          eligibelGradeId: props.subSubIndex,
-          unitType: name,
-          value: valueAsNumber,
-        })
-      );
-    } else if (
-      name === "grade-based-scholarship-amount" ||
-      name === "grade-based-scholarship-percentage"
-    ) {
-      dispatch(
-        setValuesForGradeBasedScholarshipDiscount({
-          paymentId: props.index,
-          scholarshipId: props.subIndex,
-          eligibelGradeId: props.subSubIndex,
-          unitType: name,
-          value: valueAsNumber,
-        })
-      );
-    } else if (
-      name === "grade-based-custom-amount" ||
-      name === "grade-based-custom-percentage"
-    ) {
-      dispatch(
-        setValuesForGradeBasedCustomDiscount({
-          paymentId: props.index,
-          customId: props.subIndex,
-          eligibelGradeId: props.subSubIndex,
-          unitType: name,
-          value: valueAsNumber,
-        })
-      );
-    }
+    console.log(valueAsNumber);
+    console.log("end focus here");
+    console.log("id: " + id);
+    paymentState.map((paymentState) => {
+      if (paymentState.Id === props.index) {
+        if (name === "gender-by-percent" || name === "gender-by-amount") {
+          dispatch(
+            updateGenderDiscountsValue({
+              discountType: name,
+              paymentId: props.index,
+              unitType: id,
+              value: valueAsNumber,
+            })
+          );
+        } else if (
+          name === "specialneed-by-percent" ||
+          name === "specialneed-by-amount"
+        ) {
+          dispatch(
+            updateSpecialNeedDiscountValue({
+              discountType: name,
+              specialNeedId: props.subIndex,
+              paymentId: props.index,
+              unitType: id,
+              value: valueAsNumber,
+            })
+          );
+        } else if (
+          name === "scholarship-by-percent" ||
+          name === "scholarship-by-amount"
+        ) {
+          dispatch(
+            updateScholarshipDiscountValue({
+              discountType: name,
+              paymentId: props.index,
+              scholarshipId: props.subIndex,
+              unitType: id,
+              value: valueAsNumber,
+            })
+          );
+        } else if (
+          name === "custom-by-percent" ||
+          name === "custom-by-amount"
+        ) {
+          dispatch(
+            updateCustomDiscount({
+              paymentId: props.index,
+              discountIndex: props.subIndex,
+              discountUnit: name,
+              value: valueAsNumber,
+            })
+          );
+        }
+      }
+    });
   };
   const removeEligibleGradeforDiscounts = (props) => {
     // console.log("paymentIndex: " + props.index);
@@ -129,9 +134,12 @@ const Textbox = (props) => {
                   id={props.Id}
                   tabIndex={1}
                   label={props.label}
-                  onChange={(event) => handleTextboxValue(event)}
+                  onChange={(event) => handleDiscountAmountInputs(event)}
                   onFocus={props.onFocus}
                 />
+              </div>
+              <div className="-mt-p5 flex-end">
+                {props.bottomLabel ? <>Not {props.gradeType} based</> : <></>}
               </div>
             </label>
             {props.gradeBase && (
@@ -158,4 +166,4 @@ const Textbox = (props) => {
   );
 };
 
-export default Textbox;
+export default Textbox2;

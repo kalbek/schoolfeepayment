@@ -32,8 +32,8 @@ const DivisionBasedCustomDiscount = (props) => {
                     paymentState[
                       props.paymentIndex
                     ].discountParameters.discountUnit.charAt(0) === "p"
-                      ? props.currentCustom.percentage
-                      : props.currentCustom.amount
+                      ? grade.percentage
+                      : grade.amount
                   }
                 />
               </span>

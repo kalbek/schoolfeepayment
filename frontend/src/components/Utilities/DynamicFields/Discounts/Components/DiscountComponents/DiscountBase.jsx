@@ -29,10 +29,10 @@ const DiscountBase = (props) => {
   // }, []);
 
   const dispatch = useDispatch();
-  const updateDiscountBase = () => {
-    {
-      console.log("props Index: " + props.index);
-    }
+  const updateDiscountBase = (event) => {
+    const {id, type} = event.target
+    console.log("baseid: " + id)
+    console.log("basetype: " + type)
     dispatch(
       updateGradeBasedDiscount({
         paymentId: props.index,
@@ -129,7 +129,7 @@ const DiscountBase = (props) => {
                       id={props.index}
                       value={isGradeBasedDiscount}
                       checked={isGradeBasedDiscount}
-                      onChange={updateDiscountBase}
+                      onChange={(event) => updateDiscountBase(event)}
                     />
                     <>
                       <span className="mt-p2">

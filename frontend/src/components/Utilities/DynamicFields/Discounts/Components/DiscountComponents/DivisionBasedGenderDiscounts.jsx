@@ -13,6 +13,7 @@ const DivisionBasedGenderDiscounts = (props) => {
           ].discountParameters.genderBasedDiscount.gradesEligibleForDiscount.map(
             (grade, subIndex) => (
               <span key={subIndex}>
+                {console.log(props)}
                 <Textbox
                   Id={props.paymentIndex}
                   gradeBase={true}

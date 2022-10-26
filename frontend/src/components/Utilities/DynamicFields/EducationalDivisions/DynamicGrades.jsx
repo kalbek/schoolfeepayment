@@ -304,7 +304,7 @@ const DynamicGrades = ({
                             subSubIndex={sectionIndex}
                           />
                           <Textbox
-                          type="text"
+                            type="text"
                             value={section.sectionName}
                             id={section.subDivisionType}
                             name="educationalSubDivision"

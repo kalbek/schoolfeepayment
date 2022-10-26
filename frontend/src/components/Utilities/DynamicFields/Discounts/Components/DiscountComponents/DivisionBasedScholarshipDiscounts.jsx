@@ -33,8 +33,8 @@ const DivisionBasedScholarshipDiscounts = (props) => {
                     paymentState[
                       props.paymentIndex
                     ].discountParameters.discountUnit.charAt(0) === "p"
-                      ? props.currentScholarship.percentage
-                      : props.currentScholarship.amount
+                      ? grade.percentage
+                      : grade.amount
                   }
                 />
               </span>
