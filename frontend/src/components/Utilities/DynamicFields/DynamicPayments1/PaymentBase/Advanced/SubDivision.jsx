@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 
-const SubDivision = ({ handleAdvancedSubDivisionBaseSelection, index }) => {
+const SubDivision = ({ handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection, index }) => {
   const educationalDivisionState = useSelector(
     (state) => state.educationalDivisions.educationalDivision
   );
+  const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
       <div className="flex-cs mtn5">
@@ -17,10 +18,16 @@ const SubDivision = ({ handleAdvancedSubDivisionBaseSelection, index }) => {
               name="periodPaymentBase"
               //   id={"periodBasedPayment" + index}
               tabIndex={9}
-              //   value={periodPaymentBase}
-              //   checked={periodPaymentBase}
+              value={
+                paymentState[index].paymentBase
+                  .advancedEducationalSubDivisionCheckbox
+              }
+              checked={
+                paymentState[index].paymentBase
+                  .advancedEducationalSubDivisionCheckbox
+              }
               onChange={(event) =>
-                handleAdvancedSubDivisionBaseSelection(event, index)
+                handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection(event, index)
               }
             />
             <>

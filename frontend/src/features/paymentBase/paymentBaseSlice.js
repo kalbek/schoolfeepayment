@@ -23,8 +23,22 @@ const initialState = {
         advancedAnnualPeriodType: "subperiod0",
         advancedEducationalDivisionCheckbox: true,
         advancedEducationalDivisionType: "subdivision0",
+        advancedEducationalSubDivisionCheckbox: true,
+        advancedCourseUnitsCheckbox: true,
+        advancedCourseUnitType: "credithour0",
         advancedShiftsCheckbox: false,
-
+        courseBasedPayment: {
+          value: false,
+          courses: [
+            // {
+            //   Id: 0,
+            //   courseName: "",
+            //   creditHours: "",
+            //   contactHours: "",
+            //   instructorName: "",
+            // },
+          ],
+        },
         periodPaymentBase: {
           value: true,
           periods: [
@@ -287,6 +301,68 @@ export const paymentSlice = createSlice({
         }
       });
     },
+
+    updateAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.advancedEducationalSubDivisionCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+
+    //  FOR COURSE UNITS BASED ADVANCED PAYMENT BASE SELECTION
+    updateAdvancedPaymentBaseCourseUnitsCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.advancedCourseUnitsCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+
+    updateAdvancedPaymentBaseCourseUnitsTypeRadioSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.advancedCourseUnitType =
+            action.payload.courseUnitType;
+        }
+      });
+    },
+
+    updateAdvancedPaymentBaseCourseTypeCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          // if (action.payload.value === false) {
+          //   paymentState.paymentBase.courseBasedPayment.courses =
+          //     paymentState.paymentBase.courseBasedPayment.courses.filter(
+          //       (course) => course.Id === -1
+          //     );
+          // } else {
+          //   paymentState.paymentBase.courseBasedPayment.courses.push(
+          //     action.payload.courses
+          //   );
+          // }
+
+          paymentState.paymentBase.courseBasedPayment.value =
+            action.payload.value;
+        }
+      });
+    },
+
+    updateAdvancedPaymentBaseAddCourses: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.courses.push(
+            action.payload.courses
+          );
+        }
+      });
+    },
+    // ended here
 
     updateAdvancedPaymentBaseEducationalDivisionTypeRadioSelection: (
       state,
@@ -1186,6 +1262,12 @@ export const {
   updateAdvancedPaymentBaseAnnualPeriodCheckboxSelection,
   updateAdvancedPaymentBaseAnnualPeriodTypeRadioSelection,
   updateAdvancedPaymentBaseEducationalDivisionCheckboxSelection,
+  updateAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection,
+  updateAdvancedPaymentBaseCourseUnitsCheckboxSelection,
+  updateAdvancedPaymentBaseCourseUnitsTypeRadioSelection,
+  updateAdvancedPaymentBaseCourseTypeCheckboxSelection,
+  updateAdvancedPaymentBaseAddCourses,
+
   updateAdvancedPaymentBaseEducationalDivisionTypeRadioSelection,
   updateAdvancedPaymentBaseShiftsCheckboxSelection,
   //  //  payment base sofar

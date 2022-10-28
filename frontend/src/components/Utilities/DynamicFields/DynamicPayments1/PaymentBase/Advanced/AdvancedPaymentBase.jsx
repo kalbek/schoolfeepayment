@@ -2,12 +2,17 @@ import { useSelector, useDispatch } from "react-redux";
 import AnnualPeriod from "./AnnualPeriod";
 import MajorDivision from "./MajorDivision";
 import SubDivision from "./SubDivision";
-import CreditHours from "./CreditHours";
+import CourseUnits from "./CourseUnits";
 import CourseTypes from "./CourseTypes";
 import {
   updateAdvancedPaymentBaseAnnualPeriodCheckboxSelection,
   updateAdvancedPaymentBaseAnnualPeriodTypeRadioSelection,
   updateAdvancedPaymentBaseEducationalDivisionCheckboxSelection,
+  updateAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection,
+  updateAdvancedPaymentBaseCourseUnitsCheckboxSelection,
+  updateAdvancedPaymentBaseCourseUnitsTypeRadioSelection,
+  updateAdvancedPaymentBaseCourseTypeCheckboxSelection,
+  updateAdvancedPaymentBaseAddCourses,
 } from "../../../../../../features/paymentBase/paymentBaseSlice";
 
 const AdvancedPaymentBase = ({ singlePayment, index }) => {
@@ -23,6 +28,7 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       })
     );
   };
+
   const handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection = (
     event,
     index
@@ -41,19 +47,94 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
   };
 
   // DEFINING METHODS FOR MAJOR DIVISION
-  const handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection =
-    () => {};
-  dispatch(
-    updateAdvancedPaymentBaseEducationalDivisionCheckboxSelection({
-      paymentId: index,
-      // value: !singlePayment.paymentBase.advancedEducationalDivisionCheckbox,
-      value: "",
-    })
-  );
+  const handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection = () => {
+    dispatch(
+      updateAdvancedPaymentBaseEducationalDivisionCheckboxSelection({
+        paymentId: index,
+        value: !singlePayment.paymentBase.advancedEducationalDivisionCheckbox,
+      })
+    );
+  };
+
   // DEFINING METHODS FOR SUB DIVISION
-  const handleAdvancedMajordivisionBaseSelection = () => {};
+  const handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection =
+    () => {
+      dispatch(
+        updateAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection({
+          paymentId: index,
+          value:
+            !singlePayment.paymentBase.advancedEducationalSubDivisionCheckbox,
+        })
+      );
+    };
+
+  // DEFINING METHODS FOR COURSE UNITS
+  const handleAdvancedPaymentBaseCourseUnitsCheckboxSelection = () => {
+    dispatch(
+      updateAdvancedPaymentBaseCourseUnitsCheckboxSelection({
+        paymentId: index,
+        value: !singlePayment.paymentBase.advancedCourseUnitsCheckbox,
+      })
+    );
+  };
+  const handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection = (
+    event,
+    index
+  ) => {
+    const { id } = event.target;
+    paymentState.map((paymentState) => {
+      if (paymentState.Id === index) {
+        dispatch(
+          updateAdvancedPaymentBaseCourseUnitsTypeRadioSelection({
+            paymentId: index,
+            courseUnitType: id,
+          })
+        );
+      }
+    });
+  };
 
   // DEFINING METHODS FOR COURSE TYPE
+  const handleAdvancedPaymentBaseCourseTypeCheckboxSelection = () => {
+    dispatch(
+      updateAdvancedPaymentBaseCourseTypeCheckboxSelection({
+        paymentId: index,
+        value: !singlePayment.paymentBase.courseBasedPayment.value,
+      })
+    );
+    // Also create a single course
+    dispatch(
+      updateAdvancedPaymentBaseAddCourses({
+        paymentId: index,
+        courses: {
+          Id: singlePayment.paymentBase.courseBasedPayment.courses.length,
+          courseName: "",
+          creditHours: "",
+          contactHours: "",
+          instructorName: "",
+        },
+      })
+    );
+  };
+  const handleAdvancedPaymentBaseAddCourseCheckboxSelection = (index) => {
+    paymentState.map((paymentState) => {
+      if (paymentState.Id === index) {
+        dispatch(
+          handleAdvancedPaymentBaseAddCourseCheckboxSelection({
+            paymentId: index,
+            courses: {
+              Id: singlePayment.paymentBase.courseBasedPayment.courses.length,
+              courseName: "",
+              creditHours: "",
+              contactHours: "",
+              instructorName: "",
+            },
+          })
+        );
+      }
+    });
+  };
+
   const handleAdvancedCourseTypeBaseSelection = () => {};
   const handleAdvancedPaymentBaseCourseAdding = () => {};
   const handleAdvancePaymentBaseCoursNameValues = () => {};
@@ -85,17 +166,29 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
           />
 
           <SubDivision
-            // handleAdvancedSubDivisionBaseSelection={
-            //   handleAdvancedSubDivisionBaseSelection
-            // }
+            handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection={
+              handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection
+            }
             index={index}
           />
-          <CreditHours
-            handleAdvancedCreditHoursBaseSelection={
-              handleAdvancedCreditHoursBaseSelection
+          <CourseUnits
+            handleAdvancedPaymentBaseCourseUnitsCheckboxSelection={
+              handleAdvancedPaymentBaseCourseUnitsCheckboxSelection
             }
+            handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection={
+              handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection
+            }
+            index={index}
           />
+
           <CourseTypes
+            handleAdvancedPaymentBaseCourseTypeCheckboxSelection={
+              handleAdvancedPaymentBaseCourseTypeCheckboxSelection
+            }
+            handleAdvancedPaymentBaseAddCourseCheckboxSelection={
+              handleAdvancedPaymentBaseAddCourseCheckboxSelection
+            }
+            index={index}
             handleAdvancedCourseTypeBaseSelection={
               handleAdvancedCourseTypeBaseSelection
             }

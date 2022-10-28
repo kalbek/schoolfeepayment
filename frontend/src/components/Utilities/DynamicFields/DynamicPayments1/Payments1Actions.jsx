@@ -59,7 +59,22 @@ const Payments1Actions = ({}) => {
           advancedAnnualPeriodType: "subperiod" + paymentState.length,
           advancedEducationalDivisionCheckbox: true,
           advancedEducationalDivisionType: "subdivision" + paymentState.length,
+          advancedEducationalSubDivisionCheckbox: true,
+          advancedCourseUnitsCheckbox: true,
+          advancedCourseUnitType: "credithour0",
           advancedShiftsCheckbox: false,
+          courseBasedPayment: {
+            value: false,
+            courses: [
+              // {
+              //   Id: 0,
+              //   courseName: "",
+              //   creditHours: "",
+              //   contactHours: "",
+              //   instructorName: "",
+              // },
+            ],
+          },
           periodPaymentBase: {
             value: true,
             periods: [

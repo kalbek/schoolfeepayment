@@ -12,16 +12,20 @@ const MajorDivision = ({
       <div className="flex-cs mtn5">
         <label
           className="flex -mb-p4"
-          // htmlFor={"periodBasedPayment" + index}
+          htmlFor={"advancedMajorDivisionBase" + index}
         >
           <input
             type="checkbox"
             name="periodPaymentBase"
-            //   id={"periodBasedPayment" + index}
-            //   tabIndex={9}
-            value={paymentState[index].paymentBase.advancedEducationalDivisionCheckbox}
+            id={"advancedMajorDivisionBase" + index}
+            tabIndex={9}
+            value={
+              paymentState[index].paymentBase
+                .advancedEducationalDivisionCheckbox
+            }
             checked={
-              paymentState[index].paymentBase.advancedEducationalDivisionCheckbox
+              paymentState[index].paymentBase
+                .advancedEducationalDivisionCheckbox
             }
             onChange={(event) =>
               handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection(

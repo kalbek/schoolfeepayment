@@ -55,6 +55,10 @@ const EducationalDivision = ({
           >
             <input
               type="radio"
+              disabled={
+                !paymentState[index].paymentBase
+                  .standardEducationalDivisionCheckbox
+              }
               //   id={"standard" + index}
               //   value={paymentBaseType}
               //   checked={paymentBaseType === "standard" + index}
@@ -88,6 +92,10 @@ const EducationalDivision = ({
               //   id={"advanced" + index}
               //   value={paymentBaseType}
               id={"subdivision" + index}
+              disabled={
+                !paymentState[index].paymentBase
+                  .standardEducationalDivisionCheckbox
+              }
               //   checked={paymentBaseType === "advanced" + index}
               checked={
                 paymentState[index].paymentBase

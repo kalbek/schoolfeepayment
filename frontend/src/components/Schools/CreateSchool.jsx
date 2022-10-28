@@ -279,7 +279,7 @@ function CreateSchool() {
           progressItems={[
             "DETAILS",
             "SEMESTERS",
-            "GRADES",
+            "DIVISIONS",
             "PAYMENT TYPES",
             "DISCOUNTS",
             "PAYMENT AMOUNTS",
