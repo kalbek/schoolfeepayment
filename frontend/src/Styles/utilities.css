@@ -110,6 +110,7 @@
 .pb1 {
   padding-bottom: 1%;
 }
+
 .pb2 {
   padding-bottom: 2%;
 }
@@ -117,6 +118,7 @@
 .pl1 {
   padding-left: 1%;
 }
+
 .prp5 {
   padding-right: 0.5%;
 }
@@ -280,6 +282,12 @@
 }
 .-mb-p5 {
   margin-bottom: -0.5rem;
+}
+.-mb-p4 {
+  margin-bottom: -0.4rem;
+}
+.-mb-p3 {
+  margin-bottom: -0.3rem;
 }
 .mtn5 {
   margin-top: -5%;
@@ -466,6 +474,9 @@
 .mt-p3 {
   margin-top: 0.3rem;
 }
+.mt-p4 {
+  margin-top: 0.4rem;
+}
 .mt-p5 {
   margin-top: 0.5rem;
 }
@@ -617,4 +628,13 @@
 /* CONTENT RELATED */
 .fit-content {
   min-width: fit-content;
+}
+
+.fcw {
+  color: white;
+}
+
+/* UTILITIES FOR Z-INDEX */
+.z-100 {
+  z-index: 1000000;
 }

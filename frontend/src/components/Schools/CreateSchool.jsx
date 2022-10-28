@@ -278,9 +278,9 @@ function CreateSchool() {
         <FormNavbar
           progressItems={[
             "DETAILS",
-            "PAYMENT TYPES",
             "SEMESTERS",
             "GRADES",
+            "PAYMENT TYPES",
             "DISCOUNTS",
             "PAYMENT AMOUNTS",
             "ACHIEVEMENTS",
@@ -301,27 +301,26 @@ function CreateSchool() {
               />
             )}
             {count === 0.5 && (
-              <PaymentTips formData={formData} setFormData={setFormData} />
-            )}
-            {count === 1 && (
-              <PaymentInfo formData={formData} setFormData={setFormData} />
-            )}
-            {count === 1.5 && (
               <SemestersTips formData={formData} setFormData={setFormData} />
             )}
-            {count === 2 && (
+            {count === 1 && (
               <PeriodInfo formData={formData} setFormData={setFormData} />
             )}
-            {count === 2.5 && (
+            {count === 1.5 && (
               <GradeTips formData={formData} setFormData={setFormData} />
             )}
-            {count === 3 && (
+            {count === 2 && (
               <GradeInfo formData={formData} setFormData={setFormData} />
+            )}
+            {count === 2.5 && (
+              <PaymentTips formData={formData} setFormData={setFormData} />
+            )}
+            {count === 3 && (
+              <PaymentInfo formData={formData} setFormData={setFormData} />
             )}
             {count === 3.5 && (
               <PaymentTips formData={formData} setFormData={setFormData} />
             )}
-
             {/* {count === 3.5 && navDir === "next" ? (
               dispatch(increment())
             ) : count === 3.5 && navDir === "back" ? (

@@ -14,6 +14,10 @@ const PaymentAmountTable = ({ updateDiscountBase, handleTextboxValue }) => {
   const educationalDivisionState = useSelector(
     (state) => state.educationalDivisions.educationalDivision
   );
+  
+  const topLevelPeriod = useSelector((state) => state.periods.topLevelPeriod);
+  console.log(topLevelPeriod)
+  
 
   const division =
     educationalDivisionState[0].educationalSubDivision[0].subDivisionType;
@@ -139,7 +143,7 @@ const PaymentAmountTable = ({ updateDiscountBase, handleTextboxValue }) => {
               </th>
               {/* headers for discount parameters */}
               {gender && (
-                <th className="">
+                <th className="fcw">
                   <span className="flex-start">
                     <span ref={ref0}>
                       <ColumnHeader label={"Gender"} />

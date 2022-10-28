@@ -223,7 +223,7 @@ const DiscountTable = ({ updateDiscountBase, handleTextboxValue }) => {
                     {" "}
                     <Label
                       label={
-                        "You have NO Discount Rules!! Go to Payments 1 to define discount rules"
+                        "You have NO Discount Rules!! Go to Payment Types to define discount rules"
                       }
                     />{" "}
                     <br />
@@ -502,6 +502,9 @@ const DiscountTable = ({ updateDiscountBase, handleTextboxValue }) => {
                                 className="field-group-container"
                                 key={subIndex}
                               >
+                                {console.log(
+                                  "sch name: " + scholarships.scholarshipName
+                                )}
                                 <section className="focused-label">
                                   <Label label={scholarships.scholarshipName} />
                                   <DivisionBasedScholarshipDiscounts
@@ -523,7 +526,7 @@ const DiscountTable = ({ updateDiscountBase, handleTextboxValue }) => {
                                     Id={index}
                                     type="number"
                                     hasTopLevelContainer={true}
-                                    label={scholarship.scholarshipName}
+                                    label={scholarships.scholarshipName}
                                     placeholder={
                                       payments.discountParameters.discountUnit.charAt(
                                         0

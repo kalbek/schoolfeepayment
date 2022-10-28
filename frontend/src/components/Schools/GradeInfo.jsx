@@ -1,5 +1,5 @@
 // import DynamicGrades from "../Utilities/DynamicFields/DynamicGrades";
-import DynamicGrades from "../Utilities/DynamicFields/EducationalDivisions/DynamicGrades";
+import EducationalDivisions from "../Utilities/DynamicFields/EducationalDivisions/EducationalDivisions";
 import SmallCard from "../Utilities/Cards/SmallCard";
 import Preview from "../Utilities/Buttons/Preview";
 import { useEffect } from "react";
@@ -59,6 +59,11 @@ const GradeInfo = ({ formData, setFormData }) => {
       createEducationalDivisions({
         id: lastDivision.id + 1,
         divisionType: lastDivision.divisionType,
+        subDivisionType:
+          lastDivision.educationalSubDivision.length > 0
+            ? lastDivision.educationalSubDivision[0].subDivisionName
+            : "Grade",
+        // subDivisionType: "Grade",
         divisionName: "",
         educationalSubDivision: [
           {
@@ -207,7 +212,7 @@ const GradeInfo = ({ formData, setFormData }) => {
 
   return (
     <>
-      <DynamicGrades
+      <EducationalDivisions
         formData={formData}
         setFormData={setFormData}
         handleEducationalDivisionAndSubDivisionTypes={

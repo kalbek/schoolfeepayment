@@ -13,6 +13,18 @@ const initialState = {
       },
       // PAYMENT BASES OR BASES IN WICH EACH PAYMENT DEPENDS ON !!
       paymentBase: {
+        paymentBaseType: "standard0",
+        standardAnnualPeriodCheckbox: true,
+        standardAnnualPeriodType: "subperiod0",
+        standardEducationalDivisionCheckbox: true,
+        standardEducationalDivisionType: "subdivision0",
+        standardShiftsCheckbox: false,
+        advancedAnnualPeriodCheckbox: true,
+        advancedAnnualPeriodType: "subperiod0",
+        advancedEducationalDivisionCheckbox: true,
+        advancedEducationalDivisionType: "subdivision0",
+        advancedShiftsCheckbox: false,
+
         periodPaymentBase: {
           value: true,
           periods: [
@@ -188,6 +200,114 @@ export const paymentSlice = createSlice({
     },
 
     // END OF PAYMENT TYPE ACTIONS
+    // NEW ACTIONS FOR PAYMENT BASE (STANDARD PAYMENT BASE)
+    updateStandardPaymentBaseAnnualPeriodCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardAnnualPeriodCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+
+    updateStandardPaymentBaseAnnualPeriodTypeRadioSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardAnnualPeriodType =
+            action.payload.annualPeriodType;
+        }
+      });
+    },
+
+    updateStandardPaymentBaseEducationalDivisionCheckboxSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardEducationalDivisionCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+
+    updateStandardPaymentBaseEducationalDivisionTypeRadioSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardEducationalDivisionType =
+            action.payload.divisionType;
+        }
+      });
+    },
+
+    updateStandardPaymentBaseShiftsCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardShiftsCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+    // NEW ACTIONS FOR PAYMENT BASE (ADVANCED PAYMENT BASE)
+    updateAdvancedPaymentBaseAnnualPeriodCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.advancedAnnualPeriodCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+
+    updateAdvancedPaymentBaseAnnualPeriodTypeRadioSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.advancedAnnualPeriodType =
+            action.payload.annualPeriodType;
+        }
+      });
+    },
+
+    updateAdvancedPaymentBaseEducationalDivisionCheckboxSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.advancedEducationalDivisionCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+
+    updateAdvancedPaymentBaseEducationalDivisionTypeRadioSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardEducationalDivisionType =
+            action.payload.divisionType;
+        }
+      });
+    },
+
+    updateAdvancedPaymentBaseShiftsCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardShiftsCheckbox =
+            action.payload.value;
+        }
+      });
+    },
 
     // ACTIONS FOR PAYMENT BASE
     updatePaymentBase: (state, action) => {
@@ -430,7 +550,7 @@ export const paymentSlice = createSlice({
         }
       });
     },
-    
+
     updateGradeBasedDiscount: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
@@ -992,6 +1112,14 @@ export const paymentSlice = createSlice({
         }
       });
     },
+    updatePaymentBaseTypeSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.paymentBaseType =
+            action.payload.paymentBaseType;
+        }
+      });
+    },
 
     updatePaymentDiscountUnit: (state, action) => {
       state.paymentState.map((paymentState) => {
@@ -1047,6 +1175,20 @@ export const {
   updatePaymentType,
   updateCustomPaymentType,
   deleteCustomPaymentType,
+  // handling values for payment base
+  // For standard
+  updateStandardPaymentBaseAnnualPeriodCheckboxSelection,
+  updateStandardPaymentBaseAnnualPeriodTypeRadioSelection,
+  updateStandardPaymentBaseEducationalDivisionCheckboxSelection,
+  updateStandardPaymentBaseEducationalDivisionTypeRadioSelection,
+  updateStandardPaymentBaseShiftsCheckboxSelection,
+  // For advanced
+  updateAdvancedPaymentBaseAnnualPeriodCheckboxSelection,
+  updateAdvancedPaymentBaseAnnualPeriodTypeRadioSelection,
+  updateAdvancedPaymentBaseEducationalDivisionCheckboxSelection,
+  updateAdvancedPaymentBaseEducationalDivisionTypeRadioSelection,
+  updateAdvancedPaymentBaseShiftsCheckboxSelection,
+  //  //  payment base sofar
   updatePaymentBase,
   updateCustomPaymentBase,
   setValuesForGradeBasedGenderDiscount,
@@ -1071,6 +1213,7 @@ export const {
   deleteEligibleGradeforScholarshipDiscounts,
   deleteEligibleGradeforCustomDiscounts,
   updateGradeBasedDiscount,
+  updatePaymentBaseTypeSelection,
   updateEligibleGradesforDiscount,
   updateEligibleGradesforCustomDiscount,
   updateGenderDiscountsValue,

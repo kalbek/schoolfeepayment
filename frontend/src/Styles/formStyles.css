@@ -379,7 +379,6 @@ tbody tr {
 }
 
 /* Table styles */
-
 .payment-table tbody tr > td:not(:first-child) {
   /* border: 1px solid #d3d3cd; */
   border: 1px solid #dcdc9f;

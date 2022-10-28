@@ -1,7 +1,7 @@
 import AddMoreButton from "../../Buttons/AddMoreButton";
 import RemoveLinksButton from "../../Buttons/RemoveLinksButton";
 
-const PaymentBases = ({
+const PaymentBasesCopy = ({
   handlePaymentBase,
   handleAddCustomPaymentBasis,
   handleCustomPaymentBase,
@@ -170,4 +170,4 @@ const PaymentBases = ({
   );
 };
 
-export default PaymentBases;
+export default PaymentBasesCopy;

@@ -19,7 +19,6 @@ const PeriodInfo = ({ formData, setFormData }) => {
   const dispatch = useDispatch();
   const topLevelPeirod = useSelector((state) => state.periods.topLevelPeriod);
   const handleNewSubPeriods = (index) => {
-    console.log("index is: " + index);
     topLevelPeirod.map((topLevelPeirod) => {
       const lastSubPeriod =
         topLevelPeirod.subPeriods[topLevelPeirod.subPeriods.length - 1];
@@ -220,7 +219,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
       <div className="flex gapfull ">
         <div className="school-info pt1">
           <div>
-            <h1 className="form__titles--mid -ml-3-5">
+            <h1 className="form__titles--mid  ">
               {" "}
               And now, tell us about your school's Semisters and Terms{" "}
             </h1>

@@ -310,7 +310,6 @@ const PaymentDiscounts = ({
                   <></>
                 </div>
               </div>
-
               {/*Checkbox for custom discount parameters payment */}
             </section>
           </div>

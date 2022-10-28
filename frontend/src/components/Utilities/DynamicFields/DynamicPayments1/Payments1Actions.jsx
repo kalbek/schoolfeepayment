@@ -3,7 +3,7 @@ import AddMoreButton from "../../Buttons/AddMoreButton";
 import RemoveButton from "../../Buttons/RemoveButton";
 import PaymentTypes from "./PaymentTypes";
 import PaymentTerms from "./PaymentTerms";
-import PaymentBases from "./PaymentBases";
+import PaymentBases from "./PaymentBase/PaymentBases";
 import PaymentDiscounts from "./PaymentDiscounts";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -21,6 +21,7 @@ import {
   updateCustomPaymentBase,
   updateGenderTypesRadioButtonSelection,
   updatePaymentTerm,
+  updatePaymentBaseTypeSelection,
   deleteCustomPaymentBase,
   createSpecialNeedDiscount,
   createScholarshipDiscount,
@@ -34,8 +35,7 @@ import {
 const Payments1Actions = ({}) => {
   const dispatch = useDispatch();
   const paymentState = useSelector((state) => state.payments.paymentState);
-  const lastPaymentState = paymentState[paymentState.length - 1];
-  const { popup } = useSelector((state) => state.popups);
+
   // const formDataPayments = [...formData.schoolPayments];
   const handleAddPayments = () => {
     dispatch(
@@ -49,6 +49,17 @@ const Payments1Actions = ({}) => {
           discountUnits: "amount" + paymentState.length,
         },
         paymentBase: {
+          paymentBaseType: "standard" + paymentState.length,
+          standardAnnualPeriodCheckbox: true,
+          standardAnnualPeriodType: "subperiod" + paymentState.length,
+          standardEducationalDivisionCheckbox: true,
+          standardEducationalDivisionType: "subdivision" + paymentState.length,
+          standardShiftsCheckbox: false,
+          advancedAnnualPeriodCheckbox: true,
+          advancedAnnualPeriodType: "subperiod" + paymentState.length,
+          advancedEducationalDivisionCheckbox: true,
+          advancedEducationalDivisionType: "subdivision" + paymentState.length,
+          advancedShiftsCheckbox: false,
           periodPaymentBase: {
             value: true,
             periods: [
@@ -301,6 +312,19 @@ const Payments1Actions = ({}) => {
       }
     });
   };
+  const handlePaymentBaseTypeSelection = (event, index) => {
+    const { id } = event.target;
+    paymentState.map((paymentState) => {
+      if (paymentState.Id === index) {
+        dispatch(
+          updatePaymentBaseTypeSelection({
+            paymentId: index,
+            paymentBaseType: id,
+          })
+        );
+      }
+    });
+  };
   const removeCustomPaymentBase = (index, subIndex) => {
     paymentState.map((payment) => {
       if (payment.Id === index) {
@@ -512,6 +536,8 @@ const Payments1Actions = ({}) => {
                 handleCustomPaymentBase={handleCustomPaymentBase}
                 handleAddCustomPaymentBasis={handleAddCustomPaymentBasis}
                 removeCustomPaymentBase={removeCustomPaymentBase}
+                // FOR NEW PAYMENT BASE RULES
+                handlePaymentBaseTypeSelection={handlePaymentBaseTypeSelection}
               />
 
               <PaymentDiscounts
