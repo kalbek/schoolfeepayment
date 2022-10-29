@@ -29,9 +29,10 @@ const initialState = {
         advancedShiftsCheckbox: false,
         courseBasedPayment: {
           value: false,
-          basedOnDivision: false,
+          basedOnDivision: true,
+          basedOnSubDivision: true,
           display: true,
-          basedOnSubDivision: false,
+          divisions: [],
           courses: [
             // {
             //   Id: 0,
@@ -362,15 +363,44 @@ export const paymentSlice = createSlice({
             action.payload.value;
         }
       });
+
+      // adding divisions to payment state
+      // console.log(action.payload.division)
+      // if (
+      //   state.paymentState[action.payload.paymentId].paymentBase
+      //     .courseBasedPayment.basedOnDivision === true &&
+      //   action.payload.target === "for-division"
+      // ) {
+      //   state.paymentState.map((paymentState) => {
+      //     if (paymentState.Id === action.payload.paymentId) {
+      //       paymentState.paymentBase.courseBasedPayment.divisions.push(
+      //         action.payload.division
+      //       );
+      //     }
+      //   });
+      // } else {
+      //   state.paymentState[
+      //     action.payload.paymentId
+      //   ].paymentBase.courseBasedPayment.divisions.splice(0);
+      // }
     },
+    updateAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.basedOnSubDivision =
+            action.payload.value;
+        }
+      });
+    },
+
     createNewCoursesForAdvancedPaymentBase: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.paymentBase.courseBasedPayment.courses.push(
             action.payload.courses
-          );
-          console.log(
-            current(paymentState).paymentBase.courseBasedPayment.courses
           );
         }
       });
@@ -1332,6 +1362,7 @@ export const {
   updateAdvancedPaymentBaseCourseUnitsTypeRadioSelection,
   updateAdvancedPaymentBaseCourseTypeCheckboxSelection,
   updateAdvancedPaymentBaseDepartmentCourseTypeCheckboxSelection,
+  updateAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection,
   createNewCoursesForAdvancedPaymentBase,
   deleteCoursesForAdvancedPaymentBase,
   updateAdvancePaymentBaseCourseNames,

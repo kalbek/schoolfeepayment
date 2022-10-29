@@ -13,6 +13,7 @@ import {
   updateAdvancedPaymentBaseCourseUnitsTypeRadioSelection,
   updateAdvancedPaymentBaseCourseTypeCheckboxSelection,
   updateAdvancedPaymentBaseDepartmentCourseTypeCheckboxSelection,
+  updateAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection,
   createNewCoursesForAdvancedPaymentBase,
   deleteCoursesForAdvancedPaymentBase,
   updateAdvancePaymentBaseCourseNames,
@@ -21,6 +22,9 @@ import {
 
 const AdvancedPaymentBase = ({ singlePayment, index }) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
+  const educationalDivisionState = useSelector(
+    (state) => state.educationalDivisions.educationalDivision
+  );
   const dispatch = useDispatch();
 
   // DEFINING METHODS FOR ANNUAL PERIOD
@@ -114,11 +118,39 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       })
     );
   };
-  const handleAdvancedPaymentBaseCourseByDepartmantCheckboxSelection = () => {
+  const handleAdvancedPaymentBaseCourseByDivisionCheckboxSelection = () => {
+    // also add all divisions from grade & division state to payment state base divisions
+    console.log(educationalDivisionState);
     dispatch(
       updateAdvancedPaymentBaseDepartmentCourseTypeCheckboxSelection({
         paymentId: index,
+        target: "not-for-division",
         value: !singlePayment.paymentBase.courseBasedPayment.basedOnDivision,
+      })
+    );
+
+    // educationalDivisionState.map((division) => {
+    //   dispatch(
+    //     updateAdvancedPaymentBaseDepartmentCourseTypeCheckboxSelection({
+    //       paymentId: index,
+    //       target: "for-division",
+    //       division: {
+    //         Id: division.id,
+    //         divisionType: division.divisionType,
+    //         educationalSubDivision: division.educationalSubDivision,
+    //       },
+    //     })
+    //   );
+    // });
+  };
+  const handleAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection = () => {
+    // also add all divisions from grade & division state to payment state base divisions
+    console.log(educationalDivisionState);
+    dispatch(
+      updateAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection({
+        paymentId: index,
+        target: "not-for-division",
+        value: !singlePayment.paymentBase.courseBasedPayment.basedOnSubDivision,
       })
     );
   };
@@ -201,18 +233,20 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       <div>
         <div>
           <div>
-            <div className="flex-cs">
-              <AnnualPeriod
-                handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection={
-                  handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection
-                }
-                handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection={
-                  handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection
-                }
-                index={index}
-              />
+            <div className="flex gap1 flex-start">
+              <div className=" ">
+                <AnnualPeriod
+                  handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection={
+                    handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection
+                  }
+                  handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection={
+                    handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection
+                  }
+                  index={index}
+                />
+              </div>
               <section>
-                <div className="flex-cs flex-start field-group-container">
+                <div className="flex-cs  flex-start field-group-container">
                   <div className="flex-c flex-start">
                     {/* stages */}
                     <MajorDivision
@@ -255,8 +289,11 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
             handleAdvancePaymentBaseCoursNameValues={
               handleAdvancePaymentBaseCoursNameValues
             }
-            handleAdvancedPaymentBaseCourseByDepartmantCheckboxSelection={
-              handleAdvancedPaymentBaseCourseByDepartmantCheckboxSelection
+            handleAdvancedPaymentBaseCourseByDivisionCheckboxSelection={
+              handleAdvancedPaymentBaseCourseByDivisionCheckboxSelection
+            }
+            handleAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection={
+              handleAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection
             }
             handleShowHideCourses={handleShowHideCourses}
             handleNothing={handleNothing}

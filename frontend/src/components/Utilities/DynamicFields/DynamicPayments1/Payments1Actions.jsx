@@ -65,9 +65,10 @@ const Payments1Actions = ({}) => {
           advancedShiftsCheckbox: false,
           courseBasedPayment: {
             value: false,
-            basedOnDivision: false,
+            basedOnDivision: true,
+            basedOnSubDivision: true,
             display: true,
-            basedOnSubDivision: false,
+            divisions: [],
             courses: [
               // {
               //   Id: 0,

@@ -231,6 +231,10 @@ export const educationalDivisionSlice = createSlice({
             division.maxNumOfStudents = action.payload.maxNumOfStudents;
           }
         }
+        if (division.educationalSubDivision[0] !== null) {
+          division.subDivisionType =
+            division.educationalSubDivision[0].subDivisionType;
+        }
       });
     },
 

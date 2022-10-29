@@ -25,67 +25,58 @@ const PaymentBases = ({
   return (
     <>
       <div>
-        <div className=" input__group field-subgroup-container">
-          <div className="flex-cs checkbox-group">
+        <div className=" input__group">
+          <div className="flex-cs checkbox-group field-subgroup-container">
             <div className="flex-left mt-1">
               <label htmlFor="">
                 <h3>Payment Base</h3>
               </label>
               {/*Checkbox for gender based payment */}
-              <section className="w-1 flex block checkbox-group">
+              <section className=" flex block checkbox-group">
                 <div className="w-1">
                   <>
                     {/* paymentBaseType.charAt(0) === "s" ? */}
-                    <div className="flex-cs">
-                      <div className="flex gap2vw ">
+                    <div className="flex  gap1 ml-1p5">
+                      <label
+                        className="checkbox-items flex-r flex-cs "
+                        htmlFor={"standard" + index}
+                      >
+                        <span>
+                          &nbsp; <p>Standard </p>
+                        </span>
+                        &nbsp;
+                        <input
+                          type="radio"
+                          visible={false}
+                          id={"standard" + index}
+                          value={paymentBaseType}
+                          checked={paymentBaseType === "standard" + index}
+                          onChange={(event) =>
+                            handlePaymentBaseTypeSelection(event, index)
+                          }
+                          tabIndex={9}
+                        />
+                      </label>
+                      <div className="flex-cs ">
+                        {/* TOP LEVEL PERIOD */}
                         <label
-                          className="checkbox-items flex flex-cs "
-                          htmlFor={"standard" + index}
+                          className="checkbox-items flex flex-cs"
+                          htmlFor={"advanced" + index}
                         >
                           <input
                             type="radio"
-                            id={"standard" + index}
+                            id={"advanced" + index}
                             value={paymentBaseType}
-                            checked={paymentBaseType === "standard" + index}
+                            checked={paymentBaseType === "advanced" + index}
                             onChange={(event) =>
                               handlePaymentBaseTypeSelection(event, index)
                             }
                             tabIndex={9}
                           />
                           <span>
-                            &nbsp; <p>Standard </p>
+                            &nbsp; <p>Advanced Base </p>
                           </span>
                         </label>
-                        {/* If gender based payment discount is checked display for gender types */}
-                        {true && (
-                          <div className="flex-cs gapp5 mlp3">
-                            {/* {index} */}
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-cs ">
-                        <div className="flex-cs gap2vw">
-                          {/* TOP LEVEL PERIOD */}
-                          <label
-                            className="checkbox-items flex flex-cs"
-                            htmlFor={"advanced" + index}
-                          >
-                            <input
-                              type="radio"
-                              id={"advanced" + index}
-                              value={paymentBaseType}
-                              checked={paymentBaseType === "advanced" + index}
-                              onChange={(event) =>
-                                handlePaymentBaseTypeSelection(event, index)
-                              }
-                              tabIndex={9}
-                            />
-                            <span>
-                              &nbsp; <p>Advanced Base </p>
-                            </span>
-                          </label>
-                        </div>
-                        <></>
                       </div>
                       <></>
                     </div>

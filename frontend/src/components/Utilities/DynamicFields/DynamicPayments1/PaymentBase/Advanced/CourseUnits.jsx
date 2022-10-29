@@ -8,9 +8,9 @@ const CourseUnits = ({
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
-    <div className="flex-c">
+    <div className="flex-c ml-4">
 
-      <div className="flex-cs flex-start">
+      <div className="flex-cs  flex-start">
         <label
           className="flex flex-cs"
           htmlFor={"advancedCourseUnits" + index} 
