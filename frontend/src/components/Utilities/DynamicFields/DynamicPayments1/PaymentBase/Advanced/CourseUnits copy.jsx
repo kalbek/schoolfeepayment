@@ -8,11 +8,9 @@ const CourseUnits = ({
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
-    <div className="flex-c">
-
-      <div className="flex-cs flex-start">
+      <div className="flex-cs mtn5">
         <label
-          className="flex flex-cs"
+          className="flex flex-cs -mb-p5aa"
           htmlFor={"advancedCourseUnits" + index} 
         >
           <input
@@ -40,12 +38,12 @@ const CourseUnits = ({
         <></>
       </div>
       {/* TOP LEVEL PERIOD */}
-      <div className="ml-3 -mt-1">
+      <div className="ml-1">
         {/* {periodState[index].value && ( */}
         {true && (
-          <div className="flex-cs mtn5sss">
+          <div className="flex-cs mtn5">
             <label
-              className="checkbox-items flex flex-cs -mb-p5aa"
+              className="checkbox-items flex flex-cs -mb-p5"
               // htmlFor={"standard" + index}
             >
               <input
@@ -98,8 +96,6 @@ const CourseUnits = ({
           </label>
         </div>
       </div>
-    </div>
-
     </>
   );
 };

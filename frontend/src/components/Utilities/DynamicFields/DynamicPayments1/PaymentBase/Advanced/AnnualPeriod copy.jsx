@@ -1,31 +1,26 @@
 import { useSelector } from "react-redux";
-const CourseUnits = ({
-  handleAdvancedPaymentBaseCourseUnitsCheckboxSelection,
-  handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection,
+const AnnualPeriod = ({
+  handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection,
+  handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection,
   index,
 }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
-    <div className="flex-c">
-
-      <div className="flex-cs flex-start">
-        <label
-          className="flex flex-cs"
-          htmlFor={"advancedCourseUnits" + index} 
-        >
+      <div className="flex-cs">
+        <label className="flex " htmlFor={"advancedAnnualBase" + index}>
           <input
             type="checkbox"
             name="periodPaymentBase"
             tabIndex={9}
-            id={"advancedCourseUnits" + index}
-            value={paymentState[index].paymentBase.advancedCourseUnitsCheckbox}
+            id={"advancedAnnualBase" + index}
+            value={paymentState[index].paymentBase.advancedAnnualPeriodCheckbox}
             checked={
-              paymentState[index].paymentBase.advancedCourseUnitsCheckbox
+              paymentState[index].paymentBase.advancedAnnualPeriodCheckbox
             }
             onChange={(event) =>
-              handleAdvancedPaymentBaseCourseUnitsCheckboxSelection(
+              handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection(
                 event,
                 index
               )
@@ -33,30 +28,32 @@ const CourseUnits = ({
           />
           <>
             <span>
-              &nbsp; <p>Course Units</p>
+              &nbsp; <p>Annual Period</p>
             </span>
           </>
         </label>
         <></>
       </div>
       {/* TOP LEVEL PERIOD */}
-      <div className="ml-3 -mt-1">
+      <div className="ml-1">
         {/* {periodState[index].value && ( */}
         {true && (
-          <div className="flex-cs mtn5sss">
+          <div className="flex-cs mtn5">
             <label
-              className="checkbox-items flex flex-cs -mb-p5aa"
+              className="checkbox-items flex flex-cs "
               // htmlFor={"standard" + index}
             >
               <input
                 type="radio"
-                id={"credithour" + index}
+                id={"period" + index}
+                //   value={paymentBaseType}
+                //   checked={paymentBaseType === "standard" + index}
                 checked={
-                  paymentState[index].paymentBase.advancedCourseUnitType ===
-                  "credithour" + index
+                  paymentState[index].paymentBase.advancedAnnualPeriodType ===
+                  "period" + index
                 }
                 onChange={(event) =>
-                  handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection(
+                  handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection(
                     event,
                     index
                   )
@@ -64,14 +61,14 @@ const CourseUnits = ({
                 tabIndex={9}
               />
               <span>
-                &nbsp; <p>Credit Hours</p>
+                &nbsp; <p>{periodState[index].periodTypeName}</p>
               </span>
             </label>
             <></>
           </div>
         )}
         {/* TOP LEVEL SUBPERIOD */}
-        <div className="flex-cs -mt-1">
+        <div className="flex-cs mtn5">
           {/* TOP LEVEL PERIOD */}
           <label
             className="checkbox-items flex flex-cs"
@@ -79,13 +76,15 @@ const CourseUnits = ({
           >
             <input
               type="radio"
-              id={"contacthour" + index}
+              id={"subperiod" + index}
+              //   value={paymentBaseType}
+              //   checked={paymentBaseType === "advanced" + index}
               checked={
-                paymentState[index].paymentBase.advancedCourseUnitType ===
-                "contacthour" + index
+                paymentState[index].paymentBase.advancedAnnualPeriodType ===
+                "subperiod" + index
               }
               onChange={(event) =>
-                handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection(
+                handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection(
                   event,
                   index
                 )
@@ -93,15 +92,13 @@ const CourseUnits = ({
               tabIndex={9}
             />
             <span>
-              &nbsp; <p>Contact Hours</p>
+              &nbsp; <p>{periodState[index].subperiodTypeName} </p>
             </span>
           </label>
         </div>
       </div>
-    </div>
-
     </>
   );
 };
 
-export default CourseUnits;
+export default AnnualPeriod;

@@ -11,7 +11,7 @@ const MajorDivision = ({
     <>
       <div className="flex-cs">
         <label
-          className="flex"
+          className="flex "
           htmlFor={"advancedMajorDivisionBase" + index}
         >
           <input

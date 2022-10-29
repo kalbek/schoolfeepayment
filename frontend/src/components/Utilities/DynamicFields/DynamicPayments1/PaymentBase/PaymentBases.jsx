@@ -25,15 +25,15 @@ const PaymentBases = ({
   return (
     <>
       <div>
-        <div className="checkbox-inputs input__group field-subgroup-container">
+        <div className=" input__group field-subgroup-container">
           <div className="flex-cs checkbox-group">
             <div className="flex-left mt-1">
               <label htmlFor="">
                 <h3>Payment Base</h3>
               </label>
               {/*Checkbox for gender based payment */}
-              <section className="flex block checkbox-group">
-                <div>
+              <section className="w-1 flex block checkbox-group">
+                <div className="w-1">
                   <>
                     {/* paymentBaseType.charAt(0) === "s" ? */}
                     <div className="flex-cs">

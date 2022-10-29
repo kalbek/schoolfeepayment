@@ -438,6 +438,15 @@
 .ml-70 {
   margin-left: 70%;
 }
+.ml-60 {
+  margin-left: 60%;
+}
+.ml-50 {
+  margin-left: 50%;
+}
+.ml-40 {
+  margin-left: 40%;
+}
 .ml-p5 {
   margin-left: 0.5rem;
 }
@@ -452,6 +461,27 @@
 }
 .ml-3 {
   margin-left: 3rem;
+}
+.ml-4 {
+  margin-left: 4rem;
+}
+.ml-5 {
+  margin-left: 5rem;
+}
+.ml-5p5 {
+  margin-left: 5.6rem;
+}
+.ml-6 {
+  margin-left: 6rem;
+}
+.ml-7 {
+  margin-left: 7rem;
+}
+.ml-8 {
+  margin-left: 8rem;
+}
+.ml-9 {
+  margin-left: 9rem;
 }
 .ml-2p5 {
   margin-left: 2.5rem;
@@ -508,6 +538,9 @@
 .-ml-1 {
   margin-left: -1rem;
 }
+.-ml-1p5 {
+  margin-left: -1.5rem;
+}
 .-ml-2 {
   margin-left: -2rem;
 }
@@ -522,6 +555,9 @@
 }
 .-ml-4 {
   margin-left: -4rem;
+}
+.-ml-100 {
+  margin-left: -100%;
 }
 
 .-mt-p5 {
@@ -644,4 +680,14 @@
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+}
+
+
+
+/* WIDTH UTILITIES */
+.w-1 {
+  width: 1rem;
+  width: 25vw;
+}
+.w-10p {
 }

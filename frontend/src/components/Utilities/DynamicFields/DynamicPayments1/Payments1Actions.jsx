@@ -65,6 +65,9 @@ const Payments1Actions = ({}) => {
           advancedShiftsCheckbox: false,
           courseBasedPayment: {
             value: false,
+            basedOnDivision: false,
+            display: true,
+            basedOnSubDivision: false,
             courses: [
               // {
               //   Id: 0,
@@ -579,12 +582,6 @@ const Payments1Actions = ({}) => {
                 }
                 remvoeCustomPaymentDiscount={remvoeCustomPaymentDiscount}
                 handleGenderTypesForDiscount={handleGenderTypesForDiscount}
-              />
-
-              <PaymentTerms
-                singlePayment={singlePayment}
-                index={index}
-                handlePaymentTerm={handlePaymentTerm}
               />
 
               {paymentState.length > 1 ? (

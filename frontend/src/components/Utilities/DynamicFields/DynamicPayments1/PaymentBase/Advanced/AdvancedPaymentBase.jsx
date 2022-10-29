@@ -12,7 +12,11 @@ import {
   updateAdvancedPaymentBaseCourseUnitsCheckboxSelection,
   updateAdvancedPaymentBaseCourseUnitsTypeRadioSelection,
   updateAdvancedPaymentBaseCourseTypeCheckboxSelection,
-  updateAdvancedPaymentBaseAddCourses,
+  updateAdvancedPaymentBaseDepartmentCourseTypeCheckboxSelection,
+  createNewCoursesForAdvancedPaymentBase,
+  deleteCoursesForAdvancedPaymentBase,
+  updateAdvancePaymentBaseCourseNames,
+  upadateShowHideCourses,
 } from "../../../../../../features/paymentBase/paymentBaseSlice";
 
 const AdvancedPaymentBase = ({ singlePayment, index }) => {
@@ -100,12 +104,6 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       updateAdvancedPaymentBaseCourseTypeCheckboxSelection({
         paymentId: index,
         value: !singlePayment.paymentBase.courseBasedPayment.value,
-      })
-    );
-    // Also create a single course
-    dispatch(
-      updateAdvancedPaymentBaseAddCourses({
-        paymentId: index,
         courses: {
           Id: singlePayment.paymentBase.courseBasedPayment.courses.length,
           courseName: "",
@@ -116,11 +114,20 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       })
     );
   };
-  const handleAdvancedPaymentBaseAddCourseCheckboxSelection = (index) => {
-    paymentState.map((paymentState) => {
-      if (paymentState.Id === index) {
+  const handleAdvancedPaymentBaseCourseByDepartmantCheckboxSelection = () => {
+    dispatch(
+      updateAdvancedPaymentBaseDepartmentCourseTypeCheckboxSelection({
+        paymentId: index,
+        value: !singlePayment.paymentBase.courseBasedPayment.basedOnDivision,
+      })
+    );
+  };
+
+  const handleNewCoursesForAdvancedPaymentBase = () => {
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
         dispatch(
-          handleAdvancedPaymentBaseAddCourseCheckboxSelection({
+          createNewCoursesForAdvancedPaymentBase({
             paymentId: index,
             courses: {
               Id: singlePayment.paymentBase.courseBasedPayment.courses.length,
@@ -135,68 +142,128 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
     });
   };
 
-  const handleAdvancedCourseTypeBaseSelection = () => {};
+  const handleRemoveCourses = (index, subIndex) => {
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          deleteCoursesForAdvancedPaymentBase({
+            paymentId: index,
+            courseId: subIndex,
+          })
+        );
+      }
+    });
+  };
+
+  const handleAdvancePaymentBaseCoursNameValues = (event, index, subIndex) => {
+    const { name, value } = event.target;
+    console.log("name: " + name);
+    // console.log("value: " + value);
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          updateAdvancePaymentBaseCourseNames({
+            paymentId: index,
+            courseId: subIndex,
+            valueToUpdate: name,
+            courseName: value,
+            creditHours: value,
+          })
+        );
+      }
+    });
+  };
+
+  const handleShowHideCourses = (index) => {
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        console.log("tew: " + payment.paymentBase.courseBasedPayment.display);
+        dispatch(
+          upadateShowHideCourses({
+            paymentId: index,
+            value: !payment.paymentBase.courseBasedPayment.display,
+          })
+        );
+      }
+    });
+  };
+  const handleNothing = () => {};
+
   const handleAdvancedPaymentBaseCourseAdding = () => {};
-  const handleAdvancePaymentBaseCoursNameValues = () => {};
   const handleAdvancePaymentBaseRemoveCourses = () => {};
   const handleAdvancedPaymentBaseApplyPreviousRulesForCourse = () => {};
 
   // DEFINING METHODS FOR CREDIT HOURS
-  const handleAdvancedCreditHoursBaseSelection = () => {};
+  // const handleAdvancedCreditHoursBaseSelection = () => {};
 
   return (
     <>
       <div>
         <div>
-          <AnnualPeriod
-            handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection={
-              handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection
-            }
-            handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection={
-              handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection
-            }
-            index={index}
-          />
+          <div>
+            <div className="flex-cs">
+              <AnnualPeriod
+                handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection={
+                  handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection
+                }
+                handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection={
+                  handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection
+                }
+                index={index}
+              />
+              <section>
+                <div className="flex-cs flex-start field-group-container">
+                  <div className="flex-c flex-start">
+                    {/* stages */}
+                    <MajorDivision
+                      handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection={
+                        handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection
+                      }
+                      index={index}
+                    />
 
-          <MajorDivision
-            handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection={
-              handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection
-            }
-            index={index}
-          />
-
-          <SubDivision
-            handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection={
-              handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection
-            }
-            index={index}
-          />
-          <CourseUnits
-            handleAdvancedPaymentBaseCourseUnitsCheckboxSelection={
-              handleAdvancedPaymentBaseCourseUnitsCheckboxSelection
-            }
-            handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection={
-              handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection
-            }
-            index={index}
-          />
-
+                    {/* grade */}
+                    <SubDivision
+                      handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection={
+                        handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection
+                      }
+                      index={index}
+                    />
+                  </div>
+                  <CourseUnits
+                    handleAdvancedPaymentBaseCourseUnitsCheckboxSelection={
+                      handleAdvancedPaymentBaseCourseUnitsCheckboxSelection
+                    }
+                    handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection={
+                      handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection
+                    }
+                    index={index}
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
           <CourseTypes
+            index={index}
             handleAdvancedPaymentBaseCourseTypeCheckboxSelection={
               handleAdvancedPaymentBaseCourseTypeCheckboxSelection
             }
-            handleAdvancedPaymentBaseAddCourseCheckboxSelection={
-              handleAdvancedPaymentBaseAddCourseCheckboxSelection
+            handleNewCoursesForAdvancedPaymentBase={
+              handleNewCoursesForAdvancedPaymentBase
             }
-            index={index}
-            handleAdvancedCourseTypeBaseSelection={
-              handleAdvancedCourseTypeBaseSelection
-            }
-            handleAdvancedPaymentBaseCourseAdding={
-              handleAdvancedPaymentBaseCourseAdding
-            }
+            handleRemoveCourses={handleRemoveCourses}
             handleAdvancePaymentBaseCoursNameValues={
               handleAdvancePaymentBaseCoursNameValues
+            }
+            handleAdvancedPaymentBaseCourseByDepartmantCheckboxSelection={
+              handleAdvancedPaymentBaseCourseByDepartmantCheckboxSelection
+            }
+            handleShowHideCourses={handleShowHideCourses}
+            handleNothing={handleNothing}
+            // sofar
+
+            handleAdvancedPaymentBaseCourseAdding={
+              handleAdvancedPaymentBaseCourseAdding
             }
             handleAdvancePaymentBaseRemoveCourses={
               handleAdvancePaymentBaseRemoveCourses

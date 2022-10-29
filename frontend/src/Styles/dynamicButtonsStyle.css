@@ -38,6 +38,20 @@
   margin-left: 35px; */
 }
 
+.show-icon {
+  content: url("../Assets/Images/show.svg");
+  cursor: pointer;
+  height: 15px;
+  margin-left: -14px;
+   width: 17px;
+}
+.hide-icon {
+  content: url("../Assets/Images/hide.svg");
+  cursor: pointer;
+  height: 15px;
+  margin-left: -14px;
+}
+
 .social__link {
   padding: 5px 5px;
 }

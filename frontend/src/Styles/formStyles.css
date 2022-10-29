@@ -130,6 +130,10 @@
 .input--above-small select {
   width: 17.4rem;
 }
+.input--above-small2 input,
+.input--above-small2 select {
+  width: 19rem;
+}
 .input--bleow-medium input,
 .input--bleow-medium select {
   width: 14rem;

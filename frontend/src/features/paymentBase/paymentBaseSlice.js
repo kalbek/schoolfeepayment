@@ -29,6 +29,9 @@ const initialState = {
         advancedShiftsCheckbox: false,
         courseBasedPayment: {
           value: false,
+          basedOnDivision: false,
+          display: true,
+          basedOnSubDivision: false,
           courses: [
             // {
             //   Id: 0,
@@ -336,34 +339,96 @@ export const paymentSlice = createSlice({
     updateAdvancedPaymentBaseCourseTypeCheckboxSelection: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          // if (action.payload.value === false) {
-          //   paymentState.paymentBase.courseBasedPayment.courses =
-          //     paymentState.paymentBase.courseBasedPayment.courses.filter(
-          //       (course) => course.Id === -1
-          //     );
-          // } else {
-          //   paymentState.paymentBase.courseBasedPayment.courses.push(
-          //     action.payload.courses
-          //   );
-          // }
-
           paymentState.paymentBase.courseBasedPayment.value =
+            action.payload.value;
+          paymentState.paymentBase.courseBasedPayment.courses.push(
+            action.payload.courses
+          );
+          if (!action.payload.value) {
+            paymentState.paymentBase.courseBasedPayment.courses.splice(0);
+          }
+          // and turn show button on
+          paymentState.paymentBase.courseBasedPayment.display = true;
+        }
+      });
+    },
+    updateAdvancedPaymentBaseDepartmentCourseTypeCheckboxSelection: (
+      state,
+      action
+    ) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.basedOnDivision =
             action.payload.value;
         }
       });
     },
-
-    updateAdvancedPaymentBaseAddCourses: (state, action) => {
+    createNewCoursesForAdvancedPaymentBase: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.paymentBase.courseBasedPayment.courses.push(
             action.payload.courses
           );
+          console.log(
+            current(paymentState).paymentBase.courseBasedPayment.courses
+          );
         }
       });
     },
-    // ended here
+    deleteCoursesForAdvancedPaymentBase: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.courses =
+            paymentState.paymentBase.courseBasedPayment.courses.filter(
+              (course) => course.Id !== action.payload.courseId
+            );
+        }
+      });
 
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.courses.map((course) => {
+            if (course.Id > action.payload.courseId) {
+              course.Id -= 1;
+            }
+          });
+          // if there are no courses, turn off the payment type checkbox
+
+          if (
+            paymentState.paymentBase.courseBasedPayment.courses.length === 0
+          ) {
+            paymentState.paymentBase.courseBasedPayment.value = false;
+          }
+        }
+      });
+    },
+
+    updateAdvancePaymentBaseCourseNames: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.courses.map((course) => {
+            if (course.Id === action.payload.courseId) {
+              if (action.payload.valueToUpdate === "courseName") {
+                course.courseName = action.payload.courseName;
+              } else {
+                course.creditHours = action.payload.creditHours;
+              }
+            }
+          });
+        }
+      });
+    },
+
+    upadateShowHideCourses: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.display =
+            action.payload.value;
+        }
+      });
+    },
+
+    // ended here
     updateAdvancedPaymentBaseEducationalDivisionTypeRadioSelection: (
       state,
       action
@@ -1266,7 +1331,11 @@ export const {
   updateAdvancedPaymentBaseCourseUnitsCheckboxSelection,
   updateAdvancedPaymentBaseCourseUnitsTypeRadioSelection,
   updateAdvancedPaymentBaseCourseTypeCheckboxSelection,
-  updateAdvancedPaymentBaseAddCourses,
+  updateAdvancedPaymentBaseDepartmentCourseTypeCheckboxSelection,
+  createNewCoursesForAdvancedPaymentBase,
+  deleteCoursesForAdvancedPaymentBase,
+  updateAdvancePaymentBaseCourseNames,
+  upadateShowHideCourses,
 
   updateAdvancedPaymentBaseEducationalDivisionTypeRadioSelection,
   updateAdvancedPaymentBaseShiftsCheckboxSelection,
