@@ -1,15 +1,15 @@
 import React from "react";
 
-const HideOrshow = ({ toogleValue, handleDisplay, index }) => {
+const HideOrshow = ({ toogleValue }) => {
   return (
     <>
       <div
         className={toogleValue ? "show-icon" : "hide-icon"}
-        onClick={() => handleDisplay(index)}
+        // onClick={() => handleDisplay(index, subIndex, subSubIndex)}
       >
         <h2 className="social-link--label">
           {" "}
-          {toogleValue ? "show" : "hide"}{" "}
+          {/* {toogleValue ? "show" : "hide"}{" "} */}
         </h2>
       </div>
     </>

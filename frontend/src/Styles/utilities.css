@@ -336,6 +336,21 @@
 .gap1 {
   gap: 1rem;
 }
+.gap1p5 {
+  gap: 1.5rem;
+}
+.gap2 {
+  gap: 2rem;
+}
+.gap2p5 {
+  gap: 2.5rem;
+}
+.gap3 {
+  gap: 3rem;
+}
+.gap3p5 {
+  gap: 3.5rem;
+}
 .gapfull {
   gap: 10vw;
 }

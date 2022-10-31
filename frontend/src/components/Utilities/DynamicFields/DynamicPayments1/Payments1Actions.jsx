@@ -69,15 +69,6 @@ const Payments1Actions = ({}) => {
             basedOnSubDivision: true,
             display: true,
             divisions: [],
-            courses: [
-              // {
-              //   Id: 0,
-              //   courseName: "",
-              //   creditHours: "",
-              //   contactHours: "",
-              //   instructorName: "",
-              // },
-            ],
           },
           periodPaymentBase: {
             value: true,
@@ -264,7 +255,7 @@ const Payments1Actions = ({}) => {
             })
           );
         }
-        console.log(paymentState);
+        // console.log(paymentState);
         if (name === "scholarshipBasedDiscount") {
           dispatch(
             updateSelectionForScholarshipDiscount({

@@ -84,7 +84,6 @@ const InputControls = ({
                   {/*SUBDIVISIONS INPUT CONTROL*/}
                   <div className="flex">
                     <div className="input__group flex-cr inputs input--medium ">
-                      {console.log("d.sdn: " + subDivision.subDivisionName)}
                       <Textbox
                         type="text"
                         value={subDivision.subDivisionName}

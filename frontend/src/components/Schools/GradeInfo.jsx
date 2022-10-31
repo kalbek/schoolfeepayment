@@ -68,14 +68,17 @@ const GradeInfo = ({ formData, setFormData }) => {
         educationalSubDivision: [
           {
             id: 0,
+            visible: true,
             subDivisionType: lastSubDivision.subDivisionType,
-            subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
+            subDivisionName: "",
+            // e.g. KG, Primary, Secondary, etc...
             hasSection: false,
             hasMaximumNumberOfStudents: false,
             maximumNumberOfStudents: "",
             numberOfScholarships: "",
             numberOfSpecialCases: "",
             section: [],
+            courses: [],
           },
         ],
       })
@@ -103,6 +106,7 @@ const GradeInfo = ({ formData, setFormData }) => {
         numberOfScholarships: "",
         numberOfSpecialCases: "",
         section: [],
+        courses: [],
       })
     );
   };

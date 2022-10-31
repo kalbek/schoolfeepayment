@@ -363,6 +363,10 @@ tbody tr {
   /* background-color: lime; */
   width: 55px;
 }
+.space-for-remove-small {
+  /* background-color: lime; */
+  width: 35px;
+}
 
 .remove-periods-icon {
   margin-left: -2%;

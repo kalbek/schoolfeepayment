@@ -1,4 +1,5 @@
-import AddMoreButton from "../../../../Buttons/AddMoreButton";
+// import AddMoreButton from "../../../../Buttons/AddMoreButton";
+import AddMoreButton from "../../Utilities/AddMoreButton";
 import HideOrshow from "../../../../Buttons/hideOrshow";
 import AddMoreButtonIconOnly from "../../../../Buttons/AddMoreButtonIconOnly";
 import RemoveLinksButton from "../../../../Buttons/RemoveLinksButton";
@@ -8,7 +9,8 @@ const CourseTypes = ({
   handleAdvancedPaymentBaseCourseTypeCheckboxSelection,
   handleNewCoursesForAdvancedPaymentBase,
   handleRemoveCourses,
-  handleAdvancePaymentBaseCoursNameValues,
+  handleAdvancePaymentBaseCourseNameValues,
+  handleAdvancePaymentBaseCreditHourValues,
   handleAdvancedPaymentBaseCourseByDivisionCheckboxSelection,
   handleAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection,
   handleShowHideCourses,
@@ -43,11 +45,8 @@ const CourseTypes = ({
                   checked={
                     paymentState[index].paymentBase.courseBasedPayment.value
                   }
-                  onChange={(e) =>
-                    handleAdvancedPaymentBaseCourseTypeCheckboxSelection(
-                      e,
-                      index
-                    )
+                  onChange={() =>
+                    handleAdvancedPaymentBaseCourseTypeCheckboxSelection(index)
                   }
                   tabIndex={9}
                 />
@@ -64,7 +63,7 @@ const CourseTypes = ({
               {paymentState[index].paymentBase.courseBasedPayment.value && (
                 <>
                   <label
-                    className=" flex "
+                    className=" flex"
                     // htmlFor={"scholarshipBasedPaymentDiscount" + index}
                   >
                     <input
@@ -134,133 +133,188 @@ const CourseTypes = ({
             </div>
           </div>
         </>
-
-        {/* {console.log(educationalDivisionState[index].educationalSubDivision.subDivisionName)} */}
-        {console.log(educationalDivisionState[index].educationalSubDivision)}
-        {paymentState[index].paymentBase.courseBasedPayment.value &&
-          paymentState[index].paymentBase.courseBasedPayment.display &&
-          educationalDivisionState.map((division) => (
-            <div className="flex-ccc mt-1" key={division.id}>
-              {paymentState[index].paymentBase.courseBasedPayment.courses.map(
-                (course, subIndex) => (
-                  <div key={course.Id} className={"flex-c -mt-1p5"}>
-                    {division.educationalSubDivision.map((subDivision) => (
-                      <>
-                        {/* <label htmlFor=""> </label> */}
-                        <section>
-                          <div className="flex-cs mt-p5 -mb-p5">
-                            <div className=" ">
-                              <label htmlFor="">{division.divisionName}</label>
-                            </div>
-                            <div className="-ml-3 flex-cs gapfull">
-                              <label htmlFor=""> </label>
-
-                              <label> {subDivision.subDivisionName}</label>
-                            </div>
-                            &nbsp;
-                          </div>
-                          <div className="flex inputs gapp5">
-                            <>
-                              <div className="flex-cs gapp5 input--above-small2 mt-1  ">
-                                <input
-                                  type="text"
-                                  name="courseName"
-                                  // id={"specialNeedPaymentDiscount"}
-                                  placeholder="Course Name"
-                                  value={course.courseName}
-                                  onChange={(event) =>
-                                    handleAdvancePaymentBaseCoursNameValues(
-                                      event,
-                                      index,
-                                      subIndex
-                                    )
-                                  }
-                                  tabIndex={9}
-                                />
-                              </div>
-                              <div className="flex-cs gapp5 input--xsmall mt-1">
-                                <input
-                                  type="text"
-                                  name="courseCreditHour"
-                                  // id={"specialNeedPaymentDiscount"}
-                                  placeholder="Cr Hr."
-                                  value={course.creditHours}
-                                  onChange={(event) =>
-                                    handleAdvancePaymentBaseCoursNameValues(
-                                      event,
-                                      index,
-                                      subIndex
-                                    )
-                                  }
-                                  tabIndex={9}
-                                />
-                                <RemoveLinksButton
-                                  remove={handleRemoveCourses}
-                                  index={index}
-                                  subIndex={subIndex}
-                                />
-                              </div>
-                            </>
-                          </div>
-                          <div className="flex-cs gapfull">
-                            {paymentState[index].paymentBase.courseBasedPayment
-                              .value && (
-                              <label
-                                className="flex -ml-p5 "
-                                //   htmlFor={"gradeBasedPayment_" + index}
-                                // onClick={() => handleNewCoursesForAdvancedPaymentBase()}
-                              >
-                                <AddMoreButton
-                                  index={index}
-                                  handleLinks={
-                                    paymentState[index].paymentBase
-                                      .courseBasedPayment.display
-                                      ? handleNewCoursesForAdvancedPaymentBase
-                                      : handleNothing
-                                  }
-                                />
-                                <>
-                                  <span className="-ml-1">
-                                    &nbsp;&nbsp; <p>Add Course</p>
-                                  </span>
-                                </>
-                              </label>
-                            )}
-                            {paymentState[index].paymentBase.courseBasedPayment
-                              .value && (
-                              <div className="flex-cs">
-                                <HideOrshow
-                                  index={index}
-                                  handleDisplay={handleShowHideCourses}
-                                  toogleValue={
-                                    paymentState[index].paymentBase
-                                      .courseBasedPayment.display
-                                  }
-                                />
-                                <label
-                                  className="input-group mt-p3"
-                                  onClick={() => handleShowHideCourses(index)}
-                                >
+        {
+          paymentState[index].paymentBase.courseBasedPayment.value &&
+            // Divisions are departments
+            paymentState[index].paymentBase.courseBasedPayment.divisions.map(
+              (division, divisionIndex) => (
+                <>
+                  <section>
+                    <label htmlFor="" className="flex-ccc">
+                      {division.divisionName}
+                    </label>
+                    <div className="flex-ccc mt-1">
+                      <div className={"flex-c -mt-1p5"}>
+                        {/* subdivisions are Years */}
+                        {division.educationalSubDivision.map(
+                          (subDivision, subDivisionIndex) => (
+                            <div key={subDivisionIndex} className={"mt-1"}>
+                              <section>
+                                <div className="flex-cs mt-p5 -mb-p5">
+                                  <div className=" ">
+                                    <label htmlFor="">
+                                      {division.divisionName}
+                                    </label>
+                                  </div>
+                                  <div className="ml-3 flex-cs gapfull">
+                                    <label htmlFor=""> </label>
+                                    <label>{subDivision.subDivisionName}</label>
+                                  </div>
                                   &nbsp;
+                                </div>
+                                {paymentState[index].paymentBase
+                                  .courseBasedPayment.divisions[divisionIndex]
+                                  .educationalSubDivision[subDivisionIndex]
+                                  .visible ? (
+                                  subDivision.courses.map(
+                                    (course, courseIndex) => (
+                                      <div>
+                                        <div className="flex  inputs gapp5">
+                                          <>
+                                            <div className="flex-cs gapp5 input--above-small2 ">
+                                              <input
+                                                type="text"
+                                                name="courseName"
+                                                // id={"specialNeedPaymentDiscount"}
+                                                placeholder="Course Name"
+                                                value={course.courseName}
+                                                onChange={(event) =>
+                                                  handleAdvancePaymentBaseCourseNameValues(
+                                                    event,
+                                                    index,
+                                                    divisionIndex,
+                                                    subDivisionIndex,
+                                                    courseIndex
+                                                  )
+                                                }
+                                                tabIndex={9}
+                                              />
+                                            </div>
+                                            <div className="flex-cs gapp5 input--xsmall ">
+                                              <input
+                                                type="text"
+                                                name="courseCreditHour"
+                                                // id={"specialNeedPaymentDiscount"}
+                                                placeholder="Cr Hr."
+                                                value={course.creditHours}
+                                                onChange={(event) =>
+                                                  handleAdvancePaymentBaseCreditHourValues(
+                                                    event,
+                                                    index,
+                                                    divisionIndex,
+                                                    subDivisionIndex,
+                                                    courseIndex
+                                                  )
+                                                }
+                                                tabIndex={9}
+                                              />
+                                              {subDivision.courses.length >
+                                              1 ? (
+                                                <RemoveLinksButton
+                                                  remove={handleRemoveCourses}
+                                                  index={index}
+                                                  subIndex={divisionIndex}
+                                                  subSubIndex={subDivisionIndex}
+                                                  subSubSubIndex={courseIndex}
+                                                />
+                                              ) : (
+                                                <div className="space-for-remove-small"></div>
+                                              )}
+                                            </div>
+                                          </>
+                                        </div>
+                                      </div>
+                                    )
+                                  )
+                                ) : (
+                                  <div className="flex-ccc">
+                                    <label className="pt1" htmlFor="">
+                                      Hidden{" "}
+                                    </label>
+                                  </div>
+                                )}
+
+                                <label htmlFor="">&nbsp;</label>
+                                <div className="flex-cs gapfull">
                                   {paymentState[index].paymentBase
-                                    .courseBasedPayment.display
-                                    ? "Hide"
-                                    : "Show"}
-                                </label>
-                              </div>
-                            )}
-                          </div>
-                        </section>
-                        <label></label>
-                        <label></label>
-                      </>
-                    ))}
-                  </div>
-                )
-              )}
-              &nbsp;
-            </div>
-          ))}
+                                    .courseBasedPayment.value && (
+                                    <label
+                                      className="flex -ml-p5"
+                                      //   htmlFor={"gradeBasedPayment_" + index}
+                                      // onClick={() =>
+                                      //   handleNewCoursesForAdvancedPaymentBase(index)
+                                      // }
+                                    >
+                                      <AddMoreButton
+                                        index={index}
+                                        subIndex={divisionIndex}
+                                        subSubIndex={subDivisionIndex}
+                                        // subSubSubIndex={courseIndex}
+                                        handleLinks={
+                                          paymentState[index].paymentBase
+                                            .courseBasedPayment.display
+                                            ? handleNewCoursesForAdvancedPaymentBase
+                                            : handleNothing
+                                        }
+                                      />
+                                      <>
+                                        <span className="-ml-1">
+                                          &nbsp;&nbsp; <p>Add Course</p>
+                                        </span>
+                                      </>
+                                    </label>
+                                  )}
+                                  {paymentState[index].paymentBase
+                                    .courseBasedPayment.value && (
+                                    <div
+                                      className="flex"
+                                      onClick={() =>
+                                        handleShowHideCourses(
+                                          index,
+                                          divisionIndex,
+                                          subDivisionIndex
+                                        )
+                                      }
+                                    >
+                                      <HideOrshow
+                                        toogleValue={
+                                          paymentState[index].paymentBase
+                                            .courseBasedPayment.divisions[
+                                            divisionIndex
+                                          ].educationalSubDivision[
+                                            subDivisionIndex
+                                          ].visible
+                                        }
+                                      />
+                                      &nbsp;
+                                      <label className="input-group mt-p4 ">
+                                        &nbsp;
+                                        {paymentState[index].paymentBase
+                                          .courseBasedPayment.divisions[
+                                          divisionIndex
+                                        ].educationalSubDivision[
+                                          subDivisionIndex
+                                        ].visible
+                                          ? "Hide " + " Courses"
+                                          : "Show " + " Courses"}
+                                      </label>
+                                    </div>
+                                  )}
+                                </div>
+                              </section>
+                              <label>&nbsp;</label>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </section>
+                  <label htmlFor="">&nbsp;</label>
+                </>
+              )
+            )
+          // &nbsp;
+        }
 
         {paymentState.length > 0 &&
           paymentState[index].paymentBase.courseBasedPayment.value && (

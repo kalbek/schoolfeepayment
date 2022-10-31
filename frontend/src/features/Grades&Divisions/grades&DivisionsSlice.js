@@ -10,6 +10,7 @@ const initialState = {
       educationalSubDivision: [
         {
           id: 0,
+          visible: true,
           subDivisionType: "Grade",
           subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
           hasSection: false,
@@ -18,6 +19,7 @@ const initialState = {
           numberOfScholarships: "",
           numberOfSpecialCases: "",
           section: [],
+          courses: [],
         },
       ],
     },
