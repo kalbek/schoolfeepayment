@@ -33,7 +33,7 @@ const PaymentBases = ({
               </label>
               {/*Checkbox for gender based payment */}
               <section className=" flex block checkbox-group">
-                <div className="w-1">
+                <div>
                   <>
                     {/* paymentBaseType.charAt(0) === "s" ? */}
                     <div className="flex  gap1 ml-1p5">
@@ -42,12 +42,11 @@ const PaymentBases = ({
                         htmlFor={"standard" + index}
                       >
                         <span>
-                          &nbsp; <p>Standard </p>
+                          &nbsp; <p>Standard &nbsp;</p>
                         </span>
                         &nbsp;
                         <input
                           type="radio"
-                          visible={false}
                           id={"standard" + index}
                           value={paymentBaseType}
                           checked={paymentBaseType === "standard" + index}
@@ -74,7 +73,7 @@ const PaymentBases = ({
                             tabIndex={9}
                           />
                           <span>
-                            &nbsp; <p>Advanced Base </p>
+                            &nbsp; <p>Advanced </p>
                           </span>
                         </label>
                       </div>

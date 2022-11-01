@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 const MajorDivision = ({
   handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection,
+  handleAdvancedPaymentBaseMajorEducationalDivisionCheckboxSelection,
   index,
 }) => {
   const educationalDivisionState = useSelector(
@@ -10,36 +11,74 @@ const MajorDivision = ({
   return (
     <>
       <div className="flex-cs">
-        <label
-          className="flex"
-          htmlFor={"advancedMajorDivisionBase" + index}
-        >
-          <input
-            type="checkbox"
-            name="periodPaymentBase"
-            id={"advancedMajorDivisionBase" + index}
-            tabIndex={9}
-            value={
-              paymentState[index].paymentBase
-                .advancedEducationalDivisionCheckbox
-            }
-            checked={
-              paymentState[index].paymentBase
-                .advancedEducationalDivisionCheckbox
-            }
-            onChange={(event) =>
-              handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection(
-                event,
-                index
-              )
-            }
-          />
-          <>
+        <div className="flex-start flex-c">
+          <label className="flex ">
+            <input
+              type="checkbox"
+              name="periodPaymentBase"
+              id={"advancedDivisionBase" + index}
+              tabIndex={9}
+              value={
+                paymentState[index].paymentBase
+                  .advancedEducationalDivisionCheckbox
+              }
+              checked={
+                paymentState[index].paymentBase
+                  .advancedEducationalDivisionCheckbox
+              }
+              onChange={(event) =>
+                handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection(
+                  event,
+                  index
+                )
+              }
+            />
             <span>
-              &nbsp; <p>{educationalDivisionState[index].divisionType}</p>
+              &nbsp; <p>Divisions</p>
             </span>
-          </>
-        </label>
+          </label>
+          <label
+            className="flex  -mt-1"
+            htmlFor={"advancedMajorDivisionBase" + index}
+          >
+            <input
+              type="checkbox"
+              name="periodPaymentBase"
+              id={"advancedMajorDivisionBase" + index}
+              tabIndex={9}
+              value={
+                paymentState[index].paymentBase
+                  .advancedMajorEducationalDivisionCheckbox
+              }
+              disabled={
+                !paymentState[index].paymentBase
+                  .advancedEducationalDivisionCheckbox
+              }
+              checked={
+                paymentState[index].paymentBase
+                  .advancedMajorEducationalDivisionCheckbox
+              }
+              onChange={(event) =>
+                handleAdvancedPaymentBaseMajorEducationalDivisionCheckboxSelection(
+                  event,
+                  index
+                )
+              }
+            />
+            <>
+              <span
+                className={
+                  !paymentState[index].paymentBase
+                    .advancedEducationalDivisionCheckbox
+                    ? "inactive-label"
+                    : ""
+                }
+              >
+                &nbsp; <p>{educationalDivisionState[index].divisionType}</p>
+              </span>
+            </>
+          </label>
+        </div>
       </div>
     </>
   );

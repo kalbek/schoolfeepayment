@@ -39,6 +39,8 @@ const PeriodInfo = ({ formData, setFormData }) => {
               hasCustomShift: false,
               customShiftName: "",
               periodToUpdate: "periodType",
+              courses: [],
+              visible: true,
             },
           })
         );
@@ -132,6 +134,8 @@ const PeriodInfo = ({ formData, setFormData }) => {
             hasCustomShift: false,
             customShiftName: "",
             periodToUpdate: "periodType",
+            courses: [],
+            visible: true,
             subPeriods: [
               {
                 id: 0,
@@ -146,6 +150,8 @@ const PeriodInfo = ({ formData, setFormData }) => {
                 hasCustomShift: false,
                 customShiftName: "",
                 periodToUpdate: "periodType",
+                courses: [],
+                visible: true,
               },
             ],
           })

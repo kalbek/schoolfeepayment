@@ -12,17 +12,11 @@ const EducationalDivision = ({
 
   return (
     <>
-      <div className="flex-cs -mt-p5">
-        <label
-          className="flex -mb-p5"
-          // htmlFor={"periodBasedPayment" + index}
-        >
+      <div className="flex-cs">
+        <label className="flex -mb-1">
           <input
             type="checkbox"
             name="periodPaymentBase"
-            //   id={"periodBasedPayment" + index}  inginix
-            //   tabIndex={9}
-            //   value={periodPaymentBase}
             id={"standarddivision" + index}
             checked={
               paymentState[index].paymentBase
@@ -47,21 +41,15 @@ const EducationalDivision = ({
         </label>
         <></>
       </div>
-      <div className="ml-1">
-        <div className="mtn5 flex-cs">
-          <label
-            className="flex -mb-p5 "
-            // htmlFor={"standard" + index}
-          >
+      <div>
+        <div className="  flex-cs">
+          <label className="flex -mb-p5 ">
             <input
               type="radio"
               disabled={
                 !paymentState[index].paymentBase
                   .standardEducationalDivisionCheckbox
               }
-              //   id={"standard" + index}
-              //   value={paymentBaseType}
-              //   checked={paymentBaseType === "standard" + index}
               id={"division" + index}
               checked={
                 paymentState[index].paymentBase
@@ -76,27 +64,28 @@ const EducationalDivision = ({
               }
               tabIndex={9}
             />
-            <span>
+            <span
+              className={
+                !paymentState[index].paymentBase
+                  .standardEducationalDivisionCheckbox
+                  ? "inactive-label"
+                  : ""
+              }
+            >
               &nbsp; <p>{educationalDivisionState[index].divisionType} </p>
             </span>
           </label>
         </div>
         <div className="flex-cs mtn5">
           {/* SUB DIVISION*/}
-          <label
-            className=" flex"
-            // htmlFor={"advanced" + index}
-          >
+          <label className=" flex">
             <input
               type="radio"
-              //   id={"advanced" + index}
-              //   value={paymentBaseType}
               id={"subdivision" + index}
               disabled={
                 !paymentState[index].paymentBase
                   .standardEducationalDivisionCheckbox
               }
-              //   checked={paymentBaseType === "advanced" + index}
               checked={
                 paymentState[index].paymentBase
                   .standardEducationalDivisionType ===
@@ -110,7 +99,14 @@ const EducationalDivision = ({
               }
               tabIndex={9}
             />
-            <span>
+            <span
+              className={
+                !paymentState[index].paymentBase
+                  .standardEducationalDivisionCheckbox
+                  ? "inactive-label"
+                  : ""
+              }
+            >
               &nbsp; <p>{educationalDivisionState[index].subDivisionType}</p>
             </span>
           </label>

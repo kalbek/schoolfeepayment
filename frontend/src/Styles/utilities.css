@@ -459,6 +459,9 @@
 .ml-50 {
   margin-left: 50%;
 }
+.ml-45 {
+  margin-left: 45%;
+}
 .ml-40 {
   margin-left: 40%;
 }
@@ -583,12 +586,33 @@
 .-ml-4 {
   margin-left: -4rem;
 }
+.-ml-5 {
+  margin-left: -5rem;
+}
+.-ml-6 {
+  margin-left: -6rem;
+}
+.-ml-7 {
+  margin-left: -7rem;
+}
 .-ml-100 {
   margin-left: -100%;
 }
 
 .-mt-p5 {
   margin-top: -0.5rem;
+}
+.-mt-1p1 {
+  margin-top: -1.1rem;
+}
+.-mt-1p2 {
+  margin-top: -1.2rem;
+}
+.-mt-1p3 {
+  margin-top: -1.3rem;
+}
+.-mt-1p4 {
+  margin-top: -1.4rem;
 }
 .-mt-1p5 {
   margin-top: -1.5rem;
@@ -680,6 +704,9 @@
 }
 .mt-2 {
   margin-top: 2rem;
+}
+.mt-2p5 {
+  margin-top: 2.5rem;
 }
 .mt-3 {
   margin-top: 3rem;

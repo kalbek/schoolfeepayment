@@ -8,9 +8,9 @@ const AnnualPeriod = ({
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <div className="field-subgroup-container">
-      <section className="flex-c">
+      <section className="flex-c flex-start">
         <div>
-          <label className="flex " htmlFor={"advancedAnnualBase" + index}>
+          <label className="flex" htmlFor={"advancedAnnualBase" + index}>
             <input
               type="checkbox"
               name="periodPaymentBase"
@@ -38,19 +38,25 @@ const AnnualPeriod = ({
           <></>
         </div>
         {/* TOP LEVEL PERIOD */}
-        <div className="ml-1">
+        <div>
           {/* {periodState[index].value && ( */}
           {true && (
             <div className="flex-cs -mt-1">
               <label
-                className="checkbox-items flex flex-cs "
+                className={
+                  !paymentState[index].paymentBase.advancedAnnualPeriodCheckbox
+                    ? "inactive-label checkbox-items flex flex-cs"
+                    : "checkbox-items flex flex-cs"
+                }
                 // htmlFor={"standard" + index}
               >
                 <input
                   type="radio"
                   id={"period" + index}
-                  //   value={paymentBaseType}
-                  //   checked={paymentBaseType === "standard" + index}
+                  disabled={
+                    !paymentState[index].paymentBase
+                      .advancedAnnualPeriodCheckbox
+                  }
                   checked={
                     paymentState[index].paymentBase.advancedAnnualPeriodType ===
                     "period" + index
@@ -63,7 +69,14 @@ const AnnualPeriod = ({
                   }
                   tabIndex={9}
                 />
-                <span>
+                <span
+                  className={
+                    !paymentState[index].paymentBase
+                      .advancedAnnualPeriodCheckbox
+                      ? "inactive-label"
+                      : ""
+                  }
+                >
                   &nbsp; <p>{periodState[index].periodTypeName}</p>
                 </span>
               </label>
@@ -80,8 +93,9 @@ const AnnualPeriod = ({
               <input
                 type="radio"
                 id={"subperiod" + index}
-                //   value={paymentBaseType}
-                //   checked={paymentBaseType === "advanced" + index}
+                disabled={
+                  !paymentState[index].paymentBase.advancedAnnualPeriodCheckbox
+                }
                 checked={
                   paymentState[index].paymentBase.advancedAnnualPeriodType ===
                   "subperiod" + index
@@ -94,7 +108,13 @@ const AnnualPeriod = ({
                 }
                 tabIndex={9}
               />
-              <span>
+              <span
+                className={
+                  !paymentState[index].paymentBase.advancedAnnualPeriodCheckbox
+                    ? "inactive-label"
+                    : ""
+                }
+              >
                 &nbsp; <p>{periodState[index].subperiodTypeName} </p>
               </span>
             </label>

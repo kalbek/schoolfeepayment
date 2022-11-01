@@ -58,6 +58,7 @@ const Payments1Actions = ({}) => {
           advancedAnnualPeriodCheckbox: true,
           advancedAnnualPeriodType: "subperiod" + paymentState.length,
           advancedEducationalDivisionCheckbox: true,
+          advancedMajorEducationalDivisionCheckbox: true,
           advancedEducationalDivisionType: "subdivision" + paymentState.length,
           advancedEducationalSubDivisionCheckbox: true,
           advancedCourseUnitsCheckbox: true,
@@ -65,6 +66,7 @@ const Payments1Actions = ({}) => {
           advancedShiftsCheckbox: false,
           courseBasedPayment: {
             value: false,
+            visible: true,
             basedOnDivision: true,
             basedOnSubDivision: true,
             display: true,

@@ -103,31 +103,40 @@ const StandardPaymentBase = ({
   return (
     <>
       <div>
-        <AnnualPeriod
-          handleStandardPaymentBaseAnnualPeriodCheckboxSelection={
-            handleStandardPaymentBaseAnnualPeriodCheckboxSelection
-          }
-          handleStandardPaymentBaseAnnualPeriodTypeRadioSelection={
-            handleStandardPaymentBaseAnnualPeriodTypeRadioSelection
-          }
-          index={index}
-        />
-        <EducationalDivision
-          handleStandardPaymentBaseEducationalDivisionCheckboxSelection={
-            handleStandardPaymentBaseEducationalDivisionCheckboxSelection
-          }
-          handleStandardPaymentBaseEducationalDivisionTypeRadioSelection={
-            handleStandardPaymentBaseEducationalDivisionTypeRadioSelection
-          }
-          index={index}
-        />
-        <Shifts
-          handleStandardPaymentBaseShiftsCheckboxSelection={
-            handleStandardPaymentBaseShiftsCheckboxSelection
-          }
-          index={index}
-        />
-        {/* paymentBaseType.charAt(0) === "s" ? */}
+        <div className="flex">
+          <section className="flex-c flex-start">
+            <AnnualPeriod
+              handleStandardPaymentBaseAnnualPeriodCheckboxSelection={
+                handleStandardPaymentBaseAnnualPeriodCheckboxSelection
+              }
+              handleStandardPaymentBaseAnnualPeriodTypeRadioSelection={
+                handleStandardPaymentBaseAnnualPeriodTypeRadioSelection
+              }
+              index={index}
+            />
+          </section>
+          &nbsp; &nbsp;
+          <section className="flex-c flex-start">
+            <EducationalDivision
+              handleStandardPaymentBaseEducationalDivisionCheckboxSelection={
+                handleStandardPaymentBaseEducationalDivisionCheckboxSelection
+              }
+              handleStandardPaymentBaseEducationalDivisionTypeRadioSelection={
+                handleStandardPaymentBaseEducationalDivisionTypeRadioSelection
+              }
+              index={index}
+            />
+          </section>
+        </div>
+        <section className="mb-p5">
+          <Shifts
+            handleStandardPaymentBaseShiftsCheckboxSelection={
+              handleStandardPaymentBaseShiftsCheckboxSelection
+            }
+            index={index}
+          />
+          {/* paymentBaseType.charAt(0) === "s" ? */}
+        </section>
       </div>
     </>
   );

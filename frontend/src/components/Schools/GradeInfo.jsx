@@ -79,6 +79,7 @@ const GradeInfo = ({ formData, setFormData }) => {
             numberOfSpecialCases: "",
             section: [],
             courses: [],
+            subPeriods: [],
           },
         ],
       })
@@ -107,6 +108,7 @@ const GradeInfo = ({ formData, setFormData }) => {
         numberOfSpecialCases: "",
         section: [],
         courses: [],
+        subPeriods: [],
       })
     );
   };

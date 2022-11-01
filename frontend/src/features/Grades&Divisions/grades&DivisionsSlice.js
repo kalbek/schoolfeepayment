@@ -20,6 +20,7 @@ const initialState = {
           numberOfSpecialCases: "",
           section: [],
           courses: [],
+          subPeriods: [],
         },
       ],
     },

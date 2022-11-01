@@ -1,16 +1,19 @@
 import { useSelector } from "react-redux";
 
-const SubDivision = ({ handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection, index }) => {
+const SubDivision = ({
+  handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection,
+  index,
+}) => {
   const educationalDivisionState = useSelector(
     (state) => state.educationalDivisions.educationalDivision
   );
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
-      <div className="flex-cs -mt-1">
+      <div className=" -mt-1">
         <div className="flex-cs ">
           <label
-            className="flex flex-cs "
+            className="flex "
             // htmlFor={"periodBasedPayment" + index}
           >
             <input
@@ -18,6 +21,10 @@ const SubDivision = ({ handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSe
               name="periodPaymentBase"
               //   id={"periodBasedPayment" + index}
               tabIndex={9}
+              disabled={
+                !paymentState[index].paymentBase
+                  .advancedEducationalDivisionCheckbox
+              }
               value={
                 paymentState[index].paymentBase
                   .advancedEducationalSubDivisionCheckbox
@@ -27,11 +34,21 @@ const SubDivision = ({ handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSe
                   .advancedEducationalSubDivisionCheckbox
               }
               onChange={(event) =>
-                handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection(event, index)
+                handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection(
+                  event,
+                  index
+                )
               }
             />
             <>
-              <span>
+              <span
+                className={
+                  !paymentState[index].paymentBase
+                    .advancedEducationalDivisionCheckbox
+                    ? "inactive-label"
+                    : ""
+                }
+              >
                 &nbsp;{" "}
                 <p>
                   {educationalDivisionState[index].educationalSubDivision
