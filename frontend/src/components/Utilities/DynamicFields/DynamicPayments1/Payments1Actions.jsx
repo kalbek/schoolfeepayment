@@ -31,6 +31,8 @@ import {
   deleteSpecialNeedDiscount,
   deleteScholarshipDiscount,
   deleteCustomDiscount,
+  updatePayementBaseHideOrShow,
+  updatePayementDiscountHideOrShow,
 } from "../../../../features/paymentBase/paymentBaseSlice";
 const Payments1Actions = ({}) => {
   const dispatch = useDispatch();
@@ -49,6 +51,7 @@ const Payments1Actions = ({}) => {
           discountUnits: "amount" + paymentState.length,
         },
         paymentBase: {
+          value: true,
           paymentBaseType: "standard" + paymentState.length,
           standardAnnualPeriodCheckbox: true,
           standardAnnualPeriodType: "subperiod" + paymentState.length,
@@ -62,15 +65,20 @@ const Payments1Actions = ({}) => {
           advancedEducationalDivisionType: "subdivision" + paymentState.length,
           advancedEducationalSubDivisionCheckbox: true,
           advancedCourseUnitsCheckbox: true,
-          advancedCourseUnitType: "credithour0",
+          advancedCourseUnitType: "credithour" + paymentState.length,
           advancedShiftsCheckbox: false,
+          periods: [],
+          courses: [],
           courseBasedPayment: {
             value: false,
             visible: true,
+            previousCourseRulesApplied: false,
             basedOnDivision: true,
             basedOnSubDivision: true,
             display: true,
             divisions: [],
+            courses: [],
+            periods: [],
           },
           periodPaymentBase: {
             value: true,
@@ -120,6 +128,7 @@ const Payments1Actions = ({}) => {
         // payment discount parameters
         discountParameters: {
           Id: 0,
+          value: true,
           isGradeBasedDiscountType: false,
           discountUnit: "amount" + paymentState.length,
           genderBasedDiscount: {
@@ -527,6 +536,32 @@ const Payments1Actions = ({}) => {
   };
   // END OFMETHODS TO HANDLE CRUD OPERATIONS FOR PAYMENT DISCOUNTS
 
+  // HIDE OR SHOW METHODS
+  const handlePayementBaseHideOrShow = (index) => {
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          updatePayementBaseHideOrShow({
+            paymentIndex: index,
+            value: !payment.paymentBase.value,
+          })
+        );
+      }
+    });
+  };
+  const handlePayementDiscountHideOrShow = (index) => {
+    paymentState.map((payment) => {
+      if (payment.Id === index) {
+        dispatch(
+          updatePayementDiscountHideOrShow({
+            paymentIndex: index,
+            value: !payment.discountParameters.value,
+          })
+        );
+      }
+    });
+  };
+
   return (
     <>
       {paymentState.map((singlePayment, index) => (
@@ -550,6 +585,7 @@ const Payments1Actions = ({}) => {
                 removeCustomPaymentBase={removeCustomPaymentBase}
                 // FOR NEW PAYMENT BASE RULES
                 handlePaymentBaseTypeSelection={handlePaymentBaseTypeSelection}
+                handlePayementBaseHideOrShow={handlePayementBaseHideOrShow}
               />
 
               <PaymentDiscounts
@@ -576,6 +612,9 @@ const Payments1Actions = ({}) => {
                 }
                 remvoeCustomPaymentDiscount={remvoeCustomPaymentDiscount}
                 handleGenderTypesForDiscount={handleGenderTypesForDiscount}
+                handlePayementDiscountHideOrShow={
+                  handlePayementDiscountHideOrShow
+                }
               />
 
               {paymentState.length > 1 ? (

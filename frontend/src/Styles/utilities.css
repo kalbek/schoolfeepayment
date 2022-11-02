@@ -354,6 +354,25 @@
 .gapfull {
   gap: 10vw;
 }
+
+.gap-10v {
+  gap: 10vw;
+}
+.gap-11v {
+  gap: 11vw;
+}
+.gap-12v {
+  gap: 12vw;
+}
+.gap-13v {
+  gap: 13vw;
+}
+.gap-14v {
+  gap: 14vw;
+}
+.gap-15v {
+  gap: 15vw;
+}
 .gap3vw {
   gap: 3vw;
 }
@@ -513,6 +532,24 @@
 .ml-1 {
   margin-left: 1rem;
 }
+.mt-1p5 {
+  margin-top: 1.5rem;
+}
+.mt-1p4 {
+  margin-top: 1.4rem;
+}
+.mt-1p3 {
+  margin-top: 1.3rem;
+}
+.mt-1p2 {
+  margin-top: 1.2rem;
+}
+.mt-1p2 {
+  margin-top: 1.2rem;
+}
+.mt-1p1 {
+  margin-top: 1.1rem;
+}
 .mt-1 {
   margin-top: 1rem;
 }
@@ -527,6 +564,18 @@
 }
 .mt-p5 {
   margin-top: 0.5rem;
+}
+.mt-p6 {
+  margin-top: 0.6rem;
+}
+.mt-p7 {
+  margin-top: 0.7rem;
+}
+.mt-p8 {
+  margin-top: 0.8rem;
+}
+.mt-p9 {
+  margin-top: 0.9rem;
 }
 .mb-3 {
   margin-bottom: 3rem;
@@ -738,8 +787,29 @@
 
 /* WIDTH UTILITIES */
 .w-1 {
-  width: 1rem;
   width: 30vw;
 }
+.w-15v {
+  width: 15vw;
+}
+.w-20v {
+  width: 20vw;
+}
+.w-25v {
+  width: 25vw;
+}
 .w-10p {
+}
+
+.h-1 {
+  height: 1rem;
+}
+.h-1p5 {
+  height: 1.5rem;
+}
+.h-2 {
+  height: 2rem;
+}
+.h-1p5 {
+  height: 1.5rem;
 }

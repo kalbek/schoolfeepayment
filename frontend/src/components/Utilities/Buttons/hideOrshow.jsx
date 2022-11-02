@@ -4,7 +4,7 @@ const HideOrshow = ({ toogleValue }) => {
   return (
     <>
       <div
-        className={toogleValue ? "show-icon " : "hide-icon mt-2p5"}
+        className={toogleValue ? "show-icon " : "hide-icon"}
         // onClick={() => handleDisplay(index, subIndex, subSubIndex)}
       >
         <h2 className="social-link--label">

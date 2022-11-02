@@ -59,10 +59,13 @@ export const periodSlice = createSlice({
       console.log("action.payload.id: " + action.payload.id);
       console.log("action.payload.value: " + action.payload.value);
       state.topLevelPeriod.map((periodState) => {
+        console.log("first: " + current(periodState).value);
         if (periodState.id === action.payload.id) {
           periodState.value = action.payload.value;
         }
+        console.log("then: " + current(periodState).value);
       });
+      console.log("action.payload.value: " + action.payload.value);
       // state.topLevelPeriod[0].value = action.payload.value;
     },
 

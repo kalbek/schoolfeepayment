@@ -1,9 +1,9 @@
-import AddMoreButton from "../../../Utilities/AddMoreButton";
-import HideOrshow from "../../../../../Buttons/hideOrshow";
-import RemoveLinksButton from "../../../../../Buttons/RemoveLinksButton";
+import AddMoreButton from "../../../../Utilities/AddMoreButton";
+import HideOrshow from "../../../../../../Buttons/hideOrshow";
+import RemoveLinksButton from "../../../../../../Buttons/RemoveLinksButton";
 import { useSelector } from "react-redux";
 
-const CourseDetails = ({
+const BasedOnAnnualPeriodAndDivisions = ({
   index,
   handleAdvancePaymentBaseCourseNameValues,
   handleShowHideCourses,
@@ -15,8 +15,9 @@ const CourseDetails = ({
   const topLevelPeriod = useSelector((state) => state.periods.topLevelPeriod);
   return (
     <>
- 
+    {/* first check if payment is course based */}
       {paymentState[index].paymentBase.courseBasedPayment.value &&
+      // check if show icon is turned on
         paymentState[index].paymentBase.courseBasedPayment.visible &&
         // Divisions are departments
         paymentState[index].paymentBase.courseBasedPayment.divisions.map(
@@ -263,4 +264,4 @@ const CourseDetails = ({
   );
 };
 
-export default CourseDetails;
+export default BasedOnAnnualPeriodAndDivisions;

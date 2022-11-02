@@ -51,7 +51,7 @@ const HeaderControls = ({
                 }
               />
               &nbsp;
-              <label className="mt-p4 ">
+              <label className="mt-p4">
                 {paymentState[index].paymentBase.courseBasedPayment.visible
                   ? "Hide"
                   : "Show"}
@@ -94,7 +94,7 @@ const HeaderControls = ({
                   <>
                     <span>
                       &nbsp;{" "}
-                      <p>By {educationalDivisionState[index].divisionType}</p>
+                      <p>By {educationalDivisionState[0].divisionType}</p>
                     </span>
                   </>
                 </label>
@@ -127,9 +127,7 @@ const HeaderControls = ({
                   <>
                     <span>
                       &nbsp;{" "}
-                      <p>
-                        By {educationalDivisionState[index].subDivisionType}
-                      </p>
+                      <p>By {educationalDivisionState[0].subDivisionType}</p>
                     </span>
                   </>
                 </label>

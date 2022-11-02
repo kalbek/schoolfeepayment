@@ -104,7 +104,7 @@ const StandardPaymentBase = ({
     <>
       <div>
         <div className="flex">
-          <section className="flex-c flex-start">
+          <div className="flex-c flex-start">
             <AnnualPeriod
               handleStandardPaymentBaseAnnualPeriodCheckboxSelection={
                 handleStandardPaymentBaseAnnualPeriodCheckboxSelection
@@ -114,9 +114,9 @@ const StandardPaymentBase = ({
               }
               index={index}
             />
-          </section>
+          </div>
           &nbsp; &nbsp;
-          <section className="flex-c flex-start">
+          <div className="flex-c flex-start">
             <EducationalDivision
               handleStandardPaymentBaseEducationalDivisionCheckboxSelection={
                 handleStandardPaymentBaseEducationalDivisionCheckboxSelection
@@ -126,9 +126,9 @@ const StandardPaymentBase = ({
               }
               index={index}
             />
-          </section>
+          </div>
         </div>
-        <section className="mb-p5">
+        <div className="mb-p5">
           <Shifts
             handleStandardPaymentBaseShiftsCheckboxSelection={
               handleStandardPaymentBaseShiftsCheckboxSelection
@@ -136,7 +136,7 @@ const StandardPaymentBase = ({
             index={index}
           />
           {/* paymentBaseType.charAt(0) === "s" ? */}
-        </section>
+        </div>
       </div>
     </>
   );

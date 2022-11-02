@@ -353,6 +353,29 @@ tbody tr {
   border: 1px solid #2d8cf0;
 }
 
+.field-group-containers > section,
+.field-subgroup-containers > section {
+  border: 1px solid #d3d3cd;
+  border-radius: 5px;
+  margin-top: 0.4rem;
+  padding-top: 5px;
+  padding-left: 8px;
+  padding-right: 15px;
+  /* padding-bottom: 0.6rem; */
+  width: fit-content;
+}
+
+.field-subgroup-containers:focus-within > section,
+.field-subgroup-containers:hover > section {
+  border: 1px solid #2d8cf0;
+}
+
+.field-group-containers:focus-within label {
+  color: #2d8cf0;
+}
+
+
+
 .checkbox-group span {
   padding-left: 0.4rem;
   padding-bottom: 13px;

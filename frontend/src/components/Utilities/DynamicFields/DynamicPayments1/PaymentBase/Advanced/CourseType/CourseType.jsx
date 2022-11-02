@@ -2,7 +2,6 @@ import HeaderControls from "./HeaderControls";
 import CourseDetails from "./CourseDetails";
 import ApplyPreviousCouseRules from "./ApplyPreviousCouseRules";
 
-
 const CourseType = ({
   index,
   handleAdvancedPaymentBaseCourseTypeCheckboxSelection,
@@ -18,7 +17,7 @@ const CourseType = ({
   handleNothing,
 }) => {
   return (
-    <>
+    <div className="field-subgroup-containers">
       <section className="ml-1 mr-1 mt-p5 mb-p5 ">
         <HeaderControls
           handleAdvancedPaymentBaseCourseTypeCheckboxSelection={
@@ -52,6 +51,7 @@ const CourseType = ({
           }
           handleNothing={handleNothing}
         />
+
         {/* COURSE DETAILS END HERE */}
         <ApplyPreviousCouseRules
           index={index}
@@ -60,7 +60,7 @@ const CourseType = ({
           }
         />
       </section>
-    </>
+    </div>
   );
 };
 

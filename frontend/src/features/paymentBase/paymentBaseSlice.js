@@ -15,6 +15,7 @@ const initialState = {
 
       // PAYMENT BASES OR BASES IN WICH EACH PAYMENT DEPENDS ON !!
       paymentBase: {
+        value: true,
         paymentBaseType: "standard0",
         standardAnnualPeriodCheckbox: true,
         standardAnnualPeriodType: "subperiod0",
@@ -30,14 +31,19 @@ const initialState = {
         advancedCourseUnitsCheckbox: true,
         advancedCourseUnitType: "credithour0",
         advancedShiftsCheckbox: false,
+        periods: [],
+        courses: [],
         courseBasedPayment: {
           value: false,
           visible: true,
+          previousCourseRulesApplied: false,
           basedOnDivision: true,
           basedOnSubDivision: true,
           display: true,
           // divisions stand for dep't
           divisions: [],
+          courses: [],
+          periods: [],
         },
         periodPaymentBase: {
           value: true,
@@ -87,6 +93,7 @@ const initialState = {
       //   PAYMENT DISCOUNT PARAMETERS IN WHICH EACH PAYMENT DISCOUNTS DEPENDS ON
       discountParameters: {
         Id: 0,
+        value: true,
         discountUnit: "amount0",
         isGradeBasedDiscountType: false,
         genderBasedDiscount: {
@@ -345,43 +352,106 @@ export const paymentSlice = createSlice({
       });
     },
 
-    updateAdvancedPaymentBaseCourseTypeCheckboxSelection: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        if (paymentState.Id === action.payload.paymentId) {
-          paymentState.paymentBase.courseBasedPayment.value =
-            action.payload.value;
-          // turn show button on
-          if (paymentState.paymentBase.courseBasedPayment.value) {
-            paymentState.paymentBase.courseBasedPayment.display = true;
-            paymentState.paymentBase.courseBasedPayment.visible = true;
-          } else {
-            paymentState.paymentBase.courseBasedPayment.visible = false;
-          }
-          // if checkbox is turned on add divisions to courseBasedPayment
-        }
-      });
+    applyPreviousCourseRules: (state, action) => {
+      // iterate over the previous payment state divisions to that of passed index
+      // and fill the current payment state's divisions with that of the previous ones
+
+      // first toogle value for apply previous course rule button
+      state.paymentState[
+        action.payload.paymentId
+      ].paymentBase.courseBasedPayment.previousCourseRulesApplied =
+        action.payload.value;
+
+      // if that value is on
+      if (
+        state.paymentState[action.payload.paymentId].paymentBase
+          .courseBasedPayment.previousCourseRulesApplied
+      ) {
+        // first clear current courses
+        state.paymentState[
+          action.payload.paymentId
+        ].paymentBase.courseBasedPayment.divisions.splice(0);
+        // then apply previous course rules
+        state.paymentState[
+          action.payload.paymentId - 1
+        ].paymentBase.courseBasedPayment.divisions.map((divisions) => {
+          state.paymentState[
+            action.payload.paymentId
+          ].paymentBase.courseBasedPayment.divisions.push(divisions);
+        });
+      } else {
+        // clear courses
+        state.paymentState[
+          action.payload.paymentId
+        ].paymentBase.courseBasedPayment.divisions.splice(0);
+        // turn off course based payment to reset state
+        state.paymentState[
+          action.payload.paymentId
+        ].paymentBase.courseBasedPayment.value = false;
+        // finally turn off the apply couser rules checkbox
+        state.paymentState[
+          action.payload.paymentId
+        ].paymentBase.courseBasedPayment.previousCourseRulesApplied = false;
+
+        // clear all existing courses
+      }
     },
 
-    addOrRemoveDivisionsToPaymentBasedCourses: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        if (paymentState.Id === action.payload.paymentId) {
-          if (paymentState.paymentBase.courseBasedPayment.value) {
-            paymentState.paymentBase.courseBasedPayment.divisions.push(
-              action.payload.divisions
-            );
-          } else
-            paymentState.paymentBase.courseBasedPayment.divisions.splice(0);
-        }
-      });
-    },
-
-    updatePeriodsForCourseBasedPayments: (state, action) => {
+    createNewCoursesForAdvancedPaymentBase: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.paymentBase.courseBasedPayment.divisions.map(
             (division) => {
-              division.educationalSubDivision.map((subDivision) => {
-                subDivision.subPeriods.push(action.payload.periods);
+              if (division.id === action.payload.divisionId) {
+                division.educationalSubDivision.map((subDivision) => {
+                  if (subDivision.id === action.payload.subDivisionId) {
+                    subDivision.subPeriods.map((subPeriod) => {
+                      if (subPeriod.id === action.payload.subPeriodIndex) {
+                        subPeriod.courses.push(action.payload.courses);
+                      }
+                    });
+                  }
+                });
+              }
+            }
+          );
+        }
+      });
+    },
+
+    //  it starts here
+    updateAdvancedCourseBasedPaymentVisibility: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.visible =
+            action.payload.value;
+
+          if (!paymentState.paymentBase.courseBasedPayment.visible) {
+            paymentState.paymentBase.courseBasedPayment.courses.splice(0);
+            paymentState.paymentBase.courseBasedPayment.periods.splice(0);
+            paymentState.paymentBase.courseBasedPayment.divisions.splice(0);
+          }
+        }
+      });
+    },
+    addCoursesToPaymentBases: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.paymentBase.courseBasedPayment.value) {
+          if (paymentState.Id === action.payload.paymentId) {
+            // adding courses
+            console.log("pushing courses");
+            paymentState.paymentBase.courseBasedPayment.courses.push(
+              action.payload.courses
+            );
+            console.log(current(paymentState).paymentBase.courseBasedPayment);
+          }
+          // push single course inside each divisions
+          paymentState.paymentBase.courseBasedPayment.divisions.map(
+            (division) => {
+              division.map((division) => {
+                division.educationalSubDivision.map((subDivision) => {
+                  subDivision.courses.push(action.payload.courses);
+                });
               });
             }
           );
@@ -389,31 +459,46 @@ export const paymentSlice = createSlice({
       });
     },
 
-    updateAdvancedCourseBasedPaymentVisibility: (state, action) => {
+    updatePeriodsForCourseBasedPayments: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          paymentState.paymentBase.courseBasedPayment.visible =
-            action.payload.value;
+          console.log("pushing periods");
+          paymentState.paymentBase.courseBasedPayment.periods.push(
+            action.payload.periods
+          );
+
+          console.log(current(paymentState).paymentBase.courseBasedPayment);
         }
       });
     },
 
-    addCoursesToPaymentBases: (state, action) => {
+    addDivisionsToPaymentBasedCourses: (state, action) => {
       state.paymentState.map((paymentState) => {
-        if (paymentState.paymentBase.courseBasedPayment.value) {
-          if (paymentState.Id === action.payload.paymentId) {
-            paymentState.paymentBase.courseBasedPayment.divisions.map(
-              (division) => {
-                // console.log(current(division))
-                division.educationalSubDivision.map((SubDivision) => {
-                  // console.log(current(SubDivision));
-                  SubDivision.subPeriods.map((subPeriod) => {
-                    subPeriod.courses.push(action.payload.courses);
-                  });
-                });
-              }
-            );
+        if (paymentState.Id === action.payload.paymentId) {
+          console.log("pushing divisions");
+          paymentState.paymentBase.courseBasedPayment.divisions.push(
+            action.payload.divisions
+          );
+
+          console.log(current(paymentState).paymentBase.courseBasedPayment);
+        }
+      });
+    },
+    // it ends here
+    updateAdvancedPaymentBaseCourseTypeCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.courseBasedPayment.value =
+            action.payload.value;
+          // turn show button on
+          if (paymentState.paymentBase.courseBasedPayment.value) {
+            paymentState.paymentBase.courseBasedPayment.periods.splice(0);
+            paymentState.paymentBase.courseBasedPayment.display = true;
+            paymentState.paymentBase.courseBasedPayment.visible = true;
+          } else {
+            paymentState.paymentBase.courseBasedPayment.visible = false;
           }
+          // if checkbox is turned on add divisions to courseBasedPayment
         }
       });
     },
@@ -441,27 +526,7 @@ export const paymentSlice = createSlice({
       });
     },
 
-    createNewCoursesForAdvancedPaymentBase: (state, action) => {
-      state.paymentState.map((paymentState) => {
-        if (paymentState.Id === action.payload.paymentId) {
-          paymentState.paymentBase.courseBasedPayment.divisions.map(
-            (division) => {
-              if (division.id === action.payload.divisionId) {
-                division.educationalSubDivision.map((subDivision) => {
-                  if (subDivision.id === action.payload.subDivisionId) {
-                    subDivision.subPeriods.map((subPeriod) => {
-                      if (subPeriod.id === action.payload.subPeriodIndex) {
-                        subPeriod.courses.push(action.payload.courses);
-                      }
-                    });
-                  }
-                });
-              }
-            }
-          );
-        }
-      });
-    },
+    // return here
 
     deleteCoursesForAdvancedPaymentBase: (state, action) => {
       state.paymentState.map((paymentState) => {
@@ -579,6 +644,21 @@ export const paymentSlice = createSlice({
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.paymentBase.standardShiftsCheckbox =
             action.payload.value;
+        }
+      });
+    },
+    // actions for hide or show
+    updatePayementBaseHideOrShow: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentIndex) {
+          paymentState.paymentBase.value = action.payload.value;
+        }
+      });
+    },
+    updatePayementDiscountHideOrShow: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentIndex) {
+          paymentState.discountParameters.value = action.payload.value;
         }
       });
     },
@@ -752,7 +832,6 @@ export const paymentSlice = createSlice({
     },
 
     createCustomDiscount: (state, action) => {
-      console.log(action.payload.discounts);
       state.paymentState.map((payment) => {
         if (payment.Id === action.payload.paymentId) {
           payment.discountParameters.customPaymentDiscount.customDiscounts.push(
@@ -1449,6 +1528,8 @@ export const {
   updatePaymentType,
   updateCustomPaymentType,
   deleteCustomPaymentType,
+  updatePayementBaseHideOrShow,
+  updatePayementDiscountHideOrShow,
   // handling values for payment base
   // For standard
   updateStandardPaymentBaseAnnualPeriodCheckboxSelection,
@@ -1473,8 +1554,9 @@ export const {
   upadateShowHideCourses,
   addCoursesToPaymentBases,
   updateAdvancedCourseBasedPaymentVisibility,
-  addOrRemoveDivisionsToPaymentBasedCourses,
+  addDivisionsToPaymentBasedCourses,
   updatePeriodsForCourseBasedPayments,
+  applyPreviousCourseRules,
 
   updateAdvancedPaymentBaseEducationalDivisionTypeRadioSelection,
   updateAdvancedPaymentBaseShiftsCheckboxSelection,

@@ -74,7 +74,7 @@ const MajorDivision = ({
                     : ""
                 }
               >
-                &nbsp; <p>{educationalDivisionState[index].divisionType}</p>
+                &nbsp; <p>{educationalDivisionState[0].divisionType}</p>
               </span>
             </>
           </label>

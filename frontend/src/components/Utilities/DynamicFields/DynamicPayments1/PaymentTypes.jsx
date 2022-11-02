@@ -30,7 +30,7 @@ const PaymentType = ({
     <>
       <div>
         {/* PAYMENT TYPE */}
-        <div className="input__group mt-1">
+        <div className="input__group mt-1p3">
           <div className="input__group flex-cr inputs input--bleow-medium">
             {/* INPUT BOX FOR CUSTOM PAYMENT TYPE */}
             {paymentState.paymentState[index].paymentType
@@ -76,6 +76,7 @@ const PaymentType = ({
                     </option>
                   ))}
                 </select>
+
                 <label htmlFor="paymentType">
                   {" "}
                   <p className="mlp3">Payment Type</p>

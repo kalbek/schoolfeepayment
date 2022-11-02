@@ -11,27 +11,37 @@ const ApplyPreviousCouseRules = ({
       {paymentState.length > 0 &&
         paymentState[index].paymentBase.courseBasedPayment.value &&
         paymentState[index].paymentBase.courseBasedPayment.visible && (
-          <label
-            className="flex"
-            htmlFor={"scholarshipBasedPaymentDiscount" + index}
-          >
-            <input
-              type="checkbox"
-              name="scholarshipBasedDiscount"
-              id={"scholarshipBasedPaymentDiscount" + index}
-              // value={scholarshipBasedDiscount}
-              //   checked={scholarshipBasedDiscount}
-              onChange={(e) =>
-                handleAdvancedPaymentBaseApplyPreviousRulesForCourse(e, index)
-              }
-              tabIndex={9}
-            />
-            <>
-              <span>
-                &nbsp; <p>Apply previous Course</p>
-              </span>
-            </>
-          </label>
+          <>
+            {index > 0 ? (
+              <label
+                className="flex"
+                htmlFor={"scholarshipBasedPaymentDiscount" + index}
+              >
+                <input
+                  type="checkbox"
+                  name="scholarshipBasedDiscount"
+                  id={"scholarshipBasedPaymentDiscount" + index}
+                  value={
+                    paymentState[index].paymentBase.courseBasedPayment
+                      .previousCourseRulesApplied
+                  }
+                  checked={
+                    paymentState[index].paymentBase.courseBasedPayment
+                      .previousCourseRulesApplied
+                  }
+                  onChange={() =>
+                    handleAdvancedPaymentBaseApplyPreviousRulesForCourse(index)
+                  }
+                  tabIndex={9}
+                />
+                <span>
+                  &nbsp; <p>Apply previous course rule</p>
+                </span>
+              </label>
+            ) : (
+              <></>
+            )}
+          </>
         )}
     </>
   );

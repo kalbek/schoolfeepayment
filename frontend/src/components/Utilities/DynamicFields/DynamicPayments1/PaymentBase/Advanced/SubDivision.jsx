@@ -51,15 +51,15 @@ const SubDivision = ({
               >
                 &nbsp;{" "}
                 <p>
-                  {educationalDivisionState[index].educationalSubDivision
+                  {educationalDivisionState[0].educationalSubDivision
                     .length > 0
-                    ? educationalDivisionState[index].educationalSubDivision[0]
+                    ? educationalDivisionState[0].educationalSubDivision[0]
                         .subDivisionType
-                    : educationalDivisionState[index].educationalSubDivision
+                    : educationalDivisionState[0].educationalSubDivision
                         .length > 0 &&
-                      educationalDivisionState[index].educationalSubDivision[0]
+                      educationalDivisionState[0].educationalSubDivision[0]
                         .subDivisionName !== ""
-                    ? educationalDivisionState[index].educationalSubDivision[0]
+                    ? educationalDivisionState[0].educationalSubDivision[0]
                         .subDivisionName
                     : "Grade"}
                 </p>

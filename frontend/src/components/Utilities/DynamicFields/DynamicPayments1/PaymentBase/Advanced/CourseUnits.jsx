@@ -8,7 +8,7 @@ const CourseUnits = ({
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>
-      <div>
+      <div className="field-subgroup-container">
         <div className="flex-cs  flex-start">
           <label className="flex " htmlFor={"advancedCourseUnits" + index}>
             <input

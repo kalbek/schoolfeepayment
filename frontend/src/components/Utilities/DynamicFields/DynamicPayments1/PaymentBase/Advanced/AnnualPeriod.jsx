@@ -40,7 +40,7 @@ const AnnualPeriod = ({
         {/* TOP LEVEL PERIOD */}
         <div>
           {/* {periodState[index].value && ( */}
-          {true && (
+          {periodState[0].value && (
             <div className="flex-cs -mt-1">
               <label
                 className={
@@ -77,7 +77,7 @@ const AnnualPeriod = ({
                       : ""
                   }
                 >
-                  &nbsp; <p>{periodState[index].periodTypeName}</p>
+                  &nbsp; <p>{periodState[0].periodTypeName} </p>
                 </span>
               </label>
               <></>
@@ -115,7 +115,7 @@ const AnnualPeriod = ({
                     : ""
                 }
               >
-                &nbsp; <p>{periodState[index].subperiodTypeName} </p>
+                &nbsp; <p>{periodState[0].subperiodTypeName} </p>
               </span>
             </label>
           </div>

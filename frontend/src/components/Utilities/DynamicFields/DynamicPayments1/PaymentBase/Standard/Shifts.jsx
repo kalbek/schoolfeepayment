@@ -5,8 +5,8 @@ const Shifts = ({
 }) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
-    <>
-      <div className="flex-cs -mt-p5">
+    <div className="field-subgroup-containers">
+      <section className="flex-cs -mt-p5">
         <label className="flex -mb-p5" htmlFor={"standardShift" + index}>
           <input
             type="checkbox"
@@ -26,9 +26,10 @@ const Shifts = ({
             </span>
           </>
         </label>
+        <div className="space-for-remove"></div>
         <></>
-      </div>
-    </>
+      </section>
+    </div>
   );
 };
 

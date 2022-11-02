@@ -19,11 +19,11 @@ import {
   createNewCoursesForAdvancedPaymentBase,
   deleteCoursesForAdvancedPaymentBase,
   updateAdvancePaymentBaseCourseNames,
-  updateAdvancePaymentBaseCreditHours,
+  applyPreviousCourseRules,
   upadateShowHideCourses,
   addCoursesToPaymentBases,
   updateAdvancedCourseBasedPaymentVisibility,
-  addOrRemoveDivisionsToPaymentBasedCourses,
+  addDivisionsToPaymentBasedCourses,
   updatePeriodsForCourseBasedPayments,
 } from "../../../../../../features/paymentBase/paymentBaseSlice";
 
@@ -130,35 +130,28 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
         value: !singlePayment.paymentBase.courseBasedPayment.value,
       })
     );
-    educationalDivisionState.map((division) => {
-      dispatch(
-        addOrRemoveDivisionsToPaymentBasedCourses({
-          paymentId: index,
-          divisions: division,
-        })
-      );
-    });
-    topLevelPeriod.map((topPeriod) => {
-      paymentState[index].paymentBase.advancedAnnualPeriodType.charAt(0) === "p"
-        ? dispatch(
-            updatePeriodsForCourseBasedPayments({
-              paymentId: index,
-              periods: topPeriod,
-            })
-          )
-        : topPeriod.subPeriods.map((subPeriod) => {
-            dispatch(
-              updatePeriodsForCourseBasedPayments({
-                paymentId: index,
-                periods: subPeriod,
-              })
-            );
-          });
-    });
 
+    dispatch(
+      updatePeriodsForCourseBasedPayments({
+        paymentId: index,
+        periods: topLevelPeriod,
+      })
+    );
+
+    dispatch(
+      addDivisionsToPaymentBasedCourses({
+        paymentId: index,
+        divisions: educationalDivisionState,
+      })
+    );
+
+    // Add a single course to A) paymentBase, B) paymentBase.courseBasedPayment, C) paymentBase.courseBasedPayment.divisions
     dispatch(
       addCoursesToPaymentBases({
         paymentId: index,
+        topLevelPeirod:
+          paymentState[index].paymentBase.advancedAnnualPeriodType.charAt(0) ===
+          "p",
         courses: {
           Id: 0,
           courseName: "",
@@ -293,9 +286,26 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       })
     );
   };
+  const handleAdvancedPaymentBaseApplyPreviousRulesForCourse = (index) => {
+    // console.log(paymentState[index - 1]);
+    dispatch(
+      applyPreviousCourseRules({
+        paymentId: index,
+        value:
+          !paymentState[index].paymentBase.courseBasedPayment
+            .previousCourseRulesApplied,
+        courses: {
+          Id: 0,
+          courseName: "",
+          creditHours: "",
+          contactHours: "",
+          instructorName: "",
+        },
+      })
+    );
+  };
 
   const handleAdvancePaymentBaseRemoveCourses = () => {};
-  const handleAdvancedPaymentBaseApplyPreviousRulesForCourse = () => {};
 
   // DEFINING METHODS FOR CREDIT HOURS
 
@@ -317,8 +327,8 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
                 />
               </div>
               &nbsp; &nbsp;
-              <section>
-                <div className="flex-c flex-start">
+              <div className="field-subgroup-container">
+                <section className="flex-c flex-start">
                   {/* stages */}
                   <MajorDivision
                     handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection={
@@ -336,11 +346,11 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
                     }
                     index={index}
                   />
-                </div>
-              </section>
+                </section>
+              </div>
               &nbsp; &nbsp;
-              <section>
-                <div className="flex-c flex-start">
+              <div className="field-subgroup-container">
+                <section className="flex-c flex-start">
                   <CourseUnits
                     handleAdvancedPaymentBaseCourseUnitsCheckboxSelection={
                       handleAdvancedPaymentBaseCourseUnitsCheckboxSelection
@@ -350,10 +360,11 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
                     }
                     index={index}
                   />
-                </div>
-              </section>
+                </section>
+              </div>
             </div>
           </div>
+
           <CourseType
             index={index}
             handleAdvancedPaymentBaseCourseTypeCheckboxSelection={
