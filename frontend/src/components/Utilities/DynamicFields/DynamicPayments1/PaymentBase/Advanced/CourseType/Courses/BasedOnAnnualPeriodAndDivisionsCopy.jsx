@@ -3,7 +3,7 @@ import HideOrshow from "../../../../../../Buttons/hideOrshow";
 import RemoveLinksButton from "../../../../../../Buttons/RemoveLinksButton";
 import { useSelector } from "react-redux";
 
-const BasedOnAnnualPeriodAndDivisions = ({
+const BasedOnAnnualPeriodAndDivisionsCopy = ({
   index,
   // handleAdvancePaymentBaseCourseNameValues,
   // handleShowHideCourses,
@@ -41,6 +41,14 @@ const BasedOnAnnualPeriodAndDivisions = ({
                                 {/* checking conditions for top-level or sub-level annual period */}
                                 {/* if Annual period choice is top-level-period */}
                                 {/* Map with Top-level period */}
+                                {console.log(
+                                  paymentState[
+                                    index
+                                  ].paymentBase.advancedAnnualPeriodType.charAt(
+                                    0
+                                  )
+                                )}
+                                {console.log(topLevelPeriod)}
                                 {paymentState[
                                   index
                                 ].paymentBase.advancedAnnualPeriodType.charAt(
@@ -64,57 +72,69 @@ const BasedOnAnnualPeriodAndDivisions = ({
                                             </label>
                                           </div>
                                         </div>
-                                        hey
-                                        {TLP.shifts.map((shift, shiftIndex) => (
-                                          <div className="flex inputs field-subgroup-containers">
-                                            <section>
-                                              <div className="flex-c flex-start">
-                                                <label>
-                                                  {/* Shift Name */}
-                                                  {shift.shiftName}
-                                                </label>
-                                                {/* Map with shifts */}
-                                                <div className="flex gapp5">
-                                                  {shift.courses.map(
-                                                    (course) => (
-                                                      <>
-                                                        <div className="flex-cs gapp5 input--medium ">
-                                                          <input
-                                                            type="text"
-                                                            id={
-                                                              "courseName" +
-                                                              index
-                                                            }
-                                                            name={"courseName"}
-                                                            placeholder="Course Name"
-                                                            tabIndex={9}
-                                                          />
-                                                        </div>
-                                                        <div className="flex-cs input--xsmall ">
-                                                          <>
-                                                            <input
-                                                              type="text"
-                                                              id={
-                                                                "creditHour" +
-                                                                index
-                                                              }
-                                                              name={
-                                                                "courseCreditHour"
-                                                              }
-                                                              tabIndex={9}
-                                                            />
-                                                          </>
+                                        {TLP.subPeriods.map(
+                                          (subPeriod, subPeriodIndex) => (
+                                            <div className="flex inputs field-subgroup-containers">
+                                              <section>
+                                                <div className="flex-c flex-start">
+                                                  <label>
+                                                    {subPeriod.periodName}
+                                                  </label>
+                                                  {/* Map with shifts */}
+                                                  {subPeriod.shifts.map(
+                                                    (shift, shiftIndex) => (
+                                                      // TODO CHECK IF SHIFT IS ONLY REGULAR OR NOT
+                                                      <div className="flex gapp5">
+                                                        <label>
+                                                          {shift.shiftName}
+                                                        </label>
+                                                        {/* <div className="flex-cs gapp5 input--above-small2 "> */}
+                                                        {/* Map with shifts courses */}
+                                                        {shift.courses.map(
+                                                          (course) => (
+                                                            <>
+                                                              <div className="flex-cs gapp5 input--medium ">
+                                                                <input
+                                                                  type="text"
+                                                                  id={
+                                                                    "courseName" +
+                                                                    index
+                                                                  }
+                                                                  name={
+                                                                    "courseName"
+                                                                  }
+                                                                  placeholder="Course Name"
+                                                                  tabIndex={9}
+                                                                />
+                                                              </div>
+                                                              <div className="flex-cs input--xsmall ">
+                                                                <>
+                                                                  <input
+                                                                    type="text"
+                                                                    id={
+                                                                      "creditHour" +
+                                                                      index
+                                                                    }
+                                                                    name={
+                                                                      "courseCreditHour"
+                                                                    }
+                                                                    tabIndex={9}
+                                                                  />
+                                                                </>
 
-                                                          <RemoveLinksButton />
-                                                        </div>
-                                                      </>
+                                                                <RemoveLinksButton />
+                                                              </div>
+                                                            </>
+                                                          )
+                                                        )}
+                                                      </div>
                                                     )
                                                   )}
                                                 </div>
-                                              </div>
-                                            </section>
-                                          </div>
-                                        ))}
+                                              </section>
+                                            </div>
+                                          )
+                                        )}
                                         <div className="flex-start">
                                           <div className="flex  -ml-p5 gapfull">
                                             {true ? (
@@ -214,4 +234,4 @@ const BasedOnAnnualPeriodAndDivisions = ({
   );
 };
 
-export default BasedOnAnnualPeriodAndDivisions;
+export default BasedOnAnnualPeriodAndDivisionsCopy;

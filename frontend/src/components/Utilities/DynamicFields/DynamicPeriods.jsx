@@ -20,7 +20,8 @@ const DynamicPeriods = ({
   removeSubperiods,
   handleAnnualPeriodDuration,
   handleTopLevelPeriodUpdate,
-  handleUpdateCustomTopPeriod,
+  hadleTopLevelPeriodName,
+  handleTopLevelPeriodValue,
   handleUpdateCustomSubPeriod,
   removeToplevelPeriod,
   handleUpdatePerods,
@@ -78,12 +79,11 @@ const DynamicPeriods = ({
                     {lastToplevelPeriod.value && (
                       <div className="mb-p5">
                         <TopLevelAnnualPeriods
-                          handleUpdateCustomTopPeriod={
-                            handleUpdateCustomTopPeriod
-                          }
+                          handleTopLevelPeriodValue={handleTopLevelPeriodValue}
                           handleTopLevelPeriodUpdate={
                             handleTopLevelPeriodUpdate
                           }
+                          hadleTopLevelPeriodName={hadleTopLevelPeriodName}
                           removeToplevelPeriod={removeToplevelPeriod}
                           index={index}
                         />

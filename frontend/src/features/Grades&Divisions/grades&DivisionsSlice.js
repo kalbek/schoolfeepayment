@@ -7,6 +7,7 @@ const initialState = {
       subDivisionType: "Grade",
       divisoinLevel: "",
       divisionName: "",
+      shifts: [],
       educationalSubDivision: [
         {
           id: 0,
@@ -21,6 +22,7 @@ const initialState = {
           section: [],
           courses: [],
           subPeriods: [],
+          shifts: [],
         },
       ],
     },
@@ -53,6 +55,29 @@ export const educationalDivisionSlice = createSlice({
             }
           });
         }
+      });
+    },
+
+    addShiftsToDivisionsAndTheirSubDivisions: (state, action) => {
+      state.educationalDivision.map((division) => {
+        if (division.shifts.length === 0) {
+          division.shifts = action.payload.shift;
+        }
+        division.educationalSubDivision.map((subDivision) => {
+          if (subDivision.shifts.length === 0) {
+            subDivision.shifts = action.payload.shift;
+          }
+        });
+      });
+      console.log(current(state).educationalDivision);
+    },
+
+    clearShiftsFromDivions: (state) => {
+      state.educationalDivision.map((division) => {
+        division.shifts.splice(0);
+        division.educationalSubDivision.map((subDivision) => {
+          subDivision.shifts.splice(0);
+        });
       });
     },
 
@@ -268,6 +293,8 @@ export const {
   deleteEducationalSubDivision,
   deleteSubDivisionSections,
   updateDivisionsAndSubDivisions,
+  addShiftsToDivisionsAndTheirSubDivisions,
+  clearShiftsFromDivions,
 } = educationalDivisionSlice.actions;
 
 export default educationalDivisionSlice.reducer;

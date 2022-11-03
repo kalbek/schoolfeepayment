@@ -2,12 +2,15 @@ import { useSelector } from "react-redux";
 import DeleteButton from "../../Buttons/DeleteButton";
 const TopLevelAnnualPeriods = ({
   handleTopLevelPeriodUpdate,
-  handleUpdateCustomTopPeriod,
+  hadleTopLevelPeriodName, 
+  handleTopLevelPeriodValue,
   removeToplevelPeriod,
   index,
 }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
   const periodTypeName = periodState[index].periodTypeName;
+  const periodName = periodState[index].periodName;
+
   return (
     <>
       <div className="flex-left">
@@ -81,7 +84,6 @@ const TopLevelAnnualPeriods = ({
                     </label>
 
                     {/* Radio buttons for other periods */}
-
                     <label
                       className="checkbox-items flex flex-cs"
                       id={"Custom Period"}
@@ -106,31 +108,34 @@ const TopLevelAnnualPeriods = ({
                     </label>
                   </div>
 
-                  {/* <div className="ml-1p5"></div> */}
-                  {periodTypeName !== "Quarter" &&
-                    periodTypeName !== "Semester" &&
-                    periodTypeName !== "Term" && (
-                      <div className="-mt-1 ml-2 pr-7">
-                        <div className="flex-cr inputs input--medium ">
-                          <input
-                            type="text"
-                            value={periodTypeName}
-                            name="periodDetails"
-                            id="periodDescription"
-                            placeholder={
-                              periodState[0].value
-                                ? "Custom top-level period name"
-                                : ""
-                            }
-                            tabIndex={1}
-                            onChange={(event) =>
-                              handleUpdateCustomTopPeriod(event, index)
-                            }
-                          />
-                          <br />
-                        </div>
+                  {
+                    <div className="-mt-1 ml-2 pr-7">
+                      <div className="flex-cr inputs input--medium ">
+                        <input
+                          type="text"
+                          value={periodState[index].periodName}
+                          name="periodDetails"
+                          id="periodDescription"
+                          placeholder={
+                            periodTypeName === "Quarter"
+                                ? "Quarter Name"
+                              : periodTypeName === "Semester"
+                              ? "Semester Name"
+                              : periodTypeName === "Term"
+                              ? "Term Name"
+                              : periodTypeName === "Custom"
+                              ? "Custom Period Name"
+                              : ""
+                          }
+                          tabIndex={1}
+                          onChange={(event) =>
+                            hadleTopLevelPeriodName(event, index)
+                          }
+                        />
+                        <br />
                       </div>
-                    )}
+                    </div>
+                  }
                 </div>
                 {/* Input box for custom  */}
               </div>

@@ -44,7 +44,9 @@ const initialState = {
           divisions: [],
           courses: [],
           periods: [],
+          shifts: [],
         },
+
         periodPaymentBase: {
           value: true,
           periods: [
@@ -425,7 +427,6 @@ export const paymentSlice = createSlice({
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.paymentBase.courseBasedPayment.visible =
             action.payload.value;
-
           if (!paymentState.paymentBase.courseBasedPayment.visible) {
             paymentState.paymentBase.courseBasedPayment.courses.splice(0);
             paymentState.paymentBase.courseBasedPayment.periods.splice(0);
@@ -434,6 +435,7 @@ export const paymentSlice = createSlice({
         }
       });
     },
+
     addCoursesToPaymentBases: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.paymentBase.courseBasedPayment.value) {
@@ -462,10 +464,17 @@ export const paymentSlice = createSlice({
     updatePeriodsForCourseBasedPayments: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
-          console.log("pushing periods");
-          paymentState.paymentBase.courseBasedPayment.periods.push(
-            action.payload.periods
-          );
+          console.log("Pushing Periods");
+          if (
+            paymentState.paymentBase.courseBasedPayment.periods.length === 0
+          ) {
+            paymentState.paymentBase.courseBasedPayment.periods.push(
+              action.payload.periods
+            );
+          }
+          if (!paymentState.paymentBase.courseBasedPayment.value){
+            paymentState.paymentBase.courseBasedPayment.periods.splice(0)
+          }
 
           console.log(current(paymentState).paymentBase.courseBasedPayment);
         }
@@ -476,9 +485,19 @@ export const paymentSlice = createSlice({
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           console.log("pushing divisions");
-          paymentState.paymentBase.courseBasedPayment.divisions.push(
-            action.payload.divisions
+          console.log(
+            current(paymentState).paymentBase.courseBasedPayment.divisions
           );
+          if (
+            paymentState.paymentBase.courseBasedPayment.divisions.length === 0
+          ) {
+            paymentState.paymentBase.courseBasedPayment.divisions.push(
+              action.payload.divisions
+            );
+          }
+          if (!paymentState.paymentBase.courseBasedPayment.value) {
+            paymentState.paymentBase.courseBasedPayment.divisions.splice(0);
+          }
 
           console.log(current(paymentState).paymentBase.courseBasedPayment);
         }

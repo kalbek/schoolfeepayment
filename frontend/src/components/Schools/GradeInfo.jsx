@@ -65,6 +65,7 @@ const GradeInfo = ({ formData, setFormData }) => {
             : "Grade",
         // subDivisionType: "Grade",
         divisionName: "",
+        shifts: [],
         educationalSubDivision: [
           {
             id: 0,
@@ -80,6 +81,7 @@ const GradeInfo = ({ formData, setFormData }) => {
             section: [],
             courses: [],
             subPeriods: [],
+            shifts: [],
           },
         ],
       })
@@ -109,6 +111,7 @@ const GradeInfo = ({ formData, setFormData }) => {
         section: [],
         courses: [],
         subPeriods: [],
+        shifts: [],
       })
     );
   };

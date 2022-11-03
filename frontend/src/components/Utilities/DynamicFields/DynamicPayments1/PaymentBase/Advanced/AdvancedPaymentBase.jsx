@@ -26,6 +26,9 @@ import {
   addDivisionsToPaymentBasedCourses,
   updatePeriodsForCourseBasedPayments,
 } from "../../../../../../features/paymentBase/paymentBaseSlice";
+import { addShiftsToDivisionsAndTheirSubDivisions } from "../../../../../../features/Grades&Divisions/grades&DivisionsSlice";
+import { clearShifts } from "../../../../../../features/SchoolPeriods/annualPeriodSlice";
+import { useEffect } from "react";
 
 const AdvancedPaymentBase = ({ singlePayment, index }) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
@@ -131,12 +134,15 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       })
     );
 
+    // pushing periods
     dispatch(
       updatePeriodsForCourseBasedPayments({
         paymentId: index,
         periods: topLevelPeriod,
       })
     );
+
+    // pushing divisions
 
     dispatch(
       addDivisionsToPaymentBasedCourses({
@@ -145,7 +151,7 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       })
     );
 
-    // Add a single course to A) paymentBase, B) paymentBase.courseBasedPayment, C) paymentBase.courseBasedPayment.divisions
+    // pushing courses Add a single course to A) paymentBase, B) paymentBase.courseBasedPayment, C) paymentBase.courseBasedPayment.divisions
     dispatch(
       addCoursesToPaymentBases({
         paymentId: index,
@@ -161,6 +167,19 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
         },
       })
     );
+
+    // push shifts to divisions
+    periodState.map((period) => {
+      period.subPeriods.map((subPeriod) => {
+        console.log("just showing");
+        console.log(subPeriod);
+        dispatch(
+          addShiftsToDivisionsAndTheirSubDivisions({
+            shift: subPeriod.shifts,
+          })
+        );
+      });
+    });
   };
   const handleAdvancedPaymentBaseCourseByDivisionCheckboxSelection = () => {
     // also add all divisions from grade & division state to payment state base divisions

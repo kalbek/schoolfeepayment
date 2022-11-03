@@ -79,6 +79,7 @@ const Payments1Actions = ({}) => {
             divisions: [],
             courses: [],
             periods: [],
+            shifts: [],
           },
           periodPaymentBase: {
             value: true,
