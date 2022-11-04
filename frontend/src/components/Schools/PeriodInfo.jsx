@@ -119,7 +119,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
       })
     );
   };
-  
+
   const handlePeriodShifts = (event, index) => {
     // dispatch(clearShifts())
     const { id } = event.target;
@@ -203,6 +203,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
     // });
     // dispatch(clearShiftsFromDivions());
   };
+  // To do major and sub annual periods  with major and sub educational divisions mapping
 
   const handleUpdateSubperiods = (event, index, subPeriodIndex) => {
     const { id, value } = event.target;
