@@ -34,7 +34,7 @@ const MajorDivision = ({
               }
             />
             <span>
-              &nbsp; <p>Divisions</p>
+              &nbsp; <p>Divisions</p> 
             </span>
           </label>
           <label

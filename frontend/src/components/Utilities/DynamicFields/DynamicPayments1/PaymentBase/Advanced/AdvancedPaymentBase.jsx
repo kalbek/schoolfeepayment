@@ -26,9 +26,8 @@ import {
   addDivisionsToPaymentBasedCourses,
   updatePeriodsForCourseBasedPayments,
 } from "../../../../../../features/paymentBase/paymentBaseSlice";
-import { addShiftsToDivisionsAndTheirSubDivisions } from "../../../../../../features/Grades&Divisions/grades&DivisionsSlice";
-import { clearShifts } from "../../../../../../features/SchoolPeriods/annualPeriodSlice";
-import { useEffect } from "react";
+import { addShiftsToDivisionsAndTheirSubDivisions } from "../../../../../../features/paymentBase/paymentBaseSlice";
+import { pushRegularShift } from "../../../../../../features/SchoolPeriods/annualPeriodSlice";
 
 const AdvancedPaymentBase = ({ singlePayment, index }) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
@@ -133,7 +132,23 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
         value: !singlePayment.paymentBase.courseBasedPayment.value,
       })
     );
-
+    dispatch(
+      pushRegularShift({
+        shift: {
+          Id: 1,
+          shiftName: "regular",
+          courses: [
+            {
+              Id: 0,
+              courseName: "",
+              creditHours: "",
+              contactHours: "",
+              instructorName: "",
+            },
+          ],
+        },
+      })
+    );
     // pushing periods
     dispatch(
       updatePeriodsForCourseBasedPayments({
@@ -155,6 +170,7 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
     dispatch(
       addCoursesToPaymentBases({
         paymentId: index,
+        value: !singlePayment.paymentBase.courseBasedPayment.value,
         topLevelPeirod:
           paymentState[index].paymentBase.advancedAnnualPeriodType.charAt(0) ===
           "p",
@@ -169,16 +185,14 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
     );
 
     // push shifts to divisions
+    console.log("dispatching add course");
     periodState.map((period) => {
-      period.subPeriods.map((subPeriod) => {
-        console.log("just showing");
-        console.log(subPeriod);
-        dispatch(
-          addShiftsToDivisionsAndTheirSubDivisions({
-            shift: subPeriod.shifts,
-          })
-        );
-      });
+      console.log(period);
+      dispatch(
+        addShiftsToDivisionsAndTheirSubDivisions({
+          shift: period.shifts,
+        })
+      );
     });
   };
   const handleAdvancedPaymentBaseCourseByDivisionCheckboxSelection = () => {
@@ -193,7 +207,7 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
   };
   const handleAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection = () => {
     // also add all divisions from grade & division state to payment state base divisions
-    console.log(educationalDivisionState);
+
     dispatch(
       updateAdvancedPaymentBaseCourseBySubDivisionCheckboxSelection({
         paymentId: index,
@@ -274,13 +288,6 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
     subDivisionIndex,
     subPeriodIndex
   ) => {
-    console.log("eys");
-    console.log(
-      paymentState[index].paymentBase.courseBasedPayment.divisions[
-        divisionIndex
-      ].educationalSubDivision[subDivisionIndex].subPeriods[subPeriodIndex]
-        .visible
-    );
     dispatch(
       upadateShowHideCourses({
         index,
@@ -296,7 +303,6 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
     );
   };
   const handleNothing = () => {};
-
   const handleAdvancedCoursesBasedPaymentVisibility = (index) => {
     dispatch(
       updateAdvancedCourseBasedPaymentVisibility({
@@ -306,7 +312,6 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
     );
   };
   const handleAdvancedPaymentBaseApplyPreviousRulesForCourse = (index) => {
-    // console.log(paymentState[index - 1]);
     dispatch(
       applyPreviousCourseRules({
         paymentId: index,

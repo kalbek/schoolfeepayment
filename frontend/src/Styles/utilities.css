@@ -773,6 +773,10 @@
   color: white;
 }
 
+.warning p{
+  color: red;
+}
+
 /* UTILITIES FOR Z-INDEX */
 .z-100 {
   z-index: 1000000;

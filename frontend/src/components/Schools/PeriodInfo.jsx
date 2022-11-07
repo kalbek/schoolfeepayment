@@ -19,8 +19,6 @@ import {
   pushCustomShift,
   clearShifts,
 } from "../../features/SchoolPeriods/annualPeriodSlice";
-import { addShiftsToDivisionsAndTheirSubDivisions } from "../../features/Grades&Divisions/grades&DivisionsSlice";
-import { clearShiftsFromDivions } from "../../features/Grades&Divisions/grades&DivisionsSlice";
 
 const PeriodInfo = ({ formData, setFormData }) => {
   const formDataPeriod = [...formData.annualPeriod];
@@ -41,7 +39,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
               shiftName: lastSubPeriod.shiftName,
               periodStartDate: lastSubPeriod.periodEndDate,
               periodEndDate: new Date().toISOString(),
-              hasRegularShift: true,
+              hasRegularShift: false,
               hasExtensionShift: false,
               hasWeekendShift: false,
               hasCustomShift: false,
@@ -49,32 +47,27 @@ const PeriodInfo = ({ formData, setFormData }) => {
               periodToUpdate: "periodType",
               courses: [],
               visible: true,
-              shifts: [],
+              shifts: [
+                // {
+                //   Id: 1,
+                //   shiftName: "regular",
+                //   courses: [
+                //     {
+                //       Id: 0,
+                //       courseName: "",
+                //       creditHours: "",
+                //       contactHours: "",
+                //       instructorName: "",
+                //     },
+                //   ],
+                // },
+              ],
             },
           })
         );
       }
     });
   };
-
-  useEffect(() => {
-    topLevelPeirod.map((period) => {
-      period.subPeriods.map((subPeriod) => {
-        if (period.hasRegularShift && subPeriod.shifts.length === 0) {
-          dispatch(
-            pushRegularShift({
-              periodIndex: period.id,
-              shift: {
-                Id: 1,
-                shiftName: "regular",
-                courses: [],
-              },
-            })
-          );
-        }
-      });
-    });
-  }, []);
 
   // Watch out for first top level value
   useEffect(() => {
@@ -143,11 +136,18 @@ const PeriodInfo = ({ formData, setFormData }) => {
         if (id.charAt(0) === "r") {
           dispatch(
             pushRegularShift({
-              periodIndex: index,
               shift: {
                 Id: 1,
                 shiftName: "regular",
-                courses: [],
+                courses: [
+                  {
+                    Id: 0,
+                    courseName: "",
+                    creditHours: "",
+                    contactHours: "",
+                    instructorName: "",
+                  },
+                ],
               },
             })
           );
@@ -156,11 +156,18 @@ const PeriodInfo = ({ formData, setFormData }) => {
         if (id.charAt(0) === "e") {
           dispatch(
             pushExtensionShift({
-              periodIndex: index,
               shift: {
                 Id: 2,
                 shiftName: "extension",
-                courses: [],
+                courses: [
+                  {
+                    Id: 0,
+                    courseName: "",
+                    creditHours: "",
+                    contactHours: "",
+                    instructorName: "",
+                  },
+                ],
               },
             })
           );
@@ -169,11 +176,18 @@ const PeriodInfo = ({ formData, setFormData }) => {
         if (id.charAt(0) === "w") {
           dispatch(
             pushWeekendShift({
-              periodIndex: index,
               shift: {
                 Id: 3,
                 shiftName: "weekend",
-                courses: [],
+                courses: [
+                  {
+                    Id: 0,
+                    courseName: "",
+                    creditHours: "",
+                    contactHours: "",
+                    instructorName: "",
+                  },
+                ],
               },
             })
           );
@@ -182,28 +196,25 @@ const PeriodInfo = ({ formData, setFormData }) => {
         if (id.charAt(0) === "c") {
           dispatch(
             pushCustomShift({
-              periodIndex: index,
               shift: {
                 Id: 4,
                 shiftName: "custom",
-                courses: [],
+                courses: [
+                  {
+                    Id: 0,
+                    courseName: "",
+                    creditHours: "",
+                    contactHours: "",
+                    instructorName: "",
+                  },
+                ],
               },
             })
           );
         }
       }
     });
-
-    // topLevelPeirod.map((period) => {
-    //   dispatch(
-    //     addShiftsToDivisionsAndTheirSubDivisions({
-    //       shift: period.shifts,
-    //     })
-    //   );
-    // });
-    // dispatch(clearShiftsFromDivions());
   };
-  // To do major and sub annual periods  with major and sub educational divisions mapping
 
   const handleUpdateSubperiods = (event, index, subPeriodIndex) => {
     const { id, value } = event.target;
@@ -234,7 +245,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
             shiftName: "regularShift",
             periodStartDate: new Date().toISOString(),
             periodEndDate: new Date().toISOString(),
-            hasRegularShift: true,
+            hasRegularShift: false,
             hasExtensionShift: false,
             hasWeekendShift: false,
             hasCustomShift: false,
@@ -259,7 +270,21 @@ const PeriodInfo = ({ formData, setFormData }) => {
                 periodToUpdate: "periodType",
                 courses: [],
                 visible: true,
-                shifts: [],
+                shifts: [
+                  // {
+                  //   Id: 1,
+                  //   shiftName: "regular",
+                  //   courses: [
+                  //     {
+                  //       Id: 0,
+                  //       courseName: "",
+                  //       creditHours: "",
+                  //       contactHours: "",
+                  //       instructorName: "",
+                  //     },
+                  //   ],
+                  // },
+                ],
               },
             ],
           })
@@ -290,10 +315,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
   }
   function handleAnnualPeriodDuration(date, index, subPeriodIndex) {
     const { name, value, id } = date.target;
-    console.log("index: " + index);
-    console.log("name: " + name);
-    console.log("value: " + value);
-    console.log("id: " + id);
+
     dispatch(
       updateSubperiods({
         periodIndex: index,

@@ -19,7 +19,8 @@ const HeaderControls = ({
           <label
             className="checkbox-items flex flex-cs "
             // htmlFor={"scholarshipBasedPaymentDiscount" + index}
-          >
+          > 
+            
             <input
               type="checkbox"
               name="scholarshipBasedDiscount"
@@ -31,6 +32,7 @@ const HeaderControls = ({
               }
               tabIndex={9}
             />
+       
             <>
               <span>
                 &nbsp; <p>Course Type</p>

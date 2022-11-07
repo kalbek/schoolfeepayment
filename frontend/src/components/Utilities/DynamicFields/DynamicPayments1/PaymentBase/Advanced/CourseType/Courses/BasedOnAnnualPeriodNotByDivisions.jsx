@@ -5,275 +5,518 @@ import { useSelector } from "react-redux";
 
 const BasedOnAnnualPeriodNotByDivisions = ({
   index,
-  handleAdvancePaymentBaseCourseNameValues,
-  handleShowHideCourses,
-  handleRemoveCourses,
-  handleNewCoursesForAdvancedPaymentBase,
-  handleNothing,
+  // handleAdvancePaymentBaseCourseNameValues,
+  // handleShowHideCourses,
+  // handleRemoveCourses,
+  // handleNewCoursesForAdvancedPaymentBase,
+  // handleNothing,
 }) => {
-  const periodState = useSelector((state) => state.periods.topLevelPeriod);
   const paymentState = useSelector((state) => state.payments.paymentState);
+  const hasCourseUnit =
+    paymentState[index].paymentBase.advancedCourseUnitsCheckbox;
+  const crHr =
+    paymentState[index].paymentBase.advancedCourseUnitType.charAt(1) === "r";
   return (
     <>
-      {
-        // first check if payment is based on annual period
-        paymentState[index].paymentBase.advancedAnnualPeriodCheckbox &&
-          // then check if payment is based on course types
-          paymentState[index].paymentBase.courseBasedPayment.value &&
-          // check if course based payment is not hidden
-          paymentState[index].paymentBase.courseBasedPayment.visible &&
-          // Divisions are departments
-          /* paymentState[index].paymentBase.advancedAnnualPeriodType */
-
-          paymentState[index].paymentBase.courseBasedPayment.periods.map(
-            (period, periodIndex) => (
-              <div className="field-subgroup-containers">
-                <section className="flex-ccc">
-                  <div>
-                    <div className="flex gapfull">
-                      {/* <label className="mt-p5">{division.divisionName}</label> */}
-                    </div>
-                    <div className="flex-ccc mt-1">
-                      <div className={"flex-c -mt-1p5"}>
-                        {/* subdivisions are Years */}
-                        {
-                          paymentState[index].paymentBase
-                            .advancedEducationalDivisionCheckbox
-                        }
-                        {division.educationalSubDivision.map(
-                          (subDivision, periodIndex) => (
-                            <div key={periodIndex} className={"mt-1"}>
-                              <div className="flex-ccc">
-                                {/* MAP FOR YEARS / GRADE LEVELS */}
-                                {subDivision.subPeriods.map(
-                                  (subPeriod, subPeriodIndex) => (
-                                    <div className="field-subgroup-containers">
-                                      <section>
-                                        {/* MAP FOR SEMESTERS */}
-                                        <div className="flex gapfull mt-p5 mb-p5">
-                                          <label htmlFor="">
-                                            {division.divisionName}
-                                          </label>
-                                          <div className="flex-cs">
-                                            <label>
-                                              {subDivision.subDivisionName}
-                                            </label>
-                                            &nbsp; &nbsp; &nbsp;
-                                            <label
-                                              htmlFor={"courseName" + index}
-                                              className="pl-1"
+      {paymentState[index].paymentBase.advancedAnnualPeriodType.charAt(0) ===
+      "p" ? (
+        <>
+          {paymentState[index].paymentBase.courseBasedPayment.periods.map(
+            (topPeriod) =>
+              topPeriod.map((period, periodIndex) => (
+                <div key={periodIndex}>
+                  <div className="field-subgroup-containers">
+                    <div className="flex-ccc">
+                      <div>
+                        <div className="flex-ccc mt-1">
+                          <div className={"flex-c -mt-1p5"}>
+                            {/*Map with subdivisions (e.g. Years) */}
+                            <div className="field-subgroup-containers">
+                              <section className={"mt-1aa"}>
+                                <div className="flex-ccc">
+                                  {/* MAP FOR YEARS / GRADE LEVELS */}
+                                  {/* checking conditions for top-level or sub-level annual period */}
+                                  {/* if Annual period choice is top-level-period */}
+                                  {/* Map with Top-level period */}
+                                  <div className="">
+                                    {/* Map by major division e.g. by Quarter */}
+                                    <>
+                                      {period.shifts.length > 0 ? (
+                                        period.shifts.map(
+                                          (shift, shiftIndex) => (
+                                            <div
+                                              key={shiftIndex}
+                                              className="flex inputs field-subgroup-containers"
                                             >
-                                              {subPeriod.periodName}
-                                            </label>
-                                          </div>
-                                        </div>
-                                        {subPeriod.visible ? (
-                                          subPeriod.courses.map(
-                                            (course, courseIndex) => (
-                                              <div className="flex inputs ">
-                                                <>
+                                              <section>
+                                                <div className="flex-cs mt-1aa mb-1">
                                                   <div className="flex-c flex-start">
-                                                    <div className="flex gapp5">
-                                                      {/* <div className="flex-cs gapp5 input--above-small2 "> */}
-                                                      <div className="flex-cs gapp5 input--medium ">
-                                                        <input
-                                                          type="text"
-                                                          id={
-                                                            "courseName" + index
-                                                          }
-                                                          name={"courseName"}
-                                                          placeholder="Course Name"
-                                                          value={
-                                                            course.courseName
-                                                          }
-                                                          onChange={(event) =>
-                                                            handleAdvancePaymentBaseCourseNameValues(
-                                                              event,
-                                                              index,
-                                                              periodIndex,
-                                                              periodIndex,
-                                                              subPeriodIndex,
-                                                              courseIndex
-                                                            )
-                                                          }
-                                                          tabIndex={9}
-                                                        />
-                                                      </div>
-                                                      <div className="flex-cs input--xsmall ">
-                                                        {paymentState[index]
-                                                          .paymentBase
-                                                          .advancedCourseUnitsCheckbox ? (
-                                                          <>
-                                                            <input
-                                                              type="text"
-                                                              id={
-                                                                "creditHour" +
-                                                                index
-                                                              }
-                                                              name={
-                                                                "courseCreditHour"
-                                                              }
-                                                              placeholder={
-                                                                paymentState[
-                                                                  index
-                                                                ].paymentBase.advancedCourseUnitType.charAt(
-                                                                  1
-                                                                ) === "r"
-                                                                  ? "Cr Hr."
-                                                                  : "Contact Hr."
-                                                              }
-                                                              // placeholder="Cr Hr."
-                                                              value={
-                                                                course.creditHours
-                                                              }
-                                                              onChange={(
-                                                                event
-                                                              ) =>
-                                                                handleAdvancePaymentBaseCourseNameValues(
-                                                                  event,
-                                                                  index,
-                                                                  periodIndex,
-                                                                  periodIndex,
-                                                                  subPeriodIndex,
-                                                                  courseIndex
-                                                                )
-                                                              }
-                                                              tabIndex={9}
-                                                            />
-                                                          </>
-                                                        ) : (
-                                                          <></>
-                                                        )}
+                                                    <label></label>
+                                                    <label>
+                                                      {/* Year */}
+                                                      {period.periodName}
+                                                    </label>
+                                                  </div>
+                                                  <div className="flex">
+                                                    <div className="flex-c flex-start">
+                                                      {/* Quarter  */}
+                                                      {/* <label>{TLP.periodName}</label> */}
+                                                      <label>
+                                                        {/* Shift Name */}
+                                                        {shift.shiftName
+                                                          .charAt(0)
+                                                          .toUpperCase() +
+                                                          shift.shiftName.slice(
+                                                            1
+                                                          )}
+                                                      </label>
+                                                    </div>
+                                                    <div className="space-for-remove-small"></div>
+                                                  </div>
+                                                </div>
+                                                <div className="flex-c flex-end mb-1">
+                                                  {/* Map with shifts */}
+                                                  <div className="flex gapp5">
+                                                    {shift.courses.map(
+                                                      (course, courseIdx) => (
+                                                        <div key={courseIdx}>
+                                                          <div className="flex-c flex-start">
+                                                            <div className="flex">
+                                                              <div className="flex gapp5">
+                                                                <div
+                                                                  className={
+                                                                    hasCourseUnit
+                                                                      ? "flex-cs gapp5 input--medium"
+                                                                      : "flex-cs input--above-medium"
+                                                                  }
+                                                                >
+                                                                  <input
+                                                                    type="text"
+                                                                    id={
+                                                                      "courseName" +
+                                                                      index
+                                                                    }
+                                                                    name={
+                                                                      "courseName"
+                                                                    }
+                                                                    placeholder="Course Name"
+                                                                    tabIndex={9}
+                                                                  />
+                                                                </div>
+                                                                <div className="flex-cs input--xsmall ">
+                                                                  {hasCourseUnit ? (
+                                                                    <>
+                                                                      <input
+                                                                        type="text"
+                                                                        placeholder={
+                                                                          crHr
+                                                                            ? "Cr.Hr"
+                                                                            : "Contact Hr."
+                                                                        }
+                                                                        id={
+                                                                          "creditHour" +
+                                                                          index
+                                                                        }
+                                                                        name={
+                                                                          "courseCreditHour"
+                                                                        }
+                                                                        tabIndex={
+                                                                          9
+                                                                        }
+                                                                      />
+                                                                    </>
+                                                                  ) : (
+                                                                    <></>
+                                                                  )}
 
-                                                        {subPeriod.courses
-                                                          .length > 1 ? (
-                                                          <RemoveLinksButton
-                                                            remove={
-                                                              handleRemoveCourses
-                                                            }
-                                                            index={index}
-                                                            subIndex={
-                                                              periodIndex
-                                                            }
-                                                            subSubIndex={
-                                                              periodIndex
-                                                            }
-                                                            subSubSubIndex={
-                                                              subPeriodIndex
-                                                            }
-                                                            subSubSubSubIndex={
-                                                              courseIndex
-                                                            }
-                                                          />
-                                                        ) : (
-                                                          <div className="space-for-remove-small"></div>
+                                                                  <RemoveLinksButton />
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <div className="flex-start">
+                                                              <div className="flex  -ml-p5 gapfull">
+                                                                {true ? (
+                                                                  <label className="flex">
+                                                                    <AddMoreButton
+                                                                    // index={index}
+                                                                    // subIndex={divisionIndex}
+                                                                    // subSubIndex={subDivisionIndex}
+                                                                    // subSubSubIndex={subPeriodIndex}
+                                                                    // handleLinks={
+                                                                    //   paymentState[index].paymentBase
+                                                                    //     .courseBasedPayment.display
+                                                                    //     ? handleNewCoursesForAdvancedPaymentBase
+                                                                    //     : handleNothing
+                                                                    // }
+                                                                    />
+                                                                    <>
+                                                                      <span className="-ml-1">
+                                                                        &nbsp;&nbsp;{" "}
+                                                                        <p>
+                                                                          Add
+                                                                          Course
+                                                                        </p>
+                                                                      </span>
+                                                                    </>
+                                                                  </label>
+                                                                ) : (
+                                                                  <>
+                                                                    <label
+                                                                      htmlFor=""
+                                                                      className="mt-3 ml-1"
+                                                                    >
+                                                                      Hidden
+                                                                    </label>
+                                                                  </>
+                                                                )}
+                                                                <div
+                                                                  className="flex"
+                                                                  // onClick={() =>
+                                                                  //   handleShowHideCourses(
+                                                                  //     index,
+                                                                  //     divisionIndex,
+                                                                  //     subDivisionIndex,
+                                                                  //     subPeriodIndex
+                                                                  //   )
+                                                                  // }
+                                                                >
+                                                                  <div className="space-for-remove"></div>
+                                                                  <div
+                                                                  // className={
+                                                                  //   !subPeriod.visible
+                                                                  //     ? " mt-2p5"
+                                                                  //     : ""
+                                                                  // }
+                                                                  >
+                                                                    <HideOrshow
+                                                                    // toogleValue={subPeriod.visible}
+                                                                    />
+                                                                  </div>
+                                                                  &nbsp;
+                                                                  <label
+                                                                    className={
+                                                                      true
+                                                                        ? "input-group mt-p4 "
+                                                                        : "input-group mt-3 "
+                                                                    }
+                                                                  >
+                                                                    &nbsp;
+                                                                    {true
+                                                                      ? "Hide Courses"
+                                                                      : "Show Courses"}
+                                                                  </label>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      )
+                                                    )}
+                                                  </div>
+                                                </div>
+                                              </section>
+                                            </div>
+                                          )
+                                        )
+                                      ) : (
+                                        <div className="warning flex-ccc pt-1 pb-p5">
+                                          <label htmlFor="" className="flex">
+                                            <p>WARNING: </p> &nbsp;
+                                            {period.periodName} HAS NO SHIFTS!
+                                          </label>
+                                          <label htmlFor="">
+                                            <p>
+                                              You have deselected the default
+                                              REGULAR shift.
+                                            </p>
+                                          </label>
+                                          <label htmlFor="">
+                                            You have to select at least one
+                                            shift to add courses. Go to step 2.
+                                          </label>
+                                        </div>
+                                      )}
+                                    </>
+                                  </div>
+                                  &nbsp;
+                                </div>
+                              </section>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <label htmlFor="">&nbsp;</label>
+                    </div>
+                  </div>
+                </div>
+              ))
+          )}
+        </>
+      ) : paymentState[index].paymentBase.advancedAnnualPeriodType.charAt(0) ===
+        "s" ? (
+        // Else map with subPeriod
+        <>
+          {paymentState[index].paymentBase.courseBasedPayment.periods.map(
+            (topPeriod, periodIndex) => (
+              <div key={periodIndex} className="field-subgroup-containers">
+                {topPeriod.map((period, periodIndex) => (
+                  <div key={periodIndex}>
+                    <div className="flex-ccc">
+                      <div>
+                        {period.subPeriods.map((subPeriod) => (
+                          <div className="flex-ccc mt-1">
+                            <div className={"flex-c -mt-1p5"}>
+                              {/*Map with subdivisions (e.g. Years) */}
+
+                              <div className="field-subgroup-containers">
+                                <section>
+                                  <div className="flex-ccc">
+                                    {/* MAP FOR YEARS / GRADE LEVELS */}
+                                    {/* checking conditions for top-level or sub-level annual period */}
+                                    {/* if Annual period choice is top-level-period */}
+                                    {/* Map with Top-level period */}
+                                    <div className="">
+                                      <div>
+                                        <div className="flex-ccc   mb-p5">
+                                          <div className="flex-cs"></div>
+                                        </div>
+                                        {/* Map by major division e.g. by Quarter */}
+                                        <>
+                                          {period.shifts.length > 0 ? (
+                                            subPeriod.shifts.map(
+                                              (shift, shiftIndex) => (
+                                                <div
+                                                  key={shiftIndex}
+                                                  className="flex inputs field-subgroup-containers"
+                                                >
+                                                  <section>
+                                                    <div className="flex-cs mt-1aa mb-1">
+                                                      <div className="flex-c flex-start">
+                                                        <label>
+                                                          {/* Department */}
+                                                          {/* {division.divisionName} */}
+                                                        </label>
+                                                        <label>
+                                                          {/* Year */}
+                                                          {subPeriod.periodName}
+                                                        </label>
+                                                      </div>
+                                                      <div className="flex">
+                                                        <div className="flex-c flex-start">
+                                                          {/* Quarter  */}
+                                                          {/* <label>{TLP.periodName}</label> */}
+                                                          <label>
+                                                            {/* Shift Name */}
+                                                            {shift.shiftName
+                                                              .charAt(0)
+                                                              .toUpperCase() +
+                                                              shift.shiftName.slice(
+                                                                1
+                                                              )}
+                                                          </label>
+                                                        </div>
+                                                        <div className="space-for-remove-small"></div>
+                                                      </div>
+                                                    </div>
+                                                    <div className="flex-c flex-end mb-1">
+                                                      {/* Map with shifts */}
+                                                      <div className="flex gapp5">
+                                                        {shift.courses.map(
+                                                          (
+                                                            course,
+                                                            courseIndex
+                                                          ) => (
+                                                            <div
+                                                              key={courseIndex}
+                                                            >
+                                                              <div className="flex-c flex-start">
+                                                                <div className="flex">
+                                                                  <div className="flex gapp5">
+                                                                    <div
+                                                                      className={
+                                                                        hasCourseUnit
+                                                                          ? "flex-cs gapp5 input--medium"
+                                                                          : "flex-cs input--above-medium"
+                                                                      }
+                                                                    >
+                                                                      <input
+                                                                        type="text"
+                                                                        id={
+                                                                          "courseName" +
+                                                                          index
+                                                                        }
+                                                                        name={
+                                                                          "courseName"
+                                                                        }
+                                                                        placeholder="Course Name"
+                                                                        tabIndex={
+                                                                          9
+                                                                        }
+                                                                      />
+                                                                    </div>
+                                                                    <div className="flex-cs input--xsmall ">
+                                                                      {hasCourseUnit ? (
+                                                                        <>
+                                                                          <input
+                                                                            type="text"
+                                                                            id={
+                                                                              "creditHour" +
+                                                                              index
+                                                                            }
+                                                                            placeholder={
+                                                                              crHr
+                                                                                ? "Cr.Hr"
+                                                                                : "Contact Hr."
+                                                                            }
+                                                                            name={
+                                                                              "courseCreditHour"
+                                                                            }
+                                                                            tabIndex={
+                                                                              9
+                                                                            }
+                                                                          />
+                                                                        </>
+                                                                      ) : (
+                                                                        <></>
+                                                                      )}
+                                                                      <RemoveLinksButton />
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                                <div className="flex-start">
+                                                                  <div className="flex  -ml-p5 gapfull">
+                                                                    {true ? (
+                                                                      <label className="flex">
+                                                                        <AddMoreButton
+                                                                        // index={index}
+                                                                        // subIndex={divisionIndex}
+                                                                        // subSubIndex={subDivisionIndex}
+                                                                        // subSubSubIndex={subPeriodIndex}
+                                                                        // handleLinks={
+                                                                        //   paymentState[index].paymentBase
+                                                                        //     .courseBasedPayment.display
+                                                                        //     ? handleNewCoursesForAdvancedPaymentBase
+                                                                        //     : handleNothing
+                                                                        // }
+                                                                        />
+                                                                        <>
+                                                                          <span className="-ml-1">
+                                                                            &nbsp;&nbsp;{" "}
+                                                                            <p>
+                                                                              Add
+                                                                              Course
+                                                                            </p>
+                                                                          </span>
+                                                                        </>
+                                                                      </label>
+                                                                    ) : (
+                                                                      <>
+                                                                        <label
+                                                                          htmlFor=""
+                                                                          className="mt-3 ml-1"
+                                                                        >
+                                                                          Hidden
+                                                                        </label>
+                                                                      </>
+                                                                    )}
+                                                                    <div
+                                                                      className="flex"
+                                                                      // onClick={() =>
+                                                                      //   handleShowHideCourses(
+                                                                      //     index,
+                                                                      //     divisionIndex,
+                                                                      //     subDivisionIndex,
+                                                                      //     subPeriodIndex
+                                                                      //   )
+                                                                      // }
+                                                                    >
+                                                                      <div className="space-for-remove"></div>
+                                                                      <div
+                                                                      // className={
+                                                                      //   !subPeriod.visible
+                                                                      //     ? " mt-2p5"
+                                                                      //     : ""
+                                                                      // }
+                                                                      >
+                                                                        <HideOrshow
+                                                                        // toogleValue={subPeriod.visible}
+                                                                        />
+                                                                      </div>
+                                                                      &nbsp;
+                                                                      <label
+                                                                        className={
+                                                                          true
+                                                                            ? "input-group mt-p4 "
+                                                                            : "input-group mt-3 "
+                                                                        }
+                                                                      >
+                                                                        &nbsp;
+                                                                        {true
+                                                                          ? "Hide Courses"
+                                                                          : "Show Courses"}
+                                                                      </label>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          )
                                                         )}
                                                       </div>
                                                     </div>
-                                                  </div>
-                                                </>
-                                              </div>
+                                                  </section>
+                                                </div>
+                                              )
                                             )
-                                          )
-                                        ) : (
-                                          <></>
-                                        )}
-                                        <div className="flex-start">
-                                          <div className="flex  -ml-p5 gapfull">
-                                            {subPeriod.visible ? (
-                                              <label className="flex">
-                                                <AddMoreButton
-                                                  index={index}
-                                                  subIndex={periodIndex}
-                                                  subSubIndex={periodIndex}
-                                                  subSubSubIndex={
-                                                    subPeriodIndex
-                                                  }
-                                                  handleLinks={
-                                                    paymentState[index]
-                                                      .paymentBase
-                                                      .courseBasedPayment
-                                                      .display
-                                                      ? handleNewCoursesForAdvancedPaymentBase
-                                                      : handleNothing
-                                                  }
-                                                />
-                                                <>
-                                                  <span className="-ml-1">
-                                                    &nbsp;&nbsp;{" "}
-                                                    <p>Add Course</p>
-                                                  </span>
-                                                </>
-                                              </label>
-                                            ) : (
-                                              <>
-                                                <label
-                                                  htmlFor=""
-                                                  className="mt-3 ml-1"
-                                                >
-                                                  Hidden
-                                                </label>
-                                              </>
-                                            )}
-                                            <div
-                                              className="flex"
-                                              onClick={() =>
-                                                handleShowHideCourses(
-                                                  index,
-                                                  periodIndex,
-                                                  periodIndex,
-                                                  subPeriodIndex
-                                                )
-                                              }
-                                            >
-                                              <div className="space-for-remove"></div>
-                                              <div
-                                                className={
-                                                  !subPeriod.visible
-                                                    ? " mt-2p5"
-                                                    : ""
-                                                }
-                                              >
-                                                <HideOrshow
-                                                  toogleValue={
-                                                    subPeriod.visible
-                                                  }
-                                                />
-                                              </div>
-                                              &nbsp;
+                                          ) : (
+                                            <div className="warning flex-ccc pt-1 pb-p5">
                                               <label
-                                                className={
-                                                  subPeriod.visible
-                                                    ? "input-group mt-p4 "
-                                                    : "input-group mt-3 "
-                                                }
+                                                htmlFor=""
+                                                className="flex"
                                               >
-                                                &nbsp;
-                                                {subPeriod.visible
-                                                  ? "Hide Courses"
-                                                  : "Show Courses"}
+                                                <p>WARNING: </p> &nbsp;
+                                                {subPeriod.periodName} HAS NO
+                                                SHIFTS!
+                                              </label>
+                                              <label htmlFor="">
+                                                <p>
+                                                  You have deselected the
+                                                  default REGULAR shift.
+                                                </p>
+                                              </label>
+                                              <label htmlFor="">
+                                                You have to select at least one
+                                                shift to add courses. Go to step
+                                                2.
                                               </label>
                                             </div>
-                                          </div>
-                                        </div>
-                                      </section>
+                                          )}
+                                        </>
+                                      </div>
                                     </div>
-                                  )
-                                )}
-                                &nbsp;
+                                    &nbsp;
+                                  </div>
+                                </section>
                               </div>
+                              <label htmlFor=""></label>
+                              <label htmlFor=""></label>
+                              <label htmlFor=""></label>
+                              <label htmlFor=""></label>
                             </div>
-                          )
-                        )}
+                          </div>
+                        ))}
                       </div>
+                      <label htmlFor="">&nbsp;</label>
                     </div>
                   </div>
-                  <label htmlFor="">&nbsp;</label>
-                </section>
+                ))}
               </div>
             )
-          )
-      }
+          )}
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

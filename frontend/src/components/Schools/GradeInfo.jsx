@@ -65,6 +65,10 @@ const GradeInfo = ({ formData, setFormData }) => {
             : "Grade",
         // subDivisionType: "Grade",
         divisionName: "",
+        hasRegularShift: true,
+        hasExtensionShift: false,
+        hasWeekendShift: false,
+        hasCustomShift: false,
         shifts: [],
         educationalSubDivision: [
           {
@@ -104,6 +108,10 @@ const GradeInfo = ({ formData, setFormData }) => {
           ].subDivisionType,
         subDivisionName: "", // e.g. KG, Primary, Secondary, etc...
         hasSection: false,
+        hasRegularShift: true,
+        hasExtensionShift: false,
+        hasWeekendShift: false,
+        hasCustomShift: false,
         hasMaximumNumberOfStudents: false,
         maximumNumberOfStudents: "",
         numberOfScholarships: "",

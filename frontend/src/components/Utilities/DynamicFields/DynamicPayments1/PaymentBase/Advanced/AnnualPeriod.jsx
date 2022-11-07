@@ -31,7 +31,7 @@ const AnnualPeriod = ({
             />
             <>
               <span>
-                &nbsp; <p>Annual Period</p>
+                &nbsp; <p>Annual Period</p> 
               </span>
             </>
           </label>

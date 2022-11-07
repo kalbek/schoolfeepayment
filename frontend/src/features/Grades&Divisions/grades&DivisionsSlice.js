@@ -51,25 +51,10 @@ export const educationalDivisionSlice = createSlice({
           division.educationalSubDivision.map((subDivision) => {
             if (subDivision.id === action.payload.educationalSubDivisionID) {
               subDivision.section.push(action.payload.section);
-              console.log(current(subDivision));
             }
           });
         }
       });
-    },
-
-    addShiftsToDivisionsAndTheirSubDivisions: (state, action) => {
-      state.educationalDivision.map((division) => {
-        if (division.shifts.length === 0) {
-          division.shifts = action.payload.shift;
-        }
-        division.educationalSubDivision.map((subDivision) => {
-          if (subDivision.shifts.length === 0) {
-            subDivision.shifts = action.payload.shift;
-          }
-        });
-      });
-      console.log(current(state).educationalDivision);
     },
 
     clearShiftsFromDivions: (state) => {
@@ -92,7 +77,6 @@ export const educationalDivisionSlice = createSlice({
     updateGradeBasedDiscountValues: (state, action) => {
       state.educationalDivision.map((division) => {
         // COME HERE
-        console.log("hita hit");
         if (division.id === action.payload.educationalDivisionId) {
           division.divisionName = action.payload.divisionName;
         }
@@ -100,14 +84,6 @@ export const educationalDivisionSlice = createSlice({
     },
 
     updateEducationalSubDivisions: (state, action) => {
-      console.log(
-        "action.payload.educationalDivisionId:" +
-          action.payload.educationalDivisionId
-      );
-      console.log(
-        "action.payload.educatonalSubDivisionId:" +
-          action.payload.educationalSubDivisionId
-      );
       state.educationalDivision.map((division) => {
         if (division.id === action.payload.educationalDivisionId) {
           division.educationalSubDivision.map((subDivision) => {
@@ -185,7 +161,6 @@ export const educationalDivisionSlice = createSlice({
         if (division.id === action.payload.educationalDivisionId) {
           division.educationalSubDivision.map((subDivision) => {
             if (subDivision.id === action.payload.educationalSubDivisionId) {
-              console.log(current(subDivision.section));
               subDivision.section = subDivision.section.filter(
                 (section) => section.id != action.payload.subDivisionSectionId
               );
@@ -219,21 +194,16 @@ export const educationalDivisionSlice = createSlice({
           division.educationalSubDivision.map((subDivision) => {
             if (action.payload.educationSubDivisionName === "Grade") {
               subDivision.subDivisionType = "Grade";
-              // console.log(current(subDivision).subDivisionType);
             } else if (action.payload.educationSubDivisionName === "Year") {
               subDivision.subDivisionType = "Year";
-              // console.log(current(subDivision).subDivisionType);
             } else if (action.payload.educationSubDivisionName === "Level") {
               subDivision.subDivisionType = "Level";
-              // console.log(current(subDivision).subDivisionType);
             } else if (
               action.payload.educationSubDivisionName === "Custom Subdivision"
             ) {
               subDivision.subDivisionType = "Custom Subdivision";
-              // console.log(current(subDivision).subDivisionType);
             }
           });
-          // console.log(current(division));
         } else if (action.payload.categoryToUpdate === "educaitonDivisions") {
           if (action.payload.divisionType === "Stage") {
             division.divisionType = "Stage";
@@ -245,9 +215,7 @@ export const educationalDivisionSlice = createSlice({
             division.divisionType = "Faculty";
           }
           if (action.payload.divisionType === "Custom Division") {
-            console.log("yaa");
             division.divisionType = "Custom Division";
-            console.log("yaadivision.divisionTyp: " + division.divisionType);
           }
         } else if (
           action.payload.categoryToUpdate === "gradeDetails" &&
@@ -293,7 +261,6 @@ export const {
   deleteEducationalSubDivision,
   deleteSubDivisionSections,
   updateDivisionsAndSubDivisions,
-  addShiftsToDivisionsAndTheirSubDivisions,
   clearShiftsFromDivions,
 } = educationalDivisionSlice.actions;
 

@@ -10,7 +10,7 @@ const initialState = {
       shiftName: "regularShift",
       periodStartDate: new Date().toISOString(),
       periodEndDate: new Date().toISOString(),
-      hasRegularShift: true,
+      hasRegularShift: false,
       hasExtensionShift: false,
       hasWeekendShift: false,
       hasCustomShift: false,
@@ -27,7 +27,7 @@ const initialState = {
           shiftName: "regularShift",
           periodStartDate: new Date().toISOString(),
           periodEndDate: new Date().toISOString(),
-          hasRegularShift: true,
+          hasRegularShift: false,
           hasExtensionShift: false,
           hasWeekendShift: false,
           hasCustomShift: false,
@@ -201,167 +201,119 @@ export const periodSlice = createSlice({
     //  Pushing shifts
     pushRegularShift: (state, action) => {
       state.topLevelPeriod.map((toplevelPeriod) => {
-        if (toplevelPeriod.id === action.payload.periodIndex) {
-          if (toplevelPeriod.hasRegularShift) {
-            toplevelPeriod.shifts.push(action.payload.shift);
+        if (toplevelPeriod.hasRegularShift) {
+          const val = toplevelPeriod.shifts.some((someShift) => {
+            return someShift.Id === 1;
+          });
+          if (!val) toplevelPeriod.shifts.push(action.payload.shift);
+        } else {
+          toplevelPeriod.shifts = toplevelPeriod.shifts.filter(
+            (shift) => shift.Id !== 1
+          );
+        }
+
+        toplevelPeriod.subPeriods.map((subPeriod) => {
+          if (subPeriod.hasRegularShift) {
+            const val = subPeriod.shifts.some((shift) => {
+              return shift.Id === 1;
+            });
+            !val && subPeriod.shifts.push(action.payload.shift);
           } else {
-            toplevelPeriod.shifts = toplevelPeriod.shifts.filter(
-              (shift) => shift.Id != 1
+            subPeriod.shifts = subPeriod.shifts.filter(
+              (shift) => shift.Id !== 1
             );
           }
-          console.log("so");
-          console.log(current(toplevelPeriod));
-
-          let h = false;
-          for (let i = 0; i < toplevelPeriod.subPeriods.length; i++) {
-            if (toplevelPeriod.subPeriods[i].hasRegularShift) {
-              h = true;
-              console.log(i + ": " + h);
-            }
-          }
-          if (!h) {
-            console.log("h is false");
-            toplevelPeriod.subPeriods.map((subPeriod) => {
-              if (subPeriod.hasRegularShift) {
-                // subPeriod.shifts.push(action.payload.shift);
-                subPeriod.shifts.filter((shift) => shift.Id != 1);
-                console.log("has rs 1");
-              }
-            });
-          } else {
-            console.log("h is true");
-            toplevelPeriod.subPeriods.map((subPeriod) => {
-              if (subPeriod.hasRegularShift) {
-                subPeriod.shifts.push(action.payload.shift);
-                console.log("has rs 1");
-              }
-            });
-          }
-
-          console.log("so");
-          console.log(current(toplevelPeriod));
-        }
+        });
+        // sort shifts of major division by Id
+        toplevelPeriod.shifts.sort((a, b) => a.Id - b.Id);
+        // sort shifts of sub-division by Id
+        toplevelPeriod.subPeriods.map((subPeriod) => {
+          subPeriod.shifts.sort((a, b) => a.Id - b.Id);
+        });
       });
     },
 
     pushExtensionShift: (state, action) => {
       state.topLevelPeriod.map((toplevelPeriod) => {
-        if (toplevelPeriod.id === action.payload.periodIndex) {
-          if (toplevelPeriod.hasExtensionShift) {
-            toplevelPeriod.shifts.push(action.payload.shift);
+        if (toplevelPeriod.hasExtensionShift) {
+          const val = toplevelPeriod.shifts.some((someShift) => {
+            return someShift.Id === 2;
+          });
+          if (!val) toplevelPeriod.shifts.push(action.payload.shift);
+        } else {
+          toplevelPeriod.shifts = toplevelPeriod.shifts.filter(
+            (shift) => shift.Id !== 2
+          );
+        }
+
+        toplevelPeriod.subPeriods.map((subPeriod) => {
+          if (subPeriod.hasExtensionShift) {
+            const val = subPeriod.shifts.some((shift) => {
+              return shift.Id === 2;
+            });
+            !val && subPeriod.shifts.push(action.payload.shift);
           } else {
-            toplevelPeriod.shifts = toplevelPeriod.shifts.filter(
-              (shift) => shift.Id != 2
+            subPeriod.shifts = subPeriod.shifts.filter(
+              (shift) => shift.Id !== 2
             );
           }
-
-          let h = false;
-          for (let i = 0; i < toplevelPeriod.subPeriods.length; i++) {
-            if (toplevelPeriod.subPeriods[i].hasExtensionShift) {
-              h = true;
-            }
-          }
-          if (!h) {
-            console.log("h is false");
-            toplevelPeriod.subPeriods.map((subPeriod) => {
-              if (subPeriod.hasExtensionShift)
-                subPeriod.shifts.push(action.payload.shift);
-            });
-          } else {
-            console.log("h is true");
-            toplevelPeriod.subPeriods.map((subPeriod) => {
-              if (subPeriod.hasExtensionShift)
-                subPeriod.shifts.filter((shift) => shift.Id != 2);
-            });
-          }
-
-          console.log("so");
-          console.log(current(toplevelPeriod));
-        }
+        });
       });
     },
 
     pushWeekendShift: (state, action) => {
       state.topLevelPeriod.map((toplevelPeriod) => {
-        // handle shifts for annual period
-        if (toplevelPeriod.id === action.payload.periodIndex) {
-          if (toplevelPeriod.hasWeekendShift) {
-            if (toplevelPeriod.shifts.length === 0)
-              toplevelPeriod.shifts.push(action.payload.shift);
-            else {
-              for (let i = 0; i < toplevelPeriod.shifts.length; i++) {
-                if (toplevelPeriod.shifts[i].Id !== 3) {
-                  toplevelPeriod.shifts.push(action.payload.shift);
-                }
-              }
-            }
+        if (toplevelPeriod.hasWeekendShift) {
+          const val = toplevelPeriod.shifts.some((someShift) => {
+            return someShift.Id === 3;
+          });
+          if (!val) toplevelPeriod.shifts.push(action.payload.shift);
+        } else {
+          toplevelPeriod.shifts = toplevelPeriod.shifts.filter(
+            (shift) => shift.Id !== 3
+          );
+        }
+
+        toplevelPeriod.subPeriods.map((subPeriod) => {
+          if (subPeriod.hasWeekendShift) {
+            const val = subPeriod.shifts.some((shift) => {
+              return shift.Id === 3;
+            });
+            !val && subPeriod.shifts.push(action.payload.shift);
           } else {
-            toplevelPeriod.shifts = toplevelPeriod.shifts.filter(
-              (shift) => shift.Id != 3
+            subPeriod.shifts = subPeriod.shifts.filter(
+              (shift) => shift.Id !== 3
             );
           }
-          console.log("so");
-          console.log(current(toplevelPeriod));
-          // handle shifts for annual subperiod
-          toplevelPeriod.subPeriods.map((subPeriod) => {
-            if (subPeriod.hasWeekendShift) {
-              if (subPeriod.shifts.length === 0)
-                subPeriod.shifts.push(action.payload.shift);
-              else {
-                for (let i = 0; i < subPeriod.shifts.length; i++) {
-                  if (subPeriod.shifts[i].Id !== 3) {
-                    subPeriod.shifts.push(action.payload.shift);
-                  }
-                }
-              }
-            } else {
-              subPeriod.shifts = subPeriod.shifts.filter(
-                (shift) => shift.Id != 3
-              );
-            }
-          });
-        }
+        });
       });
     },
 
     pushCustomShift: (state, action) => {
       state.topLevelPeriod.map((toplevelPeriod) => {
         if (toplevelPeriod.hasCustomShift) {
-          if (toplevelPeriod.shifts.length === 0)
-            toplevelPeriod.shifts.push(action.payload.shift);
-          else {
-            for (let i = 0; i < toplevelPeriod.shifts.length; i++) {
-              if (toplevelPeriod.shifts[i].Id !== 4) {
-                toplevelPeriod.shifts.push(action.payload.shift);
-              }
-            }
-          }
+          const val = toplevelPeriod.shifts.some((someShift) => {
+            return someShift.Id === 4;
+          });
+          if (!val) toplevelPeriod.shifts.push(action.payload.shift);
         } else {
           toplevelPeriod.shifts = toplevelPeriod.shifts.filter(
-            (shift) => shift.Id != 4
+            (shift) => shift.Id !== 4
           );
         }
-        console.log("so");
-        console.log(current(toplevelPeriod));
-        if (toplevelPeriod.id === action.payload.periodIndex) {
-          toplevelPeriod.subPeriods.map((subPeriod) => {
-            if (subPeriod.hasCustomShift) {
-              if (subPeriod.shifts.length === 0)
-                subPeriod.shifts.push(action.payload.shift);
-              else {
-                for (let i = 0; i < subPeriod.shifts.length; i++) {
-                  if (subPeriod.shifts[i].Id !== 4) {
-                    subPeriod.shifts.push(action.payload.shift);
-                  }
-                }
-              }
-            } else {
-              subPeriod.shifts = subPeriod.shifts.filter(
-                (shift) => shift.Id != 4
-              );
-            }
-          });
-        }
+
+        toplevelPeriod.subPeriods.map((subPeriod) => {
+          if (subPeriod.hasCustomShift) {
+            const val = subPeriod.shifts.some((shift) => {
+              return shift.Id === 4;
+            });
+            !val && subPeriod.shifts.push(action.payload.shift);
+          } else {
+            subPeriod.shifts = subPeriod.shifts.filter(
+              (shift) => shift.Id !== 4
+            );
+          }
+        });
       });
     },
 
