@@ -2,11 +2,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { forwardRef, useRef, useState, useEffect } from "react";
 import Textbox from "./Utilities/Textbox";
 import Textbox2 from "./Utilities/Textbox2";
+import TableTextbox from "./Utilities/TableTextbox";
 import EmptyField from "./Utilities/EmptyField";
 import ColumnHeader from "./Components/TableComponents/ColumnHeader";
 import RowHeader from "./Components/TableComponents/RowHeader";
 import Label from "./Utilities/Label";
 import { updatePaymentDiscountUnit } from "../../../../features/paymentBase/paymentBaseSlice";
+import { updateDivisionsForAnnualPeriods } from "../../../../features/SchoolPeriods/annualPeriodSlice";
+import { updatePaymentTypesForPaymentBase } from "../../../../features/paymentBase/paymentBaseSlice";
 // import DiscountTableFunctions.updateDiscountUnits from
 import TableCaption from "./Components/TableComponents/TableCaption";
 const PaymentAmountTable = ({ updateDiscountBase, handleTextboxValue }) => {
@@ -14,26 +17,9 @@ const PaymentAmountTable = ({ updateDiscountBase, handleTextboxValue }) => {
   const educationalDivisionState = useSelector(
     (state) => state.educationalDivisions.educationalDivision
   );
-  
-  const topLevelPeriod = useSelector((state) => state.periods.topLevelPeriod);
-  console.log(topLevelPeriod)
-  
 
-  const division =
-    educationalDivisionState[0].educationalSubDivision[0].subDivisionType;
-  const updateDiscountUnits = (event, index) => {
-    const { id } = event.target;
-    paymentState.map((paymentState) => {
-      if (paymentState.Id === index) {
-        dispatch(
-          updatePaymentDiscountUnit({
-            paymentId: index,
-            unitType: id,
-          })
-        );
-      }
-    });
-  };
+  const topLevelPeriod = useSelector((state) => state.periods.topLevelPeriod);
+  const periodState = useSelector((state) => state.periods.topLevelPeriod);
 
   const dispatch = useDispatch();
   const ref0 = useRef(null);
@@ -100,142 +86,256 @@ const PaymentAmountTable = ({ updateDiscountBase, handleTextboxValue }) => {
     if (ref3.current !== null) ref3.current.className = "focused-labels";
   };
 
-  const [gender, setGender] = useState(false);
-  const [specialneed, setSpecialneed] = useState(false);
-  const [scholarship, setScholarship] = useState(false);
-  const [custom, setCustom] = useState(false);
-
   // Check existance of each discount parameter to display their names as column header
-  useEffect(() => {
-    paymentState.map((payment) => {
-      if (payment.discountParameters.genderBasedDiscount.value === true) {
-        setGender(true);
-      }
-      if (payment.discountParameters.specialNeedsBasedDiscount.value === true) {
-        setSpecialneed(true);
-      }
-      if (payment.discountParameters.scholarshipBasedDiscount.value === true) {
-        setScholarship(true);
-      }
-      if (payment.discountParameters.customPaymentDiscount.value === true) {
-        setCustom(true);
-      }
-    });
-  }, [paymentState]);
 
   return (
     <div className="field-group-containeraa">
       <section>
-        <table className="payment-tableaa">
-          <TableCaption label={"Payment Amount Tabel"} />
-          <thead>
-            <tr className="bg--th ">
-              <th>
-                <span className="flex-start">
-                  <div className="checkbox-inputs input__group">
-                    <label className="checkbox-items">
-                      <p className=" table-headers  pb-1 pt-1 ml-p5 ">
-                        Payment Types
-                      </p>
-                    </label>
-                  </div>
-                </span>
-              </th>
-              {/* headers for discount parameters */}
-              {gender && (
-                <th className="fcw">
-                  <span className="flex-start">
-                    <span ref={ref0}>
-                      <ColumnHeader label={"Gender"} />
+        {/* If shifts are not selected map with periods and divisions from payment base slice   */}
+        {paymentState.map((payments, index) => (
+          <>
+            <table key={index} className="payment-tableaaa">
+              {/* controlling payment types i.e. on column header */}
+              <thead>
+                <tr className="bg-th--dark ">
+                  <th>
+                    <span className="flex-start mr-3  mt-p3 -mb-1">
+                      <div className="checkbox-inputs input__group">
+                        <label className="checkbox-items">
+                          <p className=" text-white text-base break-all  pb-1 pt-1 ml-p5">
+                            {/* {payments.paymentType.paymentName.toUpperCase()} */}
+                            {payments.paymentType.paymentName}
+                          </p>
+                        </label>
+                      </div>
                     </span>
-                  </span>
-                  <br />
-                </th>
-              )}
-              {specialneed && (
-                <th>
-                  <span className="flex-start ">
-                    <span ref={ref1}>
-                      <ColumnHeader label={"Special "} />
-                    </span>
-                  </span>
-                  <br />
-                </th>
-              )}
-              {scholarship && (
-                <th>
-                  <span className="flex-start ">
-                    <span ref={ref2}>
-                      <ColumnHeader label={"Scholarship"} />
-                    </span>
-                  </span>
-                  <br />
-                </th>
-              )}
-              {custom && (
-                <th className="pr-6 ">
-                  <span className="flex-start ">
-                    <span ref={ref3}>
-                      <ColumnHeader label={"Custom"} />
-                    </span>
-                  </span>
-                  <br />
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tbody className="last-element">
-            {/* PAYMENT TYPES  */}
-            {paymentState.map((payments, index) => (
-              <tr key={index}>
-                <td className={payments.paymentType.paymentName}>
-                  <div
-                    onClick={() => clearRefs(index)}
-                    ref={(element) => {
-                      refEls.current[index] = element;
-                    }}
-                    // className="flex-c flex-start field-group-container pr-7"
-                  >
-                    <RowHeader label={payments.paymentType.paymentName} />
-                    {/* <section className="flex-start flex-c">
-                    </section> */}
-                  </div>
-                  {/* <br /> */}
-                </td>
-                {/* INPUT CONTROL FOR GENDER DISCOUNTS */}
+                  </th>
+                  {/* Controlling what's on the columns */}
+                  {/* For major annual periods */}
+                  {/* COLUMNS WHEN SHIFTS ARE NOT SELECTED */}
+                  {!payments.paymentBase.standardShiftsCheckbox ? (
+                    <>
+                      {/* For major annual period */}
+                      {payments.paymentType.selectedPeriodType === "subPeirod"
+                        ? payments.paymentType.periods.map((period) =>
+                            period.subPeriods.map(
+                              (subPeriod, subPeriodIndex) => (
+                                <>
+                                  <th key={subPeriodIndex}>
+                                    <span className="mlp5 mr-2 flex-start ">
+                                      <span ref={ref0}>
+                                        <ColumnHeader
+                                          label={subPeriod.periodName}
+                                        />
+                                      </span>
+                                    </span>
+                                    <br />
+                                  </th>
+                                </>
+                              )
+                            )
+                          )
+                        : // For annual sub periods
+                          payments.paymentType.periods.map((period) => (
+                            <>
+                              <th>
+                                <span className=" mr-1 flex-start">
+                                  <span ref={ref0}>
+                                    <ColumnHeader label={period.periodName} />
+                                  </span>
+                                </span>
+                                <br />
+                              </th>
+                            </>
+                          ))}
+                    </>
+                  ) : (
+                    //COLUMNS WHEN SHIFT ARE SELECTED
+                    // else if shifts are selected
+                    <>
+                      {/* COLUMNS FOR SUB-PERIODS */}
+                      {payments.paymentType.selectedPeriodType === "subPeirod"
+                        ? payments.paymentType.periods.map((period) => (
+                            <>
+                              {console.log("here sp")}
+                              {console.log(payments.paymentType.periods)}
+                              {period.subPeriods.map((subPeriod) =>
+                                subPeriod.shifts.map((shift) => (
+                                  <th>
+                                    <span className="mlp5  mr-2 flex-start">
+                                      <span ref={ref0}>
+                                        <ColumnHeader
+                                          shiftName={
+                                            shift.shiftName
+                                              .charAt(0)
+                                              .toUpperCase() +
+                                            shift.shiftName.slice(1)
+                                          }
+                                          label={subPeriod.periodName}
+                                        />
+                                      </span>
+                                    </span>
+                                  </th>
+                                ))
+                              )}
+                            </>
+                          ))
+                        : // For annual sub periods
+                          // COLUMNS FOR MAJOR-PERIODS
+                          payments.paymentType.periods.map((period) =>
+                            period.shifts.map((shift) => (
+                              <>
+                                <th>
+                                  <span className=" mr-1 flex-start">
+                                    <span ref={ref0}>
+                                      <ColumnHeader
+                                        shiftName={
+                                          shift.shiftName
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                          shift.shiftName.slice(1)
+                                        }
+                                        label={period.periodName}
+                                      />
+                                    </span>
+                                  </span>
+                                  <br />
+                                </th>
+                              </>
+                            ))
+                          )}
+                    </>
+                  )}
+                </tr>
+              </thead>
+              {/* controlling what's on the rows */}
 
-                <td
-                  ref={(element) => itemEls.current.push(element)}
-                  onClick={(e) => onAClick(e, index)}
-                  className={payments.paymentType.paymentName + " pr-2"}
-                >
-                  <Textbox2 placeholder={"Amount in ETB"} />
-                </td>
-                <td
-                  ref={(element) => itemEls.current.push(element)}
-                  onClick={(e) => onBClick(e, index)}
-                  className={payments.paymentType.paymentName + " pr-2"}
-                >
-                  <Textbox2 placeholder={"Amount in ETB"} />
-                </td>
-                <td
-                  ref={(element) => itemEls.current.push(element)}
-                  onClick={(e) => onCClick(e, index)}
-                  className={payments.paymentType.paymentName + " pr-2"}
-                >
-                  <Textbox2 placeholder={"Amount in ETB"} />
-                </td>
-                <td
-                  ref={(element) => itemEls.current.push(element)}
-                  onClick={(e) => onDClick(e, index)}
-                  className={payments.paymentType.paymentName + " pr-2"}
-                >
-                  <Textbox2 placeholder={"Amount in ETB"} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              <tbody className="last-element">
+                {/* PAYMENT TYPES  */}
+                {/* SUB PERIOD SELECTED AND MAJOR-DIVISION SELECTED */}
+                {payments.paymentType.selectedDivisionType === "division" ? (
+                  payments.paymentType.divisions.map((division) => (
+                    <>
+                      <tr>
+                        <td>
+                          <div>
+                            <RowHeader label={division.divisionName} />
+                          </div>
+                          {/* <br /> */}
+                        </td>
+                        {/* INPUT CONTROL FOR GENDER DISCOUNTS */}
+                      </tr>
+                    </>
+                  ))
+                ) : // {/* SUB PERIOD SELECTED AND SUB-DIVISION SELECTED */}
+                // HERE WE CARE ABOUT SELECTION OF  SHIFTS
+                // CASE 1- WHEN SHIFTS ARE NOT SELECTED
+                !payments.paymentBase.standardShiftsCheckbox ? (
+                  payments.paymentType.divisions.map((division) =>
+                    division.educationalSubDivision.map((subDivision) => (
+                      <>
+                        <tr>
+                          <td>
+                            <div className="mb-p5">
+                              <RowHeader label={subDivision.subDivisionName} />
+                            </div>
+                          </td>
+                          {/* TAKE PAYMENT AMOUNT VALUES BASED ON SUB-PERIODS-AND SUB-DIVISIONS (which is a common scenario) */}
+                          {payments.paymentType.selectedPeriodType ===
+                          "subPeirod"
+                            ? payments.paymentType.periods.map((period) =>
+                                period.subPeriods.map((subPeriod) => (
+                                  <>
+                                    <td
+                                      ref={(element) =>
+                                        itemEls.current.push(element)
+                                      }
+                                      onClick={(e) => onAClick(e, index)}
+                                    >
+                                      <TableTextbox placeholder={"ETB"} />
+                                    </td>
+                                  </>
+                                ))
+                              )
+                            : payments.paymentType.periods.map((period) => (
+                                <>
+                                  <td
+                                    ref={(element) =>
+                                      itemEls.current.push(element)
+                                    }
+                                    onClick={(e) => onAClick(e, index)}
+                                  >
+                                    <TableTextbox placeholder={"ETB"} />
+                                  </td>
+                                </>
+                              ))}
+                        </tr>
+                      </>
+                    ))
+                  )
+                ) : (
+                  // CASE 2- WHEN SHIFTS ARE SELECTED
+                  <>
+                    {console.log("when shifts are selected")}
+                    {console.log(payments.paymentType)}
+                    {payments.paymentType.divisions.map((division) =>
+                      division.educationalSubDivision.map((subDivision) => (
+                        <>
+                          <tr>
+                            <td>
+                              <div className="mb-p5">
+                                <RowHeader
+                                  label={subDivision.subDivisionName}
+                                />
+                              </div>
+                            </td>
+                            {/* TAKE PAYMENT AMOUNT VALUES BASED ON SUB-PERIODS-AND SUB-DIVISIONS (which is a common scenario) */}
+                            {payments.paymentType.selectedPeriodType ===
+                            "subPeirod"
+                              ? payments.paymentType.periods.map((period) =>
+                                  period.subPeriods.map((subPeriod) =>
+                                    subPeriod.shifts.map((subPeriod) => (
+                                      <>
+                                        {console.log("so the period are")}
+                                        {/* {console.log(period)} */}
+                                        <td
+                                          ref={(element) =>
+                                            itemEls.current.push(element)
+                                          }
+                                          onClick={(e) => onAClick(e, index)}
+                                        >
+                                          <TableTextbox placeholder={"ETB"} />
+                                        </td>
+                                      </>
+                                    ))
+                                  )
+                                )
+                              : // if period is selected
+                                payments.paymentType.periods.map((period) =>
+                                  period.shifts.map((shift) => (
+                                    <>
+                                      <td
+                                        ref={(element) =>
+                                          itemEls.current.push(element)
+                                        }
+                                        onClick={(e) => onAClick(e, index)}
+                                      >
+                                        <TableTextbox placeholder={"ETB"} />
+                                      </td>
+                                    </>
+                                  ))
+                                )}
+                          </tr>
+                        </>
+                      ))
+                    )}
+                  </>
+                )}
+              </tbody>
+              <br />
+            </table>
+          </>
+        ))}
       </section>
     </div>
   );

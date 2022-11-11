@@ -35,7 +35,7 @@ const HeaderControls = ({
        
             <>
               <span>
-                &nbsp; <p>Course Type</p>
+                &nbsp; <p>Course Based</p>
               </span>
             </>
           </label>
@@ -49,12 +49,12 @@ const HeaderControls = ({
             >
               <HideOrshow
                 toogleValue={
-                  paymentState[index].paymentBase.courseBasedPayment.visible
+                  paymentState[index].paymentBase.courseBasedPayment.topVisibility
                 }
               />
               &nbsp;
               <label className="mt-p4">
-                {paymentState[index].paymentBase.courseBasedPayment.visible
+                {paymentState[index].paymentBase.courseBasedPayment.topVisibility
                   ? "Hide"
                   : "Show"}
               </label>

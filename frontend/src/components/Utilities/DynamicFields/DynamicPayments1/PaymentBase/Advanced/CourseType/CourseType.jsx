@@ -35,7 +35,6 @@ const CourseType = ({
           index={index}
         />
         {/* HEADER CONTROLS END HERE */}
-
         <CourseDetails
           index={index}
           handleAdvancePaymentBaseCourseNameValues={
@@ -51,7 +50,6 @@ const CourseType = ({
           }
           handleNothing={handleNothing}
         />
-
         {/* COURSE DETAILS END HERE */}
         <ApplyPreviousCouseRules
           index={index}

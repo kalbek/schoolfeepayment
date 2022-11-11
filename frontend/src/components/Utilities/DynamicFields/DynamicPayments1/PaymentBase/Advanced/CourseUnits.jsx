@@ -4,7 +4,6 @@ const CourseUnits = ({
   handleAdvancedPaymentBaseCourseUnitsTypeRadioSelection,
   index,
 }) => {
-  const periodState = useSelector((state) => state.periods.topLevelPeriod);
   const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <>

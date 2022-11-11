@@ -34,9 +34,14 @@ import {
   updatePayementBaseHideOrShow,
   updatePayementDiscountHideOrShow,
 } from "../../../../features/paymentBase/paymentBaseSlice";
+import { useEffect } from "react";
 const Payments1Actions = ({}) => {
   const dispatch = useDispatch();
   const paymentState = useSelector((state) => state.payments.paymentState);
+  const educationalDivisionState = useSelector(
+    (state) => state.educationalDivisions.educationalDivision
+  );
+  const periodState = useSelector((state) => state.periods.topLevelPeriod);
 
   // const formDataPayments = [...formData.schoolPayments];
   const handleAddPayments = () => {
@@ -45,10 +50,21 @@ const Payments1Actions = ({}) => {
         Id: paymentState.length,
         paymentType: {
           isCustomPaymentType: false,
-          paymentName: "Tuiton Fee",
+          paymentName: "Registration Fee",
           customPaymentName: "",
-          paymentAmount: 0,
+          selectedPeriodType: "standard",
+          selectedDivisionType: "subDivision",
+          paymentAmount: {
+            paymentAmountId: 0,
+            hasDiscountRules: false,
+            amount: "",
+            grossAmount: "",
+          },
           discountUnits: "amount" + paymentState.length,
+          periods: [],
+          subPeirods: [],
+          divisions: [],
+          subDivisions: [],
         },
         paymentBase: {
           value: true,
@@ -69,9 +85,27 @@ const Payments1Actions = ({}) => {
           advancedShiftsCheckbox: false,
           periods: [],
           courses: [],
+          standardPaymentBase: {
+            value: true,
+            visible: true,
+            divisions: [],
+            courses: [],
+            periods: [],
+            shifts: [],
+          },
+          advancedPaymentBase: {
+            value: true,
+            visible: true,
+            divisions: [],
+            courses: [],
+            periods: [],
+            shifts: [],
+            courseBasedPayment: {},
+          },
           courseBasedPayment: {
             value: false,
             visible: true,
+            topVisibility: true,
             previousCourseRulesApplied: false,
             basedOnDivision: true,
             basedOnSubDivision: true,
@@ -198,6 +232,12 @@ const Payments1Actions = ({}) => {
         isCustomPaymentType: value === "Custom Fees",
         paymentId: index,
         paymentName: value,
+        paymentAmount: {
+          paymentAmountId: 0,
+          hasDiscountRules: false,
+          amount: "",
+          grossAmount: "",
+        },
       })
     );
   };
@@ -208,6 +248,12 @@ const Payments1Actions = ({}) => {
       updateCustomPaymentType({
         paymentId: index,
         paymentName: value,
+        paymentAmount: {
+          paymentAmountId: 0,
+          hasDiscountRules: false,
+          amount: "",
+          grossAmount: "",
+        },
       })
     );
   };
@@ -305,6 +351,7 @@ const Payments1Actions = ({}) => {
       }
     });
   };
+
   const handleAddCustomPaymentBasis = (index) => {
     paymentState.map((payment) => {
       if (payment.Id === index) {
@@ -342,6 +389,8 @@ const Payments1Actions = ({}) => {
           updatePaymentBaseTypeSelection({
             paymentId: index,
             paymentBaseType: id,
+            periods: periodState,
+            divisions: educationalDivisionState,
           })
         );
       }

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 const AnnualPeriod = ({
   handleAdvancedPaymentBaseAnnualPeriodCheckboxSelection,
   handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection,
+  handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection,
   index,
 }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
@@ -10,7 +11,32 @@ const AnnualPeriod = ({
     <div className="field-subgroup-container">
       <section className="flex-c flex-start">
         <div>
-          <label className="flex" htmlFor={"advancedAnnualBase" + index}>
+          <label className="flex  -mb-1">
+            <input
+              type="checkbox"
+              name="periodPaymentBase"
+              id={"advancedDivisionBase" + index}
+              tabIndex={9}
+              value={
+                paymentState[index].paymentBase
+                  .advancedEducationalDivisionCheckbox
+              }
+              checked={
+                paymentState[index].paymentBase
+                  .advancedEducationalDivisionCheckbox
+              }
+              onChange={(event) =>
+                handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection(
+                  event,
+                  index
+                )
+              }
+            />
+            <span>
+              &nbsp; <p>Division Based</p>
+            </span>
+          </label>
+          <label className="-ml-p3 flex" htmlFor={"advancedAnnualBase" + index}>
             <input
               type="checkbox"
               name="periodPaymentBase"
@@ -31,17 +57,18 @@ const AnnualPeriod = ({
             />
             <>
               <span>
-                &nbsp; <p>Annual Period</p> 
+                &nbsp; <p>Annual Period</p>
               </span>
             </>
           </label>
+
           <></>
         </div>
         {/* TOP LEVEL PERIOD */}
         <div>
           {/* {periodState[index].value && ( */}
           {periodState[0].value && (
-            <div className="flex-cs -mt-1">
+            <div className="flex-cs ml-1  -mt-1p1">
               <label
                 className={
                   !paymentState[index].paymentBase.advancedAnnualPeriodCheckbox
@@ -84,10 +111,10 @@ const AnnualPeriod = ({
             </div>
           )}
           {/* TOP LEVEL SUBPERIOD */}
-          <div className="flex-cs -mt-1">
+          <div className="flex-cs  -mt-1p3">
             {/* TOP LEVEL PERIOD */}
             <label
-              className="checkbox-items flex flex-cs"
+              className="checkbox-items ml-1   flex flex-cs"
               // htmlFor={"advanced" + index}
             >
               <input

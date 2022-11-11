@@ -7,10 +7,22 @@ const initialState = {
       Id: 0,
       paymentType: {
         isCustomPaymentType: false,
-        paymentName: "Tuition Fee",
+        paymentName: "Registration Fee",
         customPaymentName: "",
-        paymentAmount: 0,
+        selectedPeriodType: "standard",
+        selectedDivisionType: "subDivision",
+        paymentAmount: {
+          paymentAmountId: 0,
+          hasDiscountRules: false,
+          amount: "",
+          grossAmount: "",
+        },
         discountUnits: "amount0",
+        // newly added
+        periods: [],
+        subPeirods: [],
+        divisions: [],
+        subDivisions: [],
       },
 
       // PAYMENT BASES OR BASES IN WICH EACH PAYMENT DEPENDS ON !!
@@ -33,8 +45,28 @@ const initialState = {
         advancedShiftsCheckbox: false,
         periods: [],
         courses: [],
+        standardPaymentBase: {
+          value: true,
+          visible: true,
+          divisions: [],
+          courses: [],
+          periods: [],
+          shifts: [],
+          // newly added
+          payments: [],
+        },
+        advancedPaymentBase: {
+          value: true,
+          visible: true,
+          divisions: [],
+          courses: [],
+          periods: [],
+          shifts: [],
+          courseBasedPayment: {},
+        },
         courseBasedPayment: {
           value: false,
+          topVisibility: true,
           visible: true,
           previousCourseRulesApplied: false,
           basedOnDivision: true,
@@ -156,6 +188,71 @@ export const paymentSlice = createSlice({
       state.paymentState.push(action.payload);
     },
 
+    // update payment types
+    updatePaymentTypesForPaymentBase: (state, action) => {
+      state.paymentState.map((payments) => {
+        const paymentIndex = action.payload.paymentIndex;
+        const periods = action.payload.periods;
+        const divisions = action.payload.divisions;
+        const stdPaymentBaseType = action.payload.paymentBaseType === "s";
+        const advPaymentBaseType = action.payload.paymentBaseType === "a";
+        const standardAnnualPeriodCheckbox =
+          action.payload.standardAnnualPeriodCheckbox;
+        const standardEducationalDivisionCheckbox =
+          action.payload.standardEducationalDivisionCheckbox;
+        const standardAnnualPeriodType =
+          action.payload.standardAnnualPeriodType;
+        const subPeiriodSelected =
+          action.payload.standardAnnualPeriodType.charAt(0) === "s";
+        const periodSelected =
+          action.payload.standardAnnualPeriodType.charAt(0) === "p";
+        const divisionSelected =
+          action.payload.standardEducationalDivisionType.charAt(0) === "d";
+        const subDivisionSelected =
+          action.payload.standardEducationalDivisionType.charAt(0) === "s";
+        const standardShiftsCheckbox = action.payload.standardShiftsCheckbox;
+        // payments.paymentType.periods;
+        // payments.paymentType.paymentAmount;
+        // payments.paymentType.divisions;
+
+        if (payments.Id === paymentIndex && stdPaymentBaseType) {
+          payments.paymentType.selectedPeriodType = subPeiriodSelected
+            ? "subPeirod"
+            : "period";
+          payments.paymentType.selectedDivisionType = divisionSelected
+            ? "division"
+            : "subDivision";
+          payments.paymentType.divisions = divisions;
+
+          // case 1 Both Annual Periods & Divisions are selected
+          if (
+            standardAnnualPeriodCheckbox &&
+            standardEducationalDivisionCheckbox
+          ) {
+            // combination 1 subPeirod with subDivision (semester with grade)
+            if (subPeiriodSelected && subDivisionSelected) {
+              payments.paymentType.periods = periods;
+            }
+            // combination 2 Peirod with Division (quarter with stage)
+            if (periodSelected && divisionSelected) {
+            }
+            // combination 3 subPeirod with subDivision (semester with stage)
+            if (subPeiriodSelected && divisionSelected) {
+            }
+            // combination 4 Peirod with subDivision (quarter with grade)
+            if (periodSelected && subDivisionSelected) {
+            }
+          }
+          // case 2 Annual Period selected & Divisions not selected
+          else if (
+            standardAnnualPeriodCheckbox &&
+            !standardEducationalDivisionCheckbox
+          ) {
+          }
+        }
+      });
+    },
+
     deletePayments: (state, action) => {
       state.paymentState = state.paymentState.filter(
         (payment) => payment.Id !== action.payload.paymentId
@@ -188,9 +285,9 @@ export const paymentSlice = createSlice({
         }
       });
     },
+
     // END OF PAYMENTS ACTIONS IN GENERAL
     // ACTIONS FOR PAYMENT TYPE
-
     updatePaymentType: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
@@ -392,13 +489,36 @@ export const paymentSlice = createSlice({
         state.paymentState[
           action.payload.paymentId
         ].paymentBase.courseBasedPayment.divisions.splice(0);
+        state.paymentState[
+          action.payload.paymentId
+        ].paymentBase.courseBasedPayment.courses.splice(0);
+        state.paymentState[
+          action.payload.paymentId
+        ].paymentBase.courseBasedPayment.periods.splice(0);
         // then apply previous course rules
+        // apply for divisions
         state.paymentState[
           action.payload.paymentId - 1
         ].paymentBase.courseBasedPayment.divisions.map((divisions) => {
           state.paymentState[
             action.payload.paymentId
           ].paymentBase.courseBasedPayment.divisions.push(divisions);
+        });
+        // applyl for courses
+        state.paymentState[
+          action.payload.paymentId - 1
+        ].paymentBase.courseBasedPayment.courses.map((course) => {
+          state.paymentState[
+            action.payload.paymentId
+          ].paymentBase.courseBasedPayment.courses.push(course);
+        });
+        // apply for periods
+        state.paymentState[
+          action.payload.paymentId - 1
+        ].paymentBase.courseBasedPayment.periods.map((period) => {
+          state.paymentState[
+            action.payload.paymentId
+          ].paymentBase.courseBasedPayment.periods.push(period);
         });
       } else {
         // clear courses
@@ -446,7 +566,9 @@ export const paymentSlice = createSlice({
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.paymentBase.courseBasedPayment.visible =
             action.payload.value;
-          if (!paymentState.paymentBase.courseBasedPayment.visible) {
+          paymentState.paymentBase.courseBasedPayment.topVisibility =
+            action.payload.topVisibility;
+          if (!paymentState.paymentBase.courseBasedPayment.value) {
             paymentState.paymentBase.courseBasedPayment.courses.splice(0);
             paymentState.paymentBase.courseBasedPayment.periods.splice(0);
             paymentState.paymentBase.courseBasedPayment.divisions.splice(0);
@@ -455,6 +577,7 @@ export const paymentSlice = createSlice({
       });
     },
 
+    // Removing of previous payment base course handlings starts here
     addCoursesToPaymentBases: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.paymentBase.courseBasedPayment.value) {
@@ -467,16 +590,794 @@ export const paymentSlice = createSlice({
           // push single course inside each divisions
           paymentState.paymentBase.courseBasedPayment.divisions.map(
             (division) => {
-              division.map((division) => {
-                division.educationalSubDivision.map((subDivision) => {
+              if (division.courses.length === 0) {
+                division.courses.push(action.payload.courses);
+              }
+              // and to sub-divisins
+              division.educationalSubDivision.map((subDivision) => {
+                if (subDivision.courses.length === 0) {
                   subDivision.courses.push(action.payload.courses);
-                });
+                }
+              });
+            }
+          );
+        } else {
+          paymentState.paymentBase.courseBasedPayment.divisions.map(
+            (division) => {
+              division.courses.splice(0);
+              division.educationalSubDivision.map((subDivision) => {
+                subDivision.courses.splice(0);
               });
             }
           );
         }
       });
     },
+    // removing ends here
+    // handling courses for Annual Peirod based and not division based payment types
+    createMajorAnnualPeriodNotDivisionCourseAndCrhr: (state, action) => {
+      // renaming payloads values
+      const paymentIndex = action.payload.paymentIndex;
+      const periodIndex = action.payload.periodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+
+      // handling creations for major annual period based payments
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const periods = paymentState.paymentBase.courseBasedPayment.periods;
+          periods.map((period) => {
+            if (period.id === periodIndex) {
+              period.shifts.map((shift) => {
+                if (shift.Id - 1 === shiftIndex) {
+                  shift.courses.push(action.payload.course);
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+    // handling deletions for major annual period based payments
+    deleteMajorAnnualPeriodNotDivisionCourseAndCrhr: (state, action) => {
+      // renaming payloads values
+      const paymentIndex = action.payload.paymentIndex;
+      const periodIndex = action.payload.paymentIndex;
+      const shiftIndex = action.payload.paymentIndex;
+      const courseIndex = action.payload.courseIndex;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const periods = paymentState.paymentBase.courseBasedPayment.periods;
+          periods.map((period) => {
+            if (period.id === periodIndex) {
+              period.shifts.map((shift) => {
+                if (shift.Id - 1 === shiftIndex) {
+                  shift.courses = shift.courses.filter(
+                    (v) => v.Id !== courseIndex
+                  );
+                }
+              });
+            }
+          });
+        }
+      });
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const periods = paymentState.paymentBase.courseBasedPayment.periods;
+          periods.map((period) => {
+            if (period.id === periodIndex) {
+              period.shifts.map((shift) => {
+                if (shift.Id - 1 === shiftIndex) {
+                  shift.courses.map((course) => {
+                    if (course.Id > courseIndex) {
+                      course.Id -= 1;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    updateMajorAnnualPeriodNotDivisionCourse: (state, action) => {
+      const name = action.payload.name;
+      const value = action.payload.value;
+      const paymentIndex = action.payload.index;
+      const periodIndex = action.payload.periodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+      const courseIndex = action.payload.courseIndex;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const periods = paymentState.paymentBase.courseBasedPayment.periods;
+          periods.map((period) => {
+            if (period.id === periodIndex) {
+              period.shifts.map((shift) => {
+                if (shift.Id - 1 === shiftIndex) {
+                  shift.courses.map((course) => {
+                    if (course.Id === courseIndex) {
+                      if (name === "course") {
+                        course.courseName = value;
+                      } else if (name === "crhr") course.creditHours = value;
+                      else if (name === "ctchr") course.contactHours = value;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+    updateShowHideCoursesForMajorAnnualPeriodAndNotDivisions: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.paymentIndex;
+      const periodIndex = action.payload.periodIndex;
+      const visible = action.payload.visible;
+
+      // toogling visibility value for payments
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const periods = paymentState.paymentBase.courseBasedPayment.periods;
+          periods.map((period) => {
+            if (period.id === periodIndex) {
+              period.visible = visible;
+            }
+          });
+        }
+      });
+    },
+
+    // FOR SUB-ANNUAL PERIODS
+    // handling courses for Annual Peirod based and not division based payment types
+    createSubAnnualPeriodNotDivisionCourseAndCrhr: (state, action) => {
+      // renaming payloads values
+      const paymentIndex = action.payload.index;
+      const periodIndex = action.payload.subIndex;
+      const subPeriodIndex = action.payload.subSubIndex;
+      const shiftIndex = action.payload.subSubSubIndex;
+      const course = action.payload.course;
+
+      // handling creations for major annual period based payments
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const periods = paymentState.paymentBase.courseBasedPayment.periods;
+          periods.map((period) => {
+            if (period.id === periodIndex) {
+              period.subPeriods.map((subPeriod) => {
+                if (subPeriod.id === subPeriodIndex) {
+                  subPeriod.shifts.map((shift) => {
+                    if (shift.Id - 1 === shiftIndex) {
+                      shift.courses.push(course);
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    // handling deletions for sub-annual periods
+    deleteSubAnnualPeriodNotDivisionCourseAndCrhr: (state, action) => {
+      // renaming payloads values
+      const paymentIndex = action.payload.index;
+      const periodIndex = action.payload.subIndex;
+      const subPeriodIndex = action.payload.subSubIndex;
+      const shiftIndex = action.payload.subSubSubIndex;
+      const courseIndex = action.payload.subSubSubSubIndex;
+
+      // handling creations for major annual period based payments
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const periods = paymentState.paymentBase.courseBasedPayment.periods;
+          periods.map((period) => {
+            if (period.id === periodIndex) {
+              period.subPeriods.map((subPeriod) => {
+                if (subPeriod.id === subPeriodIndex) {
+                  subPeriod.shifts.map((shift) => {
+                    if (shift.Id - 1 === shiftIndex) {
+                      shift.courses = shift.courses.filter(
+                        (v) => v.Id !== courseIndex
+                      );
+                      //  updating id's for courses after deletion
+                      shift.courses.map((course) => {
+                        if (course.Id > courseIndex) {
+                          course.Id -= 1;
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+    // toogling visibility value for subperiodpayments
+    updateShowHideCoursesForSubAnnualPeriodAndNotDivisions: (state, action) => {
+      const paymentIndex = action.payload.paymentIndex;
+      const periodIndex = action.payload.periodIndex;
+      const subPeriodIndex = action.payload.subPeriodIndex;
+      const visible = action.payload.visible;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const periods = paymentState.paymentBase.courseBasedPayment.periods;
+          periods.map((period) => {
+            if (period.id === periodIndex) {
+              period.subPeriods.map((subPeriod) => {
+                if (subPeriod.id === subPeriodIndex) {
+                  subPeriod.visible = visible;
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    // create new course for division based not sub-annual period based payments
+    createNewCourseForSubDivisionBasedNotAnnualPeriodBasedPayments: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const courses = action.payload.courses;
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  subDivision.courses.push(courses);
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    //  delete subPeriodsCourses from division based & not annual period based payment bases
+    deleteRemoveCoursesForDivisonButNotAnnualPeriodBasedPayments: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const courseIndex = action.payload.courseIndex;
+      console.log(current(state).paymentState);
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  subDivision.courses = subDivision.courses.filter(
+                    (course) => course.Id !== courseIndex
+                  );
+                  subDivision.courses.map((course) => {
+                    if (course.Id > courseIndex) {
+                      course.Id -= 1;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    // update courses for division based & not annual period based payment bases
+    updateSubDivsionBasedNnotPeriodBasedValues: (state, action) => {
+      const name = action.payload.name;
+      const value = action.payload.value;
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const courseIndex = action.payload.courseIndex;
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  subDivision.courses.map((course) => {
+                    if (course.Id === courseIndex) {
+                      if (name === "courseName") {
+                        course.courseName = value;
+                      } else if (name === "CrHr") {
+                        course.creditHours = value;
+                      } else if (name === "ContactHr") {
+                        course.contactHours = value;
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    // updateShowHideCoursesForSubDivisionNotAnnualPeriod
+    updateShowHideCoursesForSubDivisionNotAnnualPeriod: (state, action) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const visible = action.payload.visible;
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  subDivision.visible = visible;
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    createCoursesForMajorAnnualPeriodAndMajorAndSubDivisionPayments: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const periodIndex = action.payload.periodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+      const course = action.payload.course;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  period.shifts.map((shift) => {
+                    if (shift.Id - 1 === shiftIndex) {
+                      shift.courses.push(course);
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+    deleteCoursesForMajorAnnualPeriodAndMajorAndSubDivisionPayments: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const periodIndex = action.payload.periodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+      const courseIndex = action.payload.courseIndex;
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  period.shifts.map((shift) => {
+                    if (shift.Id - 1 === shiftIndex) {
+                      shift.courses = shift.courses.filter(
+                        (course) => course.Id != courseIndex
+                      );
+                      shift.courses.map((course) => {
+                        if (course.Id > courseIndex) {
+                          course.Id -= 1;
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+    // handle values for major annual period and major division & subdivision based payemnt bases
+
+    updateCoursesForMajorAnnualPeriodAndMajorAndSubDivisionPayments: (
+      state,
+      action
+    ) => {
+      const name = action.payload.name;
+      const value = action.payload.value;
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const periodIndex = action.payload.periodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+      const courseIndex = action.payload.courseIndex;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  period.shifts.map((shift) => {
+                    if (shift.Id - 1 === shiftIndex) {
+                      shift.courses.map((course) => {
+                        if (course.Id === courseIndex) {
+                          if (name === "courseName") {
+                            course.courseName = value;
+                          }
+                          if (name === "CrHr") {
+                            course.creditHours = value;
+                          }
+                          if (name === "ContactHr") {
+                            course.contactHours = value;
+                          }
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    // update hide or show
+    updatehideShowCoursesForMajorAnnualPeriodAndMajorDivisionPayments: (
+      state,
+      action
+    ) => {
+      const value = action.payload.value;
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const periodIndex = action.payload.periodIndex;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  period.visible = value;
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+    // FOR MAJOR ANNUAL PERIOD AND SUB-PERIODS
+
+    updateValueForSubAnnualPeriodAndMajorDivisonPaymentBase: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const periodIndex = action.payload.periodIndex;
+      const subPeriodIndex = action.payload.subPeriodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+      const courseIndex = action.payload.courseIndex;
+      const name = action.payload.name;
+      const value = action.payload.value;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  period.subPeriods.map((subPeriod) => {
+                    if (subPeriod.id === subPeriodIndex) {
+                      subPeriod.shifts.map((shift) => {
+                        if (shift.Id - 1 === shiftIndex) {
+                          shift.courses.map((course) => {
+                            if (course.Id === courseIndex) {
+                              if (name === "courseName") {
+                                course.courseName = value;
+                              }
+                              if (name === "CrHr") {
+                                course.creditHours = value;
+                              }
+                              if (name === "ContactHr") {
+                                course.contactHours = value;
+                              }
+                            }
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    //  create sub annual period based both major and sub-division based payments
+    createCoursesForSubAnnualPeriodAndMajorAndSubDivisionPayments: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const periodIndex = action.payload.periodIndex;
+      const subPeriodIndex = action.payload.subPeriodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+      const course = action.payload.course;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  period.subPeriods.map((subPeriod) => {
+                    if (subPeriod.id === subPeriodIndex) {
+                      subPeriod.shifts.map((shift) => {
+                        if (shift.Id - 1 === shiftIndex) {
+                          shift.courses.push(course);
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    // delete sub annual period based both major and sub-division based payments
+    deleteCoursesForSubAnnualPeriodAndMajorAndSubDivisionPayments: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const periodIndex = action.payload.periodIndex;
+      const subPeriodIndex = action.payload.subPeriodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+      const courseIndex = action.payload.courseIndex;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  period.subPeriods.map((subPeriod) => {
+                    if (subPeriod.id === subPeriodIndex) {
+                      subPeriod.shifts.map((shift) => {
+                        if (shift.Id - 1 === shiftIndex) {
+                          shift.courses = shift.courses.filter(
+                            (course) => course.Id !== courseIndex
+                          );
+                          shift.courses.map((course) => {
+                            if (course.Id > courseIndex) {
+                              course.Id -= 1;
+                            }
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    updateHideShowCoursesForSubAnnualPeriodAndMajorDivisionPayments: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const subDivisionIndex = action.payload.subDivisionIndex;
+      const periodIndex = action.payload.periodIndex;
+      const subPeriodIndex = action.payload.subPeriodIndex;
+      const visible = action.payload.value;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              divisions.educationalSubDivision.map((subDivision) => {
+                if (subDivision.id === subDivisionIndex) {
+                  period.subPeriods.map((subPeriod) => {
+                    if (subPeriod.id === subPeriodIndex) {
+                      subPeriod.visible = visible;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+
+    // for major annual-divisions and not sub-divisions
+    updateValueForMajorPeriodMajorDivisionNotSubDivisionCourses: (
+      state,
+      action
+    ) => {
+      const paymentIndex = action.payload.index;
+      const divisionIndex = action.payload.divisionIndex;
+      const periodIndex = action.payload.periodIndex;
+      const shiftIndex = action.payload.shiftIndex;
+      const courseIndex = action.payload.courseIndex;
+      const name = action.payload.name;
+      const value = action.payload.value;
+      console.log("value is " + value);
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentIndex) {
+          const division =
+            paymentState.paymentBase.courseBasedPayment.divisions;
+          const period =
+            paymentState.paymentBase.courseBasedPayment.periods[periodIndex];
+          division.map((divisions) => {
+            if (divisions.id === divisionIndex) {
+              period.shifts.map((shift) => {
+                if (shift.Id - 1 === shiftIndex) {
+                  shift.courses.map((course) => {
+                    if (course.Id === courseIndex) {
+                      if (name === "courseName") {
+                        console.log("are you here");
+                        course.courseName += value;
+                        console.log(current(course).courseName);
+                      }
+                      if (name === "CrHr") {
+                        course.creditHours = value;
+                      }
+                      if (name === "ContactHr") {
+                        course.contactHours = value;
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    },
+    // for course only based payments
+
+    updateCourseOnlyBasedPaymentsValues: (state, action) => {
+      const paymentId = action.payload.index;
+      const courseIndex = action.payload.courseIndex;
+      const value = action.payload.value;
+      const name = action.payload.name;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentId) {
+          paymentState.paymentBase.courseBasedPayment.courses.map((course) => {
+            if (course.Id === courseIndex) {
+              if (name === "courseName") {
+                course.courseName = value;
+              }
+              if (name === "creditHour") {
+                course.creditHours = value;
+              }
+              if (name === "ContactHr") {
+                course.contactHours = value;
+              }
+            }
+          });
+        }
+      });
+    },
+    createCoursesToCourseOnlyBasedPaymentBases: (state, action) => {
+      const paymentId = action.payload.index;
+      const course = action.payload.courses;
+
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentId) {
+          paymentState.paymentBase.courseBasedPayment.courses.push(course);
+        }
+      });
+    },
+    updateShowHideCoursesForCourseOnlyBasedBases: (state, action) => {
+      const paymentId = action.payload.index;
+      const visible = action.payload.visible;
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentId) {
+          paymentState.paymentBase.courseBasedPayment.visible = visible;
+        }
+      });
+    },
+    deleteCoursesToCourseOnlyBasedPaymentBases: (state, action) => {
+      const paymentId = action.payload.index;
+      const courseIndex = action.payload.courseIndex;
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === paymentId) {
+          paymentState.paymentBase.courseBasedPayment.courses =
+            paymentState.paymentBase.courseBasedPayment.courses.filter(
+              (course) => course.Id !== courseIndex
+            );
+          paymentState.paymentBase.courseBasedPayment.courses.map((course) => {
+            if (course.Id > courseIndex) {
+              course.Id -= 1;
+            }
+          });
+        }
+      });
+    },
+    //  =========================================================
 
     updatePeriodsForCourseBasedPayments: (state, action) => {
       state.paymentState.map((paymentState) => {
@@ -484,9 +1385,11 @@ export const paymentSlice = createSlice({
           if (
             paymentState.paymentBase.courseBasedPayment.periods.length === 0
           ) {
-            paymentState.paymentBase.courseBasedPayment.periods.push(
-              action.payload.periods
-            );
+            paymentState.paymentBase.courseBasedPayment.periods =
+              action.payload.periods;
+          }
+          if (paymentState.standardPaymentBase.periods.length === 0) {
+            paymentState.standardPaymentBase.periods = action.payload.periods;
           }
           if (!paymentState.paymentBase.courseBasedPayment.value) {
             paymentState.paymentBase.courseBasedPayment.periods.splice(0);
@@ -501,12 +1404,15 @@ export const paymentSlice = createSlice({
           if (
             paymentState.paymentBase.courseBasedPayment.divisions.length === 0
           ) {
-            paymentState.paymentBase.courseBasedPayment.divisions.push(
-              action.payload.divisions
-            );
+            paymentState.paymentBase.courseBasedPayment.divisions =
+              action.payload.divisions;
           }
           if (!paymentState.paymentBase.courseBasedPayment.value) {
             paymentState.paymentBase.courseBasedPayment.divisions.splice(0);
+          }
+
+          if (paymentState.standardPaymentBase.periods.length === 0) {
+            paymentState.standardPaymentBase.periods = action.payload.periods;
           }
         }
       });
@@ -518,23 +1424,21 @@ export const paymentSlice = createSlice({
         // if courses checkbox is checked
         if (paymentState.paymentBase.courseBasedPayment.value) {
           paymentState.paymentBase.courseBasedPayment.divisions.map(
-            (topDivision) => {
-              topDivision.map((division) => {
-                // if no shifts are already in divisins push shifts to payment state
-                if (division.shifts.length === 0) {
-                  action.payload.shift.map((shifts) => {
-                    division.shifts.push(shifts);
-                  });
-                  // also push shifts to subDivisions
-                  division.educationalSubDivision.map((subDiv) => {
-                    if (subDiv.shifts.length === 0) {
-                      action.payload.shift.map((shifts) => {
-                        subDiv.shifts.push(shifts);
-                      });
-                    }
-                  });
-                }
-              });
+            (division) => {
+              // if no shifts are already in divisins push shifts to payment state
+              if (division.shifts.length === 0) {
+                action.payload.shift.map((shifts) => {
+                  division.shifts.push(shifts);
+                });
+                // also push shifts to subDivisions
+                division.educationalSubDivision.map((subDiv) => {
+                  if (subDiv.shifts.length === 0) {
+                    action.payload.shift.map((shifts) => {
+                      subDiv.shifts.push(shifts);
+                    });
+                  }
+                });
+              }
             }
           );
         } else {
@@ -558,7 +1462,7 @@ export const paymentSlice = createSlice({
         }
       });
     },
-
+    // the dispatched by course type checkbox
     updateAdvancedPaymentBaseCourseTypeCheckboxSelection: (state, action) => {
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
@@ -571,6 +1475,7 @@ export const paymentSlice = createSlice({
             paymentState.paymentBase.courseBasedPayment.visible = true;
           } else {
             paymentState.paymentBase.courseBasedPayment.visible = false;
+            paymentState.paymentBase.courseBasedPayment.courses.splice(0);
           }
           // if checkbox is turned on add divisions to courseBasedPayment
         }
@@ -1546,6 +2451,70 @@ export const paymentSlice = createSlice({
           paymentState.paymentBase.paymentBaseType =
             action.payload.paymentBaseType;
         }
+        // check if standard payment base is selected and push periods and divisions to payment base
+        if (
+          paymentState.paymentBase.paymentBaseType ===
+          "standard" + action.payload.paymentId
+        ) {
+          // update divisions and periods for standard payment base of that particular payment type
+          if (
+            paymentState.paymentBase.standardPaymentBase.divisions.length === 0
+          )
+            paymentState.paymentBase.standardPaymentBase.divisions =
+              action.payload.divisions;
+          if (paymentState.paymentBase.standardPaymentBase.periods.length === 0)
+            paymentState.paymentBase.standardPaymentBase.periods =
+              action.payload.periods;
+          // console.log("standard pb updated: ");
+          // console.log(
+          //   current(paymentState).paymentBase.standardPaymentBase.periods
+          // );
+          // console.log(
+          //   current(paymentState).paymentBase.standardPaymentBase.divisions
+          // );
+
+          // clear divisions and periods from advanced payment base of that particular payment type
+          paymentState.paymentBase.advancedPaymentBase.divisions.splice(0);
+          paymentState.paymentBase.advancedPaymentBase.periods.splice(0);
+          // console.log("after splicing  advanced");
+          // console.log(
+          //   current(paymentState).paymentBase.advancedPaymentBase.periods
+          // );
+          // console.log(
+          //   current(paymentState).paymentBase.advancedPaymentBase.divisions
+          // );
+        } else if (
+          paymentState.paymentBase.paymentBaseType ===
+          "advanced" + action.payload.paymentId
+        ) {
+          // update divisions and periods for standard payment base of that particular payment type
+          if (
+            paymentState.paymentBase.advancedPaymentBase.divisions.length === 0
+          )
+            paymentState.paymentBase.advancedPaymentBase.divisions =
+              action.payload.divisions;
+          if (paymentState.paymentBase.advancedPaymentBase.periods.length === 0)
+            paymentState.paymentBase.advancedPaymentBase.periods =
+              action.payload.periods;
+          // console.log("advanced pb updated: ");
+          // console.log(
+          //   current(paymentState).paymentBase.advancedPaymentBase.periods
+          // );
+          // console.log(
+          //   current(paymentState).paymentBase.advancedPaymentBase.divisions
+          // );
+          // clear divisions and periods from advanced payment base of that particular payment type
+          // console.log("after splicing advanced pb updated: ");
+          paymentState.paymentBase.standardPaymentBase.divisions.splice(0);
+          paymentState.paymentBase.standardPaymentBase.periods.splice(0);
+          // console.log("after splicing  advanced");
+          // console.log(
+          //   current(paymentState).paymentBase.standardPaymentBase.periods
+          // );
+          // console.log(
+          //   current(paymentState).paymentBase.standardPaymentBase.divisions
+          // );
+        }
       });
     },
 
@@ -1674,6 +2643,40 @@ export const {
   deleteScholarshipDiscount,
   deleteCustomDiscount,
   updatePaymentDiscountUnit,
+
+  // handling courses for annual period based not division based payments bases
+  createMajorAnnualPeriodNotDivisionCourseAndCrhr,
+  updateMajorAnnualPeriodNotDivisionCourse,
+  deleteMajorAnnualPeriodNotDivisionCourseAndCrhr,
+  updateShowHideCoursesForMajorAnnualPeriodAndNotDivisions,
+  updateShowHideCoursesForSubAnnualPeriodAndNotDivisions,
+  // handling actions for divisions
+  createNewCourseForSubDivisionBasedNotAnnualPeriodBasedPayments,
+  deleteRemoveCoursesForDivisonButNotAnnualPeriodBasedPayments,
+  updateSubDivsionBasedNnotPeriodBasedValues,
+  updateShowHideCoursesForSubDivisionNotAnnualPeriod,
+  createCoursesForMajorAnnualPeriodAndMajorAndSubDivisionPayments,
+  deleteCoursesForMajorAnnualPeriodAndMajorAndSubDivisionPayments,
+  updateCoursesForMajorAnnualPeriodAndMajorAndSubDivisionPayments,
+  updatehideShowCoursesForMajorAnnualPeriodAndMajorDivisionPayments,
+  //  for sub periods and both major and sub divisions
+  updateValueForSubAnnualPeriodAndMajorDivisonPaymentBase,
+  createCoursesForSubAnnualPeriodAndMajorAndSubDivisionPayments,
+  deleteCoursesForSubAnnualPeriodAndMajorAndSubDivisionPayments,
+  updateHideShowCoursesForSubAnnualPeriodAndMajorDivisionPayments,
+  // for major annual-divisions and not sub-divisions
+  updateValueForMajorPeriodMajorDivisionNotSubDivisionCourses,
+  // for course onlybased payment
+  updateCourseOnlyBasedPaymentsValues,
+  createCoursesToCourseOnlyBasedPaymentBases,
+  updateShowHideCoursesForCourseOnlyBasedBases,
+  deleteCoursesToCourseOnlyBasedPaymentBases,
+
+  updateSubAnnualPeriodNotDivisionCourse,
+  deleteSubAnnualPeriodNotDivisionCourseAndCrhr,
+  createSubAnnualPeriodNotDivisionCourseAndCrhr,
+  // for payment types depending on payment bases
+  updatePaymentTypesForPaymentBase,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

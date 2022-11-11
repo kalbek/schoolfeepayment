@@ -7,6 +7,8 @@ const RemoveLinksButton = ({
   subSubIndex,
   subSubSubIndex,
   subSubSubSubIndex,
+  subSubSubSubSubIndex,
+  subSubSubSubSubSubIndex
 }) => {
   const { popup } = useSelector((state) => state.popups);
   return (
@@ -19,7 +21,9 @@ const RemoveLinksButton = ({
             subIndex,
             subSubIndex,
             subSubSubIndex,
-            subSubSubSubIndex
+            subSubSubSubIndex,
+            subSubSubSubSubIndex,
+            subSubSubSubSubSubIndex
           )
         }
       >

@@ -37,7 +37,7 @@ const MajorDivision = ({
               &nbsp; <p>Divisions</p> 
             </span>
           </label>
-          <label
+          {/* <label
             className="flex  -mt-1"
             htmlFor={"advancedMajorDivisionBase" + index}
           >
@@ -77,7 +77,7 @@ const MajorDivision = ({
                 &nbsp; <p>{educationalDivisionState[0].divisionType}</p>
               </span>
             </>
-          </label>
+          </label> */}
         </div>
       </div>
     </>

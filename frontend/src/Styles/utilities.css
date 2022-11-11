@@ -62,8 +62,15 @@
   background-color: red;
 }
 
-.bg--th {
+.bg-th {
   background-color: #d7d7d7;
+}
+.bg-th--dark {
+  background-color: #3f3f3f;
+}
+
+.text-white {
+  color: #fff;
 }
 
 .f-start {
@@ -351,6 +358,18 @@
 .gap3p5 {
   gap: 3.5rem;
 }
+.gap4 {
+  gap: 4rem;
+}
+.gap5 {
+  gap: 5rem;
+}
+.gap3 {
+  gap: 3rem;
+}
+.gap6 {
+  gap: 6rem;
+}
 .gapfull {
   gap: 10vw;
 }
@@ -589,8 +608,80 @@
 .mb-1 {
   margin-bottom: 1rem;
 }
-.mb-p5 {
-  margin-bottom: 0.5rem;
+.mb-p3 {
+  margin-bottom: 0.3rem;
+}
+.mb-p4 {
+  margin-bottom: 0.4rem;
+}
+.mb-p44 {
+  margin-bottom: 0.44rem;
+}
+.mb-p43 {
+  margin-bottom: 0.43rem;
+}
+.mb-p42 {
+  margin-bottom: 0.42rem;
+}
+.mb-p425 {
+  margin-bottom: 0.425rem;
+}
+.mb-p44 {
+  margin-bottom: 0.44rem;
+}
+.mb-p45 {
+  margin-bottom: 0.45rem;
+}
+.mb-p46 {
+  margin-bottom: 0.46rem;
+}
+.mb-p47 {
+  margin-bottom: 0.47rem;
+}
+.mb-p48 {
+  margin-bottom: 0.48rem;
+}
+.mb-p49 {
+  margin-bottom: 0.49rem;
+}
+.mb-p58 {
+  margin-bottom: 0.58rem;
+}
+.mb-p57 {
+  margin-bottom: 0.57rem;
+}
+.mb-p56 {
+  margin-bottom: 0.56rem;
+}
+.mb-p55 {
+  margin-bottom: 0.55rem;
+}
+.mb-p53 {
+  margin-bottom: 0.53rem;
+}
+.mb-p52 {
+  margin-bottom: 0.52rem;
+}
+.mb-p51 {
+  margin-bottom: 0.51rem;
+}
+.mb-p6 {
+  margin-bottom: 0.6rem;
+}
+.mr-3 {
+  margin-right: 3rem;
+}
+.mr-2p5 {
+  margin-right: 2.5rem;
+}
+.mr-1 {
+  margin-right: 1rem;
+}
+.mr-2 {
+  margin-right: 2rem;
+}
+.mr-1p5 {
+  margin-right: 1.5rem;
 }
 .mr-1 {
   margin-right: 1rem;
@@ -773,7 +864,7 @@
   color: white;
 }
 
-.warning p{
+.warning p {
   color: red;
 }
 
@@ -789,6 +880,19 @@
   user-select: none; /* Standard syntax */
 }
 
+.ml-1-not-fc:not(:first-child) {
+  margin-left: 1rem;
+}
+.ml-2-not-fc:not(:first-child) {
+  margin-left: 2rem;
+}
+.ml-3-not-fc:not(:first-child) {
+  margin-left: 3rem;
+}
+.ml-4-not-fc:not(:first-child) {
+  margin-left: 4rem;
+}
+
 /* WIDTH UTILITIES */
 .w-1 {
   width: 30vw;
@@ -799,8 +903,54 @@
 .w-20v {
   width: 20vw;
 }
+.w-15v {
+  width: 15vw;
+}
+.w-14v {
+  width: 14vw;
+}
+.w-13v {
+  width: 13vw;
+}
+.w-12v {
+  width: 12vw;
+}
+.w-11v {
+  width: 11vw;
+}
+.w-10v {
+  width: 10vw;
+}
+.w-10v {
+  width: 10vw;
+}
+.w-5v {
+  width: 5vw;
+}
 .w-25v {
   width: 25vw;
+}
+
+.w-1r {
+  width: 1rem;
+}
+.w-2r {
+  width: 2rem;
+}
+.w-3r {
+  width: 3rem;
+}
+.w-4r {
+  width: 4rem;
+}
+.w-5r {
+  width: 5rem;
+}
+.w-6r {
+  width: 6rem;
+}
+.w-7r {
+  width: 7rem;
 }
 .w-10p {
 }
@@ -817,3 +967,120 @@
 .h-1p5 {
   height: 1.5rem;
 }
+/* POSITIONS */
+
+.static {
+  position: static;
+}
+.fixed {
+  position: fixed;
+}
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.sticky {
+  position: sticky;
+}
+
+.overflow-auto {
+  position: relative;
+  overflow: auto;
+}
+
+/* Font size styles */
+.text-xs {
+  font-size: 0.75rem; /* 12px */
+  line-height: 1rem; /* 16px */
+}
+.text-sm {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.25rem; /* 20px */
+}
+.text-base {
+  font-size: 1rem; /* 16px */
+  line-height: 1.5rem; /* 24px */
+}
+.text-lg {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
+}
+.text-xl {
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.75rem; /* 28px */
+}
+.text-2xl {
+  font-size: 1.5rem; /* 24px */
+  line-height: 2rem; /* 32px */
+}
+.text-3xl {
+  font-size: 1.875rem; /* 30px */
+  line-height: 2.25rem; /* 36px */
+}
+.text-4xl {
+  font-size: 2.25rem; /* 36px */
+  line-height: 2.5rem; /* 40px */
+}
+.text-5xl {
+  font-size: 3rem; /* 48px */
+  line-height: 1;
+}
+.text-6xl {
+  font-size: 3.75rem; /* 60px */
+  line-height: 1;
+}
+.text-7xl {
+  font-size: 4.5rem; /* 72px */
+  line-height: 1;
+}
+.text-8xl {
+  font-size: 6rem; /* 96px */
+  line-height: 1;
+}
+.text-9xl {
+  font-size: 8rem; /* 128px */
+  line-height: 1;
+}
+
+/* text slate colors */
+.text-slate-50 {
+  color: rgb(248 250 252);
+}
+
+.text-slate-100 {
+  color: rgb(241 245 249);
+}
+
+.text-slate-200 {
+  color: rgb(226 232 240);
+}
+
+.text-slate-300 {
+  color: rgb(203 213 225);
+}
+
+.text-slate-400 {
+  color: rgb(148 163 184);
+}
+
+.text-slate-500 {
+  color: rgb(100 116 139);
+}
+
+/* Tailwind css typography word break */
+.break-normal {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.break-words {
+  overflow-wrap: break-word;
+}
+.break-all {
+  word-break: break-all;
+}
+.break-keep {
+  word-break: keep-all;
+}
+ 

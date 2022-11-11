@@ -35,7 +35,7 @@ const InputControls = ({
             className="input__group dynamic-periods-container "
           >
             {/*EDUCATIONAL STAGES INPUT CONTROLS */}
-            <div className="flex-cs">
+            <div className="flex-cs -mt-1">
               <div className="input__group flex-cs m20">
                 <div className="flex-cr inputs input--medium">
                   <div className="flex-cs">
@@ -60,7 +60,7 @@ const InputControls = ({
                       label={
                         division.divisionType === "Faculty"
                           ? "Faculties"
-                          : division.divisionType + "s"
+                          : division.divisionType 
                       }
                     />
                   </div>
@@ -82,7 +82,7 @@ const InputControls = ({
               (subDivision, subDivisionIndex) => (
                 <section key={subDivisionIndex}>
                   {/*SUBDIVISIONS INPUT CONTROL*/}
-                  <div className="flex">
+                  <div className="flex -mt-1p5">
                     <div className="input__group flex-cr inputs input--medium ">
                       <Textbox
                         type="text"
@@ -128,7 +128,7 @@ const InputControls = ({
                         key={sectionIndex}
                         className="input__group flex-cr inputs input--above-small "
                       >
-                        <div className="flex">
+                        <div className="flex -mt-1p5">
                           <RemoveLinksButton
                             remove={removeSubDivisonSections}
                             index={divisionIndex}
@@ -159,15 +159,17 @@ const InputControls = ({
                         <br />
                       </div>
                     ))}
-                    <AddMoreButton
-                      label={"Add Sections"}
-                      handleLinks={() =>
-                        createNewSubDivisonSections(
-                          divisionIndex,
-                          subDivisionIndex
-                        )
-                      }
-                    />
+                    <div className="-mt-1p5">
+                      <AddMoreButton
+                        label={"Add Sections"}
+                        handleLinks={() =>
+                          createNewSubDivisonSections(
+                            divisionIndex,
+                            subDivisionIndex
+                          )
+                        }
+                      />
+                    </div>
                   </div>
                   {/* OPTINALLY INSERT CUSTOMED <hr /> HERE */}
                 </section>
@@ -179,21 +181,23 @@ const InputControls = ({
                 <div>
                   {educationalDivisionState.length > 0 &&
                   educationalDivisionState.length < 20 ? (
-                    <AddMoreButton
-                      label={
-                        division.educationalSubDivision[
-                          division.educationalSubDivision.length - 1
-                        ].subDivisionType === "Custom subDivision"
-                          ? "Add Subdivisons"
-                          : "Add " +
-                            division.educationalSubDivision[
-                              division.educationalSubDivision.length - 1
-                            ].subDivisionType
-                      }
-                      handleLinks={() =>
-                        createNewEducationalSubDivisions(divisionIndex)
-                      }
-                    />
+                    <div className="-mt-1">
+                      <AddMoreButton
+                        label={
+                          division.educationalSubDivision[
+                            division.educationalSubDivision.length - 1
+                          ].subDivisionType === "Custom subDivision"
+                            ? "Add Subdivisons"
+                            : "Add " +
+                              division.educationalSubDivision[
+                                division.educationalSubDivision.length - 1
+                              ].subDivisionType
+                        }
+                        handleLinks={() =>
+                          createNewEducationalSubDivisions(divisionIndex)
+                        }
+                      />
+                    </div>
                   ) : (
                     ""
                   )}

@@ -147,6 +147,26 @@
 .small-empty {
   width: 10.4rem;
 }
+
+.input-xs-lower-border input {
+  padding: 0 5px;
+  margin-top: 4px;
+  height: 2.5rem;
+  /* border-left: 0px solid black; */
+  border: 0px solid black;
+  border-right: 0px solid black;
+  border-top: 0px solid black;
+  border-bottom: 0px solid #d3d3cd;
+  width: 5rem;
+}
+
+.input-xs-lower-border:focus-within label,
+.input-xs-lower-border:focus-within input,
+.input-xs-lower-border:focus-within .focused-label {
+  transition: all 0.3s ease;
+  border-bottom: 0.3px solid #2d8cf0;
+  color: #2d8cf0;
+}
 .small-empty {
   height: 5rem;
 }
@@ -325,6 +345,7 @@ tbody tr {
 
 tbody tr {
   border-top: 1.5px solid #d3d3cd;
+  border-top: 1.5px solid #3f3f3f;
 }
 
 .checkbox-group label:hover,
@@ -373,8 +394,6 @@ tbody tr {
 .field-group-containers:focus-within label {
   color: #2d8cf0;
 }
-
-
 
 .checkbox-group span {
   padding-left: 0.4rem;
@@ -430,11 +449,16 @@ tbody tr {
 }
 
 .last-element {
-  border-bottom: 1px solid #545457;
+  margin-bottom: 20vh;
+  border-bottom: 3px solid #545457;
 }
+/* .last-element {
+  margin-bottom: 20vh;
+  border-bottom: 4px solid #d3d3cd; toLocaleString()
+} */
 .last-oflast-element {
   border-bottom: 2px solid #545457;
 }
 .bottom-boarder-not-last > td {
-  border-bottom: 1px solid #545457;
+  border-bottom: 2px solid #545457;
 }

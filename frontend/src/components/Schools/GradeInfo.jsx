@@ -69,7 +69,16 @@ const GradeInfo = ({ formData, setFormData }) => {
         hasExtensionShift: false,
         hasWeekendShift: false,
         hasCustomShift: false,
+        visible: true,
         shifts: [],
+        courses: [],
+        payments: [],
+        paymentAmount: {
+          paymentAmountId: 0,
+          hasDiscountRules: false,
+          amount: "",
+          grossAmount: "",
+        },
         educationalSubDivision: [
           {
             id: 0,
@@ -86,6 +95,13 @@ const GradeInfo = ({ formData, setFormData }) => {
             courses: [],
             subPeriods: [],
             shifts: [],
+            payments: [],
+            paymentAmount: {
+              paymentAmountId: 0,
+              hasDiscountRules: false,
+              amount: "",
+              grossAmount: "",
+            },
           },
         ],
       })
@@ -120,6 +136,13 @@ const GradeInfo = ({ formData, setFormData }) => {
         courses: [],
         subPeriods: [],
         shifts: [],
+        payments: [],
+        paymentAmount: {
+          paymentAmountId: 0,
+          hasDiscountRules: false,
+          amount: "",
+          grossAmount: "",
+        },
       })
     );
   };

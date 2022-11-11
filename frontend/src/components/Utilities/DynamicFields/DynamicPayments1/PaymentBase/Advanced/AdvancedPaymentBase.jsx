@@ -144,11 +144,25 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
               creditHours: "",
               contactHours: "",
               instructorName: "",
+              paymentAmount: {
+                paymentAmountId: 0,
+                hasDiscountRules: false,
+                amount: "",
+                grossAmount: "",
+              },
             },
           ],
+          divisions: [],
+          paymentAmount: {
+            paymentAmountId: 0,
+            hasDiscountRules: false,
+            amount: "",
+            grossAmount: "",
+          },
         },
       })
     );
+
     // pushing periods
     dispatch(
       updatePeriodsForCourseBasedPayments({
@@ -180,14 +194,18 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
           creditHours: "",
           contactHours: "",
           instructorName: "",
+          paymentAmount: {
+            paymentAmountId: 0,
+            hasDiscountRules: false,
+            amount: "",
+            grossAmount: "",
+          },
         },
       })
     );
 
     // push shifts to divisions
-    console.log("dispatching add course");
     periodState.map((period) => {
-      console.log(period);
       dispatch(
         addShiftsToDivisionsAndTheirSubDivisions({
           shift: period.shifts,
@@ -237,6 +255,15 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
           creditHours: "",
           contactHours: "",
           instructorName: "",
+          paymentAmount: {
+            paymentAmountId:
+              singlePayment.paymentBase.courseBasedPayment.divisions[subIndex]
+                .educationalSubDivision[subSubIndex].subPeriods[subSubSubIndex]
+                .courses.paymentAmount.paymentAmountId + 1,
+            hasDiscountRules: false,
+            amount: "",
+            grossAmount: "",
+          },
         },
       })
     );
@@ -308,6 +335,8 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
       updateAdvancedCourseBasedPaymentVisibility({
         paymentId: index,
         value: !paymentState[index].paymentBase.courseBasedPayment.visible,
+        topVisibility:
+          !paymentState[index].paymentBase.courseBasedPayment.topVisibility,
       })
     );
   };
@@ -324,6 +353,12 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
           creditHours: "",
           contactHours: "",
           instructorName: "",
+          paymentAmount: {
+            paymentAmountId: 0,
+            hasDiscountRules: false,
+            amount: "",
+            grossAmount: "",
+          },
         },
       })
     );
@@ -347,13 +382,15 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
                   handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection={
                     handleAdvancedPaymentBaseAnnualPeriodTypeRadioSelection
                   }
+                  handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection={
+                    handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection
+                  }
                   index={index}
                 />
               </div>
               &nbsp; &nbsp;
-              <div className="field-subgroup-container">
+              {/* <div className="field-subgroup-container">
                 <section className="flex-c flex-start">
-                  {/* stages */}
                   <MajorDivision
                     handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection={
                       handleAdvancedPaymentBaseEducationalDivisionCheckboxSelection
@@ -363,7 +400,7 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
                     }
                     index={index}
                   />
-                  {/* grade */}
+
                   <SubDivision
                     handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection={
                       handleAdvancedPaymentBaseEducationalSubDivisionCheckboxSelection
@@ -371,7 +408,7 @@ const AdvancedPaymentBase = ({ singlePayment, index }) => {
                     index={index}
                   />
                 </section>
-              </div>
+              </div> */}
               &nbsp; &nbsp;
               <div className="field-subgroup-container">
                 <section className="flex-c flex-start">

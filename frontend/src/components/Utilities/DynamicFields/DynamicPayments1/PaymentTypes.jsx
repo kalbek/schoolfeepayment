@@ -10,10 +10,10 @@ const PaymentType = ({
   index,
 }) => {
   const paymentType = [
-    { id: "0", label: "Tuition Fee", value: "Tuition Fee" },
-    { id: "1", label: "Transport Service fee", value: "Transport Service fee" },
-    { id: "2", label: "Registration Fee", value: "Registration Fee" },
-    { id: "3", label: "School Material Fee", value: "School Material Fee" },
+    { id: "0", label: "Registration Fee", value: "Registration Fee" },
+    { id: "1", label: "Tuition Fee", value: "Tuition Fee" },
+    { id: "2", label: "School Material Fee", value: "School Material Fee" },
+    { id: "3", label: "Transport Service fee", value: "Transport Service fee" },
     { id: "4", label: "Tutorial Fee", value: "Tutorial Fee" },
     {
       id: "5",

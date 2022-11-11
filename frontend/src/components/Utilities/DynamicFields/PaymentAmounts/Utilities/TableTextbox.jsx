@@ -15,7 +15,7 @@ import {
   updateSpecialNeedDiscountValue,
 } from "../../../../../features/paymentBase/paymentBaseSlice";
 
-const Textbox2 = (props) => {
+const TableTextbox = (props) => {
   const dispatch = useDispatch();
   const paymentState = useSelector((state) => state.payments.paymentState);
   const handleDiscountAmountInputs = (event) => {
@@ -79,12 +79,14 @@ const Textbox2 = (props) => {
       <div className="flex-cs">
         <label>
           <p>{props.label}</p>
-          <div className="mb-1 inputs input--small">
+          {/* <div className="mb-p46 input-xs-lower-border"> */}
+          {/* <div className="mb-p45 input-xs-lower-border"> */}
+          <div className="mb-p6 input-xs-lower-border">
             <input
               type={"number"}
               name={props.name}
               value={props.value}
-              placeholder={props.placeholder}
+              placeholder={" "+props.placeholder}
               id={props.Id}
               tabIndex={1}
               label={props.label}
@@ -101,4 +103,4 @@ const Textbox2 = (props) => {
   );
 };
 
-export default Textbox2;
+export default TableTextbox;

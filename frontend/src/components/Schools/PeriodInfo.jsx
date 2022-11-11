@@ -62,6 +62,14 @@ const PeriodInfo = ({ formData, setFormData }) => {
                 //   ],
                 // },
               ],
+              divisions: [],
+              // regarding payments
+              paymentAmount: {
+                paymentAmountId: 0,
+                hasDiscountRules: false,
+                amount: "",
+                grossAmount: "",
+              },
             },
           })
         );
@@ -148,6 +156,13 @@ const PeriodInfo = ({ formData, setFormData }) => {
                     instructorName: "",
                   },
                 ],
+                divisions: [],
+                paymentAmount: {
+                  paymentAmountId: 0,
+                  hasDiscountRules: false,
+                  amount: "",
+                  grossAmount: "",
+                },
               },
             })
           );
@@ -168,6 +183,13 @@ const PeriodInfo = ({ formData, setFormData }) => {
                     instructorName: "",
                   },
                 ],
+                divisions: [],
+                paymentAmount: {
+                  paymentAmountId: 0,
+                  hasDiscountRules: false,
+                  amount: "",
+                  grossAmount: "",
+                },
               },
             })
           );
@@ -188,6 +210,13 @@ const PeriodInfo = ({ formData, setFormData }) => {
                     instructorName: "",
                   },
                 ],
+                divisions: [],
+                paymentAmount: {
+                  paymentAmountId: 0,
+                  hasDiscountRules: false,
+                  amount: "",
+                  grossAmount: "",
+                },
               },
             })
           );
@@ -208,6 +237,13 @@ const PeriodInfo = ({ formData, setFormData }) => {
                     instructorName: "",
                   },
                 ],
+                divisions: [],
+                paymentAmount: {
+                  paymentAmountId: 0,
+                  hasDiscountRules: false,
+                  amount: "",
+                  grossAmount: "",
+                },
               },
             })
           );
@@ -252,8 +288,17 @@ const PeriodInfo = ({ formData, setFormData }) => {
             customShiftName: "",
             periodToUpdate: "periodType",
             courses: [],
+            payments: [],
             visible: true,
             shifts: [],
+            divisions: [],
+            // regarding payments
+            paymentAmount: {
+              paymentAmountId: 0,
+              hasDiscountRules: false,
+              amount: "",
+              grossAmount: "",
+            },
             subPeriods: [
               {
                 id: 0,
@@ -269,6 +314,7 @@ const PeriodInfo = ({ formData, setFormData }) => {
                 customShiftName: "",
                 periodToUpdate: "periodType",
                 courses: [],
+                payments: [],
                 visible: true,
                 shifts: [
                   // {
@@ -285,6 +331,14 @@ const PeriodInfo = ({ formData, setFormData }) => {
                   //   ],
                   // },
                 ],
+                divisions: [],
+                // regarding payments
+                paymentAmount: {
+                  paymentAmountId: 0,
+                  hasDiscountRules: false,
+                  amount: "",
+                  grossAmount: "",
+                },
               },
             ],
           })

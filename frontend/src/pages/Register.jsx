@@ -153,6 +153,7 @@ function Register() {
       // errRef.current.focus();
     }
   };
+
   useKeyToClose("Escape", () => {});
   if (isLoading) {
     return <Spinner />;
@@ -241,7 +242,7 @@ function Register() {
                 onBlur={() => setMatchFocus(false)}
               />
             </div>
-           
+
             <div className="form-error-sectiona">
               <p
                 id="errMsg"

@@ -5,41 +5,33 @@ import { useSelector } from "react-redux";
 
 const BasedNotOnAnnualPeriodNotONDivisions = ({
   index,
-  // handleAdvancePaymentBaseCourseNameValues,
-  // handleShowHideCourses,
-  // handleRemoveCourses,
-  // handleNewCoursesForAdvancedPaymentBase,
-  // handleNothing,
+  handleCourseOnlyBasedPaymentsValues,
+  addCoursesToCourseOnlyBasedPaymentBases,
+  handleShowHideCoursesForCourseOnlyBasedBases,
+  removeCoursesToCourseOnlyBasedPaymentBases,
 }) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
-  const topLevelPeriod = useSelector((state) => state.periods.topLevelPeriod);
   const crHr =
     paymentState[index].paymentBase.advancedCourseUnitType.charAt(1) === "r";
   const hasCourseUnit =
     paymentState[index].paymentBase.advancedCourseUnitsCheckbox;
+  const courseBasedPayment = paymentState[index].paymentBase.courseBasedPayment;
   return (
     <>
       {/* Mapping with divisions (e.g. Departments) */}
-      {paymentState[index].paymentBase.courseBasedPayment.courses.map(
-        (course, courseIdx) => (
-          <div key={courseIdx}>
-            <div className="flex inputs field-subgroup-containers">
-              <section>
-                <div className="flex-cs mt-1 mb-1">
-                  <div className="flex-c flex-start">
-                    <label>Courses</label>
-                  </div>
-                  <div className="flex">
-                    <div className="flex-c flex-start"></div>
-                    <div className="space-for-remove-small"></div>
-                  </div>
-                </div>
-                <div className="flex-c flex-end mb-1">
-                  {/* Map with shifts */}
-                  <div className="flex gapp5">
+      <div className="flex-c mt-1    flex-start">
+        <label>Courses</label>
+      </div>
+      {courseBasedPayment.visible ? (
+        paymentState[index].paymentBase.courseBasedPayment.courses.map(
+          (course, courseIndex) => (
+            <div key={courseIndex}>
+              <div className="flex-c -mb-1  flex-start inputs field-subgroup-containers">
+                <div>
+                  <div>
                     <>
-                      <div className="flex-c flex-start">
-                        <div className="flex">
+                      <div className="flex-c ">
+                        <div>
                           <div className="flex gapp5">
                             <div
                               className={
@@ -52,92 +44,53 @@ const BasedNotOnAnnualPeriodNotONDivisions = ({
                                 type="text"
                                 id={"courseName" + index}
                                 name={"courseName"}
+                                onChange={(event) =>
+                                  handleCourseOnlyBasedPaymentsValues(
+                                    event,
+                                    index,
+                                    courseIndex
+                                  )
+                                }
+                                value={course.courseName}
                                 placeholder="Course Name"
                                 tabIndex={9}
                               />
                             </div>
-                            <div className="flex-cs input--xsmall ">
+                            <div className="flex-cs input--xsmall">
                               {hasCourseUnit ? (
                                 <>
                                   <input
                                     type="text"
                                     id={"creditHour" + index}
-                                    placeholder={crHr ? "Cr.Hr" : "Contact Hr."}
-                                    name={"courseCreditHour"}
+                                    value={course.creditHours}
+                                    onChange={(event) =>
+                                      handleCourseOnlyBasedPaymentsValues(
+                                        event,
+                                        index,
+                                        courseIndex
+                                      )
+                                    }
+                                    placeholder={crHr ? "CrHr" : "ContactHr"}
+                                    name={crHr ? "creditHour" : "ContactHr"}
                                     tabIndex={9}
                                   />
                                 </>
                               ) : (
                                 <></>
                               )}
-
-                              <RemoveLinksButton />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex-start">
-                          <div className="flex  -ml-p5 gapfull">
-                            {true ? (
-                              <label className="flex">
-                                <AddMoreButton
-                                // index={index}
-                                // subIndex={divisionIndex}
-                                // subSubIndex={subDivisionIndex}
-                                // subSubSubIndex={subPeriodIndex}
-                                // handleLinks={
-                                //   paymentState[index].paymentBase
-                                //     .courseBasedPayment.display
-                                //     ? handleNewCoursesForAdvancedPaymentBase
-                                //     : handleNothing
-                                // }
+                              {courseBasedPayment.courses.length > 1 ? (
+                                <RemoveLinksButton
+                                  index={index}
+                                  subIndex={courseIndex}
+                                  remove={
+                                    removeCoursesToCourseOnlyBasedPaymentBases
+                                  }
                                 />
+                              ) : (
                                 <>
-                                  <span className="-ml-1">
-                                    &nbsp;&nbsp; <p>Add Course</p>
-                                  </span>
+                                  <div className="space-for-remove-small"></div>
                                 </>
-                              </label>
-                            ) : (
-                              <>
-                                <label htmlFor="" className="mt-3 ml-1">
-                                  Hidden
-                                </label>
-                              </>
-                            )}
-                            <div
-                              className="flex"
-                              // onClick={() =>
-                              //   handleShowHideCourses(
-                              //     index,
-                              //     divisionIndex,
-                              //     subDivisionIndex,
-                              //     subPeriodIndex
-                              //   )
-                              // }
-                            >
-                              <div className="space-for-remove"></div>
-                              <div
-                              // className={
-                              //   !subPeriod.visible
-                              //     ? " mt-2p5"
-                              //     : ""
-                              // }
-                              >
-                                <HideOrshow
-                                // toogleValue={subPeriod.visible}
-                                />
-                              </div>
-                              &nbsp;
-                              <label
-                                className={
-                                  true
-                                    ? "input-group mt-p4 "
-                                    : "input-group mt-3 "
-                                }
-                              >
-                                &nbsp;
-                                {true ? "Hide Courses" : "Show Courses"}
-                              </label>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -145,13 +98,56 @@ const BasedNotOnAnnualPeriodNotONDivisions = ({
                     </>
                   </div>
                 </div>
-              </section>
+              </div>
+              &nbsp;
+            </div>
+          )
+        )
+      ) : (
+        <>
+          <div
+            onClick={() => handleShowHideCoursesForCourseOnlyBasedBases(index)}
+            className="flex-c mb-1 -ml-3"
+          >
+            <label>Hidden</label>
+          </div>
+        </>
+      )}
+      <div className="flex-start">
+        <div className="flex mt-p5  -ml-p5 gapfull">
+          {courseBasedPayment.visible ? (
+            <label className="flex">
+              <AddMoreButton
+                handleLinks={addCoursesToCourseOnlyBasedPaymentBases}
+                index={index}
+              />
+              <>
+                <span className="-ml-1">
+                  &nbsp;&nbsp; <p>Add Course</p>
+                </span>
+              </>
+            </label>
+          ) : (
+            <></>
+          )}
+          <div
+            className="flex"
+            onClick={() => handleShowHideCoursesForCourseOnlyBasedBases(index)}
+          >
+            <div className="space-for-remove"></div>
+            <div>
+              <HideOrshow toogleValue={courseBasedPayment.visible} />
             </div>
             &nbsp;
-            {/* dd */}
+            <label
+              className={true ? "input-group mt-p4 " : "input-group mt-3 "}
+            >
+              &nbsp;
+              {courseBasedPayment.visible ? "Hide Courses" : "Show Courses"}
+            </label>
           </div>
-        )
-      )}
+        </div>
+      </div>
     </>
   );
 };

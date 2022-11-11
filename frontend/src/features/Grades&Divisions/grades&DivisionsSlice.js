@@ -7,7 +7,17 @@ const initialState = {
       subDivisionType: "Grade",
       divisoinLevel: "",
       divisionName: "",
+      courses: [],
+      visible: true,
+      // remove shits
       shifts: [],
+      payments: [], // removable
+      paymentAmount: {
+        paymentAmountId: 0,
+        hasDiscountRules: false,
+        amount: "",
+        grossAmount: "",
+      },
       educationalSubDivision: [
         {
           id: 0,
@@ -23,6 +33,13 @@ const initialState = {
           courses: [],
           subPeriods: [],
           shifts: [],
+          payments: [],
+          paymentAmount: {
+            paymentAmountId: 0,
+            hasDiscountRules: false,
+            amount: "",
+            grossAmount: "",
+          },
         },
       ],
     },
@@ -44,6 +61,15 @@ export const educationalDivisionSlice = createSlice({
           division.educationalSubDivision.push(action.payload);
       });
     },
+    // updating payments for divisions
+    updatePaymentsForDivisions: (state, action) => {
+      state.educationalDivision.map((division) => {
+        // division.payments = action.payload.payments;
+      });
+      // console.log(current(state).educationalDivision.payments);
+    },
+ 
+   
 
     createSubDivisionSections: (state, action) => {
       state.educationalDivision.map((division) => {
@@ -262,6 +288,8 @@ export const {
   deleteSubDivisionSections,
   updateDivisionsAndSubDivisions,
   clearShiftsFromDivions,
+  // updating payments
+  updatePaymentsForDivisions,
 } = educationalDivisionSlice.actions;
 
 export default educationalDivisionSlice.reducer;

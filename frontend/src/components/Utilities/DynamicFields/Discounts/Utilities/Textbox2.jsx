@@ -20,11 +20,6 @@ const Textbox2 = (props) => {
   const paymentState = useSelector((state) => state.payments.paymentState);
   const handleDiscountAmountInputs = (event) => {
     const { id, name, valueAsNumber } = event.target;
-    console.log("focus here");
-    console.log(name);
-    console.log(valueAsNumber);
-    console.log("end focus here");
-    console.log("id: " + id);
     paymentState.map((paymentState) => {
       if (paymentState.Id === props.index) {
         if (name === "gender-by-percent" || name === "gender-by-amount") {

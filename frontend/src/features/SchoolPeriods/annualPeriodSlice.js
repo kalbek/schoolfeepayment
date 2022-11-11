@@ -17,8 +17,17 @@ const initialState = {
       customShiftName: "",
       periodToUpdate: "periodType",
       courses: [],
+      payments: [],
       visible: true,
       shifts: [],
+      divisions: [],
+      // regarding payments
+      paymentAmount: {
+        paymentAmountId: 0,
+        hasDiscountRules: false,
+        amount: "",
+        grossAmount: "",
+      },
       subPeriods: [
         {
           id: 0,
@@ -34,8 +43,17 @@ const initialState = {
           customShiftName: "",
           periodToUpdate: "periodType",
           courses: [],
+          payments: [{ paymentName: "" }],
           visible: true,
           shifts: [],
+          divisions: [],
+          // regarding payments
+          paymentAmount: {
+            paymentAmountId: 0,
+            hasDiscountRules: false,
+            amount: "",
+            grossAmount: "",
+          },
         },
       ],
     },
@@ -53,6 +71,43 @@ export const periodSlice = createSlice({
       state.annualPeriodState.map((period) => {
         if (period.Id === action.payload.TopLevelId) {
           period.topLevelPeriod.subPeriods.push(action.payload.subPeriods);
+        }
+      });
+    },
+
+    // update division inside shifts of major and sub annual periods
+    updateDivisionsForAnnualPeriods: (state, action) => {
+      const shiftsAreCheckedForStdPaymentBase =
+        action.payload.shiftsAreCheckedForStdPaymentBase;
+      const divisions = action.payload.divisions;
+      state.topLevelPeriod.map((periodState) => {
+        // pushing divisions after checking if shifts in stdPaymentBase are selected or not
+        if (shiftsAreCheckedForStdPaymentBase) {
+          periodState.shifts.map((shift) => {
+            shift.divisions = divisions;
+            console.log("in MAP shifts");
+            console.log(current(shift));
+          });
+          // and push divisions for subperiods also
+
+          periodState.subPeriods.map((subPeriods) => {
+            subPeriods.shifts.map((shift) => {
+              shift.divisions.splice(0);
+              shift.divisions = divisions;
+              console.log("in SAP shifts");
+              console.log(current(shift));
+            });
+          });
+        }
+        //  if not shifts are checked in std payment base
+        else {
+          periodState.divisions.splice(0);
+          periodState.divisions = divisions;
+          // also for periodstate divisions
+          periodState.subPeriods.map((subPeriod) => {
+            subPeriod.divisions.splice(0);
+            subPeriod.divisions = divisions;
+          });
         }
       });
     },
@@ -377,6 +432,8 @@ export const {
   pushWeekendShift,
   pushCustomShift,
   clearShifts,
+  // regarding divisions inside period states
+  updateDivisionsForAnnualPeriods,
 } = periodSlice.actions;
 
 export default periodSlice.reducer;

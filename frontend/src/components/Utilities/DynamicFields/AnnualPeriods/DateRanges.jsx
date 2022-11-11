@@ -12,6 +12,7 @@ const DateRanges = ({
 }) => {
   const periodState = useSelector((state) => state.periods.topLevelPeriod);
   // console.log(periodState[index])
+  
   return (
     <>
       {periodState[index].subPeriods.map((subPeriod, subPeriodIndex) => (

@@ -4,6 +4,8 @@ const AddMoreButton = ({
   subIndex,
   subSubIndex,
   subSubSubIndex,
+  subSubSubSubIndex,
+  subSubSubSubSubIndex,
   handleLinks,
   label,
   base,
@@ -16,7 +18,15 @@ const AddMoreButton = ({
       className={popup ? " inactive-bg btn-onemore" : "btn-onemore"}
       // className={popup ? " inactive-bg btn-onemore" : "add-more--button"}
       onClick={() =>
-        handleLinks(index, subIndex, subSubIndex, subSubSubIndex, base)
+        handleLinks(
+          index,
+          subIndex,
+          subSubIndex,
+          subSubSubIndex,
+          subSubSubSubIndex,
+          subSubSubSubSubIndex,
+          base
+        )
       }
     >
       <div className="add__social-link">
