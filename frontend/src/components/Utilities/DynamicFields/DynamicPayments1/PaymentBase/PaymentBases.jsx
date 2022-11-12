@@ -35,43 +35,7 @@ const PaymentBases = ({
   const customPaymentBase = singlePayment.paymentBase.customPaymentBase;
   const paymentBaseType = singlePayment.paymentBase.paymentBaseType;
   useEffect(() => {
-    // console.log(
-    //   "1) paymentBaseType is :" +
-    //     paymentState[index].paymentBase.paymentBaseType
-    // );
-    // console.log(
-    //   "2) annaul-Period Checkbox is checked:" +
-    //     paymentState[index].paymentBase.standardAnnualPeriodCheckbox
-    // );
-    // console.log(
-    //   "3) selected annaul-Period type is :" +
-    //     paymentState[index].paymentBase.standardAnnualPeriodType
-    // );
-    // console.log(
-    //   "4) Educational division is checked:" +
-    //     paymentState[index].paymentBase.standardEducationalDivisionCheckbox
-    // );
-    // console.log(
-    //   "5) Selected educational division type is:" +
-    //     paymentState[index].paymentBase.standardEducationalDivisionType
-    // );
-    // console.log(
-    //   "6) Shifts checkbox is selected:" +
-    //     paymentState[index].paymentBase.standardShiftsCheckbox
-    // );
-
-    // first steps
-    // inside each major and sub-educational divisions push payment objects
-    // inside each major and sub-annual periods push 1) educational division state
-    //- and payemnts object
     dispatch(updatePaymentsForDivisions());
-    // what to watch
-    // 1) selected paymentbase type i.e. [paymentState[index].paymentBase.paymentBaseType]
-    // 2) if AP in payment base is check or not i.e. paymentState[index].paymentBase.standardAnnualPeriodCheckbox
-    // 3) if Major AP or Sub-AP is selected i.e. paymentState[index].paymentBase.standardAnnualPeriodType
-    // 4) if Educational division is selected i.e. paymentState[index].paymentBase.standardEducationalDivisionCheckbox
-    // 5) the type of educatinal division selected paymentState[index].paymentBase.standardEducationalDivisionType
-    // 6) if shifts checkbox is selected paymentState[index].paymentBase.standardShiftsCheckbox
   }, [
     paymentState[index].paymentBase.paymentBaseType,
     paymentState[index].paymentBase.standardAnnualPeriodCheckbox,
@@ -114,7 +78,7 @@ const PaymentBases = ({
       updatePaymentTypesForPaymentBase({
         periods: periodState,
         paymentIndex: index,
-        paymentBaseType:
+        paymentBaseType:  
           paymentState[index].paymentBase.paymentBaseType.charAt(0),
         standardAnnualPeriodCheckbox:
           paymentState[index].paymentBase.standardAnnualPeriodCheckbox,
@@ -138,6 +102,7 @@ const PaymentBases = ({
     paymentState[index].paymentBase.standardEducationalDivisionCheckbox,
     paymentState[index].paymentBase.standardEducationalDivisionType,
     paymentState[index].paymentBase.standardShiftsCheckbox,
+    // periodState,
   ]);
 
   // watch payment state

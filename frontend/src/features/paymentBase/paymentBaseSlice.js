@@ -193,6 +193,9 @@ export const paymentSlice = createSlice({
       state.paymentState.map((payments) => {
         const paymentIndex = action.payload.paymentIndex;
         const periods = action.payload.periods;
+        console.log("hey hey hye");
+        console.log(periods);
+
         const divisions = action.payload.divisions;
         const stdPaymentBaseType = action.payload.paymentBaseType === "s";
         const advPaymentBaseType = action.payload.paymentBaseType === "a";
@@ -211,10 +214,10 @@ export const paymentSlice = createSlice({
         const subDivisionSelected =
           action.payload.standardEducationalDivisionType.charAt(0) === "s";
         const standardShiftsCheckbox = action.payload.standardShiftsCheckbox;
-        // payments.paymentType.periods;
-        // payments.paymentType.paymentAmount;
-        // payments.paymentType.divisions;
-
+        payments.paymentType.periods = periods;
+        payments.paymentType.divisions = divisions;
+        payments.paymentBase.standardPaymentBase.periods = periods;
+        payments.paymentBase.standardPaymentBase.divisions = divisions;
         if (payments.Id === paymentIndex && stdPaymentBaseType) {
           payments.paymentType.selectedPeriodType = subPeiriodSelected
             ? "subPeirod"
@@ -222,7 +225,10 @@ export const paymentSlice = createSlice({
           payments.paymentType.selectedDivisionType = divisionSelected
             ? "division"
             : "subDivision";
+          payments.paymentType.periods = periods;
           payments.paymentType.divisions = divisions;
+          payments.paymentBase.standardPaymentBase.periods = periods;
+          payments.paymentBase.standardPaymentBase.divisions = divisions;
 
           // case 1 Both Annual Periods & Divisions are selected
           if (

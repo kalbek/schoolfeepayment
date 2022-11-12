@@ -1,7 +1,10 @@
 import "../../Styles/utilities.css";
 import "../../Styles/formStyles.css";
+import { useSelector, useDispatch } from "react-redux";
 import PaymentAmountTable from "../Utilities/DynamicFields/PaymentAmounts/PaymentAmountTable";
+
 function PaymentAmounts() {
+  const paymentState = useSelector((state) => state.payments.paymentState);
   return (
     <div className="flex">
       <div className="school-info">
@@ -19,7 +22,9 @@ function PaymentAmounts() {
           </div>
           <br />
           <br />
-          <PaymentAmountTable />
+          {paymentState.map((payments, index) => (
+            <PaymentAmountTable index={index} payments={payments} />
+          ))}
         </div>
       </div>
     </div>
