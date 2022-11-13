@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import DatePicker from "react-datepicker";
 import RemoveButton from "../../Buttons/RemoveButton";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parse } from "date-fns";
 

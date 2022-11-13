@@ -26,7 +26,8 @@ const Shifts = ({
             </span>
           </>
         </label>
-        <div className="space-for-remove"></div>
+        {/* <div className="w-50"></div> */}
+        <div></div>
         <></>
       </section>
     </div>

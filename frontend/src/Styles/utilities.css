@@ -1,5 +1,8 @@
 /* UTILITIES */
-
+.flex-container {
+  display: flex;
+  flex-flow: wrap;
+}
 .flex {
   display: flex;
 }
@@ -340,6 +343,12 @@
 .gapp6 {
   gap: 0.6rem;
 }
+.gapp8 {
+  gap: 0.8rem;
+}
+.gapp9 {
+  gap: 0.9rem;
+}
 .gap1 {
   gap: 1rem;
 }
@@ -607,6 +616,12 @@
 }
 .mb-1 {
   margin-bottom: 1rem;
+}
+.mb-1 {
+  margin-bottom: 1rem;
+}
+.mb-p5 {
+  margin-bottom: 0.5rem;
 }
 .mb-p3 {
   margin-bottom: 0.3rem;
@@ -1083,4 +1098,3 @@
 .break-keep {
   word-break: keep-all;
 }
- 

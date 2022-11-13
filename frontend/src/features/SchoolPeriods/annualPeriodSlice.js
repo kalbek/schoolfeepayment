@@ -432,6 +432,7 @@ export const {
   pushWeekendShift,
   pushCustomShift,
   clearShifts,
+
   // regarding divisions inside period states
   updateDivisionsForAnnualPeriods,
 } = periodSlice.actions;

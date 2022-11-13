@@ -409,6 +409,24 @@ tbody tr {
   /* background-color: lime; */
   width: 55px;
 }
+.w-50 {
+  width: 50px;
+}
+.w-45 {
+  width: 45px;
+}
+.w-50 {
+  width: 50px;
+}
+.w-50 {
+  width: 50px;
+}
+.w-25 {
+  width: 25px;
+}
+.w-23 {
+  width: 23px;
+}
 .space-for-remove-small {
   /* background-color: lime; */
   width: 35px;

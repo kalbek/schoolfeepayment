@@ -34,6 +34,26 @@ const initialState = {
         standardEducationalDivisionCheckbox: true,
         standardEducationalDivisionType: "subdivision0",
         standardShiftsCheckbox: false,
+        standardDueDatesCheckbox: false,
+        periodDueDate: [
+          // {
+          //   Id: "",
+          //   periodId: "",
+          //   periodName: "",
+          //   dueDate: new Date().toISOString(),
+          // },
+        ],
+        subPeriodDueDate: [
+          // {
+          //   Id: "",
+          //   subPeriodId: "",
+          //   periodName: "",
+          //   dueDate: new Date().toISOString(),
+          // },
+        ],
+
+        paymentDueDate: new Date().toISOString(),
+        standardPenalityCheckbox: false,
         advancedAnnualPeriodCheckbox: true,
         advancedAnnualPeriodType: "subperiod0",
         advancedEducationalDivisionCheckbox: true,
@@ -188,14 +208,48 @@ export const paymentSlice = createSlice({
       state.paymentState.push(action.payload);
     },
 
+    updateDueDates: (state, action) => {
+      state.paymentState.map((payments) => {
+        if (payments.Id === action.payload.index) {
+          if (action.payload.peirodType === "period") {
+            payments.paymentBase.periodDueDate.splice(0);
+            payments.paymentBase.periodDueDate.push(
+              action.payload.peirodDueDates
+            );
+          } else {
+            payments.paymentBase.subPeriodDueDate.splice(0);
+            payments.paymentBase.subPeriodDueDate.push(
+              action.payload.subPeriodDueDates
+            );
+          }
+        }
+      });
+    },
+    initializeValueForPeiordDueDates: (state, action) => {
+      state.paymentState.map((payments) => {
+        if (payments.Id === action.payload.index) {
+          payments.paymentBase.periodDueDate.push(
+            action.payload.peirodDueDates
+          );
+        }
+      });
+    },
+    initializeValueForSubPeriodDueDates: (state, action) => {
+      state.paymentState.map((payments) => {
+        if (payments.Id === action.payload.index) {
+          // payments.paymentBase.subPeriodDueDate.splice(0);
+          payments.paymentBase.subPeriodDueDate.push(
+            action.payload.subPeriodDueDates
+          );
+        }
+      });
+    },
+
     // update payment types
     updatePaymentTypesForPaymentBase: (state, action) => {
       state.paymentState.map((payments) => {
         const paymentIndex = action.payload.paymentIndex;
         const periods = action.payload.periods;
-        console.log("hey hey hye");
-        console.log(periods);
-
         const divisions = action.payload.divisions;
         const stdPaymentBaseType = action.payload.paymentBaseType === "s";
         const advPaymentBaseType = action.payload.paymentBaseType === "a";
@@ -376,6 +430,22 @@ export const paymentSlice = createSlice({
       state.paymentState.map((paymentState) => {
         if (paymentState.Id === action.payload.paymentId) {
           paymentState.paymentBase.standardShiftsCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+    updateStandardPaymentDueDatesCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardDueDatesCheckbox =
+            action.payload.value;
+        }
+      });
+    },
+    updateStandardPaymentPenalityCheckboxSelection: (state, action) => {
+      state.paymentState.map((paymentState) => {
+        if (paymentState.Id === action.payload.paymentId) {
+          paymentState.paymentBase.standardPenalityCheckbox =
             action.payload.value;
         }
       });
@@ -2587,6 +2657,8 @@ export const {
   updateStandardPaymentBaseEducationalDivisionCheckboxSelection,
   updateStandardPaymentBaseEducationalDivisionTypeRadioSelection,
   updateStandardPaymentBaseShiftsCheckboxSelection,
+  updateStandardPaymentDueDatesCheckboxSelection,
+  updateStandardPaymentPenalityCheckboxSelection,
   // For advanced
   updateAdvancedPaymentBaseAnnualPeriodCheckboxSelection,
   updateAdvancedPaymentBaseAnnualPeriodTypeRadioSelection,
@@ -2683,6 +2755,9 @@ export const {
   createSubAnnualPeriodNotDivisionCourseAndCrhr,
   // for payment types depending on payment bases
   updatePaymentTypesForPaymentBase,
+  updateDueDates,
+  initializeValueForPeiordDueDates,
+  initializeValueForSubPeriodDueDates,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

@@ -73,7 +73,6 @@ const PaymentAmountTable = ({
       paymentState[index].paymentBase.standardEducationalDivisionType;
     const shiftsAreCheckedForStdPaymentBase =
       paymentState[index].paymentBase.standardShiftsCheckbox;
-    console.log("watching");
     dispatch(
       updateDivisionsForAnnualPeriods({
         StdPaymentBaseIsBasedOnDivisions,
